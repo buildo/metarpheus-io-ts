@@ -1,0 +1,220 @@
+// DO NOT EDIT MANUALLY - metarpheus-generated
+import * as t from 'io-ts'
+
+export type ReservationProfile =
+  | 'Leisure'
+  | 'Business'
+  | 'TourOperator'
+
+export const ReservationProfile = t.keyof({
+  Leisure: true,
+  Business: true,
+  TourOperator: true
+}, 'ReservationProfile')
+
+export type SortOrder =
+  | 'Ascending'
+  | 'Descending'
+
+export const SortOrder = t.keyof({
+  Ascending: true,
+  Descending: true
+}, 'SortOrder')
+
+export type Vendor =
+  | 'Hertz'
+  | 'Dollar'
+  | 'FireFly'
+  | 'Thrifty'
+
+export const Vendor = t.keyof({
+  Hertz: true,
+  Dollar: true,
+  FireFly: true,
+  Thrifty: true
+}, 'Vendor')
+
+export type Tag = {
+  id: UUID,
+  label: string
+}
+
+export const Tag = t.interface({
+  id: UUID,
+  label: t.string
+}, 'Tag')
+
+export type AgencySearchResult = {
+  agencies: Array<Tag>,
+  networks: Array<Tag>
+}
+
+export const AgencySearchResult = t.interface({
+  agencies: t.array(Tag),
+  networks: t.array(Tag)
+}, 'AgencySearchResult')
+
+export type NationSearchResult = {
+  regions: Array<Tag>,
+  countries: Array<Tag>,
+  states: Array<Tag>
+}
+
+export const NationSearchResult = t.interface({
+  regions: t.array(Tag),
+  countries: t.array(Tag),
+  states: t.array(Tag)
+}, 'NationSearchResult')
+
+export type CancellationPolicy =
+  | 'Free'
+
+export const CancellationPolicy = t.keyof({
+  Free: true
+}, 'CancellationPolicy')
+
+export type PaymentMode =
+  | 'Cash'
+  | 'Prepaid'
+
+export const PaymentMode = t.keyof({
+  Cash: true,
+  Prepaid: true
+}, 'PaymentMode')
+
+export type FareRule = {
+  pickUpValidFrom?: LocalDate,
+  pickUpValidUntil?: LocalDate,
+  reservationValidFrom?: LocalDate,
+  reservationValidUntil?: LocalDate,
+  nations: Array<Tag>,
+  agencies: Array<Tag>
+}
+
+export const FareRule = t.interface({
+  pickUpValidFrom: t.union([
+    LocalDate,
+    t.undefined
+  ]),
+  pickUpValidUntil: t.union([
+    LocalDate,
+    t.undefined
+  ]),
+  reservationValidFrom: t.union([
+    LocalDate,
+    t.undefined
+  ]),
+  reservationValidUntil: t.union([
+    LocalDate,
+    t.undefined
+  ]),
+  nations: t.array(Tag),
+  agencies: t.array(Tag)
+}, 'FareRule')
+
+export type Fare = {
+  id: UUID,
+  name: string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  rateCode: string,
+  cdp?: string,
+  tourOperatorCode?: string,
+  additionalInclusions?: string,
+  cancellationPolicy: CancellationPolicy,
+  description: string,
+  disabled: boolean,
+  rules: Array<FareRule>
+}
+
+export const Fare = t.interface({
+  id: UUID,
+  name: t.string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  rateCode: t.string,
+  cdp: t.union([
+    t.string,
+    t.undefined
+  ]),
+  tourOperatorCode: t.union([
+    t.string,
+    t.undefined
+  ]),
+  additionalInclusions: t.union([
+    t.string,
+    t.undefined
+  ]),
+  cancellationPolicy: CancellationPolicy,
+  description: t.string,
+  disabled: t.boolean,
+  rules: t.array(FareRule)
+}, 'Fare')
+
+export type NewFare = {
+  name: string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  rateCode: string,
+  cdp?: string,
+  additionalInclusions?: string,
+  tourOperatorCode?: string,
+  cancellationPolicy: CancellationPolicy,
+  description: string,
+  disabled: boolean,
+  rules: Array<FareRule>
+}
+
+export const NewFare = t.interface({
+  name: t.string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  rateCode: t.string,
+  cdp: t.union([
+    t.string,
+    t.undefined
+  ]),
+  additionalInclusions: t.union([
+    t.string,
+    t.undefined
+  ]),
+  tourOperatorCode: t.union([
+    t.string,
+    t.undefined
+  ]),
+  cancellationPolicy: CancellationPolicy,
+  description: t.string,
+  disabled: t.boolean,
+  rules: t.array(FareRule)
+}, 'NewFare')
+
+export type FareSummary = {
+  id: UUID,
+  reservationProfile: ReservationProfile,
+  name: string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  disabled: boolean
+}
+
+export const FareSummary = t.interface({
+  id: UUID,
+  reservationProfile: ReservationProfile,
+  name: t.string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  disabled: t.boolean
+}, 'FareSummary')
+
+export type FareSummarySorting =
+  | 'Name'
+  | 'Vendor'
+  | 'PaymentMode'
+  | 'Disabled'
+
+export const FareSummarySorting = t.keyof({
+  Name: true,
+  Vendor: true,
+  PaymentMode: true,
+  Disabled: true
+}, 'FareSummarySorting')

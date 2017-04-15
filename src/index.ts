@@ -87,14 +87,14 @@ function getDeclarations(models: Array<Model>): Array<gen.TypeDeclaration> {
       const enumClass = model as EnumClass
       return gen.typeDeclaration(
         model.name,
-        gen.enumCombinator(enumClass.values.map((v: any) => v.name)),
+        gen.enumCombinator(enumClass.values.map((v: any) => v.name), model.name),
         true
       )
     }
     const caseClass = model as CaseClass
     return gen.typeDeclaration(
       model.name,
-      gen.interfaceCombinator(caseClass.members.map(getProperty)),
+      gen.interfaceCombinator(caseClass.members.map(getProperty), model.name),
       true
     )
   })

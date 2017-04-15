@@ -17,7 +17,7 @@ export const Health = t.interface({
   version: t.string,
   /** Current UTC date and time of the request, in ISO 8601 format. */
   currentAsOfUtc: t.string
-})
+}, 'Health')
 
 export type ICQAlertCategory =
   | 'Critical'
@@ -28,7 +28,7 @@ export const ICQAlertCategory = t.keyof({
   Critical: true,
   Alert: true,
   Notification: true
-})
+}, 'ICQAlertCategory')
 
 export type ICQAlert = {
   _moduleId: number,
@@ -55,7 +55,7 @@ export const ICQAlert = t.interface({
   alertDateTime: t.string,
   category: ICQAlertCategory,
   description: t.string
-})
+}, 'ICQAlert')
 
 export type ICQAssayReference = {
   _number: number,
@@ -65,7 +65,7 @@ export type ICQAssayReference = {
 export const ICQAssayReference = t.interface({
   _number: t.number,
   _version: t.number
-})
+}, 'ICQAssayReference')
 
 export type ICQCalibrationMethod =
   | 'Qual1Point'
@@ -112,7 +112,7 @@ export const ICQCalibrationMethod = t.keyof({
   IAReference: true,
   'Logit-4': true,
   'Logit-5': true
-})
+}, 'ICQCalibrationMethod')
 
 export type ICQCalibrationType =
   | 'Full'
@@ -121,7 +121,7 @@ export type ICQCalibrationType =
 export const ICQCalibrationType = t.keyof({
   Full: true,
   Adjust: true
-})
+}, 'ICQCalibrationType')
 
 export type ICQCalibrationStatus =
   | 'NoCal'
@@ -142,7 +142,7 @@ export const ICQCalibrationStatus = t.keyof({
   OverriddenLot: true,
   PendingQC: true,
   InProcess: true
-})
+}, 'ICQCalibrationStatus')
 
 export type ICQCalibration = {
   _moduleId: number,
@@ -185,7 +185,7 @@ export const ICQCalibration = t.interface({
     t.string,
     t.undefined
   ])
-})
+}, 'ICQCalibration')
 
 export type ICQReagentStatus =
   | 'Ok'
@@ -220,7 +220,7 @@ export const ICQReagentStatus = t.keyof({
   Incomplete: true,
   BCFail: true,
   Undefined: true
-})
+}, 'ICQReagentStatus')
 
 export type ICQReagentCartridgeStatus =
   | 'Ok'
@@ -243,7 +243,7 @@ export const ICQReagentCartridgeStatus = t.keyof({
   Scanning: true,
   Unloading: true,
   Loading: true
-})
+}, 'ICQReagentCartridgeStatus')
 
 export type ICQOnBoardSolution = {
   _moduleId: number,
@@ -288,7 +288,7 @@ export const ICQOnBoardSolution = t.interface({
   ]),
   status: ICQReagentStatus,
   cartridgeStatus: ICQReagentCartridgeStatus
-})
+}, 'ICQOnBoardSolution')
 
 export type ICQModuleType =
   | 'IA'
@@ -297,7 +297,7 @@ export type ICQModuleType =
 export const ICQModuleType = t.keyof({
   IA: true,
   CC: true
-})
+}, 'ICQModuleType')
 
 export type ICQOverallStatus =
   | 'Ok'
@@ -308,7 +308,7 @@ export const ICQOverallStatus = t.keyof({
   Ok: true,
   Warning: true,
   Error: true
-})
+}, 'ICQOverallStatus')
 
 export type ICQModuleStatus =
   | 'Offline'
@@ -331,7 +331,7 @@ export const ICQModuleStatus = t.keyof({
   Processing: true,
   Pausing: true,
   Maintenance: true
-})
+}, 'ICQModuleStatus')
 
 export type ICQProcessingModule = {
   _id: number,
@@ -361,7 +361,7 @@ export const ICQProcessingModule = t.interface({
   calibrationOverallStatus: ICQOverallStatus,
   QCAnalysisOverallStatus: ICQOverallStatus,
   maintenanceOverallStatus: ICQOverallStatus
-})
+}, 'ICQProcessingModule')
 
 export type ICQQCAnalysisStatus =
   | 'Success'
@@ -374,7 +374,7 @@ export const ICQQCAnalysisStatus = t.keyof({
   QCOutOfRange: true,
   WestgardWarning: true,
   WestgardFailure: true
-})
+}, 'ICQQCAnalysisStatus')
 
 export type ICQQCAnalysis = {
   _moduleId: number,
@@ -400,7 +400,7 @@ export const ICQQCAnalysis = t.interface({
   controlLevelName: t.string,
   controlLotNumber: t.string,
   assayQCStatus: ICQQCAnalysisStatus
-})
+}, 'ICQQCAnalysis')
 
 export type ICQQCMaterialStatus =
   | 'Ok'
@@ -415,7 +415,7 @@ export const ICQQCMaterialStatus = t.keyof({
   Empty: true,
   Expired: true,
   Overridden: true
-})
+}, 'ICQQCMaterialStatus')
 
 export type ICQQCMaterial = {
   _moduleId: number,
@@ -468,7 +468,7 @@ export const ICQQCMaterial = t.interface({
     t.undefined
   ]),
   status: ICQQCMaterialStatus
-})
+}, 'ICQQCMaterial')
 
 export type ICQRSMStatus =
   | 'Offline'
@@ -487,7 +487,7 @@ export const ICQRSMStatus = t.keyof({
   Running: true,
   Pausing: true,
   Maintenance: true
-})
+}, 'ICQRSMStatus')
 
 export type ICQRSM = {
   serialNumber: string,
@@ -501,7 +501,7 @@ export const ICQRSM = t.interface({
   name: t.string,
   overallStatus: ICQOverallStatus,
   status: ICQRSMStatus
-})
+}, 'ICQRSM')
 
 export type ICQConnectionStatus =
   | 'Connected'
@@ -512,7 +512,7 @@ export const ICQConnectionStatus = t.keyof({
   Connected: true,
   NotConnected: true,
   NotConfigured: true
-})
+}, 'ICQConnectionStatus')
 
 export type ICQPrinterStatus =
   | 'NoError'
@@ -525,7 +525,7 @@ export const ICQPrinterStatus = t.keyof({
   Warning: true,
   Error: true,
   NotConfigured: true
-})
+}, 'ICQPrinterStatus')
 
 export type ICQWorkcell = {
   _serialNumber: string,
@@ -555,7 +555,7 @@ export const ICQWorkcell = t.interface({
   currentUser: t.string,
   processingModules: t.array(ICQProcessingModule),
   RSM: ICQRSM
-})
+}, 'ICQWorkcell')
 
 export type CampingLocation =
   | 'Seaside'
@@ -564,7 +564,7 @@ export type CampingLocation =
 export const CampingLocation = t.keyof({
   Seaside: true,
   Mountains: true
-})
+}, 'CampingLocation')
 
 export type Camping = {
   /** camping name */
@@ -582,4 +582,4 @@ export const Camping = t.interface({
   size: t.number,
   /** camping location */
   location: CampingLocation
-})
+}, 'Camping')
