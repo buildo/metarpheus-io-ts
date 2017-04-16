@@ -1,97 +1,97 @@
 // DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
-export type ReservationProfile =
+export type ReservationProfile = Readonly<
   | 'Leisure'
   | 'Business'
-  | 'TourOperator'
+  | 'TourOperator'>
 
-export const ReservationProfile = t.keyof({
+export const ReservationProfile = t.readonly(t.keyof({
   Leisure: true,
   Business: true,
   TourOperator: true
-}, 'ReservationProfile')
+}, 'ReservationProfile'))
 
-export type SortOrder =
+export type SortOrder = Readonly<
   | 'Ascending'
-  | 'Descending'
+  | 'Descending'>
 
-export const SortOrder = t.keyof({
+export const SortOrder = t.readonly(t.keyof({
   Ascending: true,
   Descending: true
-}, 'SortOrder')
+}, 'SortOrder'))
 
-export type Vendor =
+export type Vendor = Readonly<
   | 'Hertz'
   | 'Dollar'
   | 'FireFly'
-  | 'Thrifty'
+  | 'Thrifty'>
 
-export const Vendor = t.keyof({
+export const Vendor = t.readonly(t.keyof({
   Hertz: true,
   Dollar: true,
   FireFly: true,
   Thrifty: true
-}, 'Vendor')
+}, 'Vendor'))
 
-export type Tag = {
+export type Tag = Readonly<{
   id: UUID,
   label: string
-}
+}>
 
-export const Tag = t.interface({
+export const Tag = t.readonly(t.interface({
   id: UUID,
   label: t.string
-}, 'Tag')
+}, 'Tag'))
 
-export type AgencySearchResult = {
-  agencies: Array<Tag>,
-  networks: Array<Tag>
-}
+export type AgencySearchResult = Readonly<{
+  agencies: ReadonlyArray<Tag>,
+  networks: ReadonlyArray<Tag>
+}>
 
-export const AgencySearchResult = t.interface({
-  agencies: t.array(Tag),
-  networks: t.array(Tag)
-}, 'AgencySearchResult')
+export const AgencySearchResult = t.readonly(t.interface({
+  agencies: t.readonlyArray(Tag),
+  networks: t.readonlyArray(Tag)
+}, 'AgencySearchResult'))
 
-export type NationSearchResult = {
-  regions: Array<Tag>,
-  countries: Array<Tag>,
-  states: Array<Tag>
-}
+export type NationSearchResult = Readonly<{
+  regions: ReadonlyArray<Tag>,
+  countries: ReadonlyArray<Tag>,
+  states: ReadonlyArray<Tag>
+}>
 
-export const NationSearchResult = t.interface({
-  regions: t.array(Tag),
-  countries: t.array(Tag),
-  states: t.array(Tag)
-}, 'NationSearchResult')
+export const NationSearchResult = t.readonly(t.interface({
+  regions: t.readonlyArray(Tag),
+  countries: t.readonlyArray(Tag),
+  states: t.readonlyArray(Tag)
+}, 'NationSearchResult'))
 
-export type CancellationPolicy =
-  | 'Free'
+export type CancellationPolicy = Readonly<
+  | 'Free'>
 
-export const CancellationPolicy = t.keyof({
+export const CancellationPolicy = t.readonly(t.keyof({
   Free: true
-}, 'CancellationPolicy')
+}, 'CancellationPolicy'))
 
-export type PaymentMode =
+export type PaymentMode = Readonly<
   | 'Cash'
-  | 'Prepaid'
+  | 'Prepaid'>
 
-export const PaymentMode = t.keyof({
+export const PaymentMode = t.readonly(t.keyof({
   Cash: true,
   Prepaid: true
-}, 'PaymentMode')
+}, 'PaymentMode'))
 
-export type FareRule = {
+export type FareRule = Readonly<{
   pickUpValidFrom?: LocalDate,
   pickUpValidUntil?: LocalDate,
   reservationValidFrom?: LocalDate,
   reservationValidUntil?: LocalDate,
-  nations: Array<Tag>,
-  agencies: Array<Tag>
-}
+  nations: ReadonlyArray<Tag>,
+  agencies: ReadonlyArray<Tag>
+}>
 
-export const FareRule = t.interface({
+export const FareRule = t.readonly(t.interface({
   pickUpValidFrom: t.union([
     LocalDate,
     t.undefined
@@ -108,11 +108,11 @@ export const FareRule = t.interface({
     LocalDate,
     t.undefined
   ]),
-  nations: t.array(Tag),
-  agencies: t.array(Tag)
-}, 'FareRule')
+  nations: t.readonlyArray(Tag),
+  agencies: t.readonlyArray(Tag)
+}, 'FareRule'))
 
-export type Fare = {
+export type Fare = Readonly<{
   id: UUID,
   name: string,
   vendor: Vendor,
@@ -124,10 +124,10 @@ export type Fare = {
   cancellationPolicy: CancellationPolicy,
   description: string,
   disabled: boolean,
-  rules: Array<FareRule>
-}
+  rules: ReadonlyArray<FareRule>
+}>
 
-export const Fare = t.interface({
+export const Fare = t.readonly(t.interface({
   id: UUID,
   name: t.string,
   vendor: Vendor,
@@ -148,10 +148,10 @@ export const Fare = t.interface({
   cancellationPolicy: CancellationPolicy,
   description: t.string,
   disabled: t.boolean,
-  rules: t.array(FareRule)
-}, 'Fare')
+  rules: t.readonlyArray(FareRule)
+}, 'Fare'))
 
-export type NewFare = {
+export type NewFare = Readonly<{
   name: string,
   vendor: Vendor,
   paymentMode: PaymentMode,
@@ -162,10 +162,10 @@ export type NewFare = {
   cancellationPolicy: CancellationPolicy,
   description: string,
   disabled: boolean,
-  rules: Array<FareRule>
-}
+  rules: ReadonlyArray<FareRule>
+}>
 
-export const NewFare = t.interface({
+export const NewFare = t.readonly(t.interface({
   name: t.string,
   vendor: Vendor,
   paymentMode: PaymentMode,
@@ -185,36 +185,36 @@ export const NewFare = t.interface({
   cancellationPolicy: CancellationPolicy,
   description: t.string,
   disabled: t.boolean,
-  rules: t.array(FareRule)
-}, 'NewFare')
+  rules: t.readonlyArray(FareRule)
+}, 'NewFare'))
 
-export type FareSummary = {
+export type FareSummary = Readonly<{
   id: UUID,
   reservationProfile: ReservationProfile,
   name: string,
   vendor: Vendor,
   paymentMode: PaymentMode,
   disabled: boolean
-}
+}>
 
-export const FareSummary = t.interface({
+export const FareSummary = t.readonly(t.interface({
   id: UUID,
   reservationProfile: ReservationProfile,
   name: t.string,
   vendor: Vendor,
   paymentMode: PaymentMode,
   disabled: t.boolean
-}, 'FareSummary')
+}, 'FareSummary'))
 
-export type FareSummarySorting =
+export type FareSummarySorting = Readonly<
   | 'Name'
   | 'Vendor'
   | 'PaymentMode'
-  | 'Disabled'
+  | 'Disabled'>
 
-export const FareSummarySorting = t.keyof({
+export const FareSummarySorting = t.readonly(t.keyof({
   Name: true,
   Vendor: true,
   PaymentMode: true,
   Disabled: true
-}, 'FareSummarySorting')
+}, 'FareSummarySorting'))

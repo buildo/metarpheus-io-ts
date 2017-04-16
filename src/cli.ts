@@ -6,6 +6,7 @@ import { getModels, Model } from './index'
 
 program
   .option('-i, --in <file>', 'Input file')
+  .option('-r, --readonly', 'Readonly models')
   .option('-o, --out [file]', 'Output file', x => x, '')
   .parse(process.argv)
 
@@ -15,7 +16,7 @@ if (!program.in) {
 
 const encoding = 'utf-8'
 const source: Array<Model> = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), program.in), encoding).toString()).models
-getModels({ source }).fold(
+getModels({ source }, !!program.readonly).fold(
   errors => { throw new Error(pathReporterFailure(errors).join('\n')) },
   models => {
     if (program.out) {

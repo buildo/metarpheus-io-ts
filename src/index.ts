@@ -54,7 +54,7 @@ export const OptionsRT = t.interface({
 
 export type Options = t.TypeOf<typeof OptionsRT>
 
-function getType(tpe: Tpe): gen.TypeReference {
+function getType(tpe: Tpe, isReadonly: boolean): gen.TypeReference {
   switch (tpe.name) {
     case 'String' :
     case 'Date' :
@@ -66,45 +66,50 @@ function getType(tpe: Tpe): gen.TypeReference {
     case 'Boolean' :
       return gen.booleanType
     case 'Option' :
-      return getType(tpe.args![0])
+      return getType(tpe.args![0], isReadonly)
     case 'List' :
-      return gen.arrayCombinator(getType(tpe.args![0]))
+      // return gen.arrayCombinator(getType(tpe.args![0], isReadonly))
+      return isReadonly ?
+        gen.readonlyArrayCombinator(getType(tpe.args![0], isReadonly)) :
+        gen.arrayCombinator(getType(tpe.args![0], isReadonly))
     case 'Map' :
-      return gen.dictionaryCombinator(getType(tpe.args![0]), getType(tpe.args![1]))
+      return gen.dictionaryCombinator(getType(tpe.args![0], isReadonly), getType(tpe.args![1], isReadonly))
     default :
       return gen.identifier(tpe.name)
   }
 }
 
-function getProperty(member: CaseClassMember): gen.Property {
+function getProperty(member: CaseClassMember, isReadonly: boolean): gen.Property {
   const isOptional = member.tpe.name === 'Option'
-  return gen.property(member.name, getType(member.tpe), isOptional, member.desc)
+  return gen.property(member.name, getType(member.tpe, isReadonly), isOptional, member.desc)
 }
 
-function getDeclarations(models: Array<Model>): Array<gen.TypeDeclaration> {
+function getDeclarations(models: Array<Model>, isReadonly: boolean): Array<gen.TypeDeclaration> {
   return models.map(model => {
     if (model.hasOwnProperty('values')) {
       const enumClass = model as EnumClass
       return gen.typeDeclaration(
         model.name,
         gen.enumCombinator(enumClass.values.map((v: any) => v.name), model.name),
-        true
+        true,
+        isReadonly
       )
     }
     const caseClass = model as CaseClass
     return gen.typeDeclaration(
       model.name,
-      gen.interfaceCombinator(caseClass.members.map(getProperty), model.name),
-      true
+      gen.interfaceCombinator(caseClass.members.map(member => getProperty(member, isReadonly)), model.name),
+      true,
+      isReadonly
     )
   })
 }
 
 const prelude = `// DO NOT EDIT MANUALLY - metarpheus-generated\nimport * as t from 'io-ts'\n\n`
 
-export function getModels(options: Options): Either<Array<ValidationError>, string> {
+export function getModels(options: Options, isReadonly: boolean): Either<Array<ValidationError>, string> {
   return t.validate(options, OptionsRT).map(options => {
-    const declarations = getDeclarations(options.source)
+    const declarations = getDeclarations(options.source, isReadonly)
     const sortedDeclarations = gen.sort(declarations)
     return prelude + sortedDeclarations.map(d => gen.printStatic(d) + '\n\n' + gen.printRuntime(d)).join('\n\n')
   })
