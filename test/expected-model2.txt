@@ -1,6 +1,7 @@
 // DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
+
 export type ReservationProfile = Readonly<
   | 'Leisure'
   | 'Business'
@@ -83,10 +84,18 @@ export const PaymentMode = t.readonly(t.keyof({
 }, 'PaymentMode'))
 
 export type FareRule = Readonly<{
-  pickUpValidFrom?: LocalDate,
-  pickUpValidUntil?: LocalDate,
-  reservationValidFrom?: LocalDate,
-  reservationValidUntil?: LocalDate,
+  pickUpValidFrom:
+    | LocalDate
+    | null,
+  pickUpValidUntil:
+    | LocalDate
+    | null,
+  reservationValidFrom:
+    | LocalDate
+    | null,
+  reservationValidUntil:
+    | LocalDate
+    | null,
   nations: ReadonlyArray<Tag>,
   agencies: ReadonlyArray<Tag>
 }>
@@ -94,19 +103,19 @@ export type FareRule = Readonly<{
 export const FareRule = t.readonly(t.interface({
   pickUpValidFrom: t.union([
     LocalDate,
-    t.undefined
+    t.null
   ]),
   pickUpValidUntil: t.union([
     LocalDate,
-    t.undefined
+    t.null
   ]),
   reservationValidFrom: t.union([
     LocalDate,
-    t.undefined
+    t.null
   ]),
   reservationValidUntil: t.union([
     LocalDate,
-    t.undefined
+    t.null
   ]),
   nations: t.readonlyArray(Tag),
   agencies: t.readonlyArray(Tag)
@@ -118,9 +127,15 @@ export type Fare = Readonly<{
   vendor: Vendor,
   paymentMode: PaymentMode,
   rateCode: string,
-  cdp?: string,
-  tourOperatorCode?: string,
-  additionalInclusions?: string,
+  cdp:
+    | string
+    | null,
+  tourOperatorCode:
+    | string
+    | null,
+  additionalInclusions:
+    | string
+    | null,
   cancellationPolicy: CancellationPolicy,
   description: string,
   disabled: boolean,
@@ -135,15 +150,15 @@ export const Fare = t.readonly(t.interface({
   rateCode: t.string,
   cdp: t.union([
     t.string,
-    t.undefined
+    t.null
   ]),
   tourOperatorCode: t.union([
     t.string,
-    t.undefined
+    t.null
   ]),
   additionalInclusions: t.union([
     t.string,
-    t.undefined
+    t.null
   ]),
   cancellationPolicy: CancellationPolicy,
   description: t.string,
@@ -156,9 +171,15 @@ export type NewFare = Readonly<{
   vendor: Vendor,
   paymentMode: PaymentMode,
   rateCode: string,
-  cdp?: string,
-  additionalInclusions?: string,
-  tourOperatorCode?: string,
+  cdp:
+    | string
+    | null,
+  additionalInclusions:
+    | string
+    | null,
+  tourOperatorCode:
+    | string
+    | null,
   cancellationPolicy: CancellationPolicy,
   description: string,
   disabled: boolean,
@@ -172,15 +193,15 @@ export const NewFare = t.readonly(t.interface({
   rateCode: t.string,
   cdp: t.union([
     t.string,
-    t.undefined
+    t.null
   ]),
   additionalInclusions: t.union([
     t.string,
-    t.undefined
+    t.null
   ]),
   tourOperatorCode: t.union([
     t.string,
-    t.undefined
+    t.null
   ]),
   cancellationPolicy: CancellationPolicy,
   description: t.string,

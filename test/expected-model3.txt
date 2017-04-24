@@ -1,0 +1,742 @@
+// DO NOT EDIT MANUALLY - metarpheus-generated
+import * as t from 'io-ts'
+
+
+export type ReservationProfile = Readonly<
+  | 'Leisure'
+  | 'Business'
+  | 'TourOperator'>
+
+export const ReservationProfile = t.readonly(t.keyof({
+  Leisure: true,
+  Business: true,
+  TourOperator: true
+}, 'ReservationProfile'))
+
+export type SpecialEquipment = Readonly<
+  | 'InfantChildSeat'
+  | 'ChildToddlerSeat'
+  | 'BoosterSeat'
+  | 'NeverLostGPS'
+  | 'SnowTyres'>
+
+export const SpecialEquipment = t.readonly(t.keyof({
+  InfantChildSeat: true,
+  ChildToddlerSeat: true,
+  BoosterSeat: true,
+  NeverLostGPS: true,
+  SnowTyres: true
+}, 'SpecialEquipment'))
+
+export type Vendor = Readonly<
+  | 'Hertz'
+  | 'Dollar'
+  | 'FireFly'
+  | 'Thrifty'>
+
+export const Vendor = t.readonly(t.keyof({
+  Hertz: true,
+  Dollar: true,
+  FireFly: true,
+  Thrifty: true
+}, 'Vendor'))
+
+export type RentalRateTotal = Readonly<{
+  base: Money,
+  estimatedIncludingTaxes: Money
+}>
+
+export const RentalRateTotal = t.readonly(t.interface({
+  base: Money,
+  estimatedIncludingTaxes: Money
+}, 'RentalRateTotal'))
+
+export type RentalRateDistanceUnit = Readonly<
+  | 'Km'
+  | 'Mile'
+  | 'Block'>
+
+export const RentalRateDistanceUnit = t.readonly(t.keyof({
+  Km: true,
+  Mile: true,
+  Block: true
+}, 'RentalRateDistanceUnit'))
+
+export type RentalRateDistance = Readonly<{
+  unit: RentalRateDistanceUnit,
+  unlimited: boolean,
+  amount:
+    | number
+    | null
+}>
+
+export const RentalRateDistance = t.readonly(t.interface({
+  unit: RentalRateDistanceUnit,
+  unlimited: t.boolean,
+  amount: t.union([
+    t.number,
+    t.null
+  ])
+}, 'RentalRateDistance'))
+
+export type PricedSpecialEquipment = Readonly<{
+  id: SpecialEquipment,
+  units: number,
+  cost: Money,
+  taxInclusive: boolean,
+  includedInRate: boolean
+}>
+
+export const PricedSpecialEquipment = t.readonly(t.interface({
+  id: SpecialEquipment,
+  units: t.number,
+  cost: Money,
+  taxInclusive: t.boolean,
+  includedInRate: t.boolean
+}, 'PricedSpecialEquipment'))
+
+export type RentalRate = Readonly<{
+  externalId: string,
+  total: RentalRateTotal,
+  distance: RentalRateDistance,
+  superCoverIncluded: boolean,
+  dropOff:
+    | Money
+    | null,
+  specialEquipments: ReadonlyArray<PricedSpecialEquipment>
+}>
+
+export const RentalRate = t.readonly(t.interface({
+  externalId: t.string,
+  total: RentalRateTotal,
+  distance: RentalRateDistance,
+  superCoverIncluded: t.boolean,
+  dropOff: t.union([
+    Money,
+    t.null
+  ]),
+  specialEquipments: t.readonlyArray(PricedSpecialEquipment)
+}, 'RentalRate'))
+
+export type AvailableRentalRate = Readonly<{
+  availableVehicleId: UUID,
+  rentalRate: RentalRate
+}>
+
+export const AvailableRentalRate = t.readonly(t.interface({
+  availableVehicleId: UUID,
+  rentalRate: RentalRate
+}, 'AvailableRentalRate'))
+
+export type AvailableVehicleSearchQuery = Readonly<{
+  reservationProfile: ReservationProfile,
+  pickUpLocation: string,
+  pickUpLocalDate: LocalDate,
+  pickUpLocalTime: LocalTime,
+  dropOffLocation: string,
+  dropOffLocalDate: LocalDate,
+  dropOffLocalTime: LocalTime
+}>
+
+export const AvailableVehicleSearchQuery = t.readonly(t.interface({
+  reservationProfile: ReservationProfile,
+  pickUpLocation: t.string,
+  pickUpLocalDate: LocalDate,
+  pickUpLocalTime: LocalTime,
+  dropOffLocation: t.string,
+  dropOffLocalDate: LocalDate,
+  dropOffLocalTime: LocalTime
+}, 'AvailableVehicleSearchQuery'))
+
+export type PaymentMode = Readonly<
+  | 'Cash'
+  | 'Prepaid'>
+
+export const PaymentMode = t.readonly(t.keyof({
+  Cash: true,
+  Prepaid: true
+}, 'PaymentMode'))
+
+export type CancellationPolicy = Readonly<
+  | 'Free'>
+
+export const CancellationPolicy = t.readonly(t.keyof({
+  Free: true
+}, 'CancellationPolicy'))
+
+export type AvailableFare = Readonly<{
+  id: UUID,
+  name: string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  additionalInclusions:
+    | string
+    | null,
+  explicitExclusions:
+    | string
+    | null,
+  cancellationPolicy: CancellationPolicy,
+  description:
+    | string
+    | null
+}>
+
+export const AvailableFare = t.readonly(t.interface({
+  id: UUID,
+  name: t.string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  additionalInclusions: t.union([
+    t.string,
+    t.null
+  ]),
+  explicitExclusions: t.union([
+    t.string,
+    t.null
+  ]),
+  cancellationPolicy: CancellationPolicy,
+  description: t.union([
+    t.string,
+    t.null
+  ])
+}, 'AvailableFare'))
+
+export type VehicleTransmission = Readonly<
+  | 'Automatic'
+  | 'Manual'>
+
+export const VehicleTransmission = t.readonly(t.keyof({
+  Automatic: true,
+  Manual: true
+}, 'VehicleTransmission'))
+
+export type VehicleFuel = Readonly<
+  | 'Unspecified'
+  | 'Diesel'
+  | 'Hybrid'
+  | 'Electric'
+  | 'LPGCompressedGas'
+  | 'Hydrogen'
+  | 'MultiFuel'
+  | 'Petrol'
+  | 'Ethanol'>
+
+export const VehicleFuel = t.readonly(t.keyof({
+  Unspecified: true,
+  Diesel: true,
+  Hybrid: true,
+  Electric: true,
+  LPGCompressedGas: true,
+  Hydrogen: true,
+  MultiFuel: true,
+  Petrol: true,
+  Ethanol: true
+}, 'VehicleFuel'))
+
+export type VehicleDrive = Readonly<
+  | 'AllWheel'
+  | 'FourWheel'
+  | 'Unspecified'>
+
+export const VehicleDrive = t.readonly(t.keyof({
+  AllWheel: true,
+  FourWheel: true,
+  Unspecified: true
+}, 'VehicleDrive'))
+
+export type VehicleCategory = Readonly<
+  | 'Car'
+  | 'Van'
+  | 'Suv'
+  | 'Convertible'
+  | 'Limousine'
+  | 'Wagon'
+  | 'Pickup'
+  | 'Motorhome'
+  | 'AllTerrain'
+  | 'Recreational'
+  | 'Sport'
+  | 'Special'
+  | 'PickupExtendedCab'
+  | 'RegularCabPickup'
+  | 'SpecialOffer'
+  | 'Coupe'
+  | 'Monospace'
+  | 'TwoWheelVehicle'
+  | 'Roadster'
+  | 'Crossover'
+  | 'CommercialVanOrTruck'>
+
+export const VehicleCategory = t.readonly(t.keyof({
+  Car: true,
+  Van: true,
+  Suv: true,
+  Convertible: true,
+  Limousine: true,
+  Wagon: true,
+  Pickup: true,
+  Motorhome: true,
+  AllTerrain: true,
+  Recreational: true,
+  Sport: true,
+  Special: true,
+  PickupExtendedCab: true,
+  RegularCabPickup: true,
+  SpecialOffer: true,
+  Coupe: true,
+  Monospace: true,
+  TwoWheelVehicle: true,
+  Roadster: true,
+  Crossover: true,
+  CommercialVanOrTruck: true
+}, 'VehicleCategory'))
+
+export type VehicleSize = Readonly<
+  | 'Mini'
+  | 'Subcompact'
+  | 'Economy'
+  | 'Compact'
+  | 'Midsize'
+  | 'Intermediate'
+  | 'Standard'
+  | 'Fullsize'
+  | 'Luxury'
+  | 'Premium'
+  | 'Special'
+  | 'MiniElite'
+  | 'EconomyElite'
+  | 'CompactElite'
+  | 'IntermediateElite'
+  | 'StandardElite'
+  | 'FullsizeElite'
+  | 'PremiumElite'
+  | 'LuxuryElite'
+  | 'Oversize'>
+
+export const VehicleSize = t.readonly(t.keyof({
+  Mini: true,
+  Subcompact: true,
+  Economy: true,
+  Compact: true,
+  Midsize: true,
+  Intermediate: true,
+  Standard: true,
+  Fullsize: true,
+  Luxury: true,
+  Premium: true,
+  Special: true,
+  MiniElite: true,
+  EconomyElite: true,
+  CompactElite: true,
+  IntermediateElite: true,
+  StandardElite: true,
+  FullsizeElite: true,
+  PremiumElite: true,
+  LuxuryElite: true,
+  Oversize: true
+}, 'VehicleSize'))
+
+export type Vehicle = Readonly<{
+  code:
+    | string
+    | null,
+  codeContext:
+    | string
+    | null,
+  airConditioning: boolean,
+  seats:
+    | number
+    | null,
+  baggage:
+    | number
+    | null,
+  transmission:
+    | VehicleTransmission
+    | null,
+  fuel:
+    | VehicleFuel
+    | null,
+  drive:
+    | VehicleDrive
+    | null,
+  doors:
+    | number
+    | null,
+  category: VehicleCategory,
+  size: VehicleSize,
+  model: string,
+  modelCode: string,
+  pictureId: string,
+  segment:
+    | string
+    | null
+}>
+
+export const Vehicle = t.readonly(t.interface({
+  code: t.union([
+    t.string,
+    t.null
+  ]),
+  codeContext: t.union([
+    t.string,
+    t.null
+  ]),
+  airConditioning: t.boolean,
+  seats: t.union([
+    t.number,
+    t.null
+  ]),
+  baggage: t.union([
+    t.number,
+    t.null
+  ]),
+  transmission: t.union([
+    VehicleTransmission,
+    t.null
+  ]),
+  fuel: t.union([
+    VehicleFuel,
+    t.null
+  ]),
+  drive: t.union([
+    VehicleDrive,
+    t.null
+  ]),
+  doors: t.union([
+    t.number,
+    t.null
+  ]),
+  category: VehicleCategory,
+  size: VehicleSize,
+  model: t.string,
+  modelCode: t.string,
+  pictureId: t.string,
+  segment: t.union([
+    t.string,
+    t.null
+  ])
+}, 'Vehicle'))
+
+export type VehicleAvailability = Readonly<{
+  vehicle: Vehicle,
+  availableRentalRatesByFare: { [key: UUID]: AvailableRentalRate }
+}>
+
+export const VehicleAvailability = t.readonly(t.interface({
+  vehicle: Vehicle,
+  availableRentalRatesByFare: t.dictionary(UUID, AvailableRentalRate)
+}, 'VehicleAvailability'))
+
+export type AvailableVehicleSearchResult = Readonly<{
+  fares: ReadonlyArray<AvailableFare>,
+  availability: ReadonlyArray<VehicleAvailability>
+}>
+
+export const AvailableVehicleSearchResult = t.readonly(t.interface({
+  fares: t.readonlyArray(AvailableFare),
+  availability: t.readonlyArray(VehicleAvailability)
+}, 'AvailableVehicleSearchResult'))
+
+export type Location = Readonly<{
+  recordType: string,
+  actionCode: string,
+  recordNumber: string,
+  vendorId: string,
+  oagCode: string,
+  country: string,
+  state: string,
+  zipCode: string,
+  city: string,
+  address1: string,
+  address2: string,
+  address3: string,
+  phone: string,
+  altPhone: string,
+  fax: string,
+  telex: string,
+  webUrl: string,
+  email: string,
+  open1mon: string,
+  close1mon: string,
+  open2mon: string,
+  close2mon: string,
+  open3mon: string,
+  close3mon: string,
+  open1tue: string,
+  close1tue: string,
+  open2tue: string,
+  close2tue: string,
+  open3tue: string,
+  close3tue: string,
+  open1wed: string,
+  close1wed: string,
+  open2wed: string,
+  close2wed: string,
+  open3wed: string,
+  close3wed: string,
+  open1thu: string,
+  close1thu: string,
+  open2thu: string,
+  close2thu: string,
+  open3thu: string,
+  close3thu: string,
+  open1fri: string,
+  close1fri: string,
+  open2fri: string,
+  close2fri: string,
+  open3fri: string,
+  close3fri: string,
+  open1sat: string,
+  close1sat: string,
+  open2sat: string,
+  close2sat: string,
+  open3sat: string,
+  close3sat: string,
+  open1sun: string,
+  close1sun: string,
+  open2sun: string,
+  close2sun: string,
+  open3sun: string,
+  close3sun: string,
+  latitude: string,
+  longitude: string,
+  description: string,
+  locType1: string,
+  locType2: string,
+  truckOrVan: string,
+  csi: string,
+  csiDailyRate: string,
+  csiWeeklyRate: string,
+  cst: string,
+  cstDailyRate: string,
+  cstWeeklyRate: string,
+  bst: string,
+  bstDailyRate: string,
+  bstWeeklyRate: string,
+  nev: string,
+  nevDailyRate: string,
+  nevWeeklyRate: string,
+  skv: string,
+  skvDailyRate: string,
+  skvWeeklyRate: string,
+  sno: string,
+  snoDailyRate: string,
+  snoWeeklyRate: string,
+  sbr: string,
+  sbrDailyRate: string,
+  sbrWeeklyRate: string,
+  src: string,
+  srcDailyRate: string,
+  srcWeeklyRate: string,
+  hmm: string,
+  hmmDailyRate: string,
+  hmmWeeklyRate: string,
+  ldw: string,
+  ldwDailyRate: string,
+  ldwWeeklyRate: string,
+  swd: string,
+  swdDailyRate: string,
+  swdWeeklyRate: string,
+  lis: string,
+  lisDailyRate: string,
+  lisWeeklyRate: string,
+  ppi: string,
+  ppiDailyRate: string,
+  ppiWeeklyRate: string,
+  tp: string,
+  tpDailyRate: string,
+  tpWeeklyRate: string,
+  pkg: string,
+  pkgDailyRate: string,
+  pkgWeeklyRate: string
+}>
+
+export const Location = t.readonly(t.interface({
+  recordType: t.string,
+  actionCode: t.string,
+  recordNumber: t.string,
+  vendorId: t.string,
+  oagCode: t.string,
+  country: t.string,
+  state: t.string,
+  zipCode: t.string,
+  city: t.string,
+  address1: t.string,
+  address2: t.string,
+  address3: t.string,
+  phone: t.string,
+  altPhone: t.string,
+  fax: t.string,
+  telex: t.string,
+  webUrl: t.string,
+  email: t.string,
+  open1mon: t.string,
+  close1mon: t.string,
+  open2mon: t.string,
+  close2mon: t.string,
+  open3mon: t.string,
+  close3mon: t.string,
+  open1tue: t.string,
+  close1tue: t.string,
+  open2tue: t.string,
+  close2tue: t.string,
+  open3tue: t.string,
+  close3tue: t.string,
+  open1wed: t.string,
+  close1wed: t.string,
+  open2wed: t.string,
+  close2wed: t.string,
+  open3wed: t.string,
+  close3wed: t.string,
+  open1thu: t.string,
+  close1thu: t.string,
+  open2thu: t.string,
+  close2thu: t.string,
+  open3thu: t.string,
+  close3thu: t.string,
+  open1fri: t.string,
+  close1fri: t.string,
+  open2fri: t.string,
+  close2fri: t.string,
+  open3fri: t.string,
+  close3fri: t.string,
+  open1sat: t.string,
+  close1sat: t.string,
+  open2sat: t.string,
+  close2sat: t.string,
+  open3sat: t.string,
+  close3sat: t.string,
+  open1sun: t.string,
+  close1sun: t.string,
+  open2sun: t.string,
+  close2sun: t.string,
+  open3sun: t.string,
+  close3sun: t.string,
+  latitude: t.string,
+  longitude: t.string,
+  description: t.string,
+  locType1: t.string,
+  locType2: t.string,
+  truckOrVan: t.string,
+  csi: t.string,
+  csiDailyRate: t.string,
+  csiWeeklyRate: t.string,
+  cst: t.string,
+  cstDailyRate: t.string,
+  cstWeeklyRate: t.string,
+  bst: t.string,
+  bstDailyRate: t.string,
+  bstWeeklyRate: t.string,
+  nev: t.string,
+  nevDailyRate: t.string,
+  nevWeeklyRate: t.string,
+  skv: t.string,
+  skvDailyRate: t.string,
+  skvWeeklyRate: t.string,
+  sno: t.string,
+  snoDailyRate: t.string,
+  snoWeeklyRate: t.string,
+  sbr: t.string,
+  sbrDailyRate: t.string,
+  sbrWeeklyRate: t.string,
+  src: t.string,
+  srcDailyRate: t.string,
+  srcWeeklyRate: t.string,
+  hmm: t.string,
+  hmmDailyRate: t.string,
+  hmmWeeklyRate: t.string,
+  ldw: t.string,
+  ldwDailyRate: t.string,
+  ldwWeeklyRate: t.string,
+  swd: t.string,
+  swdDailyRate: t.string,
+  swdWeeklyRate: t.string,
+  lis: t.string,
+  lisDailyRate: t.string,
+  lisWeeklyRate: t.string,
+  ppi: t.string,
+  ppiDailyRate: t.string,
+  ppiWeeklyRate: t.string,
+  tp: t.string,
+  tpDailyRate: t.string,
+  tpWeeklyRate: t.string,
+  pkg: t.string,
+  pkgDailyRate: t.string,
+  pkgWeeklyRate: t.string
+}, 'Location'))
+
+export type LocationSearchResult = Readonly<{
+  airports:
+    | ReadonlyArray<Location>
+    | null,
+  stations:
+    | ReadonlyArray<Location>
+    | null,
+  cities:
+    | ReadonlyArray<Location>
+    | null,
+  hotels:
+    | ReadonlyArray<Location>
+    | null
+}>
+
+export const LocationSearchResult = t.readonly(t.interface({
+  airports: t.union([
+    t.readonlyArray(Location),
+    t.null
+  ]),
+  stations: t.union([
+    t.readonlyArray(Location),
+    t.null
+  ]),
+  cities: t.union([
+    t.readonlyArray(Location),
+    t.null
+  ]),
+  hotels: t.union([
+    t.readonlyArray(Location),
+    t.null
+  ])
+}, 'LocationSearchResult'))
+
+export type AvailableSpecialEquipment = Readonly<{
+  id: SpecialEquipment,
+  estimatedUnitCost: Money,
+  atMost: number
+}>
+
+export const AvailableSpecialEquipment = t.readonly(t.interface({
+  id: SpecialEquipment,
+  estimatedUnitCost: Money,
+  atMost: t.number
+}, 'AvailableSpecialEquipment'))
+
+export type AvailableVehicle = Readonly<{
+  id: UUID,
+  createdAt: string,
+  queryId: UUID,
+  externalId: string,
+  vehicle: Vehicle,
+  fare: AvailableFare,
+  rentalRate: RentalRate
+}>
+
+export const AvailableVehicle = t.readonly(t.interface({
+  id: UUID,
+  createdAt: t.string,
+  queryId: UUID,
+  externalId: t.string,
+  vehicle: Vehicle,
+  fare: AvailableFare,
+  rentalRate: RentalRate
+}, 'AvailableVehicle'))
+
+export type SelectedSpecialEquipment = Readonly<{
+  id: SpecialEquipment,
+  units: number
+}>
+
+export const SelectedSpecialEquipment = t.readonly(t.interface({
+  id: SpecialEquipment,
+  units: t.number
+}, 'SelectedSpecialEquipment'))
