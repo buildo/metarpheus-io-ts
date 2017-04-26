@@ -13,7 +13,6 @@ function unsafeValidate<T>(value: any, type: t.Type<T>): T {
   return value as T
 }
 
-
 /** Create a new search query for available vehicles */
 export function availableVehicleController_createQuery(query: AvailableVehicleSearchQuery): Promise<UUID> {
   return axios({

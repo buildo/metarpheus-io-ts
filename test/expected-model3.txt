@@ -1,45 +1,44 @@
 // DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
-
-export type ReservationProfile = Readonly<
+export type ReservationProfile =
   | 'Leisure'
   | 'Business'
-  | 'TourOperator'>
+  | 'TourOperator'
 
-export const ReservationProfile = t.readonly(t.keyof({
+export const ReservationProfile = t.keyof({
   Leisure: true,
   Business: true,
   TourOperator: true
-}, 'ReservationProfile'))
+}, 'ReservationProfile')
 
-export type SpecialEquipment = Readonly<
+export type SpecialEquipment =
   | 'InfantChildSeat'
   | 'ChildToddlerSeat'
   | 'BoosterSeat'
   | 'NeverLostGPS'
-  | 'SnowTyres'>
+  | 'SnowTyres'
 
-export const SpecialEquipment = t.readonly(t.keyof({
+export const SpecialEquipment = t.keyof({
   InfantChildSeat: true,
   ChildToddlerSeat: true,
   BoosterSeat: true,
   NeverLostGPS: true,
   SnowTyres: true
-}, 'SpecialEquipment'))
+}, 'SpecialEquipment')
 
-export type Vendor = Readonly<
+export type Vendor =
   | 'Hertz'
   | 'Dollar'
   | 'FireFly'
-  | 'Thrifty'>
+  | 'Thrifty'
 
-export const Vendor = t.readonly(t.keyof({
+export const Vendor = t.keyof({
   Hertz: true,
   Dollar: true,
   FireFly: true,
   Thrifty: true
-}, 'Vendor'))
+}, 'Vendor')
 
 export type RentalRateTotal = Readonly<{
   base: Money,
@@ -51,16 +50,16 @@ export const RentalRateTotal = t.readonly(t.interface({
   estimatedIncludingTaxes: Money
 }, 'RentalRateTotal'))
 
-export type RentalRateDistanceUnit = Readonly<
+export type RentalRateDistanceUnit =
   | 'Km'
   | 'Mile'
-  | 'Block'>
+  | 'Block'
 
-export const RentalRateDistanceUnit = t.readonly(t.keyof({
+export const RentalRateDistanceUnit = t.keyof({
   Km: true,
   Mile: true,
   Block: true
-}, 'RentalRateDistanceUnit'))
+}, 'RentalRateDistanceUnit')
 
 export type RentalRateDistance = Readonly<{
   unit: RentalRateDistanceUnit,
@@ -148,21 +147,21 @@ export const AvailableVehicleSearchQuery = t.readonly(t.interface({
   dropOffLocalTime: LocalTime
 }, 'AvailableVehicleSearchQuery'))
 
-export type PaymentMode = Readonly<
+export type PaymentMode =
   | 'Cash'
-  | 'Prepaid'>
+  | 'Prepaid'
 
-export const PaymentMode = t.readonly(t.keyof({
+export const PaymentMode = t.keyof({
   Cash: true,
   Prepaid: true
-}, 'PaymentMode'))
+}, 'PaymentMode')
 
-export type CancellationPolicy = Readonly<
-  | 'Free'>
+export type CancellationPolicy =
+  | 'Free'
 
-export const CancellationPolicy = t.readonly(t.keyof({
+export const CancellationPolicy = t.keyof({
   Free: true
-}, 'CancellationPolicy'))
+}, 'CancellationPolicy')
 
 export type AvailableFare = Readonly<{
   id: UUID,
@@ -201,16 +200,16 @@ export const AvailableFare = t.readonly(t.interface({
   ])
 }, 'AvailableFare'))
 
-export type VehicleTransmission = Readonly<
+export type VehicleTransmission =
   | 'Automatic'
-  | 'Manual'>
+  | 'Manual'
 
-export const VehicleTransmission = t.readonly(t.keyof({
+export const VehicleTransmission = t.keyof({
   Automatic: true,
   Manual: true
-}, 'VehicleTransmission'))
+}, 'VehicleTransmission')
 
-export type VehicleFuel = Readonly<
+export type VehicleFuel =
   | 'Unspecified'
   | 'Diesel'
   | 'Hybrid'
@@ -219,9 +218,9 @@ export type VehicleFuel = Readonly<
   | 'Hydrogen'
   | 'MultiFuel'
   | 'Petrol'
-  | 'Ethanol'>
+  | 'Ethanol'
 
-export const VehicleFuel = t.readonly(t.keyof({
+export const VehicleFuel = t.keyof({
   Unspecified: true,
   Diesel: true,
   Hybrid: true,
@@ -231,20 +230,20 @@ export const VehicleFuel = t.readonly(t.keyof({
   MultiFuel: true,
   Petrol: true,
   Ethanol: true
-}, 'VehicleFuel'))
+}, 'VehicleFuel')
 
-export type VehicleDrive = Readonly<
+export type VehicleDrive =
   | 'AllWheel'
   | 'FourWheel'
-  | 'Unspecified'>
+  | 'Unspecified'
 
-export const VehicleDrive = t.readonly(t.keyof({
+export const VehicleDrive = t.keyof({
   AllWheel: true,
   FourWheel: true,
   Unspecified: true
-}, 'VehicleDrive'))
+}, 'VehicleDrive')
 
-export type VehicleCategory = Readonly<
+export type VehicleCategory =
   | 'Car'
   | 'Van'
   | 'Suv'
@@ -265,9 +264,9 @@ export type VehicleCategory = Readonly<
   | 'TwoWheelVehicle'
   | 'Roadster'
   | 'Crossover'
-  | 'CommercialVanOrTruck'>
+  | 'CommercialVanOrTruck'
 
-export const VehicleCategory = t.readonly(t.keyof({
+export const VehicleCategory = t.keyof({
   Car: true,
   Van: true,
   Suv: true,
@@ -289,9 +288,9 @@ export const VehicleCategory = t.readonly(t.keyof({
   Roadster: true,
   Crossover: true,
   CommercialVanOrTruck: true
-}, 'VehicleCategory'))
+}, 'VehicleCategory')
 
-export type VehicleSize = Readonly<
+export type VehicleSize =
   | 'Mini'
   | 'Subcompact'
   | 'Economy'
@@ -311,9 +310,9 @@ export type VehicleSize = Readonly<
   | 'FullsizeElite'
   | 'PremiumElite'
   | 'LuxuryElite'
-  | 'Oversize'>
+  | 'Oversize'
 
-export const VehicleSize = t.readonly(t.keyof({
+export const VehicleSize = t.keyof({
   Mini: true,
   Subcompact: true,
   Economy: true,
@@ -334,7 +333,7 @@ export const VehicleSize = t.readonly(t.keyof({
   PremiumElite: true,
   LuxuryElite: true,
   Oversize: true
-}, 'VehicleSize'))
+}, 'VehicleSize')
 
 export type Vehicle = Readonly<{
   code:

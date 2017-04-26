@@ -1,39 +1,38 @@
 // DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
-
-export type ReservationProfile = Readonly<
+export type ReservationProfile =
   | 'Leisure'
   | 'Business'
-  | 'TourOperator'>
+  | 'TourOperator'
 
-export const ReservationProfile = t.readonly(t.keyof({
+export const ReservationProfile = t.keyof({
   Leisure: true,
   Business: true,
   TourOperator: true
-}, 'ReservationProfile'))
+}, 'ReservationProfile')
 
-export type SortOrder = Readonly<
+export type SortOrder =
   | 'Ascending'
-  | 'Descending'>
+  | 'Descending'
 
-export const SortOrder = t.readonly(t.keyof({
+export const SortOrder = t.keyof({
   Ascending: true,
   Descending: true
-}, 'SortOrder'))
+}, 'SortOrder')
 
-export type Vendor = Readonly<
+export type Vendor =
   | 'Hertz'
   | 'Dollar'
   | 'FireFly'
-  | 'Thrifty'>
+  | 'Thrifty'
 
-export const Vendor = t.readonly(t.keyof({
+export const Vendor = t.keyof({
   Hertz: true,
   Dollar: true,
   FireFly: true,
   Thrifty: true
-}, 'Vendor'))
+}, 'Vendor')
 
 export type Tag = Readonly<{
   id: UUID,
@@ -67,21 +66,21 @@ export const NationSearchResult = t.readonly(t.interface({
   states: t.readonlyArray(Tag)
 }, 'NationSearchResult'))
 
-export type CancellationPolicy = Readonly<
-  | 'Free'>
+export type CancellationPolicy =
+  | 'Free'
 
-export const CancellationPolicy = t.readonly(t.keyof({
+export const CancellationPolicy = t.keyof({
   Free: true
-}, 'CancellationPolicy'))
+}, 'CancellationPolicy')
 
-export type PaymentMode = Readonly<
+export type PaymentMode =
   | 'Cash'
-  | 'Prepaid'>
+  | 'Prepaid'
 
-export const PaymentMode = t.readonly(t.keyof({
+export const PaymentMode = t.keyof({
   Cash: true,
   Prepaid: true
-}, 'PaymentMode'))
+}, 'PaymentMode')
 
 export type FareRule = Readonly<{
   pickUpValidFrom:
@@ -227,15 +226,15 @@ export const FareSummary = t.readonly(t.interface({
   disabled: t.boolean
 }, 'FareSummary'))
 
-export type FareSummarySorting = Readonly<
+export type FareSummarySorting =
   | 'Name'
   | 'Vendor'
   | 'PaymentMode'
-  | 'Disabled'>
+  | 'Disabled'
 
-export const FareSummarySorting = t.readonly(t.keyof({
+export const FareSummarySorting = t.keyof({
   Name: true,
   Vendor: true,
   PaymentMode: true,
   Disabled: true
-}, 'FareSummarySorting'))
+}, 'FareSummarySorting')

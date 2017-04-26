@@ -61,7 +61,7 @@ function getDeclarations(models: Array<Model>, isReadonly: boolean): Array<gen.T
         model.name,
         gen.enumCombinator(enumClass.values.map((v: any) => v.name), model.name),
         true,
-        isReadonly
+        false
       )
     }
     const caseClass = model as CaseClass
@@ -76,7 +76,6 @@ function getDeclarations(models: Array<Model>, isReadonly: boolean): Array<gen.T
 
 const getModelsPrelude = `// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
-
 
 `
 
@@ -200,7 +199,6 @@ function unsafeValidate<T>(value: any, type: t.Type<T>): T {
   }
   return value as T
 }
-
 
 `
 
