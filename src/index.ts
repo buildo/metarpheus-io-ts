@@ -23,6 +23,7 @@ export function getType(tpe: Tpe, isReadonly: boolean): gen.TypeReference {
       return gen.stringType
     case 'Int' :
     case 'Float' :
+    case 'BigDecimal' :
       return gen.numberType
     case 'Boolean' :
       return gen.booleanType
@@ -33,7 +34,7 @@ export function getType(tpe: Tpe, isReadonly: boolean): gen.TypeReference {
         gen.readonlyArrayCombinator(getType(tpe.args![0], isReadonly)) :
         gen.arrayCombinator(getType(tpe.args![0], isReadonly))
     case 'Map' :
-      return gen.dictionaryCombinator(getType(tpe.args![0], isReadonly), getType(tpe.args![1], isReadonly))
+      return gen.dictionaryCombinator(gen.stringType, getType(tpe.args![1], isReadonly))
     default :
       return gen.identifier(tpe.name)
   }
