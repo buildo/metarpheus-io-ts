@@ -35,7 +35,7 @@ describe('getModels', () => {
   it('should return the models in the right (source3)', () => {
     const expected = fs.readFileSync(__dirname + '/expected-model3.txt', 'utf-8')
     const models: Array<Model> = require('./source3.json').models
-    getModels({ models, isReadonly: true }).fold(
+    getModels({ models, isReadonly: false }).fold(
       errors => { throw new Error(pathReporterFailure(errors).join('\n')) },
       models => {
         assert.strictEqual(trimRight(models), expected)

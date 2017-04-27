@@ -40,15 +40,15 @@ export const Vendor = t.keyof({
   Thrifty: true
 }, 'Vendor')
 
-export type RentalRateTotal = Readonly<{
+export type RentalRateTotal = {
   base: Money,
   estimatedIncludingTaxes: Money
-}>
+}
 
-export const RentalRateTotal = t.readonly(t.interface({
+export const RentalRateTotal = t.interface({
   base: Money,
   estimatedIncludingTaxes: Money
-}, 'RentalRateTotal'))
+}, 'RentalRateTotal')
 
 export type RentalRateDistanceUnit =
   | 'Km'
@@ -61,40 +61,47 @@ export const RentalRateDistanceUnit = t.keyof({
   Block: true
 }, 'RentalRateDistanceUnit')
 
-export type RentalRateDistance = Readonly<{
-  unit: RentalRateDistanceUnit,
+export type RentalRateDistance = {
   unlimited: boolean,
+  unit: RentalRateDistanceUnit,
   amount:
     | number
+    | null,
+  additional:
+    | Money
     | null
-}>
+}
 
-export const RentalRateDistance = t.readonly(t.interface({
-  unit: RentalRateDistanceUnit,
+export const RentalRateDistance = t.interface({
   unlimited: t.boolean,
+  unit: RentalRateDistanceUnit,
   amount: t.union([
     t.number,
     t.null
+  ]),
+  additional: t.union([
+    Money,
+    t.null
   ])
-}, 'RentalRateDistance'))
+}, 'RentalRateDistance')
 
-export type PricedSpecialEquipment = Readonly<{
+export type PricedSpecialEquipment = {
   id: SpecialEquipment,
   units: number,
   cost: Money,
   taxInclusive: boolean,
   includedInRate: boolean
-}>
+}
 
-export const PricedSpecialEquipment = t.readonly(t.interface({
+export const PricedSpecialEquipment = t.interface({
   id: SpecialEquipment,
   units: t.number,
   cost: Money,
   taxInclusive: t.boolean,
   includedInRate: t.boolean
-}, 'PricedSpecialEquipment'))
+}, 'PricedSpecialEquipment')
 
-export type RentalRate = Readonly<{
+export type RentalRate = {
   externalId: string,
   total: RentalRateTotal,
   distance: RentalRateDistance,
@@ -102,10 +109,10 @@ export type RentalRate = Readonly<{
   dropOff:
     | Money
     | null,
-  specialEquipments: ReadonlyArray<PricedSpecialEquipment>
-}>
+  specialEquipments: Array<PricedSpecialEquipment>
+}
 
-export const RentalRate = t.readonly(t.interface({
+export const RentalRate = t.interface({
   externalId: t.string,
   total: RentalRateTotal,
   distance: RentalRateDistance,
@@ -114,20 +121,20 @@ export const RentalRate = t.readonly(t.interface({
     Money,
     t.null
   ]),
-  specialEquipments: t.readonlyArray(PricedSpecialEquipment)
-}, 'RentalRate'))
+  specialEquipments: t.array(PricedSpecialEquipment)
+}, 'RentalRate')
 
-export type AvailableRentalRate = Readonly<{
+export type AvailableRentalRate = {
   availableVehicleId: UUID,
   rentalRate: RentalRate
-}>
+}
 
-export const AvailableRentalRate = t.readonly(t.interface({
+export const AvailableRentalRate = t.interface({
   availableVehicleId: UUID,
   rentalRate: RentalRate
-}, 'AvailableRentalRate'))
+}, 'AvailableRentalRate')
 
-export type AvailableVehicleSearchQuery = Readonly<{
+export type AvailableVehicleSearchQuery = {
   reservationProfile: ReservationProfile,
   pickUpLocation: string,
   pickUpLocalDate: LocalDate,
@@ -135,9 +142,9 @@ export type AvailableVehicleSearchQuery = Readonly<{
   dropOffLocation: string,
   dropOffLocalDate: LocalDate,
   dropOffLocalTime: LocalTime
-}>
+}
 
-export const AvailableVehicleSearchQuery = t.readonly(t.interface({
+export const AvailableVehicleSearchQuery = t.interface({
   reservationProfile: ReservationProfile,
   pickUpLocation: t.string,
   pickUpLocalDate: LocalDate,
@@ -145,7 +152,7 @@ export const AvailableVehicleSearchQuery = t.readonly(t.interface({
   dropOffLocation: t.string,
   dropOffLocalDate: LocalDate,
   dropOffLocalTime: LocalTime
-}, 'AvailableVehicleSearchQuery'))
+}, 'AvailableVehicleSearchQuery')
 
 export type PaymentMode =
   | 'Cash'
@@ -163,7 +170,7 @@ export const CancellationPolicy = t.keyof({
   Free: true
 }, 'CancellationPolicy')
 
-export type AvailableFare = Readonly<{
+export type AvailableFare = {
   id: UUID,
   name: string,
   vendor: Vendor,
@@ -178,9 +185,9 @@ export type AvailableFare = Readonly<{
   description:
     | string
     | null
-}>
+}
 
-export const AvailableFare = t.readonly(t.interface({
+export const AvailableFare = t.interface({
   id: UUID,
   name: t.string,
   vendor: Vendor,
@@ -198,7 +205,7 @@ export const AvailableFare = t.readonly(t.interface({
     t.string,
     t.null
   ])
-}, 'AvailableFare'))
+}, 'AvailableFare')
 
 export type VehicleTransmission =
   | 'Automatic'
@@ -335,7 +342,7 @@ export const VehicleSize = t.keyof({
   Oversize: true
 }, 'VehicleSize')
 
-export type Vehicle = Readonly<{
+export type Vehicle = {
   code:
     | string
     | null,
@@ -369,9 +376,9 @@ export type Vehicle = Readonly<{
   segment:
     | string
     | null
-}>
+}
 
-export const Vehicle = t.readonly(t.interface({
+export const Vehicle = t.interface({
   code: t.union([
     t.string,
     t.null
@@ -414,29 +421,36 @@ export const Vehicle = t.readonly(t.interface({
     t.string,
     t.null
   ])
-}, 'Vehicle'))
+}, 'Vehicle')
 
-export type VehicleAvailability = Readonly<{
+export type VehicleAvailability = {
   vehicle: Vehicle,
-  availableRentalRatesByFare: { [key: UUID]: AvailableRentalRate }
-}>
+  availableRentalRatesByFare: { [key: string]: AvailableRentalRate }
+}
 
-export const VehicleAvailability = t.readonly(t.interface({
+export const VehicleAvailability = t.interface({
   vehicle: Vehicle,
-  availableRentalRatesByFare: t.dictionary(UUID, AvailableRentalRate)
-}, 'VehicleAvailability'))
+  availableRentalRatesByFare: t.dictionary(t.string, AvailableRentalRate)
+}, 'VehicleAvailability')
 
-export type AvailableVehicleSearchResult = Readonly<{
-  fares: ReadonlyArray<AvailableFare>,
-  availability: ReadonlyArray<VehicleAvailability>
-}>
+export type AvailableVehicleSearchResult = {
+  taxPercent:
+    | number
+    | null,
+  fares: Array<AvailableFare>,
+  availability: Array<VehicleAvailability>
+}
 
-export const AvailableVehicleSearchResult = t.readonly(t.interface({
-  fares: t.readonlyArray(AvailableFare),
-  availability: t.readonlyArray(VehicleAvailability)
-}, 'AvailableVehicleSearchResult'))
+export const AvailableVehicleSearchResult = t.interface({
+  taxPercent: t.union([
+    t.number,
+    t.null
+  ]),
+  fares: t.array(AvailableFare),
+  availability: t.array(VehicleAvailability)
+}, 'AvailableVehicleSearchResult')
 
-export type Location = Readonly<{
+export type Location = {
   recordType: string,
   actionCode: string,
   recordNumber: string,
@@ -548,9 +562,9 @@ export type Location = Readonly<{
   pkg: string,
   pkgDailyRate: string,
   pkgWeeklyRate: string
-}>
+}
 
-export const Location = t.readonly(t.interface({
+export const Location = t.interface({
   recordType: t.string,
   actionCode: t.string,
   recordNumber: t.string,
@@ -662,55 +676,55 @@ export const Location = t.readonly(t.interface({
   pkg: t.string,
   pkgDailyRate: t.string,
   pkgWeeklyRate: t.string
-}, 'Location'))
+}, 'Location')
 
-export type LocationSearchResult = Readonly<{
+export type LocationSearchResult = {
   airports:
-    | ReadonlyArray<Location>
+    | Array<Location>
     | null,
   stations:
-    | ReadonlyArray<Location>
+    | Array<Location>
     | null,
   cities:
-    | ReadonlyArray<Location>
+    | Array<Location>
     | null,
   hotels:
-    | ReadonlyArray<Location>
+    | Array<Location>
     | null
-}>
+}
 
-export const LocationSearchResult = t.readonly(t.interface({
+export const LocationSearchResult = t.interface({
   airports: t.union([
-    t.readonlyArray(Location),
+    t.array(Location),
     t.null
   ]),
   stations: t.union([
-    t.readonlyArray(Location),
+    t.array(Location),
     t.null
   ]),
   cities: t.union([
-    t.readonlyArray(Location),
+    t.array(Location),
     t.null
   ]),
   hotels: t.union([
-    t.readonlyArray(Location),
+    t.array(Location),
     t.null
   ])
-}, 'LocationSearchResult'))
+}, 'LocationSearchResult')
 
-export type AvailableSpecialEquipment = Readonly<{
+export type AvailableSpecialEquipment = {
   id: SpecialEquipment,
   estimatedUnitCost: Money,
   atMost: number
-}>
+}
 
-export const AvailableSpecialEquipment = t.readonly(t.interface({
+export const AvailableSpecialEquipment = t.interface({
   id: SpecialEquipment,
   estimatedUnitCost: Money,
   atMost: t.number
-}, 'AvailableSpecialEquipment'))
+}, 'AvailableSpecialEquipment')
 
-export type AvailableVehicle = Readonly<{
+export type AvailableVehicle = {
   id: UUID,
   createdAt: string,
   queryId: UUID,
@@ -718,9 +732,9 @@ export type AvailableVehicle = Readonly<{
   vehicle: Vehicle,
   fare: AvailableFare,
   rentalRate: RentalRate
-}>
+}
 
-export const AvailableVehicle = t.readonly(t.interface({
+export const AvailableVehicle = t.interface({
   id: UUID,
   createdAt: t.string,
   queryId: UUID,
@@ -728,14 +742,14 @@ export const AvailableVehicle = t.readonly(t.interface({
   vehicle: Vehicle,
   fare: AvailableFare,
   rentalRate: RentalRate
-}, 'AvailableVehicle'))
+}, 'AvailableVehicle')
 
-export type SelectedSpecialEquipment = Readonly<{
+export type SelectedSpecialEquipment = {
   id: SpecialEquipment,
   units: number
-}>
+}
 
-export const SelectedSpecialEquipment = t.readonly(t.interface({
+export const SelectedSpecialEquipment = t.interface({
   id: SpecialEquipment,
   units: t.number
-}, 'SelectedSpecialEquipment'))
+}, 'SelectedSpecialEquipment')

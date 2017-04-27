@@ -86,6 +86,14 @@
   }, {
     "name" : "AvailableVehicleSearchResult",
     "members" : [ {
+      "name" : "taxPercent",
+      "tpe" : {
+        "name" : "Option",
+        "args" : [ {
+          "name" : "BigDecimal"
+        } ]
+      }
+    }, {
       "name" : "fares",
       "tpe" : {
         "name" : "List",
@@ -903,14 +911,14 @@
   }, {
     "name" : "RentalRateDistance",
     "members" : [ {
-      "name" : "unit",
-      "tpe" : {
-        "name" : "RentalRateDistanceUnit"
-      }
-    }, {
       "name" : "unlimited",
       "tpe" : {
         "name" : "Boolean"
+      }
+    }, {
+      "name" : "unit",
+      "tpe" : {
+        "name" : "RentalRateDistanceUnit"
       }
     }, {
       "name" : "amount",
@@ -918,6 +926,14 @@
         "name" : "Option",
         "args" : [ {
           "name" : "Int"
+        } ]
+      }
+    }, {
+      "name" : "additional",
+      "tpe" : {
+        "name" : "Option",
+        "args" : [ {
+          "name" : "Money"
         } ]
       }
     } ]
