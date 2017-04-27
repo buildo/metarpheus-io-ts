@@ -40,7 +40,7 @@ export const Vendor = t.keyof({
   Thrifty: true
 }, 'Vendor')
 
-export type RentalRateTotal = {
+export interface RentalRateTotal {
   base: Money,
   estimatedIncludingTaxes: Money
 }
@@ -61,7 +61,7 @@ export const RentalRateDistanceUnit = t.keyof({
   Block: true
 }, 'RentalRateDistanceUnit')
 
-export type RentalRateDistance = {
+export interface RentalRateDistance {
   unlimited: boolean,
   unit: RentalRateDistanceUnit,
   amount:
@@ -85,7 +85,7 @@ export const RentalRateDistance = t.interface({
   ])
 }, 'RentalRateDistance')
 
-export type PricedSpecialEquipment = {
+export interface PricedSpecialEquipment {
   id: SpecialEquipment,
   units: number,
   cost: Money,
@@ -101,7 +101,7 @@ export const PricedSpecialEquipment = t.interface({
   includedInRate: t.boolean
 }, 'PricedSpecialEquipment')
 
-export type RentalRate = {
+export interface RentalRate {
   externalId: string,
   total: RentalRateTotal,
   distance: RentalRateDistance,
@@ -124,7 +124,7 @@ export const RentalRate = t.interface({
   specialEquipments: t.array(PricedSpecialEquipment)
 }, 'RentalRate')
 
-export type AvailableRentalRate = {
+export interface AvailableRentalRate {
   availableVehicleId: UUID,
   rentalRate: RentalRate
 }
@@ -134,7 +134,7 @@ export const AvailableRentalRate = t.interface({
   rentalRate: RentalRate
 }, 'AvailableRentalRate')
 
-export type AvailableVehicleSearchQuery = {
+export interface AvailableVehicleSearchQuery {
   reservationProfile: ReservationProfile,
   pickUpLocation: string,
   pickUpLocalDate: LocalDate,
@@ -170,7 +170,7 @@ export const CancellationPolicy = t.keyof({
   Free: true
 }, 'CancellationPolicy')
 
-export type AvailableFare = {
+export interface AvailableFare {
   id: UUID,
   name: string,
   vendor: Vendor,
@@ -342,7 +342,7 @@ export const VehicleSize = t.keyof({
   Oversize: true
 }, 'VehicleSize')
 
-export type Vehicle = {
+export interface Vehicle {
   code:
     | string
     | null,
@@ -423,7 +423,7 @@ export const Vehicle = t.interface({
   ])
 }, 'Vehicle')
 
-export type VehicleAvailability = {
+export interface VehicleAvailability {
   vehicle: Vehicle,
   availableRentalRatesByFare: { [key: string]: AvailableRentalRate }
 }
@@ -433,7 +433,7 @@ export const VehicleAvailability = t.interface({
   availableRentalRatesByFare: t.dictionary(t.string, AvailableRentalRate)
 }, 'VehicleAvailability')
 
-export type AvailableVehicleSearchResult = {
+export interface AvailableVehicleSearchResult {
   taxPercent:
     | number
     | null,
@@ -450,7 +450,7 @@ export const AvailableVehicleSearchResult = t.interface({
   availability: t.array(VehicleAvailability)
 }, 'AvailableVehicleSearchResult')
 
-export type Location = {
+export interface Location {
   recordType: string,
   actionCode: string,
   recordNumber: string,
@@ -678,7 +678,7 @@ export const Location = t.interface({
   pkgWeeklyRate: t.string
 }, 'Location')
 
-export type LocationSearchResult = {
+export interface LocationSearchResult {
   airports:
     | Array<Location>
     | null,
@@ -712,7 +712,7 @@ export const LocationSearchResult = t.interface({
   ])
 }, 'LocationSearchResult')
 
-export type AvailableSpecialEquipment = {
+export interface AvailableSpecialEquipment {
   id: SpecialEquipment,
   estimatedUnitCost: Money,
   atMost: number
@@ -724,7 +724,7 @@ export const AvailableSpecialEquipment = t.interface({
   atMost: t.number
 }, 'AvailableSpecialEquipment')
 
-export type AvailableVehicle = {
+export interface AvailableVehicle {
   id: UUID,
   createdAt: string,
   queryId: UUID,
@@ -744,7 +744,7 @@ export const AvailableVehicle = t.interface({
   rentalRate: RentalRate
 }, 'AvailableVehicle')
 
-export type SelectedSpecialEquipment = {
+export interface SelectedSpecialEquipment {
   id: SpecialEquipment,
   units: number
 }
