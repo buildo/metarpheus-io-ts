@@ -57,9 +57,9 @@ describe('getModels', () => {
 describe('getRoutes', () => {
 
   it('should return the errors in the left', () => {
-    getRoutes({ routes: [1 as any] }).fold(
+    getRoutes({ routes: [1 as any], isReadonly: false }).fold(
       errors => {
-        assert.deepEqual(pathReporterFailure(errors).join('\n'), 'Invalid value 1 supplied to : { routes: Array<Route> }/routes: Array<Route>/0: Route')
+        assert.deepEqual(pathReporterFailure(errors).join('\n'), 'Invalid value 1 supplied to : { routes: Array<Route>, isReadonly: boolean }/routes: Array<Route>/0: Route')
       },
       models => assert.ok(false)
     )
@@ -68,7 +68,7 @@ describe('getRoutes', () => {
   it('should return the routes in the right (source3)', () => {
     const expected = fs.readFileSync(__dirname + '/expected-route3.txt', 'utf-8')
     const routes: Array<Route> = require('./source3.json').routes
-    getRoutes({ routes }).fold(
+    getRoutes({ routes, isReadonly: false }).fold(
       errors => { throw new Error(pathReporterFailure(errors).join('\n')) },
       routes => {
         assert.strictEqual(trimRight(routes), expected)

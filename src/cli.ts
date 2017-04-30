@@ -19,6 +19,7 @@ const encoding = 'utf-8'
 const source = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), program.in), encoding).toString())
 
 const models: Array<Model> = source.models
+console.log(!!program.readonly)
 getModels({ models, isReadonly: !!program.readonly }).fold(
   errors => { throw new Error(pathReporterFailure(errors).join('\n')) },
   models => {
@@ -31,7 +32,7 @@ getModels({ models, isReadonly: !!program.readonly }).fold(
 )
 
 const routes: Array<Route> = source.routes
-getRoutes({ routes }).fold(
+getRoutes({ routes, isReadonly: !!program.readonly }).fold(
   errors => { throw new Error(pathReporterFailure(errors).join('\n')) },
   routes => {
     if (program.out) {

@@ -89,7 +89,8 @@ export function getModels(options: GetModelsOptions): Either<Array<ValidationErr
 }
 
 export const GetRoutesOptions = t.interface({
-  routes: t.array(Route)
+  routes: t.array(Route),
+  isReadonly: t.boolean
 })
 
 export type GetRoutesOptions = t.TypeOf<typeof GetRoutesOptions>
@@ -151,7 +152,7 @@ function getRouteHeaders(route: Route): string {
   return s
 }
 
-function getAxiosConfig(route: Route): string {
+function getAxiosConfig(route: Route, isReadonly: boolean): string {
   let s = '{'
   s += `\n    method: '${route.method}',`
   s += `\n    url: ${getRoutePath(route)},`
@@ -163,11 +164,15 @@ function getAxiosConfig(route: Route): string {
   return s
 }
 
-function getRouteArguments(route: Route): string {
+function getRouteArguments(route: Route, isReadonly: boolean): string {
   const params = route.params.map(param => {
+    let type = getType(param.tpe, isReadonly)
+    if (!param.required) {
+      type = gen.unionCombinator([type, gen.nullType])
+    }
     return {
       name: param.name,
-      type: gen.printStatic(getType(param.tpe, true))
+      type: gen.printStatic(type)
     }
   })
   if (route.authenticated) {
@@ -176,12 +181,12 @@ function getRouteArguments(route: Route): string {
   return params.map(param => `${param.name}: ${param.type}`).join(', ')
 }
 
-function getRoute(route: Route): string {
+function getRoute(route: Route, isReadonly: boolean): string {
   const name = route.name.join('_')
-  const returns = getType(route.returns, true)
+  const returns = getType(route.returns, isReadonly)
   let s = route.desc ? `/** ${route.desc} */\n` : ''
-  s += `export function ${name}(${getRouteArguments(route)}): Promise<${gen.printStatic(returns)}> {`
-  s += `\n  return axios(${getAxiosConfig(route)}).then(res => unsafeValidate(res.data, ${gen.printRuntime(returns)})) as any`
+  s += `export function ${name}(${getRouteArguments(route, isReadonly)}): Promise<${gen.printStatic(returns)}> {`
+  s += `\n  return axios(${getAxiosConfig(route, isReadonly)}).then(res => unsafeValidate(res.data, ${gen.printRuntime(returns)})) as any`
   s += '\n}'
   return s
 }
@@ -205,6 +210,6 @@ function unsafeValidate<T>(value: any, type: t.Type<T>): T {
 
 export function getRoutes(options: GetRoutesOptions): Either<Array<ValidationError>, string> {
   return t.validate(options, GetRoutesOptions).map(options => {
-    return getRoutesPrelude + options.routes.map(route => getRoute(route)).join('\n\n')
+    return getRoutesPrelude + options.routes.map(route => getRoute(route, options.isReadonly)).join('\n\n')
   })
 }
