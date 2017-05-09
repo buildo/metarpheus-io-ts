@@ -13,7 +13,7 @@ describe('getModels', () => {
   it('should return the models in the right (source1)', () => {
     const expected = fs.readFileSync(__dirname + '/expected-model1.txt', 'utf-8')
     const models: Array<Model> = require('./source1.json').models
-    getModels({ models, isReadonly: false }).fold(
+    getModels({ models, isReadonly: false, runtime: true }).fold(
       errors => { throw new Error(pathReporterFailure(errors).join('\n')) },
       models => {
         assert.strictEqual(trimRight(models), expected)
@@ -24,7 +24,7 @@ describe('getModels', () => {
   it('should return the models in the right (source2)', () => {
     const expected = fs.readFileSync(__dirname + '/expected-model2.txt', 'utf-8')
     const models: Array<Model> = require('./source2.json').models
-    getModels({ models, isReadonly: true }).fold(
+    getModels({ models, isReadonly: true, runtime: true }).fold(
       errors => { throw new Error(pathReporterFailure(errors).join('\n')) },
       models => {
         assert.strictEqual(trimRight(models), expected)
@@ -35,7 +35,7 @@ describe('getModels', () => {
   it('should return the models in the right (source3)', () => {
     const expected = fs.readFileSync(__dirname + '/expected-model3.txt', 'utf-8')
     const models: Array<Model> = require('./source3.json').models
-    getModels({ models, isReadonly: false }).fold(
+    getModels({ models, isReadonly: false, runtime: true }).fold(
       errors => { throw new Error(pathReporterFailure(errors).join('\n')) },
       models => {
         assert.strictEqual(trimRight(models), expected)
@@ -44,9 +44,9 @@ describe('getModels', () => {
   })
 
   it('should return the errors in the left', () => {
-    getModels({ models: [1 as any], isReadonly: false }).fold(
+    getModels({ models: [1 as any], isReadonly: false, runtime: true }).fold(
       errors => {
-        assert.deepEqual(pathReporterFailure(errors).join('\n'), 'Invalid value 1 supplied to : { models: Array<Model>, isReadonly: boolean }/models: Array<Model>/0: Model')
+        assert.deepEqual(pathReporterFailure(errors).join('\n'), 'Invalid value 1 supplied to : { models: Array<Model>, isReadonly: boolean, runtime: boolean, optionalType: any }/models: Array<Model>/0: Model')
       },
       models => assert.ok(false)
     )

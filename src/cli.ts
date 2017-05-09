@@ -8,6 +8,7 @@ import { Model, Route } from './domain'
 program
   .option('-i, --in <file>', 'Input file')
   .option('-r, --readonly', 'Readonly models')
+  .option('-R, --runtime', 'Also runtime models')
   .option('-o, --out [file]', 'Output file', x => x, '')
   .parse(process.argv)
 
@@ -20,7 +21,7 @@ const source = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), program.in
 
 const models: Array<Model> = source.models
 console.log(!!program.readonly)
-getModels({ models, isReadonly: !!program.readonly }).fold(
+getModels({ models, isReadonly: !!program.readonly, runtime: !program.runtime }).fold(
   errors => { throw new Error(pathReporterFailure(errors).join('\n')) },
   models => {
     if (program.out) {

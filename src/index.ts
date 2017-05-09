@@ -42,19 +42,26 @@ export function getType(tpe: Tpe, isReadonly: boolean): gen.TypeReference {
 
 export const GetModelsOptions = t.interface({
   models: t.array(Model),
-  isReadonly: t.boolean
+  isReadonly: t.boolean,
+  runtime: t.boolean,
+  optionalType: t.any // TODO
 })
 
-export type GetModelsOptions = t.TypeOf<typeof GetModelsOptions>
+export type GetModelsOptions = {
+  models: Array<Model>,
+  isReadonly: boolean,
+  runtime: boolean,
+  optionalType?: gen.TypeReference
+}
 
-function getProperty(member: CaseClassMember, isReadonly: boolean): gen.Property {
+function getProperty(member: CaseClassMember, isReadonly: boolean, optionalType: gen.TypeReference): gen.Property {
   const isOptional = member.tpe.name === 'Option'
   const type = getType(member.tpe, isReadonly)
-  const option = isOptional ? gen.unionCombinator([type, gen.nullType]) : type
+  const option = isOptional ? gen.unionCombinator([type, optionalType]) : type
   return gen.property(member.name, option, false, member.desc)
 }
 
-function getDeclarations(models: Array<Model>, isReadonly: boolean): Array<gen.TypeDeclaration> {
+function getDeclarations(models: Array<Model>, isReadonly: boolean, optionalType: gen.TypeReference): Array<gen.TypeDeclaration> {
   return models.map(model => {
     if (model.hasOwnProperty('values')) {
       const enumClass = model as EnumClass
@@ -68,7 +75,7 @@ function getDeclarations(models: Array<Model>, isReadonly: boolean): Array<gen.T
     const caseClass = model as CaseClass
     return gen.typeDeclaration(
       model.name,
-      gen.interfaceCombinator(caseClass.members.map(member => getProperty(member, isReadonly)), model.name),
+      gen.interfaceCombinator(caseClass.members.map(member => getProperty(member, isReadonly, optionalType)), model.name),
       true,
       isReadonly
     )
@@ -82,9 +89,18 @@ import * as t from 'io-ts'
 
 export function getModels(options: GetModelsOptions): Either<Array<ValidationError>, string> {
   return t.validate(options, GetModelsOptions).map(options => {
-    const declarations = getDeclarations(options.models, options.isReadonly)
+    const declarations = getDeclarations(options.models, options.isReadonly, options.optionalType || gen.nullType)
     const sortedDeclarations = gen.sort(declarations)
-    return getModelsPrelude + sortedDeclarations.map(d => gen.printStatic(d) + '\n\n' + gen.printRuntime(d)).join('\n\n')
+    let out = ''
+    if (options.runtime) {
+      out += getModelsPrelude
+    }
+    out += sortedDeclarations.map(d => {
+      return options.runtime ?
+        gen.printStatic(d) + '\n\n' + gen.printRuntime(d) :
+        gen.printStatic(d)
+    }).join('\n\n')
+    return out
   })
 }
 
