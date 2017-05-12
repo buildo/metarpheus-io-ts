@@ -30,9 +30,7 @@
   "homepage": "https://github.com/gcanti/metarpheus-io-ts",
   "dependencies": {
     "commander": "^2.9.0",
-    "fp-ts": "^0.2.0",
-    "gen-io-ts": "github:gcanti/gen-io-ts#master",
-    "io-ts": "^0.3.0"
+    "gen-io-ts": "github:gcanti/gen-io-ts#master"
   },
   "devDependencies": {
     "@types/commander": "^2.3.31",

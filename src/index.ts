@@ -1,7 +1,4 @@
-import * as t from 'io-ts'
 import * as gen from 'gen-io-ts'
-import { ValidationError } from 'io-ts'
-import { Either } from 'fp-ts/lib/Either'
 import {
   Tpe,
   Model,
@@ -40,16 +37,7 @@ export function getType(tpe: Tpe, isReadonly: boolean): gen.TypeReference {
   }
 }
 
-export const GetModelsOptions = t.interface({
-  models: t.array(Model),
-  isReadonly: t.boolean,
-  runtime: t.boolean,
-  newtypes: t.array(t.string),
-  optionalType: t.any // TODO
-})
-
 export type GetModelsOptions = {
-  models: Array<Model>,
   isReadonly: boolean,
   runtime: boolean,
   newtypes: Array<string>,
@@ -96,33 +84,28 @@ import * as t from 'io-ts'
 
 `
 
-export function getModels(options: GetModelsOptions): Either<Array<ValidationError>, string> {
-  return t.validate(options, GetModelsOptions).map(options => {
-    const newtypes: { [key: string]: true } = {}
-    options.newtypes.forEach(k => {
-      newtypes[k] = true
-    })
-    const declarations = getDeclarations(options.models, options.isReadonly, options.optionalType || gen.nullType, newtypes)
-    const sortedDeclarations = gen.sort(declarations)
-    let out = ''
-    if (options.runtime) {
-      out += getModelsPrelude
-    }
-    out += sortedDeclarations.map(d => {
-      return options.runtime ?
-        gen.printStatic(d) + '\n\n' + gen.printRuntime(d) :
-        gen.printStatic(d)
-    }).join('\n\n')
-    return out
+export function getModels(models: Array<Model>, options: GetModelsOptions): string {
+  const newtypes: { [key: string]: true } = {}
+  options.newtypes.forEach(k => {
+    newtypes[k] = true
   })
+  const declarations = getDeclarations(models, options.isReadonly, options.optionalType || gen.nullType, newtypes)
+  const sortedDeclarations = gen.sort(declarations)
+  let out = ''
+  if (options.runtime) {
+    out += getModelsPrelude
+  }
+  out += sortedDeclarations.map(d => {
+    return options.runtime ?
+      gen.printStatic(d) + '\n\n' + gen.printRuntime(d) :
+      gen.printStatic(d)
+  }).join('\n\n')
+  return out
 }
 
-export const GetRoutesOptions = t.interface({
-  routes: t.array(Route),
-  isReadonly: t.boolean
-})
-
-export type GetRoutesOptions = t.TypeOf<typeof GetRoutesOptions>
+export type GetRoutesOptions = {
+  isReadonly: boolean
+}
 
 function isRouteSegmentString(routeSegment: RouteSegment): routeSegment is RouteSegmentString {
   return routeSegment.hasOwnProperty('str')
@@ -237,8 +220,6 @@ function unsafeValidate<T>(value: any, type: t.Type<T>): T {
 
 `
 
-export function getRoutes(options: GetRoutesOptions): Either<Array<ValidationError>, string> {
-  return t.validate(options, GetRoutesOptions).map(options => {
-    return getRoutesPrelude + options.routes.map(route => getRoute(route, options.isReadonly)).join('\n\n')
-  })
+export function getRoutes(routes: Array<Route>, options: GetRoutesOptions): string {
+  return getRoutesPrelude + routes.map(route => getRoute(route, options.isReadonly)).join('\n\n')
 }

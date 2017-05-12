@@ -1,98 +1,77 @@
-import * as t from 'io-ts'
-
 export interface Tpe {
   name: string,
   args?: Array<Tpe>
 }
 
-export const Tpe = t.recursion<Tpe>('Tpe', Self => t.interface({
-  name: t.string,
-  args: t.union([t.array(Self), t.undefined])
-}))
-
-export const Desc = t.union([t.string, t.undefined])
-
-export const CaseClassMember = t.interface({
-  name: t.string,
+export type CaseClassMember = {
+  name: string,
   tpe: Tpe,
-  desc: Desc
-}, 'CaseClassMember')
+  desc?: string
+}
 
-export type CaseClassMember = t.TypeOf<typeof CaseClassMember>
+export type CaseClass = {
+  name: string,
+  members: Array<CaseClassMember>,
+  desc?: string
+}
 
-export const CaseClass = t.interface({
-  name: t.string,
-  members: t.array(CaseClassMember),
-  desc: Desc
-}, 'CaseClass')
+export type EnumClassValue = {
+  name: string
+}
 
-export type CaseClass = t.TypeOf<typeof CaseClass>
+export type EnumClass = {
+  name: string,
+  values: Array<EnumClassValue>
+}
 
-export const EnumClassValue = t.interface({
-  name: t.string
-}, 'EnumClassValue')
+export type Model =
+  | CaseClass
+  | EnumClass
 
-export type EnumClassValue = t.TypeOf<typeof EnumClassValue>
-
-export const EnumClassRT = t.interface({
-  name: t.string,
-  values: t.array(EnumClassValue)
-}, 'EnumClass')
-
-export type EnumClass = t.TypeOf<typeof EnumClassRT>
-
-export const Model = t.union([CaseClass, EnumClassRT], 'Model')
-
-export type Model = t.TypeOf<typeof Model>
-
-export const RouteParam = t.interface({
-  name: t.union([t.string, t.undefined]),
+export type RouteParam = {
+  name?: string,
   tpe: Tpe,
-  required: t.boolean,
-  desc: Desc,
-  inBody: t.boolean
-})
+  required: boolean,
+  desc?: string,
+  inBody: boolean
+}
 
-export const RouteSegmentParam = t.interface({
+export type RouteSegmentParam = {
   routeParam: RouteParam
-})
+}
 
-export type RouteSegmentParam = t.TypeOf<typeof RouteSegmentParam>
+export type RouteSegmentString = {
+  str: string
+}
 
-export const RouteSegmentString = t.interface({
-  str: t.string
-})
+export type RouteSegment =
+  | RouteSegmentParam
+  | RouteSegmentString
 
-export type RouteSegmentString = t.TypeOf<typeof RouteSegmentString>
-
-export const RouteSegment = t.union([RouteSegmentParam, RouteSegmentString])
-
-export type RouteSegment = t.TypeOf<typeof RouteSegment>
-
-export const Body = t.interface({
+export type Body = {
   tpe: Tpe,
-  desc: Desc
-})
+  desc?: string
+}
 
-export const BaseRoute = t.interface({
-  route: t.array(RouteSegment),
-  params: t.array(RouteParam),
-  authenticated: t.boolean,
+export type BaseRoute = {
+  route: Array<RouteSegment>,
+  params: Array<RouteParam>,
+  authenticated: boolean,
   returns: Tpe,
-  ctrl: t.array(t.string),
-  desc: Desc,
-  name: t.array(t.string)
-})
+  ctrl: Array<string>,
+  desc?: string,
+  name: Array<string>
+}
 
-export const Get = t.intersection([BaseRoute, t.interface({
-  method: t.literal('get')
-})], 'Get')
+export type Get = BaseRoute & {
+  method: 'get'
+}
 
-export const Post = t.intersection([BaseRoute, t.interface({
-  method: t.literal('post'),
-  body: t.union([Body, t.undefined])
-})], 'Post')
+export type Post = BaseRoute & {
+  method: 'post',
+  body?: Body
+}
 
-export const Route = t.union([Get, Post], 'Route')
-
-export type Route = t.TypeOf<typeof Route>
+export type Route =
+  | Get
+  | Post
