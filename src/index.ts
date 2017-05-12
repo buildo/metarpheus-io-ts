@@ -44,6 +44,7 @@ export const GetModelsOptions = t.interface({
   models: t.array(Model),
   isReadonly: t.boolean,
   runtime: t.boolean,
+  newtypes: t.array(t.string),
   optionalType: t.any // TODO
 })
 
@@ -51,6 +52,7 @@ export type GetModelsOptions = {
   models: Array<Model>,
   isReadonly: boolean,
   runtime: boolean,
+  newtypes: Array<string>,
   optionalType?: gen.TypeReference
 }
 
@@ -61,8 +63,15 @@ function getProperty(member: CaseClassMember, isReadonly: boolean, optionalType:
   return gen.property(member.name, option, false, member.desc)
 }
 
-function getDeclarations(models: Array<Model>, isReadonly: boolean, optionalType: gen.TypeReference): Array<gen.TypeDeclaration> {
+function getNewtype(model: CaseClass): gen.TypeDeclaration {
+  return gen.typeDeclaration(model.name, getType(model.members[0].tpe, false), true)
+}
+
+function getDeclarations(models: Array<Model>, isReadonly: boolean, optionalType: gen.TypeReference, newtypes: { [key: string]: true }): Array<gen.TypeDeclaration> {
   return models.map(model => {
+    if (newtypes.hasOwnProperty(model.name)) {
+      return getNewtype(model as CaseClass)
+    }
     if (model.hasOwnProperty('values')) {
       const enumClass = model as EnumClass
       return gen.typeDeclaration(
@@ -89,7 +98,11 @@ import * as t from 'io-ts'
 
 export function getModels(options: GetModelsOptions): Either<Array<ValidationError>, string> {
   return t.validate(options, GetModelsOptions).map(options => {
-    const declarations = getDeclarations(options.models, options.isReadonly, options.optionalType || gen.nullType)
+    const newtypes: { [key: string]: true } = {}
+    options.newtypes.forEach(k => {
+      newtypes[k] = true
+    })
+    const declarations = getDeclarations(options.models, options.isReadonly, options.optionalType || gen.nullType, newtypes)
     const sortedDeclarations = gen.sort(declarations)
     let out = ''
     if (options.runtime) {

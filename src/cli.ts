@@ -21,7 +21,7 @@ const source = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), program.in
 
 const models: Array<Model> = source.models
 
-getModels({ models, isReadonly: !!program.readonly, runtime: !program.runtime }).fold(
+getModels({ models, isReadonly: !!program.readonly, runtime: !program.runtime, newtypes: [] }).fold(
   errors => { throw new Error(pathReporterFailure(errors).join('\n')) },
   models => {
     if (program.out) {
