@@ -1,6 +1,6 @@
 # metarpheus-io-ts
 
-Generate a [io-ts](https://github.com/gcanti/io-ts) domain model interpreting [metarpheus](https://github.com/buildo/metarpheus) output.
+Generate static and runtime ([io-ts](https://github.com/gcanti/io-ts)) domain models interpreting [metarpheus](https://github.com/buildo/metarpheus) output.
 
 ## Install
 
@@ -11,15 +11,15 @@ npm i metarpheus-io-ts
 ## Usage
 
 ```sh
-metarpheus-io-ts -i path/to/input.json
-metarpheus-io-ts -i path/to/input.json -o path/to/output.ts
+metarpheus-io-ts -i path/to/input.json -c path/to/config.json -o path/to/output.ts
 ```
 
 ## Usage from node
 
 ```js
-import { printModels } from 'metarpheus-io-ts'
+import { getModels, getRoutes } from 'metarpheus-io-ts'
 
 const source = ...
-const models: string = printModels({ source })
+const models: string = getModels(source.models, modelsOptions)
+const routes: string = getRoutes(source.routes, routesOptions)
 ```
