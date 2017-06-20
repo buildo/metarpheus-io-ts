@@ -13,34 +13,34 @@ import {
 
 export function getType(tpe: Tpe, isReadonly: boolean): gen.TypeReference {
   switch (tpe.name) {
-    case 'String' :
-    case 'Date' :
-    case 'DateTime' :
-    case 'Instant' :
+    case 'String':
+    case 'Date':
+    case 'DateTime':
+    case 'Instant':
       return gen.stringType
-    case 'Int' :
-    case 'Float' :
-    case 'BigDecimal' :
+    case 'Int':
+    case 'Float':
+    case 'BigDecimal':
       return gen.numberType
-    case 'Boolean' :
+    case 'Boolean':
       return gen.booleanType
-    case 'Option' :
+    case 'Option':
       return getType(tpe.args![0], isReadonly)
-    case 'List' :
-      return isReadonly ?
-        gen.readonlyArrayCombinator(getType(tpe.args![0], isReadonly)) :
-        gen.arrayCombinator(getType(tpe.args![0], isReadonly))
-    case 'Map' :
+    case 'List':
+      return isReadonly
+        ? gen.readonlyArrayCombinator(getType(tpe.args![0], isReadonly))
+        : gen.arrayCombinator(getType(tpe.args![0], isReadonly))
+    case 'Map':
       return gen.dictionaryCombinator(gen.stringType, getType(tpe.args![1], isReadonly))
-    default :
+    default:
       return gen.identifier(tpe.name)
   }
 }
 
 export type GetModelsOptions = {
-  isReadonly: boolean,
-  runtime: boolean,
-  newtypes: Array<string>,
+  isReadonly: boolean
+  runtime: boolean
+  newtypes: Array<string>
   optionalType?: gen.TypeReference
 }
 
@@ -55,7 +55,12 @@ function getNewtype(model: CaseClass): gen.TypeDeclaration {
   return gen.typeDeclaration(model.name, getType(model.members[0].tpe, false), true)
 }
 
-function getDeclarations(models: Array<Model>, isReadonly: boolean, optionalType: gen.TypeReference, newtypes: { [key: string]: true }): Array<gen.TypeDeclaration> {
+function getDeclarations(
+  models: Array<Model>,
+  isReadonly: boolean,
+  optionalType: gen.TypeReference,
+  newtypes: { [key: string]: true }
+): Array<gen.TypeDeclaration> {
   return models.map(model => {
     if (newtypes.hasOwnProperty(model.name)) {
       return getNewtype(model as CaseClass)
@@ -72,7 +77,10 @@ function getDeclarations(models: Array<Model>, isReadonly: boolean, optionalType
     const caseClass = model as CaseClass
     return gen.typeDeclaration(
       model.name,
-      gen.interfaceCombinator(caseClass.members.map(member => getProperty(member, isReadonly, optionalType)), model.name),
+      gen.interfaceCombinator(
+        caseClass.members.map(member => getProperty(member, isReadonly, optionalType)),
+        model.name
+      ),
       true,
       isReadonly
     )
@@ -95,11 +103,11 @@ export function getModels(models: Array<Model>, options: GetModelsOptions): stri
   if (options.runtime) {
     out += getModelsPrelude
   }
-  out += sortedDeclarations.map(d => {
-    return options.runtime ?
-      gen.printStatic(d) + '\n\n' + gen.printRuntime(d) :
-      gen.printStatic(d)
-  }).join('\n\n')
+  out += sortedDeclarations
+    .map(d => {
+      return options.runtime ? gen.printStatic(d) + '\n\n' + gen.printRuntime(d) : gen.printStatic(d)
+    })
+    .join('\n\n')
   return out
 }
 
@@ -116,39 +124,45 @@ function isRouteSegmentParam(routeSegment: RouteSegment): routeSegment is RouteS
 }
 
 function getRoutePath(route: Route): string {
-  const path = route.route.map(routeSegment => {
-    if (isRouteSegmentString(routeSegment)) {
-      return routeSegment.str
-    }
-    if (isRouteSegmentParam(routeSegment)) {
-      throw new Error('RouteSegmentParam not yet supported')
-    }
-  }).join('/')
+  const path = route.route
+    .map(routeSegment => {
+      if (isRouteSegmentString(routeSegment)) {
+        return routeSegment.str
+      }
+      if (isRouteSegmentParam(routeSegment)) {
+        throw new Error('RouteSegmentParam not yet supported')
+      }
+    })
+    .join('/')
   return '`${apiEndpoint}/' + path + '`'
 }
 
 function getRouteParams(route: Route): string {
   let s = '{\n'
-  s += route.params.filter(param => !param.inBody).map(param => {
-    return `      ${param.name}`
-  }).join(',\n')
+  s += route.params
+    .filter(param => !param.inBody)
+    .map(param => {
+      return `      ${param.name}`
+    })
+    .join(',\n')
   s += '\n    }'
   return s
 }
 
 function getRouteData(route: Route): string {
   let s = '{\n'
-  s += route.params.filter(param => param.inBody).map(param => {
-    return `      ${param.name}`
-  }).join(',\n')
+  s += route.params
+    .filter(param => param.inBody)
+    .map(param => {
+      return `      ${param.name}`
+    })
+    .join(',\n')
   s += '\n    }'
   return s
 }
 
 function getRouteHeaders(route: Route): string {
-  const headers = [
-    { name: `'Content-Type'`, value: `'application/json'` }
-  ]
+  const headers = [{ name: `'Content-Type'`, value: `'application/json'` }]
   if (route.method === 'get') {
     headers.push({ name: `'Pragma'`, value: `'no-cache'` })
     headers.push({ name: `'Cache-Control'`, value: `'no-cache, no-store'` })
@@ -157,9 +171,11 @@ function getRouteHeaders(route: Route): string {
     headers.push({ name: `'Authorization'`, value: '`Token token="${token}"`' })
   }
   let s = '{\n'
-  s += headers.map(header => {
-    return `      ${header.name}: ${header.value}`
-  }).join(',\n')
+  s += headers
+    .map(header => {
+      return `      ${header.name}: ${header.value}`
+    })
+    .join(',\n')
   s += '\n    }'
   return s
 }
@@ -198,7 +214,9 @@ function getRoute(route: Route, isReadonly: boolean): string {
   const returns = getType(route.returns, isReadonly)
   let s = route.desc ? `/** ${route.desc} */\n` : ''
   s += `export function ${name}(${getRouteArguments(route, isReadonly)}): Promise<${gen.printStatic(returns)}> {`
-  s += `\n  return axios(${getAxiosConfig(route, isReadonly)}).then(res => unsafeValidate(res.data, ${gen.printRuntime(returns)})) as any`
+  s += `\n  return axios(${getAxiosConfig(route, isReadonly)}).then(res => unsafeValidate(res.data, ${gen.printRuntime(
+    returns
+  )})) as any`
   s += '\n}'
   return s
 }
