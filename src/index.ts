@@ -12,10 +12,11 @@ import {
 } from './domain'
 
 export function getType(tpe: Tpe, isReadonly: boolean): gen.TypeReference {
+  // TODO(gio): this should switch on structure, rather than on `tpe.name`
   switch (tpe.name) {
     case 'String':
-    case 'Date':
-    case 'DateTime':
+    // case 'Date':
+    // case 'DateTime':
     case 'Instant':
       return gen.stringType
     case 'Int':
@@ -27,6 +28,8 @@ export function getType(tpe: Tpe, isReadonly: boolean): gen.TypeReference {
     case 'Option':
       return getType(tpe.args![0], isReadonly)
     case 'List':
+    case 'Set':
+    case 'TreeSet':
       return isReadonly
         ? gen.readonlyArrayCombinator(getType(tpe.args![0], isReadonly))
         : gen.arrayCombinator(getType(tpe.args![0], isReadonly))
