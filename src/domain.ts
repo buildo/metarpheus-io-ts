@@ -1,17 +1,17 @@
 export interface Tpe {
-  name: string,
+  name: string
   args?: Array<Tpe>
 }
 
 export type CaseClassMember = {
-  name: string,
-  tpe: Tpe,
+  name: string
+  tpe: Tpe
   desc?: string
 }
 
 export type CaseClass = {
-  name: string,
-  members: Array<CaseClassMember>,
+  name: string
+  members: Array<CaseClassMember>
   desc?: string
 }
 
@@ -20,19 +20,17 @@ export type EnumClassValue = {
 }
 
 export type EnumClass = {
-  name: string,
+  name: string
   values: Array<EnumClassValue>
 }
 
-export type Model =
-  | CaseClass
-  | EnumClass
+export type Model = CaseClass | EnumClass
 
 export type RouteParam = {
-  name?: string,
-  tpe: Tpe,
-  required: boolean,
-  desc?: string,
+  name?: string
+  tpe: Tpe
+  required: boolean
+  desc?: string
   inBody: boolean
 }
 
@@ -44,22 +42,20 @@ export type RouteSegmentString = {
   str: string
 }
 
-export type RouteSegment =
-  | RouteSegmentParam
-  | RouteSegmentString
+export type RouteSegment = RouteSegmentParam | RouteSegmentString
 
 export type Body = {
-  tpe: Tpe,
+  tpe: Tpe
   desc?: string
 }
 
 export type BaseRoute = {
-  route: Array<RouteSegment>,
-  params: Array<RouteParam>,
-  authenticated: boolean,
-  returns: Tpe,
-  ctrl: Array<string>,
-  desc?: string,
+  route: Array<RouteSegment>
+  params: Array<RouteParam>
+  authenticated: boolean
+  returns: Tpe
+  ctrl: Array<string>
+  desc?: string
   name: Array<string>
 }
 
@@ -68,10 +64,8 @@ export type Get = BaseRoute & {
 }
 
 export type Post = BaseRoute & {
-  method: 'post',
+  method: 'post'
   body?: Body
 }
 
-export type Route =
-  | Get
-  | Post
+export type Route = Get | Post
