@@ -69,7 +69,7 @@ function getDeclarations(
       const enumClass = model as EnumClass
       return gen.typeDeclaration(
         model.name,
-        gen.enumCombinator(enumClass.values.map((v: any) => v.name), model.name),
+        gen.keyofCombinator(enumClass.values.map((v: any) => v.name), model.name),
         true,
         false
       )
