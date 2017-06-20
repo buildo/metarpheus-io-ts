@@ -15,7 +15,10 @@
     "prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test}/**/*.ts\"",
     "test": "npm run prettier && npm run lint && npm run typings-checker && npm run mocha",
     "clean": "rm -rf lib/*",
-    "build": "npm run clean && tsc"
+    "build": "npm run clean && tsc",
+    "preversion": "npm run prettier && npm run lint && npm run test",
+    "prepublish": "npm run build",
+    "release-version": "smooth-release"
   },
   "repository": {
     "type": "git",
@@ -37,6 +40,7 @@
     "@types/node": "7.0.4",
     "mocha": "3.2.0",
     "prettier": "1.4.2",
+    "smooth-release": "^8.0.4",
     "ts-node": "2.0.0",
     "tslint": "4.4.2",
     "tslint-config-standard": "4.0.0",
