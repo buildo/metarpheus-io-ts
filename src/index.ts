@@ -1,4 +1,4 @@
-import * as gen from 'gen-io-ts'
+import * as gen from 'io-ts-codegen'
 import {
   Tpe,
   Model,
