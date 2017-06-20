@@ -7,7 +7,7 @@ export interface Health {
   /** Version of the service. */
   version: string,
   /** Current UTC date and time of the request, in ISO 8601 format. */
-  currentAsOfUtc: string
+  currentAsOfUtc: Date
 }
 
 export const Health = t.interface({
@@ -16,7 +16,7 @@ export const Health = t.interface({
   /** Version of the service. */
   version: t.string,
   /** Current UTC date and time of the request, in ISO 8601 format. */
-  currentAsOfUtc: t.string
+  currentAsOfUtc: Date
 }, 'Health')
 
 export type ICQAlertCategory =
@@ -39,7 +39,7 @@ export interface ICQAlert {
   AIMSubCode:
     | number
     | null,
-  alertDateTime: string,
+  alertDateTime: Date,
   category: ICQAlertCategory,
   description: string
 }
@@ -54,7 +54,7 @@ export const ICQAlert = t.interface({
     t.number,
     t.null
   ]),
-  alertDateTime: t.string,
+  alertDateTime: Date,
   category: ICQAlertCategory,
   description: t.string
 }, 'ICQAlert')
@@ -158,10 +158,10 @@ export interface ICQCalibration {
   method: ICQCalibrationMethod,
   type: ICQCalibrationType,
   calibrationDateTime:
-    | string
+    | Date
     | null,
   expirationDateTime:
-    | string
+    | Date
     | null,
   status: ICQCalibrationStatus,
   user:
@@ -181,11 +181,11 @@ export const ICQCalibration = t.interface({
   method: ICQCalibrationMethod,
   type: ICQCalibrationType,
   calibrationDateTime: t.union([
-    t.string,
+    Date,
     t.null
   ]),
   expirationDateTime: t.union([
-    t.string,
+    Date,
     t.null
   ]),
   status: ICQCalibrationStatus,
@@ -262,7 +262,7 @@ export interface ICQOnBoardSolution {
   _serialNumber: string,
   configurationId: string,
   configurationVersion: number,
-  expirationDate: string,
+  expirationDate: Date,
   carouselPosition:
     | number
     | null,
@@ -286,7 +286,7 @@ export const ICQOnBoardSolution = t.interface({
   _serialNumber: t.string,
   configurationId: t.string,
   configurationVersion: t.number,
-  expirationDate: t.string,
+  expirationDate: Date,
   carouselPosition: t.union([
     t.number,
     t.null
@@ -451,7 +451,7 @@ export interface ICQQCMaterial {
   rackId: string,
   rackPosition: number,
   percentVolumeRemaining: number,
-  materialExpirationDate: string,
+  materialExpirationDate: Date,
   remainingHoursOfOnBoardStability: number,
   remainingMinutesOfInUseStability:
     | number
@@ -481,7 +481,7 @@ export const ICQQCMaterial = t.interface({
   rackId: t.string,
   rackPosition: t.number,
   percentVolumeRemaining: t.number,
-  materialExpirationDate: t.string,
+  materialExpirationDate: Date,
   remainingHoursOfOnBoardStability: t.number,
   remainingMinutesOfInUseStability: t.union([
     t.number,
