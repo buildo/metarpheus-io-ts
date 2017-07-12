@@ -1,6 +1,33 @@
 // DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
+export type CampingLocation =
+  | 'Seaside'
+  | 'Mountains'
+
+export const CampingLocation = t.keyof({
+  Seaside: true,
+  Mountains: true
+}, 'CampingLocation')
+
+export interface Camping {
+  /** camping name */
+  name: string,
+  /** number of tents */
+  size: number,
+  /** camping location */
+  location: CampingLocation
+}
+
+export const Camping = t.interface({
+  /** camping name */
+  name: t.string,
+  /** number of tents */
+  size: t.number,
+  /** camping location */
+  location: CampingLocation
+}, 'Camping')
+
 export interface Health {
   /** Name of the service. */
   id: string,
@@ -195,6 +222,49 @@ export const ICQCalibration = t.interface({
   ])
 }, 'ICQCalibration')
 
+export type ICQConnectionStatus =
+  | 'Connected'
+  | 'NotConnected'
+  | 'NotConfigured'
+
+export const ICQConnectionStatus = t.keyof({
+  Connected: true,
+  NotConnected: true,
+  NotConfigured: true
+}, 'ICQConnectionStatus')
+
+export type ICQModuleStatus =
+  | 'Offline'
+  | 'Stopped'
+  | 'Initializing'
+  | 'Warming'
+  | 'Idle'
+  | 'Running'
+  | 'Processing'
+  | 'Pausing'
+  | 'Maintenance'
+
+export const ICQModuleStatus = t.keyof({
+  Offline: true,
+  Stopped: true,
+  Initializing: true,
+  Warming: true,
+  Idle: true,
+  Running: true,
+  Processing: true,
+  Pausing: true,
+  Maintenance: true
+}, 'ICQModuleStatus')
+
+export type ICQModuleType =
+  | 'IA'
+  | 'CC'
+
+export const ICQModuleType = t.keyof({
+  IA: true,
+  CC: true
+}, 'ICQModuleType')
+
 export type ICQReagentStatus =
   | 'Ok'
   | 'Mixing'
@@ -304,15 +374,6 @@ export const ICQOnBoardSolution = t.interface({
   cartridgeStatus: ICQReagentCartridgeStatus
 }, 'ICQOnBoardSolution')
 
-export type ICQModuleType =
-  | 'IA'
-  | 'CC'
-
-export const ICQModuleType = t.keyof({
-  IA: true,
-  CC: true
-}, 'ICQModuleType')
-
 export type ICQOverallStatus =
   | 'Ok'
   | 'Warning'
@@ -324,28 +385,18 @@ export const ICQOverallStatus = t.keyof({
   Error: true
 }, 'ICQOverallStatus')
 
-export type ICQModuleStatus =
-  | 'Offline'
-  | 'Stopped'
-  | 'Initializing'
-  | 'Warming'
-  | 'Idle'
-  | 'Running'
-  | 'Processing'
-  | 'Pausing'
-  | 'Maintenance'
+export type ICQPrinterStatus =
+  | 'NoError'
+  | 'Warning'
+  | 'Error'
+  | 'NotConfigured'
 
-export const ICQModuleStatus = t.keyof({
-  Offline: true,
-  Stopped: true,
-  Initializing: true,
-  Warming: true,
-  Idle: true,
-  Running: true,
-  Processing: true,
-  Pausing: true,
-  Maintenance: true
-}, 'ICQModuleStatus')
+export const ICQPrinterStatus = t.keyof({
+  NoError: true,
+  Warning: true,
+  Error: true,
+  NotConfigured: true
+}, 'ICQPrinterStatus')
 
 export interface ICQProcessingModule {
   _id: number,
@@ -523,30 +574,6 @@ export const ICQRSM = t.interface({
   status: ICQRSMStatus
 }, 'ICQRSM')
 
-export type ICQConnectionStatus =
-  | 'Connected'
-  | 'NotConnected'
-  | 'NotConfigured'
-
-export const ICQConnectionStatus = t.keyof({
-  Connected: true,
-  NotConnected: true,
-  NotConfigured: true
-}, 'ICQConnectionStatus')
-
-export type ICQPrinterStatus =
-  | 'NoError'
-  | 'Warning'
-  | 'Error'
-  | 'NotConfigured'
-
-export const ICQPrinterStatus = t.keyof({
-  NoError: true,
-  Warning: true,
-  Error: true,
-  NotConfigured: true
-}, 'ICQPrinterStatus')
-
 export interface ICQWorkcell {
   _serialNumber: string,
   name: string,
@@ -576,30 +603,3 @@ export const ICQWorkcell = t.interface({
   processingModules: t.array(ICQProcessingModule),
   RSM: ICQRSM
 }, 'ICQWorkcell')
-
-export type CampingLocation =
-  | 'Seaside'
-  | 'Mountains'
-
-export const CampingLocation = t.keyof({
-  Seaside: true,
-  Mountains: true
-}, 'CampingLocation')
-
-export interface Camping {
-  /** camping name */
-  name: string,
-  /** number of tents */
-  size: number,
-  /** camping location */
-  location: CampingLocation
-}
-
-export const Camping = t.interface({
-  /** camping name */
-  name: t.string,
-  /** number of tents */
-  size: t.number,
-  /** camping location */
-  location: CampingLocation
-}, 'Camping')
