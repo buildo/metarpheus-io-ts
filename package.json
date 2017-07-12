@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/gcanti/metarpheus-io-ts",
   "dependencies": {
+    "buildo-lodash-ts": "^0.1.3",
     "commander": "^2.9.0",
     "io-ts-codegen": "0.0.1"
   },

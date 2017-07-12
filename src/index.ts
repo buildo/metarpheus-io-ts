@@ -10,6 +10,7 @@ import {
   RouteSegmentString,
   RouteSegmentParam
 } from './domain'
+import sortBy from 'buildo-lodash-ts/lib/sortBy'
 
 export function getType(tpe: Tpe, isReadonly: boolean): gen.TypeReference {
   // TODO(gio): this should switch on structure, rather than on `tpe.name`
@@ -101,7 +102,7 @@ export function getModels(models: Array<Model>, options: GetModelsOptions): stri
     newtypes[k] = true
   })
   const declarations = getDeclarations(models, options.isReadonly, options.optionalType || gen.nullType, newtypes)
-  const sortedDeclarations = gen.sort(declarations)
+  const sortedDeclarations = gen.sort(sortBy(declarations, ({ name }) => name))
   let out = ''
   if (options.runtime) {
     out += getModelsPrelude
