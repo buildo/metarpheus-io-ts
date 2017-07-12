@@ -1,32 +1,6 @@
 // DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
-export type ReservationProfile =
-  | 'Leisure'
-  | 'Business'
-  | 'TourOperator'
-
-export const ReservationProfile = t.keyof({
-  Leisure: true,
-  Business: true,
-  TourOperator: true
-}, 'ReservationProfile')
-
-export type SpecialEquipment =
-  | 'InfantChildSeat'
-  | 'ChildToddlerSeat'
-  | 'BoosterSeat'
-  | 'NeverLostGPS'
-  | 'SnowTyres'
-
-export const SpecialEquipment = t.keyof({
-  InfantChildSeat: true,
-  ChildToddlerSeat: true,
-  BoosterSeat: true,
-  NeverLostGPS: true,
-  SnowTyres: true
-}, 'SpecialEquipment')
-
 export type Vendor =
   | 'Hertz'
   | 'Dollar'
@@ -39,120 +13,6 @@ export const Vendor = t.keyof({
   FireFly: true,
   Thrifty: true
 }, 'Vendor')
-
-export interface RentalRateTotal {
-  base: Money,
-  estimatedIncludingTaxes: Money
-}
-
-export const RentalRateTotal = t.interface({
-  base: Money,
-  estimatedIncludingTaxes: Money
-}, 'RentalRateTotal')
-
-export type RentalRateDistanceUnit =
-  | 'Km'
-  | 'Mile'
-  | 'Block'
-
-export const RentalRateDistanceUnit = t.keyof({
-  Km: true,
-  Mile: true,
-  Block: true
-}, 'RentalRateDistanceUnit')
-
-export interface RentalRateDistance {
-  unlimited: boolean,
-  unit: RentalRateDistanceUnit,
-  amount:
-    | number
-    | null,
-  additional:
-    | Money
-    | null
-}
-
-export const RentalRateDistance = t.interface({
-  unlimited: t.boolean,
-  unit: RentalRateDistanceUnit,
-  amount: t.union([
-    t.number,
-    t.null
-  ]),
-  additional: t.union([
-    Money,
-    t.null
-  ])
-}, 'RentalRateDistance')
-
-export interface PricedSpecialEquipment {
-  id: SpecialEquipment,
-  units: number,
-  cost: Money,
-  taxInclusive: boolean,
-  includedInRate: boolean
-}
-
-export const PricedSpecialEquipment = t.interface({
-  id: SpecialEquipment,
-  units: t.number,
-  cost: Money,
-  taxInclusive: t.boolean,
-  includedInRate: t.boolean
-}, 'PricedSpecialEquipment')
-
-export interface RentalRate {
-  externalId: string,
-  total: RentalRateTotal,
-  distance: RentalRateDistance,
-  superCoverIncluded: boolean,
-  dropOff:
-    | Money
-    | null,
-  specialEquipments: Array<PricedSpecialEquipment>
-}
-
-export const RentalRate = t.interface({
-  externalId: t.string,
-  total: RentalRateTotal,
-  distance: RentalRateDistance,
-  superCoverIncluded: t.boolean,
-  dropOff: t.union([
-    Money,
-    t.null
-  ]),
-  specialEquipments: t.array(PricedSpecialEquipment)
-}, 'RentalRate')
-
-export interface AvailableRentalRate {
-  availableVehicleId: UUID,
-  rentalRate: RentalRate
-}
-
-export const AvailableRentalRate = t.interface({
-  availableVehicleId: UUID,
-  rentalRate: RentalRate
-}, 'AvailableRentalRate')
-
-export interface AvailableVehicleSearchQuery {
-  reservationProfile: ReservationProfile,
-  pickUpLocation: string,
-  pickUpLocalDate: LocalDate,
-  pickUpLocalTime: LocalTime,
-  dropOffLocation: string,
-  dropOffLocalDate: LocalDate,
-  dropOffLocalTime: LocalTime
-}
-
-export const AvailableVehicleSearchQuery = t.interface({
-  reservationProfile: ReservationProfile,
-  pickUpLocation: t.string,
-  pickUpLocalDate: LocalDate,
-  pickUpLocalTime: LocalTime,
-  dropOffLocation: t.string,
-  dropOffLocalDate: LocalDate,
-  dropOffLocalTime: LocalTime
-}, 'AvailableVehicleSearchQuery')
 
 export type PaymentMode =
   | 'Cash'
@@ -206,6 +66,127 @@ export const AvailableFare = t.interface({
     t.null
   ])
 }, 'AvailableFare')
+
+export interface RentalRateTotal {
+  base: Money,
+  estimatedIncludingTaxes: Money
+}
+
+export const RentalRateTotal = t.interface({
+  base: Money,
+  estimatedIncludingTaxes: Money
+}, 'RentalRateTotal')
+
+export type RentalRateDistanceUnit =
+  | 'Km'
+  | 'Mile'
+  | 'Block'
+
+export const RentalRateDistanceUnit = t.keyof({
+  Km: true,
+  Mile: true,
+  Block: true
+}, 'RentalRateDistanceUnit')
+
+export interface RentalRateDistance {
+  unlimited: boolean,
+  unit: RentalRateDistanceUnit,
+  amount:
+    | number
+    | null,
+  additional:
+    | Money
+    | null
+}
+
+export const RentalRateDistance = t.interface({
+  unlimited: t.boolean,
+  unit: RentalRateDistanceUnit,
+  amount: t.union([
+    t.number,
+    t.null
+  ]),
+  additional: t.union([
+    Money,
+    t.null
+  ])
+}, 'RentalRateDistance')
+
+export type SpecialEquipment =
+  | 'InfantChildSeat'
+  | 'ChildToddlerSeat'
+  | 'BoosterSeat'
+  | 'NeverLostGPS'
+  | 'SnowTyres'
+
+export const SpecialEquipment = t.keyof({
+  InfantChildSeat: true,
+  ChildToddlerSeat: true,
+  BoosterSeat: true,
+  NeverLostGPS: true,
+  SnowTyres: true
+}, 'SpecialEquipment')
+
+export interface PricedSpecialEquipment {
+  id: SpecialEquipment,
+  units: number,
+  cost: Money,
+  taxInclusive: boolean,
+  includedInRate: boolean
+}
+
+export const PricedSpecialEquipment = t.interface({
+  id: SpecialEquipment,
+  units: t.number,
+  cost: Money,
+  taxInclusive: t.boolean,
+  includedInRate: t.boolean
+}, 'PricedSpecialEquipment')
+
+export interface RentalRate {
+  externalId: string,
+  total: RentalRateTotal,
+  distance: RentalRateDistance,
+  superCoverIncluded: boolean,
+  dropOff:
+    | Money
+    | null,
+  specialEquipments: Array<PricedSpecialEquipment>
+}
+
+export const RentalRate = t.interface({
+  externalId: t.string,
+  total: RentalRateTotal,
+  distance: RentalRateDistance,
+  superCoverIncluded: t.boolean,
+  dropOff: t.union([
+    Money,
+    t.null
+  ]),
+  specialEquipments: t.array(PricedSpecialEquipment)
+}, 'RentalRate')
+
+export interface AvailableRentalRate {
+  availableVehicleId: UUID,
+  rentalRate: RentalRate
+}
+
+export const AvailableRentalRate = t.interface({
+  availableVehicleId: UUID,
+  rentalRate: RentalRate
+}, 'AvailableRentalRate')
+
+export interface AvailableSpecialEquipment {
+  id: SpecialEquipment,
+  estimatedUnitCost: Money,
+  atMost: number
+}
+
+export const AvailableSpecialEquipment = t.interface({
+  id: SpecialEquipment,
+  estimatedUnitCost: Money,
+  atMost: t.number
+}, 'AvailableSpecialEquipment')
 
 export type VehicleTransmission =
   | 'Automatic'
@@ -422,6 +403,57 @@ export const Vehicle = t.interface({
     t.null
   ])
 }, 'Vehicle')
+
+export interface AvailableVehicle {
+  id: UUID,
+  createdAt: string,
+  queryId: UUID,
+  externalId: string,
+  vehicle: Vehicle,
+  fare: AvailableFare,
+  rentalRate: RentalRate
+}
+
+export const AvailableVehicle = t.interface({
+  id: UUID,
+  createdAt: t.string,
+  queryId: UUID,
+  externalId: t.string,
+  vehicle: Vehicle,
+  fare: AvailableFare,
+  rentalRate: RentalRate
+}, 'AvailableVehicle')
+
+export type ReservationProfile =
+  | 'Leisure'
+  | 'Business'
+  | 'TourOperator'
+
+export const ReservationProfile = t.keyof({
+  Leisure: true,
+  Business: true,
+  TourOperator: true
+}, 'ReservationProfile')
+
+export interface AvailableVehicleSearchQuery {
+  reservationProfile: ReservationProfile,
+  pickUpLocation: string,
+  pickUpLocalDate: LocalDate,
+  pickUpLocalTime: LocalTime,
+  dropOffLocation: string,
+  dropOffLocalDate: LocalDate,
+  dropOffLocalTime: LocalTime
+}
+
+export const AvailableVehicleSearchQuery = t.interface({
+  reservationProfile: ReservationProfile,
+  pickUpLocation: t.string,
+  pickUpLocalDate: LocalDate,
+  pickUpLocalTime: LocalTime,
+  dropOffLocation: t.string,
+  dropOffLocalDate: LocalDate,
+  dropOffLocalTime: LocalTime
+}, 'AvailableVehicleSearchQuery')
 
 export interface VehicleAvailability {
   vehicle: Vehicle,
@@ -711,38 +743,6 @@ export const LocationSearchResult = t.interface({
     t.null
   ])
 }, 'LocationSearchResult')
-
-export interface AvailableSpecialEquipment {
-  id: SpecialEquipment,
-  estimatedUnitCost: Money,
-  atMost: number
-}
-
-export const AvailableSpecialEquipment = t.interface({
-  id: SpecialEquipment,
-  estimatedUnitCost: Money,
-  atMost: t.number
-}, 'AvailableSpecialEquipment')
-
-export interface AvailableVehicle {
-  id: UUID,
-  createdAt: string,
-  queryId: UUID,
-  externalId: string,
-  vehicle: Vehicle,
-  fare: AvailableFare,
-  rentalRate: RentalRate
-}
-
-export const AvailableVehicle = t.interface({
-  id: UUID,
-  createdAt: t.string,
-  queryId: UUID,
-  externalId: t.string,
-  vehicle: Vehicle,
-  fare: AvailableFare,
-  rentalRate: RentalRate
-}, 'AvailableVehicle')
 
 export interface SelectedSpecialEquipment {
   id: SpecialEquipment,

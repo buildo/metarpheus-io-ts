@@ -1,39 +1,6 @@
 // DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
-export type ReservationProfile =
-  | 'Leisure'
-  | 'Business'
-  | 'TourOperator'
-
-export const ReservationProfile = t.keyof({
-  Leisure: true,
-  Business: true,
-  TourOperator: true
-}, 'ReservationProfile')
-
-export type SortOrder =
-  | 'Ascending'
-  | 'Descending'
-
-export const SortOrder = t.keyof({
-  Ascending: true,
-  Descending: true
-}, 'SortOrder')
-
-export type Vendor =
-  | 'Hertz'
-  | 'Dollar'
-  | 'FireFly'
-  | 'Thrifty'
-
-export const Vendor = t.keyof({
-  Hertz: true,
-  Dollar: true,
-  FireFly: true,
-  Thrifty: true
-}, 'Vendor')
-
 export type Tag = Readonly<{
   id: UUID,
   label: string
@@ -54,24 +21,25 @@ export const AgencySearchResult = t.readonly(t.interface({
   networks: t.readonlyArray(Tag)
 }, 'AgencySearchResult'))
 
-export type NationSearchResult = Readonly<{
-  regions: ReadonlyArray<Tag>,
-  countries: ReadonlyArray<Tag>,
-  states: ReadonlyArray<Tag>
-}>
-
-export const NationSearchResult = t.readonly(t.interface({
-  regions: t.readonlyArray(Tag),
-  countries: t.readonlyArray(Tag),
-  states: t.readonlyArray(Tag)
-}, 'NationSearchResult'))
-
 export type CancellationPolicy =
   | 'Free'
 
 export const CancellationPolicy = t.keyof({
   Free: true
 }, 'CancellationPolicy')
+
+export type Vendor =
+  | 'Hertz'
+  | 'Dollar'
+  | 'FireFly'
+  | 'Thrifty'
+
+export const Vendor = t.keyof({
+  Hertz: true,
+  Dollar: true,
+  FireFly: true,
+  Thrifty: true
+}, 'Vendor')
 
 export type PaymentMode =
   | 'Cash'
@@ -165,6 +133,60 @@ export const Fare = t.readonly(t.interface({
   rules: t.readonlyArray(FareRule)
 }, 'Fare'))
 
+export type ReservationProfile =
+  | 'Leisure'
+  | 'Business'
+  | 'TourOperator'
+
+export const ReservationProfile = t.keyof({
+  Leisure: true,
+  Business: true,
+  TourOperator: true
+}, 'ReservationProfile')
+
+export type FareSummary = Readonly<{
+  id: UUID,
+  reservationProfile: ReservationProfile,
+  name: string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  disabled: boolean
+}>
+
+export const FareSummary = t.readonly(t.interface({
+  id: UUID,
+  reservationProfile: ReservationProfile,
+  name: t.string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  disabled: t.boolean
+}, 'FareSummary'))
+
+export type FareSummarySorting =
+  | 'Name'
+  | 'Vendor'
+  | 'PaymentMode'
+  | 'Disabled'
+
+export const FareSummarySorting = t.keyof({
+  Name: true,
+  Vendor: true,
+  PaymentMode: true,
+  Disabled: true
+}, 'FareSummarySorting')
+
+export type NationSearchResult = Readonly<{
+  regions: ReadonlyArray<Tag>,
+  countries: ReadonlyArray<Tag>,
+  states: ReadonlyArray<Tag>
+}>
+
+export const NationSearchResult = t.readonly(t.interface({
+  regions: t.readonlyArray(Tag),
+  countries: t.readonlyArray(Tag),
+  states: t.readonlyArray(Tag)
+}, 'NationSearchResult'))
+
 export type NewFare = Readonly<{
   name: string,
   vendor: Vendor,
@@ -208,33 +230,11 @@ export const NewFare = t.readonly(t.interface({
   rules: t.readonlyArray(FareRule)
 }, 'NewFare'))
 
-export type FareSummary = Readonly<{
-  id: UUID,
-  reservationProfile: ReservationProfile,
-  name: string,
-  vendor: Vendor,
-  paymentMode: PaymentMode,
-  disabled: boolean
-}>
+export type SortOrder =
+  | 'Ascending'
+  | 'Descending'
 
-export const FareSummary = t.readonly(t.interface({
-  id: UUID,
-  reservationProfile: ReservationProfile,
-  name: t.string,
-  vendor: Vendor,
-  paymentMode: PaymentMode,
-  disabled: t.boolean
-}, 'FareSummary'))
-
-export type FareSummarySorting =
-  | 'Name'
-  | 'Vendor'
-  | 'PaymentMode'
-  | 'Disabled'
-
-export const FareSummarySorting = t.keyof({
-  Name: true,
-  Vendor: true,
-  PaymentMode: true,
-  Disabled: true
-}, 'FareSummarySorting')
+export const SortOrder = t.keyof({
+  Ascending: true,
+  Descending: true
+}, 'SortOrder')
