@@ -1,0 +1,23 @@
+// DO NOT EDIT MANUALLY - metarpheus-generated
+import * as t from 'io-ts'
+
+export interface NotificationPayload {
+  userLanguage:
+    | string
+    | null,
+  notificationKind: NotificationKind,
+  params: { [key: string]: any },
+  workcellSerialNumber: string,
+  workcellType: InstrumentType
+}
+
+export const NotificationPayload = t.interface({
+  userLanguage: t.union([
+    t.string,
+    t.null
+  ]),
+  notificationKind: NotificationKind,
+  params: t.dictionary(t.string, t.any),
+  workcellSerialNumber: t.string,
+  workcellType: InstrumentType
+}, 'NotificationPayload')

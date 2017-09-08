@@ -1,499 +1,668 @@
 {
-  "models" : [ {
-    "name" : "ReservationProfile",
-    "values" : [ {
-      "name" : "Leisure"
-    }, {
-      "name" : "Business"
-    }, {
-      "name" : "TourOperator"
-    } ]
-  }, {
-    "name" : "SortOrder",
-    "values" : [ {
-      "name" : "Ascending"
-    }, {
-      "name" : "Descending"
-    } ]
-  }, {
-    "name" : "Vendor",
-    "values" : [ {
-      "name" : "Hertz"
-    }, {
-      "name" : "Dollar"
-    }, {
-      "name" : "FireFly"
-    }, {
-      "name" : "Thrifty"
-    } ]
-  }, {
-    "name" : "AgencySearchResult",
-    "members" : [ {
-      "name" : "agencies",
-      "tpe" : {
-        "name" : "List",
-        "args" : [ {
-          "name" : "Tag"
-        } ]
-      }
-    }, {
-      "name" : "networks",
-      "tpe" : {
-        "name" : "List",
-        "args" : [ {
-          "name" : "Tag"
-        } ]
-      }
-    } ]
-  }, {
-    "name" : "NationSearchResult",
-    "members" : [ {
-      "name" : "regions",
-      "tpe" : {
-        "name" : "List",
-        "args" : [ {
-          "name" : "Tag"
-        } ]
-      }
-    }, {
-      "name" : "countries",
-      "tpe" : {
-        "name" : "List",
-        "args" : [ {
-          "name" : "Tag"
-        } ]
-      }
-    }, {
-      "name" : "states",
-      "tpe" : {
-        "name" : "List",
-        "args" : [ {
-          "name" : "Tag"
-        } ]
-      }
-    } ]
-  }, {
-    "name" : "CancellationPolicy",
-    "values" : [ {
-      "name" : "Free"
-    } ]
-  }, {
-    "name" : "Fare",
-    "members" : [ {
-      "name" : "id",
-      "tpe" : {
-        "name" : "UUID"
-      }
-    }, {
-      "name" : "name",
-      "tpe" : {
-        "name" : "String"
-      }
-    }, {
-      "name" : "vendor",
-      "tpe" : {
-        "name" : "Vendor"
-      }
-    }, {
-      "name" : "paymentMode",
-      "tpe" : {
-        "name" : "PaymentMode"
-      }
-    }, {
-      "name" : "rateCode",
-      "tpe" : {
-        "name" : "String"
-      }
-    }, {
-      "name" : "cdp",
-      "tpe" : {
-        "name" : "Option",
-        "args" : [ {
-          "name" : "String"
-        } ]
-      }
-    }, {
-      "name" : "tourOperatorCode",
-      "tpe" : {
-        "name" : "Option",
-        "args" : [ {
-          "name" : "String"
-        } ]
-      }
-    }, {
-      "name" : "additionalInclusions",
-      "tpe" : {
-        "name" : "Option",
-        "args" : [ {
-          "name" : "String"
-        } ]
-      }
-    }, {
-      "name" : "cancellationPolicy",
-      "tpe" : {
-        "name" : "CancellationPolicy"
-      }
-    }, {
-      "name" : "description",
-      "tpe" : {
-        "name" : "String"
-      }
-    }, {
-      "name" : "disabled",
-      "tpe" : {
-        "name" : "Boolean"
-      }
-    }, {
-      "name" : "rules",
-      "tpe" : {
-        "name" : "List",
-        "args" : [ {
-          "name" : "FareRule"
-        } ]
-      }
-    } ]
-  }, {
-    "name" : "NewFare",
-    "members" : [ {
-      "name" : "name",
-      "tpe" : {
-        "name" : "String"
-      }
-    }, {
-      "name" : "vendor",
-      "tpe" : {
-        "name" : "Vendor"
-      }
-    }, {
-      "name" : "paymentMode",
-      "tpe" : {
-        "name" : "PaymentMode"
-      }
-    }, {
-      "name" : "rateCode",
-      "tpe" : {
-        "name" : "String"
-      }
-    }, {
-      "name" : "cdp",
-      "tpe" : {
-        "name" : "Option",
-        "args" : [ {
-          "name" : "String"
-        } ]
-      }
-    }, {
-      "name" : "additionalInclusions",
-      "tpe" : {
-        "name" : "Option",
-        "args" : [ {
-          "name" : "String"
-        } ]
-      }
-    }, {
-      "name" : "tourOperatorCode",
-      "tpe" : {
-        "name" : "Option",
-        "args" : [ {
-          "name" : "String"
-        } ]
-      }
-    }, {
-      "name" : "cancellationPolicy",
-      "tpe" : {
-        "name" : "CancellationPolicy"
-      }
-    }, {
-      "name" : "description",
-      "tpe" : {
-        "name" : "String"
-      }
-    }, {
-      "name" : "disabled",
-      "tpe" : {
-        "name" : "Boolean"
-      }
-    }, {
-      "name" : "rules",
-      "tpe" : {
-        "name" : "List",
-        "args" : [ {
-          "name" : "FareRule"
-        } ]
-      }
-    } ]
-  }, {
-    "name" : "FareRule",
-    "members" : [ {
-      "name" : "pickUpValidFrom",
-      "tpe" : {
-        "name" : "Option",
-        "args" : [ {
-          "name" : "LocalDate"
-        } ]
-      }
-    }, {
-      "name" : "pickUpValidUntil",
-      "tpe" : {
-        "name" : "Option",
-        "args" : [ {
-          "name" : "LocalDate"
-        } ]
-      }
-    }, {
-      "name" : "reservationValidFrom",
-      "tpe" : {
-        "name" : "Option",
-        "args" : [ {
-          "name" : "LocalDate"
-        } ]
-      }
-    }, {
-      "name" : "reservationValidUntil",
-      "tpe" : {
-        "name" : "Option",
-        "args" : [ {
-          "name" : "LocalDate"
-        } ]
-      }
-    }, {
-      "name" : "nations",
-      "tpe" : {
-        "name" : "List",
-        "args" : [ {
-          "name" : "Tag"
-        } ]
-      }
-    }, {
-      "name" : "agencies",
-      "tpe" : {
-        "name" : "List",
-        "args" : [ {
-          "name" : "Tag"
-        } ]
-      }
-    } ]
-  }, {
-    "name" : "FareSummary",
-    "members" : [ {
-      "name" : "id",
-      "tpe" : {
-        "name" : "UUID"
-      }
-    }, {
-      "name" : "reservationProfile",
-      "tpe" : {
-        "name" : "ReservationProfile"
-      }
-    }, {
-      "name" : "name",
-      "tpe" : {
-        "name" : "String"
-      }
-    }, {
-      "name" : "vendor",
-      "tpe" : {
-        "name" : "Vendor"
-      }
-    }, {
-      "name" : "paymentMode",
-      "tpe" : {
-        "name" : "PaymentMode"
-      }
-    }, {
-      "name" : "disabled",
-      "tpe" : {
-        "name" : "Boolean"
-      }
-    } ]
-  }, {
-    "name" : "FareSummarySorting",
-    "values" : [ {
-      "name" : "Name"
-    }, {
-      "name" : "Vendor"
-    }, {
-      "name" : "PaymentMode"
-    }, {
-      "name" : "Disabled"
-    } ]
-  }, {
-    "name" : "PaymentMode",
-    "values" : [ {
-      "name" : "Cash"
-    }, {
-      "name" : "Prepaid"
-    } ]
-  }, {
-    "name" : "Tag",
-    "members" : [ {
-      "name" : "id",
-      "tpe" : {
-        "name" : "UUID"
-      }
-    }, {
-      "name" : "label",
-      "tpe" : {
-        "name" : "String"
-      }
-    } ]
-  } ],
-  "routes" : [ {
-    "method" : "get",
-    "route" : [ {
-      "str" : "agencies"
-    }, {
-      "str" : "search"
-    } ],
-    "params" : [ {
-      "name" : "query",
-      "tpe" : {
-        "name" : "String"
-      },
-      "required" : true,
-      "inBody" : false
-    } ],
-    "authenticated" : false,
-    "returns" : {
-      "name" : "AgencySearchResult"
+  "models": [
+    {
+      "name": "ReservationProfile",
+      "values": [
+        {
+          "name": "Leisure"
+        },
+        {
+          "name": "Business"
+        },
+        {
+          "name": "TourOperator"
+        }
+      ]
     },
-    "ctrl" : [ "agencyController", "search" ],
-    "name" : [ "agencyController", "search" ]
-  }, {
-    "method" : "post",
-    "route" : [ {
-      "str" : "fares"
-    }, {
-      "str" : "create"
-    } ],
-    "params" : [ {
-      "name" : "fare",
-      "tpe" : {
-        "name" : "NewFare"
-      },
-      "required" : true,
-      "inBody" : true
-    } ],
-    "authenticated" : false,
-    "returns" : {
-      "name" : "UUID"
+    {
+      "name": "SortOrder",
+      "values": [
+        {
+          "name": "Ascending"
+        },
+        {
+          "name": "Descending"
+        }
+      ]
     },
-    "ctrl" : [ "fareController", "create" ],
-    "name" : [ "fareController", "create" ]
-  }, {
-    "method" : "get",
-    "route" : [ {
-      "str" : "fares"
-    }, {
-      "str" : "read"
-    } ],
-    "params" : [ {
-      "name" : "id",
-      "tpe" : {
-        "name" : "UUID"
-      },
-      "required" : true,
-      "inBody" : false
-    } ],
-    "authenticated" : false,
-    "returns" : {
-      "name" : "Fare"
+    {
+      "name": "Vendor",
+      "values": [
+        {
+          "name": "Hertz"
+        },
+        {
+          "name": "Dollar"
+        },
+        {
+          "name": "FireFly"
+        },
+        {
+          "name": "Thrifty"
+        }
+      ]
     },
-    "ctrl" : [ "fareController", "read" ],
-    "name" : [ "fareController", "read" ]
-  }, {
-    "method" : "get",
-    "route" : [ {
-      "str" : "fares"
-    }, {
-      "str" : "search"
-    } ],
-    "params" : [ {
-      "name" : "orderBy",
-      "tpe" : {
-        "name" : "FareSummarySorting"
-      },
-      "required" : false,
-      "inBody" : false
-    }, {
-      "name" : "sortOrder",
-      "tpe" : {
-        "name" : "SortOrder"
-      },
-      "required" : false,
-      "inBody" : false
-    } ],
-    "authenticated" : false,
-    "returns" : {
-      "name" : "List",
-      "args" : [ {
-        "name" : "FareSummary"
-      } ]
+    {
+      "name": "AgencySearchResult",
+      "members": [
+        {
+          "name": "agencies",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "Tag"
+              }
+            ]
+          }
+        },
+        {
+          "name": "networks",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "Tag"
+              }
+            ]
+          }
+        }
+      ]
     },
-    "ctrl" : [ "fareController", "search" ],
-    "name" : [ "fareController", "search" ]
-  }, {
-    "method" : "post",
-    "route" : [ {
-      "str" : "fares"
-    }, {
-      "str" : "update"
-    } ],
-    "params" : [ {
-      "name" : "fare",
-      "tpe" : {
-        "name" : "Fare"
-      },
-      "required" : true,
-      "inBody" : true
-    } ],
-    "authenticated" : false,
-    "returns" : {
-      "name" : "Unit"
+    {
+      "name": "NationSearchResult",
+      "members": [
+        {
+          "name": "regions",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "Tag"
+              }
+            ]
+          }
+        },
+        {
+          "name": "countries",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "Tag"
+              }
+            ]
+          }
+        },
+        {
+          "name": "states",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "Tag"
+              }
+            ]
+          }
+        }
+      ]
     },
-    "ctrl" : [ "fareController", "update" ],
-    "name" : [ "fareController", "update" ]
-  }, {
-    "method" : "post",
-    "route" : [ {
-      "str" : "fares"
-    }, {
-      "str" : "delete"
-    } ],
-    "params" : [ {
-      "name" : "id",
-      "tpe" : {
-        "name" : "UUID"
-      },
-      "required" : true,
-      "inBody" : true
-    } ],
-    "authenticated" : false,
-    "returns" : {
-      "name" : "Unit"
+    {
+      "name": "CancellationPolicy",
+      "values": [
+        {
+          "name": "Free"
+        }
+      ]
     },
-    "ctrl" : [ "fareController", "delete" ],
-    "name" : [ "fareController", "delete" ]
-  }, {
-    "method" : "get",
-    "route" : [ {
-      "str" : "nations"
-    }, {
-      "str" : "search"
-    } ],
-    "params" : [ {
-      "name" : "query",
-      "tpe" : {
-        "name" : "String"
-      },
-      "required" : true,
-      "inBody" : false
-    } ],
-    "authenticated" : false,
-    "returns" : {
-      "name" : "NationSearchResult"
+    {
+      "name": "Fare",
+      "members": [
+        {
+          "name": "id",
+          "tpe": {
+            "name": "UUID"
+          }
+        },
+        {
+          "name": "name",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "vendor",
+          "tpe": {
+            "name": "Vendor"
+          }
+        },
+        {
+          "name": "paymentMode",
+          "tpe": {
+            "name": "PaymentMode"
+          }
+        },
+        {
+          "name": "rateCode",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "cdp",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tourOperatorCode",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        },
+        {
+          "name": "additionalInclusions",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        },
+        {
+          "name": "cancellationPolicy",
+          "tpe": {
+            "name": "CancellationPolicy"
+          }
+        },
+        {
+          "name": "description",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "disabled",
+          "tpe": {
+            "name": "Boolean"
+          }
+        },
+        {
+          "name": "rules",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "FareRule"
+              }
+            ]
+          }
+        }
+      ]
     },
-    "ctrl" : [ "nationController", "search" ],
-    "name" : [ "nationController", "search" ]
-  } ]
+    {
+      "name": "NewFare",
+      "members": [
+        {
+          "name": "name",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "vendor",
+          "tpe": {
+            "name": "Vendor"
+          }
+        },
+        {
+          "name": "paymentMode",
+          "tpe": {
+            "name": "PaymentMode"
+          }
+        },
+        {
+          "name": "rateCode",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "cdp",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        },
+        {
+          "name": "additionalInclusions",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tourOperatorCode",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        },
+        {
+          "name": "cancellationPolicy",
+          "tpe": {
+            "name": "CancellationPolicy"
+          }
+        },
+        {
+          "name": "description",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "disabled",
+          "tpe": {
+            "name": "Boolean"
+          }
+        },
+        {
+          "name": "rules",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "FareRule"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "FareRule",
+      "members": [
+        {
+          "name": "pickUpValidFrom",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "LocalDate"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pickUpValidUntil",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "LocalDate"
+              }
+            ]
+          }
+        },
+        {
+          "name": "reservationValidFrom",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "LocalDate"
+              }
+            ]
+          }
+        },
+        {
+          "name": "reservationValidUntil",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "LocalDate"
+              }
+            ]
+          }
+        },
+        {
+          "name": "nations",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "Tag"
+              }
+            ]
+          }
+        },
+        {
+          "name": "agencies",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "Tag"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "FareSummary",
+      "members": [
+        {
+          "name": "id",
+          "tpe": {
+            "name": "UUID"
+          }
+        },
+        {
+          "name": "reservationProfile",
+          "tpe": {
+            "name": "ReservationProfile"
+          }
+        },
+        {
+          "name": "name",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "vendor",
+          "tpe": {
+            "name": "Vendor"
+          }
+        },
+        {
+          "name": "paymentMode",
+          "tpe": {
+            "name": "PaymentMode"
+          }
+        },
+        {
+          "name": "disabled",
+          "tpe": {
+            "name": "Boolean"
+          }
+        }
+      ]
+    },
+    {
+      "name": "FareSummarySorting",
+      "values": [
+        {
+          "name": "Name"
+        },
+        {
+          "name": "Vendor"
+        },
+        {
+          "name": "PaymentMode"
+        },
+        {
+          "name": "Disabled"
+        }
+      ]
+    },
+    {
+      "name": "PaymentMode",
+      "values": [
+        {
+          "name": "Cash"
+        },
+        {
+          "name": "Prepaid"
+        }
+      ]
+    },
+    {
+      "name": "Tag",
+      "members": [
+        {
+          "name": "id",
+          "tpe": {
+            "name": "UUID"
+          }
+        },
+        {
+          "name": "label",
+          "tpe": {
+            "name": "String"
+          }
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "method": "get",
+      "route": [
+        {
+          "str": "agencies"
+        },
+        {
+          "str": "search"
+        }
+      ],
+      "params": [
+        {
+          "name": "query",
+          "tpe": {
+            "name": "String"
+          },
+          "required": true,
+          "inBody": false
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "AgencySearchResult"
+      },
+      "ctrl": ["agencyController", "search"],
+      "name": ["agencyController", "search"]
+    },
+    {
+      "method": "post",
+      "route": [
+        {
+          "str": "fares"
+        },
+        {
+          "str": "create"
+        }
+      ],
+      "params": [
+        {
+          "name": "fare",
+          "tpe": {
+            "name": "NewFare"
+          },
+          "required": true,
+          "inBody": true
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "UUID"
+      },
+      "ctrl": ["fareController", "create"],
+      "name": ["fareController", "create"]
+    },
+    {
+      "method": "get",
+      "route": [
+        {
+          "str": "fares"
+        },
+        {
+          "str": "read"
+        }
+      ],
+      "params": [
+        {
+          "name": "id",
+          "tpe": {
+            "name": "UUID"
+          },
+          "required": true,
+          "inBody": false
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "Fare"
+      },
+      "ctrl": ["fareController", "read"],
+      "name": ["fareController", "read"]
+    },
+    {
+      "method": "get",
+      "route": [
+        {
+          "str": "fares"
+        },
+        {
+          "str": "search"
+        }
+      ],
+      "params": [
+        {
+          "name": "orderBy",
+          "tpe": {
+            "name": "FareSummarySorting"
+          },
+          "required": false,
+          "inBody": false
+        },
+        {
+          "name": "sortOrder",
+          "tpe": {
+            "name": "SortOrder"
+          },
+          "required": false,
+          "inBody": false
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "List",
+        "args": [
+          {
+            "name": "FareSummary"
+          }
+        ]
+      },
+      "ctrl": ["fareController", "search"],
+      "name": ["fareController", "search"]
+    },
+    {
+      "method": "post",
+      "route": [
+        {
+          "str": "fares"
+        },
+        {
+          "str": "update"
+        }
+      ],
+      "params": [
+        {
+          "name": "fare",
+          "tpe": {
+            "name": "Fare"
+          },
+          "required": true,
+          "inBody": true
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "Unit"
+      },
+      "ctrl": ["fareController", "update"],
+      "name": ["fareController", "update"]
+    },
+    {
+      "method": "post",
+      "route": [
+        {
+          "str": "fares"
+        },
+        {
+          "str": "delete"
+        }
+      ],
+      "params": [
+        {
+          "name": "id",
+          "tpe": {
+            "name": "UUID"
+          },
+          "required": true,
+          "inBody": true
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "Unit"
+      },
+      "ctrl": ["fareController", "delete"],
+      "name": ["fareController", "delete"]
+    },
+    {
+      "method": "get",
+      "route": [
+        {
+          "str": "nations"
+        },
+        {
+          "str": "search"
+        }
+      ],
+      "params": [
+        {
+          "name": "query",
+          "tpe": {
+            "name": "String"
+          },
+          "required": true,
+          "inBody": false
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "NationSearchResult"
+      },
+      "ctrl": ["nationController", "search"],
+      "name": ["nationController", "search"]
+    }
+  ]
 }
