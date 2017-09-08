@@ -1,0 +1,62 @@
+{
+  "models": [
+    {
+      "name": "NotificationPayload",
+      "members": [
+        {
+          "name": "userLanguage",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String",
+                "_type": "Name"
+              }
+            ],
+            "_type": "Apply"
+          }
+        },
+        {
+          "name": "notificationKind",
+          "tpe": {
+            "name": "NotificationKind",
+            "_type": "Name"
+          }
+        },
+        {
+          "name": "params",
+          "tpe": {
+            "name": "Map",
+            "args": [
+              {
+                "name": "String",
+                "_type": "Name"
+              },
+              {
+                "name": "Any",
+                "_type": "Name"
+              }
+            ],
+            "_type": "Apply"
+          }
+        },
+        {
+          "name": "workcellSerialNumber",
+          "tpe": {
+            "name": "String",
+            "_type": "Name"
+          }
+        },
+        {
+          "name": "workcellType",
+          "tpe": {
+            "name": "InstrumentType",
+            "_type": "Name"
+          }
+        }
+      ],
+      "_type": "CaseClass"
+    }
+  ],
+  "routes": []
+}

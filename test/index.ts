@@ -28,6 +28,13 @@ describe('getModels', () => {
     const out = getModels(models, { isReadonly: false, runtime: true, newtypes: [] })
     assert.strictEqual(trimRight(out), expected)
   })
+
+  it('should handle any', () => {
+    const expected = fs.readFileSync(__dirname + '/expected-model-any.txt', 'utf-8')
+    const models: Array<Model> = require('./source-any.json').models
+    const out = getModels(models, { isReadonly: false, runtime: true, newtypes: [] })
+    assert.strictEqual(trimRight(out), expected)
+  })
 })
 
 describe('getRoutes', () => {

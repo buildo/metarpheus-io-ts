@@ -26,6 +26,8 @@ export function getType(tpe: Tpe, isReadonly: boolean): gen.TypeReference {
       return gen.numberType
     case 'Boolean':
       return gen.booleanType
+    case 'Any':
+      return gen.anyType
     case 'Option':
       return getType(tpe.args![0], isReadonly)
     case 'List':
