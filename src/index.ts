@@ -10,7 +10,7 @@ import {
   RouteSegmentString,
   RouteSegmentParam
 } from './domain'
-import sortBy from 'buildo-lodash-ts/lib/sortBy'
+import sortBy = require('lodash/sortBy')
 
 export function getType(tpe: Tpe, isReadonly: boolean): gen.TypeReference {
   // TODO(gio): this should switch on structure, rather than on `tpe.name`
