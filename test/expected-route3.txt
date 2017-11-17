@@ -2,6 +2,12 @@
 import axios from 'axios'
 import { pathReporterFailure } from 'io-ts/lib/reporters/default'
 
+interface RouteConfig {
+  apiEndpoint: string,
+  timeout: number,
+  unwrapApiResponse: any => any
+}
+
 function unsafeValidate<T>(value: any, type: t.Type<T>): T {
   if (process.env.NODE_ENV !== 'production') {
     return t.validate(value, type)
@@ -14,139 +20,153 @@ function unsafeValidate<T>(value: any, type: t.Type<T>): T {
 }
 
 /** Create a new search query for available vehicles */
-export function availableVehicleController_createQuery(query: AvailableVehicleSearchQuery): Promise<UUID> {
-  return axios({
-    method: 'post',
-    url: `${apiEndpoint}/availableVehicles/createQuery`,
-    params: {
+export function availableVehicleController_createQuery(config: RouteConfig) {
+  return function (query: AvailableVehicleSearchQuery): Promise<UUID> {
+    return axios({
+      method: 'post',
+      url: `${config.apiEndpoint}/availableVehicles/createQuery`,
+      params: {
 
-    },
-    data: {
-      query
-    },
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    timeout: 60000
-  }).then(res => unsafeValidate(res.data, UUID)) as any
+      },
+      data: {
+        query
+      },
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      timeout: config.timeout
+    }).then(res => unsafeValidate(res.data, UUID)) as any
+  }
 }
 
 /** Returns an existing query for available vehicles */
-export function availableVehicleController_readQuery(id: UUID): Promise<AvailableVehicleSearchQuery> {
-  return axios({
-    method: 'get',
-    url: `${apiEndpoint}/availableVehicles/readQuery`,
-    params: {
-      id
-    },
-    data: {
+export function availableVehicleController_readQuery(config: RouteConfig) {
+  return function (id: UUID): Promise<AvailableVehicleSearchQuery> {
+    return axios({
+      method: 'get',
+      url: `${config.apiEndpoint}/availableVehicles/readQuery`,
+      params: {
+        id
+      },
+      data: {
 
-    },
-    headers: {
-      'Content-Type': 'application/json',
-      'Pragma': 'no-cache',
-      'Cache-Control': 'no-cache, no-store'
-    },
-    timeout: 60000
-  }).then(res => unsafeValidate(res.data, AvailableVehicleSearchQuery)) as any
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Pragma': 'no-cache',
+        'Cache-Control': 'no-cache, no-store'
+      },
+      timeout: config.timeout
+    }).then(res => unsafeValidate(res.data, AvailableVehicleSearchQuery)) as any
+  }
 }
 
 /** Returns the resulting available vehicles for the created query */
-export function availableVehicleController_readResult(id: UUID): Promise<AvailableVehicleSearchResult> {
-  return axios({
-    method: 'get',
-    url: `${apiEndpoint}/availableVehicles/readResult`,
-    params: {
-      id
-    },
-    data: {
+export function availableVehicleController_readResult(config: RouteConfig) {
+  return function (id: UUID): Promise<AvailableVehicleSearchResult> {
+    return axios({
+      method: 'get',
+      url: `${config.apiEndpoint}/availableVehicles/readResult`,
+      params: {
+        id
+      },
+      data: {
 
-    },
-    headers: {
-      'Content-Type': 'application/json',
-      'Pragma': 'no-cache',
-      'Cache-Control': 'no-cache, no-store'
-    },
-    timeout: 60000
-  }).then(res => unsafeValidate(res.data, AvailableVehicleSearchResult)) as any
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Pragma': 'no-cache',
+        'Cache-Control': 'no-cache, no-store'
+      },
+      timeout: config.timeout
+    }).then(res => unsafeValidate(res.data, AvailableVehicleSearchResult)) as any
+  }
 }
 
 /** Updates the selected SpecialEquipments for the specified AvailableVehicle */
-export function availableVehicleController_updateSpecialEquipments(availableVehicleId: UUID, specialEquipments: Array<SelectedSpecialEquipment>): Promise<UUID> {
-  return axios({
-    method: 'post',
-    url: `${apiEndpoint}/availableVehicles/updateSpecialEquipments`,
-    params: {
+export function availableVehicleController_updateSpecialEquipments(config: RouteConfig) {
+  return function (availableVehicleId: UUID, specialEquipments: Array<SelectedSpecialEquipment>): Promise<UUID> {
+    return axios({
+      method: 'post',
+      url: `${config.apiEndpoint}/availableVehicles/updateSpecialEquipments`,
+      params: {
 
-    },
-    data: {
-      availableVehicleId,
-      specialEquipments
-    },
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    timeout: 60000
-  }).then(res => unsafeValidate(res.data, UUID)) as any
+      },
+      data: {
+        availableVehicleId,
+        specialEquipments
+      },
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      timeout: config.timeout
+    }).then(res => unsafeValidate(res.data, UUID)) as any
+  }
 }
 
 /** Returns the specified available vehicle */
-export function availableVehicleController_read(id: UUID): Promise<AvailableVehicle> {
-  return axios({
-    method: 'get',
-    url: `${apiEndpoint}/availableVehicles/read`,
-    params: {
-      id
-    },
-    data: {
+export function availableVehicleController_read(config: RouteConfig) {
+  return function (id: UUID): Promise<AvailableVehicle> {
+    return axios({
+      method: 'get',
+      url: `${config.apiEndpoint}/availableVehicles/read`,
+      params: {
+        id
+      },
+      data: {
 
-    },
-    headers: {
-      'Content-Type': 'application/json',
-      'Pragma': 'no-cache',
-      'Cache-Control': 'no-cache, no-store'
-    },
-    timeout: 60000
-  }).then(res => unsafeValidate(res.data, AvailableVehicle)) as any
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Pragma': 'no-cache',
+        'Cache-Control': 'no-cache, no-store'
+      },
+      timeout: config.timeout
+    }).then(res => unsafeValidate(res.data, AvailableVehicle)) as any
+  }
 }
 
 /** Search locations */
-export function locationsController_search(query: string): Promise<LocationSearchResult> {
-  return axios({
-    method: 'get',
-    url: `${apiEndpoint}/locations/search`,
-    params: {
-      query
-    },
-    data: {
+export function locationsController_search(config: RouteConfig) {
+  return function (query: string): Promise<LocationSearchResult> {
+    return axios({
+      method: 'get',
+      url: `${config.apiEndpoint}/locations/search`,
+      params: {
+        query
+      },
+      data: {
 
-    },
-    headers: {
-      'Content-Type': 'application/json',
-      'Pragma': 'no-cache',
-      'Cache-Control': 'no-cache, no-store'
-    },
-    timeout: 60000
-  }).then(res => unsafeValidate(res.data, LocationSearchResult)) as any
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Pragma': 'no-cache',
+        'Cache-Control': 'no-cache, no-store'
+      },
+      timeout: config.timeout
+    }).then(res => unsafeValidate(res.data, LocationSearchResult)) as any
+  }
 }
 
 /** Get available SpecialEquipment for a given pickUp Location and rental duration */
-export function locationsController_searchSpecialEquipments(location: string, duration: number): Promise<Array<AvailableSpecialEquipment>> {
-  return axios({
-    method: 'get',
-    url: `${apiEndpoint}/locations/searchSpecialEquipments`,
-    params: {
-      location,
-      duration
-    },
-    data: {
+export function locationsController_searchSpecialEquipments(config: RouteConfig) {
+  return function (location: string, duration: number): Promise<Array<AvailableSpecialEquipment>> {
+    return axios({
+      method: 'get',
+      url: `${config.apiEndpoint}/locations/searchSpecialEquipments`,
+      params: {
+        location,
+        duration
+      },
+      data: {
 
-    },
-    headers: {
-      'Content-Type': 'application/json',
-      'Pragma': 'no-cache',
-      'Cache-Control': 'no-cache, no-store'
-    },
-    timeout: 60000
-  }).then(res => unsafeValidate(res.data, t.array(AvailableSpecialEquipment))) as any
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Pragma': 'no-cache',
+        'Cache-Control': 'no-cache, no-store'
+      },
+      timeout: config.timeout
+    }).then(res => unsafeValidate(res.data, t.array(AvailableSpecialEquipment))) as any
+  }
 }
