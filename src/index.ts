@@ -140,7 +140,7 @@ function getRoutePath(route: Route): string {
       }
     })
     .join('/')
-  return '`${apiEndpoint}/' + path + '`'
+  return '`${config.apiEndpoint}/' + path + '`'
 }
 
 function getRouteParams(route: Route): string {
@@ -148,10 +148,10 @@ function getRouteParams(route: Route): string {
   s += route.params
     .filter(param => !param.inBody)
     .map(param => {
-      return `      ${param.name}`
+      return `        ${param.name}`
     })
     .join(',\n')
-  s += '\n    }'
+  s += '\n      }'
   return s
 }
 
@@ -160,10 +160,10 @@ function getRouteData(route: Route): string {
   s += route.params
     .filter(param => param.inBody)
     .map(param => {
-      return `      ${param.name}`
+      return `        ${param.name}`
     })
     .join(',\n')
-  s += '\n    }'
+  s += '\n      }'
   return s
 }
 
@@ -179,22 +179,22 @@ function getRouteHeaders(route: Route): string {
   let s = '{\n'
   s += headers
     .map(header => {
-      return `      ${header.name}: ${header.value}`
+      return `        ${header.name}: ${header.value}`
     })
     .join(',\n')
-  s += '\n    }'
+  s += '\n      }'
   return s
 }
 
 function getAxiosConfig(route: Route, isReadonly: boolean): string {
   let s = '{'
-  s += `\n    method: '${route.method}',`
-  s += `\n    url: ${getRoutePath(route)},`
-  s += `\n    params: ${getRouteParams(route)},`
-  s += `\n    data: ${getRouteData(route)},`
-  s += `\n    headers: ${getRouteHeaders(route)},`
-  s += `\n    timeout: 60000`
-  s += '\n  }'
+  s += `\n      method: '${route.method}',`
+  s += `\n      url: ${getRoutePath(route)},`
+  s += `\n      params: ${getRouteParams(route)},`
+  s += `\n      data: ${getRouteData(route)},`
+  s += `\n      headers: ${getRouteHeaders(route)},`
+  s += '\n      timeout: config.timeout'
+  s += '\n    }'
   return s
 }
 
@@ -219,10 +219,12 @@ function getRoute(route: Route, isReadonly: boolean): string {
   const name = route.name.join('_')
   const returns = getType(route.returns, isReadonly)
   let s = route.desc ? `/** ${route.desc} */\n` : ''
-  s += `export function ${name}(${getRouteArguments(route, isReadonly)}): Promise<${gen.printStatic(returns)}> {`
-  s += `\n  return axios(${getAxiosConfig(route, isReadonly)}).then(res => unsafeValidate(res.data, ${gen.printRuntime(
+  s += `export function ${name}(config: RouteConfig) {`
+  s += `\n  return function (${getRouteArguments(route, isReadonly)}): Promise<${gen.printStatic(returns)}> {`
+  s += `\n    return axios(${getAxiosConfig(route, isReadonly)}).then(res => unsafeValidate(res.data, ${gen.printRuntime(
     returns
   )})) as any`
+  s += '\n  }'
   s += '\n}'
   return s
 }
@@ -230,6 +232,12 @@ function getRoute(route: Route, isReadonly: boolean): string {
 const getRoutesPrelude = `// DO NOT EDIT MANUALLY - metarpheus-generated
 import axios from 'axios'
 import { pathReporterFailure } from 'io-ts/lib/reporters/default'
+
+interface RouteConfig {
+  apiEndpoint: string,
+  timeout: number,
+  unwrapApiResponse: any => any
+}
 
 function unsafeValidate<T>(value: any, type: t.Type<T>): T {
   if (process.env.NODE_ENV !== 'production') {
