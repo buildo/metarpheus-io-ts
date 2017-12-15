@@ -215,7 +215,7 @@ function getRouteArguments(route: Route, isReadonly: boolean): string {
   if (route.authenticated) {
     params.unshift({ name: 'token', type: 'string' })
   }
-  return params.map(param => `${param.name}: ${param.type}`).join(', ')
+  return `{ ${params.map(param => param.name).join(', ')} }: { ${params.map(param => `${param.name}: ${param.type}`).join(', ')} }`
 }
 
 function getRoute(_route: Route, isReadonly: boolean): string {
