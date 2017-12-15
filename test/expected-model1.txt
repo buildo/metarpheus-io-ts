@@ -65,7 +65,7 @@ export interface ICQAlert {
   AIMCode: number,
   AIMSubCode:
     | number
-    | null,
+    | undefined,
   alertDateTime: Date,
   category: ICQAlertCategory,
   description: string
@@ -79,7 +79,7 @@ export const ICQAlert = t.interface({
   AIMCode: t.number,
   AIMSubCode: t.union([
     t.number,
-    t.null
+    t.undefined
   ]),
   alertDateTime: Date,
   category: ICQAlertCategory,
@@ -186,14 +186,14 @@ export interface ICQCalibration {
   type: ICQCalibrationType,
   calibrationDateTime:
     | Date
-    | null,
+    | undefined,
   expirationDateTime:
     | Date
-    | null,
+    | undefined,
   status: ICQCalibrationStatus,
   user:
     | string
-    | null
+    | undefined
 }
 
 export const ICQCalibration = t.interface({
@@ -209,16 +209,16 @@ export const ICQCalibration = t.interface({
   type: ICQCalibrationType,
   calibrationDateTime: t.union([
     Date,
-    t.null
+    t.undefined
   ]),
   expirationDateTime: t.union([
     Date,
-    t.null
+    t.undefined
   ]),
   status: ICQCalibrationStatus,
   user: t.union([
     t.string,
-    t.null
+    t.undefined
   ])
 }, 'ICQCalibration')
 
@@ -335,14 +335,14 @@ export interface ICQOnBoardSolution {
   expirationDate: Date,
   carouselPosition:
     | number
-    | null,
+    | undefined,
   RSMPosition:
     | number
-    | null,
+    | undefined,
   percentOfRemainingVolume: number,
   remainingHoursOfOnBoardStability:
     | number
-    | null,
+    | undefined,
   status: ICQReagentStatus,
   cartridgeStatus: ICQReagentCartridgeStatus
 }
@@ -359,16 +359,16 @@ export const ICQOnBoardSolution = t.interface({
   expirationDate: Date,
   carouselPosition: t.union([
     t.number,
-    t.null
+    t.undefined
   ]),
   RSMPosition: t.union([
     t.number,
-    t.null
+    t.undefined
   ]),
   percentOfRemainingVolume: t.number,
   remainingHoursOfOnBoardStability: t.union([
     t.number,
-    t.null
+    t.undefined
   ]),
   status: ICQReagentStatus,
   cartridgeStatus: ICQReagentCartridgeStatus
@@ -495,10 +495,10 @@ export interface ICQQCMaterial {
   _serialNumber: string,
   carouselPosition:
     | number
-    | null,
+    | undefined,
   RSMPosition:
     | number
-    | null,
+    | undefined,
   rackId: string,
   rackPosition: number,
   percentVolumeRemaining: number,
@@ -506,7 +506,7 @@ export interface ICQQCMaterial {
   remainingHoursOfOnBoardStability: number,
   remainingMinutesOfInUseStability:
     | number
-    | null,
+    | undefined,
   status: ICQQCMaterialStatus
 }
 
@@ -523,11 +523,11 @@ export const ICQQCMaterial = t.interface({
   _serialNumber: t.string,
   carouselPosition: t.union([
     t.number,
-    t.null
+    t.undefined
   ]),
   RSMPosition: t.union([
     t.number,
-    t.null
+    t.undefined
   ]),
   rackId: t.string,
   rackPosition: t.number,
@@ -536,7 +536,7 @@ export const ICQQCMaterial = t.interface({
   remainingHoursOfOnBoardStability: t.number,
   remainingMinutesOfInUseStability: t.union([
     t.number,
-    t.null
+    t.undefined
   ]),
   status: ICQQCMaterialStatus
 }, 'ICQQCMaterial')

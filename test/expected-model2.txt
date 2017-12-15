@@ -53,16 +53,16 @@ export const PaymentMode = t.keyof({
 export type FareRule = Readonly<{
   pickUpValidFrom:
     | LocalDate
-    | null,
+    | undefined,
   pickUpValidUntil:
     | LocalDate
-    | null,
+    | undefined,
   reservationValidFrom:
     | LocalDate
-    | null,
+    | undefined,
   reservationValidUntil:
     | LocalDate
-    | null,
+    | undefined,
   nations: ReadonlyArray<Tag>,
   agencies: ReadonlyArray<Tag>
 }>
@@ -70,19 +70,19 @@ export type FareRule = Readonly<{
 export const FareRule = t.readonly(t.interface({
   pickUpValidFrom: t.union([
     LocalDate,
-    t.null
+    t.undefined
   ]),
   pickUpValidUntil: t.union([
     LocalDate,
-    t.null
+    t.undefined
   ]),
   reservationValidFrom: t.union([
     LocalDate,
-    t.null
+    t.undefined
   ]),
   reservationValidUntil: t.union([
     LocalDate,
-    t.null
+    t.undefined
   ]),
   nations: t.readonlyArray(Tag),
   agencies: t.readonlyArray(Tag)
@@ -96,13 +96,13 @@ export type Fare = Readonly<{
   rateCode: string,
   cdp:
     | string
-    | null,
+    | undefined,
   tourOperatorCode:
     | string
-    | null,
+    | undefined,
   additionalInclusions:
     | string
-    | null,
+    | undefined,
   cancellationPolicy: CancellationPolicy,
   description: string,
   disabled: boolean,
@@ -117,15 +117,15 @@ export const Fare = t.readonly(t.interface({
   rateCode: t.string,
   cdp: t.union([
     t.string,
-    t.null
+    t.undefined
   ]),
   tourOperatorCode: t.union([
     t.string,
-    t.null
+    t.undefined
   ]),
   additionalInclusions: t.union([
     t.string,
-    t.null
+    t.undefined
   ]),
   cancellationPolicy: CancellationPolicy,
   description: t.string,
@@ -194,13 +194,13 @@ export type NewFare = Readonly<{
   rateCode: string,
   cdp:
     | string
-    | null,
+    | undefined,
   additionalInclusions:
     | string
-    | null,
+    | undefined,
   tourOperatorCode:
     | string
-    | null,
+    | undefined,
   cancellationPolicy: CancellationPolicy,
   description: string,
   disabled: boolean,
@@ -214,15 +214,15 @@ export const NewFare = t.readonly(t.interface({
   rateCode: t.string,
   cdp: t.union([
     t.string,
-    t.null
+    t.undefined
   ]),
   additionalInclusions: t.union([
     t.string,
-    t.null
+    t.undefined
   ]),
   tourOperatorCode: t.union([
     t.string,
-    t.null
+    t.undefined
   ]),
   cancellationPolicy: CancellationPolicy,
   description: t.string,

@@ -37,14 +37,14 @@ export interface AvailableFare {
   paymentMode: PaymentMode,
   additionalInclusions:
     | string
-    | null,
+    | undefined,
   explicitExclusions:
     | string
-    | null,
+    | undefined,
   cancellationPolicy: CancellationPolicy,
   description:
     | string
-    | null
+    | undefined
 }
 
 export const AvailableFare = t.interface({
@@ -54,16 +54,16 @@ export const AvailableFare = t.interface({
   paymentMode: PaymentMode,
   additionalInclusions: t.union([
     t.string,
-    t.null
+    t.undefined
   ]),
   explicitExclusions: t.union([
     t.string,
-    t.null
+    t.undefined
   ]),
   cancellationPolicy: CancellationPolicy,
   description: t.union([
     t.string,
-    t.null
+    t.undefined
   ])
 }, 'AvailableFare')
 
@@ -93,10 +93,10 @@ export interface RentalRateDistance {
   unit: RentalRateDistanceUnit,
   amount:
     | number
-    | null,
+    | undefined,
   additional:
     | Money
-    | null
+    | undefined
 }
 
 export const RentalRateDistance = t.interface({
@@ -104,11 +104,11 @@ export const RentalRateDistance = t.interface({
   unit: RentalRateDistanceUnit,
   amount: t.union([
     t.number,
-    t.null
+    t.undefined
   ]),
   additional: t.union([
     Money,
-    t.null
+    t.undefined
   ])
 }, 'RentalRateDistance')
 
@@ -150,7 +150,7 @@ export interface RentalRate {
   superCoverIncluded: boolean,
   dropOff:
     | Money
-    | null,
+    | undefined,
   specialEquipments: Array<PricedSpecialEquipment>
 }
 
@@ -161,7 +161,7 @@ export const RentalRate = t.interface({
   superCoverIncluded: t.boolean,
   dropOff: t.union([
     Money,
-    t.null
+    t.undefined
   ]),
   specialEquipments: t.array(PricedSpecialEquipment)
 }, 'RentalRate')
@@ -326,29 +326,29 @@ export const VehicleSize = t.keyof({
 export interface Vehicle {
   code:
     | string
-    | null,
+    | undefined,
   codeContext:
     | string
-    | null,
+    | undefined,
   airConditioning: boolean,
   seats:
     | number
-    | null,
+    | undefined,
   baggage:
     | number
-    | null,
+    | undefined,
   transmission:
     | VehicleTransmission
-    | null,
+    | undefined,
   fuel:
     | VehicleFuel
-    | null,
+    | undefined,
   drive:
     | VehicleDrive
-    | null,
+    | undefined,
   doors:
     | number
-    | null,
+    | undefined,
   category: VehicleCategory,
   size: VehicleSize,
   model: string,
@@ -356,42 +356,42 @@ export interface Vehicle {
   pictureId: string,
   segment:
     | string
-    | null
+    | undefined
 }
 
 export const Vehicle = t.interface({
   code: t.union([
     t.string,
-    t.null
+    t.undefined
   ]),
   codeContext: t.union([
     t.string,
-    t.null
+    t.undefined
   ]),
   airConditioning: t.boolean,
   seats: t.union([
     t.number,
-    t.null
+    t.undefined
   ]),
   baggage: t.union([
     t.number,
-    t.null
+    t.undefined
   ]),
   transmission: t.union([
     VehicleTransmission,
-    t.null
+    t.undefined
   ]),
   fuel: t.union([
     VehicleFuel,
-    t.null
+    t.undefined
   ]),
   drive: t.union([
     VehicleDrive,
-    t.null
+    t.undefined
   ]),
   doors: t.union([
     t.number,
-    t.null
+    t.undefined
   ]),
   category: VehicleCategory,
   size: VehicleSize,
@@ -400,7 +400,7 @@ export const Vehicle = t.interface({
   pictureId: t.string,
   segment: t.union([
     t.string,
-    t.null
+    t.undefined
   ])
 }, 'Vehicle')
 
@@ -468,7 +468,7 @@ export const VehicleAvailability = t.interface({
 export interface AvailableVehicleSearchResult {
   taxPercent:
     | number
-    | null,
+    | undefined,
   fares: Array<AvailableFare>,
   availability: Array<VehicleAvailability>
 }
@@ -476,7 +476,7 @@ export interface AvailableVehicleSearchResult {
 export const AvailableVehicleSearchResult = t.interface({
   taxPercent: t.union([
     t.number,
-    t.null
+    t.undefined
   ]),
   fares: t.array(AvailableFare),
   availability: t.array(VehicleAvailability)
@@ -713,34 +713,34 @@ export const Location = t.interface({
 export interface LocationSearchResult {
   airports:
     | Array<Location>
-    | null,
+    | undefined,
   stations:
     | Array<Location>
-    | null,
+    | undefined,
   cities:
     | Array<Location>
-    | null,
+    | undefined,
   hotels:
     | Array<Location>
-    | null
+    | undefined
 }
 
 export const LocationSearchResult = t.interface({
   airports: t.union([
     t.array(Location),
-    t.null
+    t.undefined
   ]),
   stations: t.union([
     t.array(Location),
-    t.null
+    t.undefined
   ]),
   cities: t.union([
     t.array(Location),
-    t.null
+    t.undefined
   ]),
   hotels: t.union([
     t.array(Location),
-    t.null
+    t.undefined
   ])
 }, 'LocationSearchResult')
 

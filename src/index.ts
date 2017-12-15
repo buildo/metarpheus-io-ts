@@ -104,7 +104,7 @@ export function getModels(models: Array<Model>, options: GetModelsOptions): stri
   options.newtypes.forEach(k => {
     newtypes[k] = true
   })
-  const declarations = getDeclarations(models, options.isReadonly, options.optionalType || gen.nullType, newtypes)
+  const declarations = getDeclarations(models, options.isReadonly, options.optionalType || gen.undefinedType, newtypes)
   const sortedDeclarations = gen.sort(sortBy(declarations, ({ name }) => name))
   let out = ''
   if (options.runtime) {
@@ -206,7 +206,7 @@ function getRouteArguments(route: Route, isReadonly: boolean): string {
   ].map(param => {
     let type = getType(param.tpe, isReadonly, 'm.')
     if (!param.required) {
-      type = gen.unionCombinator([type, gen.nullType])
+      type = gen.unionCombinator([type, gen.undefinedType])
     }
     return {
       name: param.name,
