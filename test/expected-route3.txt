@@ -141,10 +141,10 @@ export default function getRoutes(config: RouteConfig) {
     },
 
     /** Get available SpecialEquipment for a given pickUp Location and rental duration */
-    locationsController_searchSpecialEquipments: function (location: string, duration: number, id: number): Promise<Array<m.AvailableSpecialEquipment>> {
+    locationsController_searchSpecialEquipments: function (location: string, duration: number, param1: number, param2: string): Promise<Array<m.AvailableSpecialEquipment>> {
       return axios({
         method: 'get',
-        url: `${config.apiEndpoint}/locations/searchSpecialEquipments/${id}`,
+        url: `${config.apiEndpoint}/locations/searchSpecialEquipments/${param1}/foo/${param2}`,
         params: {
           location,
           duration

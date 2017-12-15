@@ -201,7 +201,7 @@ function getAxiosConfig(route: Route, isReadonly: boolean): string {
 function getRouteArguments(route: Route, isReadonly: boolean): string {
   const params = [
     ...route.params,
-    ...route.route.filter(isRouteSegmentParam).map(r => r.routeParam)
+    ...route.route.filter(isRouteSegmentParam).map(({ routeParam }, index) => ({ ...routeParam, name: routeParam.name || `param${index + 1}` }))
   ].map(param => {
     let type = getType(param.tpe, isReadonly, 'm.')
     if (!param.required) {
@@ -218,7 +218,14 @@ function getRouteArguments(route: Route, isReadonly: boolean): string {
   return params.map(param => `${param.name}: ${param.type}`).join(', ')
 }
 
-function getRoute(route: Route, isReadonly: boolean): string {
+function getRoute(_route: Route, isReadonly: boolean): string {
+  const segments = _route.route.reduce((acc, s: RouteSegment) => {
+    return isRouteSegmentParam(s) ?
+      { counter: acc.counter + 1, segments: [...acc.segments, { ...s, routeParam: { ...s.routeParam, name: s.routeParam.name || `param${acc.counter}` } } ] } :
+      { counter: acc.counter, segments: [...acc.segments, s] }
+  }, { counter: 1, segments: [] }).segments
+
+  const route = { ..._route, route: segments }
   const name = route.name.join('_')
   const returns = getType(route.returns, isReadonly, 'm.')
   let s = route.desc ? `    /** ${route.desc} */\n` : ''
