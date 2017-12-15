@@ -11,6 +11,7 @@ import {
   RouteSegmentParam
 } from './domain'
 import sortBy = require('lodash/sortBy')
+import uniq = require('lodash/uniq')
 
 export function getType(tpe: Tpe, isReadonly: boolean, prefix: string = ''): gen.TypeReference {
   // TODO(gio): this should switch on structure, rather than on `tpe.name`
@@ -214,6 +215,9 @@ function getRouteArguments(route: Route, isReadonly: boolean): string {
   })
   if (route.authenticated) {
     params.unshift({ name: 'token', type: 'string' })
+  }
+  if (uniq(params.map(p => p.name)).length !== params.length) {
+    throw new Error('Some params have the same name')
   }
   return `{ ${params.map(param => param.name).join(', ')} }: { ${params.map(param => `${param.name}: ${param.type}`).join(', ')} }`
 }
