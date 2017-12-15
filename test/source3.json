@@ -1772,6 +1772,16 @@
         },
         {
           "str": "searchSpecialEquipments"
+        },
+        {
+          "routeParam": {
+            "name": "id",
+            "tpe": {
+              "name": "Int"
+            },
+            "required": true,
+            "inBody": false
+          }
         }
       ],
       "params": [

@@ -136,7 +136,7 @@ function getRoutePath(route: Route): string {
         return routeSegment.str
       }
       if (isRouteSegmentParam(routeSegment)) {
-        throw new Error('RouteSegmentParam not yet supported')
+        return '${' + routeSegment.routeParam.name + '}'
       }
     })
     .join('/')
@@ -199,7 +199,10 @@ function getAxiosConfig(route: Route, isReadonly: boolean): string {
 }
 
 function getRouteArguments(route: Route, isReadonly: boolean): string {
-  const params = route.params.map(param => {
+  const params = [
+    ...route.params,
+    ...route.route.filter(isRouteSegmentParam).map(r => r.routeParam)
+  ].map(param => {
     let type = getType(param.tpe, isReadonly, 'm.')
     if (!param.required) {
       type = gen.unionCombinator([type, gen.nullType])
