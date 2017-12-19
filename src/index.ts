@@ -55,7 +55,7 @@ function getProperty(member: CaseClassMember, isReadonly: boolean, optionalType:
   const isOptional = member.tpe.name === 'Option'
   const type = getType(member.tpe, isReadonly)
   const option = isOptional ? gen.unionCombinator([type, optionalType]) : type
-  return gen.property(member.name, option, false, member.desc)
+  return gen.property(member.name, option, isOptional, member.desc)
 }
 
 function getNewtype(model: CaseClass): gen.TypeDeclaration {

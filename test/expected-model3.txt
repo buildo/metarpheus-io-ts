@@ -35,14 +35,14 @@ export interface AvailableFare {
   name: string,
   vendor: Vendor,
   paymentMode: PaymentMode,
-  additionalInclusions:
+  additionalInclusions?:
     | string
     | undefined,
-  explicitExclusions:
+  explicitExclusions?:
     | string
     | undefined,
   cancellationPolicy: CancellationPolicy,
-  description:
+  description?:
     | string
     | undefined
 }
@@ -91,10 +91,10 @@ export const RentalRateDistanceUnit = t.keyof({
 export interface RentalRateDistance {
   unlimited: boolean,
   unit: RentalRateDistanceUnit,
-  amount:
+  amount?:
     | number
     | undefined,
-  additional:
+  additional?:
     | Money
     | undefined
 }
@@ -148,7 +148,7 @@ export interface RentalRate {
   total: RentalRateTotal,
   distance: RentalRateDistance,
   superCoverIncluded: boolean,
-  dropOff:
+  dropOff?:
     | Money
     | undefined,
   specialEquipments: Array<PricedSpecialEquipment>
@@ -324,29 +324,29 @@ export const VehicleSize = t.keyof({
 }, 'VehicleSize')
 
 export interface Vehicle {
-  code:
+  code?:
     | string
     | undefined,
-  codeContext:
+  codeContext?:
     | string
     | undefined,
   airConditioning: boolean,
-  seats:
+  seats?:
     | number
     | undefined,
-  baggage:
+  baggage?:
     | number
     | undefined,
-  transmission:
+  transmission?:
     | VehicleTransmission
     | undefined,
-  fuel:
+  fuel?:
     | VehicleFuel
     | undefined,
-  drive:
+  drive?:
     | VehicleDrive
     | undefined,
-  doors:
+  doors?:
     | number
     | undefined,
   category: VehicleCategory,
@@ -354,7 +354,7 @@ export interface Vehicle {
   model: string,
   modelCode: string,
   pictureId: string,
-  segment:
+  segment?:
     | string
     | undefined
 }
@@ -466,7 +466,7 @@ export const VehicleAvailability = t.interface({
 }, 'VehicleAvailability')
 
 export interface AvailableVehicleSearchResult {
-  taxPercent:
+  taxPercent?:
     | number
     | undefined,
   fares: Array<AvailableFare>,
@@ -711,16 +711,16 @@ export const Location = t.interface({
 }, 'Location')
 
 export interface LocationSearchResult {
-  airports:
+  airports?:
     | Array<Location>
     | undefined,
-  stations:
+  stations?:
     | Array<Location>
     | undefined,
-  cities:
+  cities?:
     | Array<Location>
     | undefined,
-  hotels:
+  hotels?:
     | Array<Location>
     | undefined
 }
