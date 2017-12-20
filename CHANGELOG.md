@@ -2,6 +2,15 @@
 
 
 
+## [v0.1.6](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.6) (2017-12-20)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.5...v0.1.6)
+
+#### New features:
+
+- add support for API path params [#17](https://github.com/buildo/metarpheus-io-ts/issues/17)
+- Generated APIs should import models from generated model.ts [#15](https://github.com/buildo/metarpheus-io-ts/issues/15)
+- Routes config [#13](https://github.com/buildo/metarpheus-io-ts/issues/13)
+
 ## [v0.1.5](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.5) (2017-09-29)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.4...v0.1.5)
 
