@@ -243,7 +243,6 @@ function getRoute(_route: Route, isReadonly: boolean): string {
 
 const getRoutesPrelude = `// DO NOT EDIT MANUALLY - metarpheus-generated
 import axios from 'axios'
-import { pathReporterFailure } from 'io-ts/lib/reporters/default'
 import * as t from 'io-ts'
 import * as m from './model-ts'
 
@@ -253,15 +252,11 @@ interface RouteConfig {
   unwrapApiResponse: (resp: any) => any
 }
 
-function unsafeValidate<T>(value: any, type: t.Type<T>): T {
-  if (process.env.NODE_ENV !== 'production') {
-    return t.validate(value, type)
-      .fold(
-        errors => { throw new Error(pathReporterFailure(errors).join('\\n')) },
-        x => x
-      )
-  }
-  return value as T
+import { failure } from 'io-ts/lib/PathReporter'
+export function unsafeValidate<S, A>(value: any, type: t.Type<S, A>): A {
+  return t.validate(value, type).fold(errors => {
+    throw new Error(failure(errors).join('\\n'))
+  }, t.identity)
 }
 `
 
