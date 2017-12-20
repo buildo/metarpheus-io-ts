@@ -2,9 +2,9 @@
 import * as t from 'io-ts'
 
 export interface NotificationPayload {
-  userLanguage:
+  userLanguage?:
     | string
-    | null,
+    | undefined,
   notificationKind: NotificationKind,
   params: { [key: string]: any },
   workcellSerialNumber: string,
@@ -14,7 +14,7 @@ export interface NotificationPayload {
 export const NotificationPayload = t.interface({
   userLanguage: t.union([
     t.string,
-    t.null
+    t.undefined
   ]),
   notificationKind: NotificationKind,
   params: t.dictionary(t.string, t.any),

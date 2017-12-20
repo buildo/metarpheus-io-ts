@@ -11,6 +11,7 @@ import {
   RouteSegmentParam
 } from './domain'
 import sortBy = require('lodash/sortBy')
+import uniq = require('lodash/uniq')
 
 export function getType(tpe: Tpe, isReadonly: boolean, prefix: string = ''): gen.TypeReference {
   // TODO(gio): this should switch on structure, rather than on `tpe.name`
@@ -54,7 +55,7 @@ function getProperty(member: CaseClassMember, isReadonly: boolean, optionalType:
   const isOptional = member.tpe.name === 'Option'
   const type = getType(member.tpe, isReadonly)
   const option = isOptional ? gen.unionCombinator([type, optionalType]) : type
-  return gen.property(member.name, option, false, member.desc)
+  return gen.property(member.name, option, isOptional, member.desc)
 }
 
 function getNewtype(model: CaseClass): gen.TypeDeclaration {
@@ -103,7 +104,7 @@ export function getModels(models: Array<Model>, options: GetModelsOptions): stri
   options.newtypes.forEach(k => {
     newtypes[k] = true
   })
-  const declarations = getDeclarations(models, options.isReadonly, options.optionalType || gen.nullType, newtypes)
+  const declarations = getDeclarations(models, options.isReadonly, options.optionalType || gen.undefinedType, newtypes)
   const sortedDeclarations = gen.sort(sortBy(declarations, ({ name }) => name))
   let out = ''
   if (options.runtime) {
@@ -136,7 +137,7 @@ function getRoutePath(route: Route): string {
         return routeSegment.str
       }
       if (isRouteSegmentParam(routeSegment)) {
-        throw new Error('RouteSegmentParam not yet supported')
+        return '${' + routeSegment.routeParam.name + '}'
       }
     })
     .join('/')
@@ -199,10 +200,13 @@ function getAxiosConfig(route: Route, isReadonly: boolean): string {
 }
 
 function getRouteArguments(route: Route, isReadonly: boolean): string {
-  const params = route.params.map(param => {
+  const params = [
+    ...route.params,
+    ...route.route.filter(isRouteSegmentParam).map(({ routeParam }, index) => ({ ...routeParam, name: routeParam.name || `param${index + 1}` }))
+  ].map(param => {
     let type = getType(param.tpe, isReadonly, 'm.')
     if (!param.required) {
-      type = gen.unionCombinator([type, gen.nullType])
+      type = gen.unionCombinator([type, gen.undefinedType])
     }
     return {
       name: param.name,
@@ -212,10 +216,20 @@ function getRouteArguments(route: Route, isReadonly: boolean): string {
   if (route.authenticated) {
     params.unshift({ name: 'token', type: 'string' })
   }
-  return params.map(param => `${param.name}: ${param.type}`).join(', ')
+  if (uniq(params.map(p => p.name)).length !== params.length) {
+    throw new Error('Some params have the same name')
+  }
+  return `{ ${params.map(param => param.name).join(', ')} }: { ${params.map(param => `${param.name}: ${param.type}`).join(', ')} }`
 }
 
-function getRoute(route: Route, isReadonly: boolean): string {
+function getRoute(_route: Route, isReadonly: boolean): string {
+  const segments = _route.route.reduce((acc, s: RouteSegment) => {
+    return isRouteSegmentParam(s) ?
+      { counter: acc.counter + 1, segments: [...acc.segments, { ...s, routeParam: { ...s.routeParam, name: s.routeParam.name || `param${acc.counter}` } } ] } :
+      { counter: acc.counter, segments: [...acc.segments, s] }
+  }, { counter: 1, segments: [] }).segments
+
+  const route = { ..._route, route: segments }
   const name = route.name.join('_')
   const returns = getType(route.returns, isReadonly, 'm.')
   let s = route.desc ? `    /** ${route.desc} */\n` : ''

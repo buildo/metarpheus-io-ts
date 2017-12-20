@@ -24,7 +24,7 @@ function unsafeValidate<T>(value: any, type: t.Type<T>): T {
 export default function getRoutes(config: RouteConfig) {
   return {
     /** Create a new search query for available vehicles */
-    availableVehicleController_createQuery: function (query: m.AvailableVehicleSearchQuery): Promise<m.UUID> {
+    availableVehicleController_createQuery: function ({ query }: { query: m.AvailableVehicleSearchQuery }): Promise<m.UUID> {
       return axios({
         method: 'post',
         url: `${config.apiEndpoint}/availableVehicles/createQuery`,
@@ -42,7 +42,7 @@ export default function getRoutes(config: RouteConfig) {
     },
 
     /** Returns an existing query for available vehicles */
-    availableVehicleController_readQuery: function (id: m.UUID): Promise<m.AvailableVehicleSearchQuery> {
+    availableVehicleController_readQuery: function ({ id }: { id: m.UUID }): Promise<m.AvailableVehicleSearchQuery> {
       return axios({
         method: 'get',
         url: `${config.apiEndpoint}/availableVehicles/readQuery`,
@@ -62,7 +62,7 @@ export default function getRoutes(config: RouteConfig) {
     },
 
     /** Returns the resulting available vehicles for the created query */
-    availableVehicleController_readResult: function (id: m.UUID): Promise<m.AvailableVehicleSearchResult> {
+    availableVehicleController_readResult: function ({ id }: { id: m.UUID }): Promise<m.AvailableVehicleSearchResult> {
       return axios({
         method: 'get',
         url: `${config.apiEndpoint}/availableVehicles/readResult`,
@@ -82,7 +82,7 @@ export default function getRoutes(config: RouteConfig) {
     },
 
     /** Updates the selected SpecialEquipments for the specified AvailableVehicle */
-    availableVehicleController_updateSpecialEquipments: function (availableVehicleId: m.UUID, specialEquipments: Array<m.SelectedSpecialEquipment>): Promise<m.UUID> {
+    availableVehicleController_updateSpecialEquipments: function ({ availableVehicleId, specialEquipments }: { availableVehicleId: m.UUID, specialEquipments: Array<m.SelectedSpecialEquipment> }): Promise<m.UUID> {
       return axios({
         method: 'post',
         url: `${config.apiEndpoint}/availableVehicles/updateSpecialEquipments`,
@@ -101,7 +101,7 @@ export default function getRoutes(config: RouteConfig) {
     },
 
     /** Returns the specified available vehicle */
-    availableVehicleController_read: function (id: m.UUID): Promise<m.AvailableVehicle> {
+    availableVehicleController_read: function ({ id }: { id: m.UUID }): Promise<m.AvailableVehicle> {
       return axios({
         method: 'get',
         url: `${config.apiEndpoint}/availableVehicles/read`,
@@ -121,7 +121,7 @@ export default function getRoutes(config: RouteConfig) {
     },
 
     /** Search locations */
-    locationsController_search: function (query: string): Promise<m.LocationSearchResult> {
+    locationsController_search: function ({ query }: { query: string }): Promise<m.LocationSearchResult> {
       return axios({
         method: 'get',
         url: `${config.apiEndpoint}/locations/search`,
@@ -141,10 +141,10 @@ export default function getRoutes(config: RouteConfig) {
     },
 
     /** Get available SpecialEquipment for a given pickUp Location and rental duration */
-    locationsController_searchSpecialEquipments: function (location: string, duration: number): Promise<Array<m.AvailableSpecialEquipment>> {
+    locationsController_searchSpecialEquipments: function ({ location, duration, param1, param2 }: { location: string, duration: number, param1: number, param2: string }): Promise<Array<m.AvailableSpecialEquipment>> {
       return axios({
         method: 'get',
-        url: `${config.apiEndpoint}/locations/searchSpecialEquipments`,
+        url: `${config.apiEndpoint}/locations/searchSpecialEquipments/${param1}/foo/${param2}`,
         params: {
           location,
           duration
