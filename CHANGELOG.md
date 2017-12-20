@@ -2,6 +2,13 @@
 
 
 
+## [v0.1.7](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.7) (2017-12-20)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.6...v0.1.7)
+
+#### New features:
+
+- update unsafeValidate fn to support newer io-ts ^0.9 [#19](https://github.com/buildo/metarpheus-io-ts/issues/19)
+
 ## [v0.1.6](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.6) (2017-12-20)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.5...v0.1.6)
 
