@@ -2,6 +2,13 @@
 
 
 
+## [v0.1.10](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.10) (2018-01-05)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.9...v0.1.10)
+
+#### New features:
+
+- disable runtime checks in production (perf) [#25](https://github.com/buildo/metarpheus-io-ts/issues/25)
+
 ## [v0.1.9](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.9) (2018-01-05)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.8...v0.1.9)
 
