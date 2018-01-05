@@ -2,6 +2,14 @@
 
 
 
+## [v0.1.9](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.9) (2018-01-05)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.8...v0.1.9)
+
+#### New features:
+
+- should support old (pre-wiro) body param type specification [#23](https://github.com/buildo/metarpheus-io-ts/issues/23)
+- should allow to override models & routes prelude [#22](https://github.com/buildo/metarpheus-io-ts/issues/22)
+
 ## [v0.1.8](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.8) (2018-01-05)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.7...v0.1.8)
 
