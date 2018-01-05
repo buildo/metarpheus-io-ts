@@ -154,6 +154,22 @@ export default function getRoutes(config: RouteConfig) {
         },
         timeout: config.timeout
       }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), t.array(m.AvailableSpecialEquipment))) as any
+    },
+
+    /** log a user in */
+    userController_login: function ({ data }: { data: m.API_UserLoginCredentials }): Promise<m.API_UserAuthCredentials> {
+      return axios({
+        method: 'post',
+        url: `${config.apiEndpoint}/users/login`,
+        params: {
+
+        },
+        data: data,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: config.timeout
+      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.API_UserAuthCredentials)) as any
     }
   }
 }

@@ -156,6 +156,10 @@ function getRouteParams(route: Route): string {
 }
 
 function getRouteData(route: Route): string {
+  if (route.method === 'post' && route.body) {
+    return 'data' // the name `data` is hardcoded for this param in `getRouteArguments`
+  }
+
   let s = '{\n'
   s += route.params
     .filter(param => param.inBody)
@@ -214,6 +218,11 @@ function getRouteArguments(route: Route, isReadonly: boolean): string {
   })
   if (route.authenticated) {
     params.unshift({ name: 'token', type: 'string' })
+  }
+  if (route.method === 'post' && route.body) {
+    const bodyType = getType(route.body.tpe, isReadonly, 'm.')
+    // the name `data` for this param is hardcoded in `getRouteData`
+    params.push({ name: 'data', type: gen.printStatic(bodyType) })
   }
   if (uniq(params.map(p => p.name)).length !== params.length) {
     throw new Error('Some params have the same name')

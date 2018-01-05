@@ -1827,6 +1827,40 @@
       "ctrl": ["locationsController", "searchSpecialEquipments"],
       "desc": "Get available SpecialEquipment for a given pickUp Location and rental duration",
       "name": ["locationsController", "searchSpecialEquipments"]
+    },
+    {
+      "method": "post",
+      "route": [
+        {
+          "str": "users",
+          "_type": "String"
+        },
+        {
+          "str": "login",
+          "_type": "String"
+        }
+      ],
+      "params": [],
+      "authenticated": false,
+      "returns": {
+        "name": "API_UserAuthCredentials",
+        "_type": "Name"
+      },
+      "body": {
+        "tpe": {
+          "name": "API_UserLoginCredentials",
+          "_type": "Name"
+        }
+      },
+      "ctrl": [
+        "userController",
+        "login"
+      ],
+      "desc": "log a user in",
+      "name": [
+        "userController",
+        "login"
+      ]
     }
   ]
 }
