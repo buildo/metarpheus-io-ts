@@ -262,9 +262,12 @@ interface RouteConfig {
 
 import { failure } from 'io-ts/lib/PathReporter'
 export function unsafeValidate<S, A>(value: any, type: t.Type<S, A>): A {
-  return t.validate(value, type).fold(errors => {
-    throw new Error(failure(errors).join('\\n'))
-  }, t.identity)
+  if (process.env.NODE_ENV !== 'production') {
+    return t.validate(value, type).fold(errors => {
+      throw new Error(failure(errors).join('\\n'))
+    }, t.identity)
+  }
+  return value as A
 }
 `
 
