@@ -2,6 +2,13 @@
 
 
 
+## [v0.1.8](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.8) (2018-01-05)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.7...v0.1.8)
+
+#### New features:
+
+- update io-ts-codegen for cleaner static model output [#21](https://github.com/buildo/metarpheus-io-ts/issues/21)
+
 ## [v0.1.7](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.7) (2017-12-20)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.6...v0.1.7)
 
