@@ -54,8 +54,7 @@ export type GetModelsOptions = {
 function getProperty(member: CaseClassMember, isReadonly: boolean, optionalType: gen.TypeReference): gen.Property {
   const isOptional = member.tpe.name === 'Option'
   const type = getType(member.tpe, isReadonly)
-  const option = isOptional ? gen.unionCombinator([type, optionalType]) : type
-  return gen.property(member.name, option, isOptional, member.desc)
+  return gen.property(member.name, type, isOptional, member.desc)
 }
 
 function getNewtype(model: CaseClass): gen.TypeDeclaration {

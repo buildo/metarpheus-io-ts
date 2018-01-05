@@ -63,9 +63,7 @@ export interface ICQAlert {
   _workcellSerialNumber: string,
   workcellName: string,
   AIMCode: number,
-  AIMSubCode?:
-    | number
-    | undefined,
+  AIMSubCode?: number,
   alertDateTime: Date,
   category: ICQAlertCategory,
   description: string
@@ -184,16 +182,10 @@ export interface ICQCalibration {
   calibratorLotNumber: string,
   method: ICQCalibrationMethod,
   type: ICQCalibrationType,
-  calibrationDateTime?:
-    | Date
-    | undefined,
-  expirationDateTime?:
-    | Date
-    | undefined,
+  calibrationDateTime?: Date,
+  expirationDateTime?: Date,
   status: ICQCalibrationStatus,
-  user?:
-    | string
-    | undefined
+  user?: string
 }
 
 export const ICQCalibration = t.interface({
@@ -333,16 +325,10 @@ export interface ICQOnBoardSolution {
   configurationId: string,
   configurationVersion: number,
   expirationDate: Date,
-  carouselPosition?:
-    | number
-    | undefined,
-  RSMPosition?:
-    | number
-    | undefined,
+  carouselPosition?: number,
+  RSMPosition?: number,
   percentOfRemainingVolume: number,
-  remainingHoursOfOnBoardStability?:
-    | number
-    | undefined,
+  remainingHoursOfOnBoardStability?: number,
   status: ICQReagentStatus,
   cartridgeStatus: ICQReagentCartridgeStatus
 }
@@ -493,20 +479,14 @@ export interface ICQQCMaterial {
   _levelName: string,
   _lotNumber: string,
   _serialNumber: string,
-  carouselPosition?:
-    | number
-    | undefined,
-  RSMPosition?:
-    | number
-    | undefined,
+  carouselPosition?: number,
+  RSMPosition?: number,
   rackId: string,
   rackPosition: number,
   percentVolumeRemaining: number,
   materialExpirationDate: Date,
   remainingHoursOfOnBoardStability: number,
-  remainingMinutesOfInUseStability?:
-    | number
-    | undefined,
+  remainingMinutesOfInUseStability?: number,
   status: ICQQCMaterialStatus
 }
 

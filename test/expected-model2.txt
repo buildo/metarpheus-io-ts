@@ -51,18 +51,10 @@ export const PaymentMode = t.keyof({
 }, 'PaymentMode')
 
 export type FareRule = Readonly<{
-  pickUpValidFrom?:
-    | LocalDate
-    | undefined,
-  pickUpValidUntil?:
-    | LocalDate
-    | undefined,
-  reservationValidFrom?:
-    | LocalDate
-    | undefined,
-  reservationValidUntil?:
-    | LocalDate
-    | undefined,
+  pickUpValidFrom?: LocalDate,
+  pickUpValidUntil?: LocalDate,
+  reservationValidFrom?: LocalDate,
+  reservationValidUntil?: LocalDate,
   nations: ReadonlyArray<Tag>,
   agencies: ReadonlyArray<Tag>
 }>
@@ -94,15 +86,9 @@ export type Fare = Readonly<{
   vendor: Vendor,
   paymentMode: PaymentMode,
   rateCode: string,
-  cdp?:
-    | string
-    | undefined,
-  tourOperatorCode?:
-    | string
-    | undefined,
-  additionalInclusions?:
-    | string
-    | undefined,
+  cdp?: string,
+  tourOperatorCode?: string,
+  additionalInclusions?: string,
   cancellationPolicy: CancellationPolicy,
   description: string,
   disabled: boolean,
@@ -192,15 +178,9 @@ export type NewFare = Readonly<{
   vendor: Vendor,
   paymentMode: PaymentMode,
   rateCode: string,
-  cdp?:
-    | string
-    | undefined,
-  additionalInclusions?:
-    | string
-    | undefined,
-  tourOperatorCode?:
-    | string
-    | undefined,
+  cdp?: string,
+  additionalInclusions?: string,
+  tourOperatorCode?: string,
   cancellationPolicy: CancellationPolicy,
   description: string,
   disabled: boolean,

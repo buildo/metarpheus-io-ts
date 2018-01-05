@@ -35,16 +35,10 @@ export interface AvailableFare {
   name: string,
   vendor: Vendor,
   paymentMode: PaymentMode,
-  additionalInclusions?:
-    | string
-    | undefined,
-  explicitExclusions?:
-    | string
-    | undefined,
+  additionalInclusions?: string,
+  explicitExclusions?: string,
   cancellationPolicy: CancellationPolicy,
-  description?:
-    | string
-    | undefined
+  description?: string
 }
 
 export const AvailableFare = t.interface({
@@ -91,12 +85,8 @@ export const RentalRateDistanceUnit = t.keyof({
 export interface RentalRateDistance {
   unlimited: boolean,
   unit: RentalRateDistanceUnit,
-  amount?:
-    | number
-    | undefined,
-  additional?:
-    | Money
-    | undefined
+  amount?: number,
+  additional?: Money
 }
 
 export const RentalRateDistance = t.interface({
@@ -148,9 +138,7 @@ export interface RentalRate {
   total: RentalRateTotal,
   distance: RentalRateDistance,
   superCoverIncluded: boolean,
-  dropOff?:
-    | Money
-    | undefined,
+  dropOff?: Money,
   specialEquipments: Array<PricedSpecialEquipment>
 }
 
@@ -324,39 +312,21 @@ export const VehicleSize = t.keyof({
 }, 'VehicleSize')
 
 export interface Vehicle {
-  code?:
-    | string
-    | undefined,
-  codeContext?:
-    | string
-    | undefined,
+  code?: string,
+  codeContext?: string,
   airConditioning: boolean,
-  seats?:
-    | number
-    | undefined,
-  baggage?:
-    | number
-    | undefined,
-  transmission?:
-    | VehicleTransmission
-    | undefined,
-  fuel?:
-    | VehicleFuel
-    | undefined,
-  drive?:
-    | VehicleDrive
-    | undefined,
-  doors?:
-    | number
-    | undefined,
+  seats?: number,
+  baggage?: number,
+  transmission?: VehicleTransmission,
+  fuel?: VehicleFuel,
+  drive?: VehicleDrive,
+  doors?: number,
   category: VehicleCategory,
   size: VehicleSize,
   model: string,
   modelCode: string,
   pictureId: string,
-  segment?:
-    | string
-    | undefined
+  segment?: string
 }
 
 export const Vehicle = t.interface({
@@ -466,9 +436,7 @@ export const VehicleAvailability = t.interface({
 }, 'VehicleAvailability')
 
 export interface AvailableVehicleSearchResult {
-  taxPercent?:
-    | number
-    | undefined,
+  taxPercent?: number,
   fares: Array<AvailableFare>,
   availability: Array<VehicleAvailability>
 }
@@ -711,18 +679,10 @@ export const Location = t.interface({
 }, 'Location')
 
 export interface LocationSearchResult {
-  airports?:
-    | Array<Location>
-    | undefined,
-  stations?:
-    | Array<Location>
-    | undefined,
-  cities?:
-    | Array<Location>
-    | undefined,
-  hotels?:
-    | Array<Location>
-    | undefined
+  airports?: Array<Location>,
+  stations?: Array<Location>,
+  cities?: Array<Location>,
+  hotels?: Array<Location>
 }
 
 export const LocationSearchResult = t.interface({
