@@ -98,7 +98,7 @@ import * as t from 'io-ts'
 
 `
 
-export function getModels(models: Array<Model>, options: GetModelsOptions): string {
+export function getModels(models: Array<Model>, options: GetModelsOptions, prelude: string = getModelsPrelude): string {
   const newtypes: { [key: string]: true } = {}
   options.newtypes.forEach(k => {
     newtypes[k] = true
@@ -107,7 +107,7 @@ export function getModels(models: Array<Model>, options: GetModelsOptions): stri
   const sortedDeclarations = gen.sort(sortBy(declarations, ({ name }) => name))
   let out = ''
   if (options.runtime) {
-    out += getModelsPrelude
+    out += prelude
   }
   out += sortedDeclarations
     .map(d => {
@@ -259,8 +259,8 @@ export function unsafeValidate<S, A>(value: any, type: t.Type<S, A>): A {
 }
 `
 
-export function getRoutes(routes: Array<Route>, options: GetRoutesOptions): string {
-  return getRoutesPrelude +
+export function getRoutes(routes: Array<Route>, options: GetRoutesOptions, prelude: string = getRoutesPrelude): string {
+  return prelude +
 `
 export default function getRoutes(config: RouteConfig) {
   return {
