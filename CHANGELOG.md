@@ -2,6 +2,14 @@
 
 
 
+## [v0.1.11](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.11) (2018-01-15)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.10...v0.1.11)
+
+#### New features:
+
+- deserialize api values also in production [#27](https://github.com/buildo/metarpheus-io-ts/issues/27)
+- parse errors as we currently expect them [#26](https://github.com/buildo/metarpheus-io-ts/issues/26)
+
 ## [v0.1.10](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.10) (2018-01-05)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.9...v0.1.10)
 

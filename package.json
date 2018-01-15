@@ -1,6 +1,6 @@
 {
   "name": "metarpheus-io-ts",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "metarpheus to io-ts",
   "files": [
     "lib"
