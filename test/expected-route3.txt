@@ -19,6 +19,15 @@ export function unsafeValidate<S, A>(value: any, type: t.Type<S, A>): A {
   return value as A
 }
 
+const parseError = (err: any) => {
+  try {
+    const { errors = [] } = JSON.parse(err.response.data);
+    return Promise.reject({ status: err.response.status, errors });
+  } catch (e) {
+    return Promise.reject({ status: err && err.response && err.response.status || 0, errors: [] });
+  }
+};
+
 export default function getRoutes(config: RouteConfig) {
   return {
     /** Create a new search query for available vehicles */
@@ -36,7 +45,7 @@ export default function getRoutes(config: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.UUID)) as any
+      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.UUID), parseError) as any
     },
 
     /** Returns an existing query for available vehicles */
@@ -56,7 +65,7 @@ export default function getRoutes(config: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.AvailableVehicleSearchQuery)) as any
+      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.AvailableVehicleSearchQuery), parseError) as any
     },
 
     /** Returns the resulting available vehicles for the created query */
@@ -76,7 +85,7 @@ export default function getRoutes(config: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.AvailableVehicleSearchResult)) as any
+      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.AvailableVehicleSearchResult), parseError) as any
     },
 
     /** Updates the selected SpecialEquipments for the specified AvailableVehicle */
@@ -95,7 +104,7 @@ export default function getRoutes(config: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.UUID)) as any
+      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.UUID), parseError) as any
     },
 
     /** Returns the specified available vehicle */
@@ -115,7 +124,7 @@ export default function getRoutes(config: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.AvailableVehicle)) as any
+      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.AvailableVehicle), parseError) as any
     },
 
     /** Search locations */
@@ -135,7 +144,7 @@ export default function getRoutes(config: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.LocationSearchResult)) as any
+      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.LocationSearchResult), parseError) as any
     },
 
     /** Get available SpecialEquipment for a given pickUp Location and rental duration */
@@ -156,7 +165,7 @@ export default function getRoutes(config: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), t.array(m.AvailableSpecialEquipment))) as any
+      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), t.array(m.AvailableSpecialEquipment)), parseError) as any
     },
 
     /** log a user in */
@@ -172,7 +181,7 @@ export default function getRoutes(config: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.API_UserAuthCredentials)) as any
+      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.API_UserAuthCredentials), parseError) as any
     }
   }
 }
