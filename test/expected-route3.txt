@@ -16,10 +16,10 @@ export function unsafeValidate<S, A>(value: any, type: t.Type<S, A>): A {
   }, t.identity)
 }
 
-const parseError = (err: any) => {
+const parseError = (err: AxiosError) => {
   try {
-    const { errors = [] } = JSON.parse(err.response.data);
-    return Promise.reject({ status: err.response.status, errors });
+    const { errors = [] } = err.response!.data;
+    return Promise.reject({ status: err.response!.status, errors });
   } catch (e) {
     return Promise.reject({ status: err && err.response && err.response.status || 0, errors: [] });
   }
