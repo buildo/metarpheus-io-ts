@@ -250,7 +250,7 @@ function getRoute(_route: Route, isReadonly: boolean): string {
 }
 
 const getRoutesPrelude = `// DO NOT EDIT MANUALLY - metarpheus-generated
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import * as t from 'io-ts'
 import * as m from './model-ts'
 
