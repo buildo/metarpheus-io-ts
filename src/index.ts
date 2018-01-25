@@ -269,7 +269,7 @@ export function unsafeValidate<S, A>(value: any, type: t.Type<S, A>): A {
 
 const parseError = (err: any) => {
   try {
-    const { errors = [] } = JSON.parse(err.response.data);
+    const { errors = [] } = err.response.data;
     return Promise.reject({ status: err.response.status, errors });
   } catch (e) {
     return Promise.reject({ status: err && err.response && err.response.status || 0, errors: [] });
