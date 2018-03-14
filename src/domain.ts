@@ -12,7 +12,8 @@ export type CaseClassMember = {
 export type CaseClass = {
   name: string
   members: Array<CaseClassMember>
-  desc?: string
+  desc?: string,
+  isValueClass: boolean
 }
 
 export type EnumClassValue = {
