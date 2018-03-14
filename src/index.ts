@@ -111,11 +111,6 @@ function getDeclarations(
   })
 }
 
-const getModelsPrelude = `// DO NOT EDIT MANUALLY - metarpheus-generated
-import * as t from 'io-ts'
-
-`
-
 const newtypePrelude = `
 interface Newtype<URI, A> {
   _URI: URI
@@ -135,17 +130,22 @@ const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
 
 `
 
-export function getModels(models: Array<Model>, options: GetModelsOptions, prelude: string = getModelsPrelude): string {
+export function getModels(models: Array<Model>, options: GetModelsOptions, prelude: string = ''): string {
   const declarations = getDeclarations(models, options.isReadonly, options.optionalType || gen.undefinedType)
   const newtypeDeclarations: NewtypeRawDeclaration[] = declarations.filter((d): d is NewtypeRawDeclaration => d.kind === 'newtype')
   const typeDeclarations: gen.TypeDeclaration[] = declarations.filter((d): d is gen.TypeDeclaration => d.kind !== 'newtype')
   const sortedTypeDeclarations = gen.sort(sortBy(typeDeclarations, ({ name }) => name))
-  let out = ''
-  if (options.runtime) {
-    out += prelude
-  }
+  let out = [
+    '// DO NOT EDIT MANUALLY - metarpheus-generated',
+    "import * as t from 'io-ts'",
+    '',
+    ''
+  ].join('\n')
   if (newtypeDeclarations.length > 0) {
     out += newtypePrelude
+  }
+  if (options.runtime) {
+    out += prelude
   }
   out += newtypeDeclarations.map(d => d.declaration).join('\n')
   out += sortedTypeDeclarations
