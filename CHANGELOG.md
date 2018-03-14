@@ -2,6 +2,13 @@
 
 
 
+## [v0.2.0](https://github.com/buildo/metarpheus-io-ts/tree/v0.2.0) (2018-03-14)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.14...v0.2.0)
+
+#### Breaking:
+
+- Add support for actual newtypes [#36](https://github.com/buildo/metarpheus-io-ts/issues/36)
+
 ## [v0.1.14](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.14) (2018-02-13)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.1.13...v0.1.14)
 
