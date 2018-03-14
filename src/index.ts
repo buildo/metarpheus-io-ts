@@ -70,8 +70,8 @@ function getNewtype(model: CaseClass): NewtypeRawDeclaration {
   return {
     name: model.name,
     declaration: [
-      `export interface ${model.name} extends NewType<'${model.name}', ${staticType}> {}`,
-      `export const ${model.name} = fromNewType<${model.name}>(${runtimeType})`,
+      `export interface ${model.name} extends Newtype<'${model.name}', ${staticType}> {}`,
+      `export const ${model.name} = fromNewtype<${model.name}>(${runtimeType})`,
       `export const ${lowerFirst(model.name)}Iso = iso<${model.name}>()`,
       '',
       ''
