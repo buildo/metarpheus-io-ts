@@ -11,28 +11,28 @@ describe('getModels', () => {
   it('should return the models (source1)', () => {
     const expected = fs.readFileSync(__dirname + '/expected-model1.txt', 'utf-8')
     const models: Array<Model> = require('./source1.json').models
-    const out = getModels(models, { isReadonly: false, runtime: true, newtypes: [] })
+    const out = getModels(models, { isReadonly: false, runtime: true })
     assert.strictEqual(trimRight(out), expected)
   })
 
   it('should return the models in the right (source2)', () => {
     const expected = fs.readFileSync(__dirname + '/expected-model2.txt', 'utf-8')
     const models: Array<Model> = require('./source2.json').models
-    const out = getModels(models, { isReadonly: true, runtime: true, newtypes: [] })
+    const out = getModels(models, { isReadonly: true, runtime: true })
     assert.strictEqual(trimRight(out), expected)
   })
 
   it('should return the models in the right (source3)', () => {
     const expected = fs.readFileSync(__dirname + '/expected-model3.txt', 'utf-8')
     const models: Array<Model> = require('./source3.json').models
-    const out = getModels(models, { isReadonly: false, runtime: true, newtypes: [] })
+    const out = getModels(models, { isReadonly: false, runtime: true })
     assert.strictEqual(trimRight(out), expected)
   })
 
   it('should handle any', () => {
     const expected = fs.readFileSync(__dirname + '/expected-model-any.txt', 'utf-8')
     const models: Array<Model> = require('./source-any.json').models
-    const out = getModels(models, { isReadonly: false, runtime: true, newtypes: [] })
+    const out = getModels(models, { isReadonly: false, runtime: true })
     assert.strictEqual(trimRight(out), expected)
   })
 })

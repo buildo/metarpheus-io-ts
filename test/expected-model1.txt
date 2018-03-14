@@ -1,6 +1,27 @@
 // DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
+
+interface Newtype<URI, A> {
+  _URI: URI
+  _A: A
+}
+interface Iso<S, A> {
+  unwrap: (s: S) => A
+  wrap: (a: A) => S
+}
+const unsafeCoerce = <A, B>(a: A): B => a as any
+type Carrier<N extends Newtype<any, any>> = N['_A']
+type AnyNewtype = Newtype<any, any>
+const fromNewtype: <N extends AnyNewtype>(type: t.Type<t.mixed, Carrier<N>>) => t.Type<t.mixed, N> =
+  type => type as any
+const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
+  ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
+
+export interface HealthId extends NewType<'HealthId', string> {}
+export const HealthId = fromNewType<HealthId>(t.string)
+export const healthIdIso = iso<HealthId>()
+
 export type CampingLocation =
   | 'Seaside'
   | 'Mountains'
@@ -30,7 +51,7 @@ export const Camping = t.interface({
 
 export interface Health {
   /** Name of the service. */
-  id: string,
+  id: HealthId,
   /** Version of the service. */
   version: string,
   /** Current UTC date and time of the request, in ISO 8601 format. */
@@ -39,7 +60,7 @@ export interface Health {
 
 export const Health = t.interface({
   /** Name of the service. */
-  id: t.string,
+  id: HealthId,
   /** Version of the service. */
   version: t.string,
   /** Current UTC date and time of the request, in ISO 8601 format. */

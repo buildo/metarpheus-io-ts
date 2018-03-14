@@ -12,6 +12,7 @@ import {
 } from './domain'
 import sortBy = require('lodash/sortBy')
 import uniq = require('lodash/uniq')
+import lowerFirst = require('lodash/lowerFirst')
 
 export function getType(tpe: Tpe, isReadonly: boolean, prefix: string = ''): gen.TypeReference {
   // TODO(gio): this should switch on structure, rather than on `tpe.name`
@@ -47,7 +48,6 @@ export function getType(tpe: Tpe, isReadonly: boolean, prefix: string = ''): gen
 export type GetModelsOptions = {
   isReadonly: boolean
   runtime: boolean
-  newtypes: Array<string>
   optionalType?: gen.TypeReference
 }
 
@@ -57,18 +57,36 @@ function getProperty(member: CaseClassMember, isReadonly: boolean, optionalType:
   return gen.property(member.name, type, isOptional, member.desc)
 }
 
-function getNewtype(model: CaseClass): gen.TypeDeclaration {
-  return gen.typeDeclaration(model.name, getType(model.members[0].tpe, false), true)
+interface NewtypeRawDeclaration {
+  name: string
+  declaration: string
+  kind: 'newtype'
+}
+
+function getNewtype(model: CaseClass): NewtypeRawDeclaration {
+  const tsType = getType(model.members[0].tpe, false)
+  const staticType = gen.printStatic(tsType)
+  const runtimeType = gen.printRuntime(tsType)
+  return {
+    name: model.name,
+    declaration: [
+      `export interface ${model.name} extends NewType<'${model.name}', ${staticType}> {}`,
+      `export const ${model.name} = fromNewType<${model.name}>(${runtimeType})`,
+      `export const ${lowerFirst(model.name)}Iso = iso<${model.name}>()`,
+      '',
+      ''
+    ].join('\n'),
+    kind: 'newtype'
+  }
 }
 
 function getDeclarations(
   models: Array<Model>,
   isReadonly: boolean,
-  optionalType: gen.TypeReference,
-  newtypes: { [key: string]: true }
-): Array<gen.TypeDeclaration> {
+  optionalType: gen.TypeReference
+): Array<gen.TypeDeclaration | NewtypeRawDeclaration> {
   return models.map(model => {
-    if (newtypes.hasOwnProperty(model.name)) {
+    if ('isValueClass' in model && model.isValueClass) {
       return getNewtype(model as CaseClass)
     }
     if (model.hasOwnProperty('values')) {
@@ -98,18 +116,39 @@ import * as t from 'io-ts'
 
 `
 
+const newtypePrelude = `
+interface Newtype<URI, A> {
+  _URI: URI
+  _A: A
+}
+interface Iso<S, A> {
+  unwrap: (s: S) => A
+  wrap: (a: A) => S
+}
+const unsafeCoerce = <A, B>(a: A): B => a as any
+type Carrier<N extends Newtype<any, any>> = N['_A']
+type AnyNewtype = Newtype<any, any>
+const fromNewtype: <N extends AnyNewtype>(type: t.Type<t.mixed, Carrier<N>>) => t.Type<t.mixed, N> =
+  type => type as any
+const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
+  ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
+
+`
+
 export function getModels(models: Array<Model>, options: GetModelsOptions, prelude: string = getModelsPrelude): string {
-  const newtypes: { [key: string]: true } = {}
-  options.newtypes.forEach(k => {
-    newtypes[k] = true
-  })
-  const declarations = getDeclarations(models, options.isReadonly, options.optionalType || gen.undefinedType, newtypes)
-  const sortedDeclarations = gen.sort(sortBy(declarations, ({ name }) => name))
+  const declarations = getDeclarations(models, options.isReadonly, options.optionalType || gen.undefinedType)
+  const newtypeDeclarations: NewtypeRawDeclaration[] = declarations.filter((d): d is NewtypeRawDeclaration => d.kind === 'newtype')
+  const typeDeclarations: gen.TypeDeclaration[] = declarations.filter((d): d is gen.TypeDeclaration => d.kind !== 'newtype')
+  const sortedTypeDeclarations = gen.sort(sortBy(typeDeclarations, ({ name }) => name))
   let out = ''
   if (options.runtime) {
     out += prelude
   }
-  out += sortedDeclarations
+  if (newtypeDeclarations.length > 0) {
+    out += newtypePrelude
+  }
+  out += newtypeDeclarations.map(d => d.declaration).join('\n')
+  out += sortedTypeDeclarations
     .map(d => {
       return options.runtime ? gen.printStatic(d) + '\n\n' + gen.printRuntime(d) : gen.printStatic(d)
     })

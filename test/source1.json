@@ -1,12 +1,24 @@
 {
   "models": [
     {
+      "name": "HealthId",
+      "members": [
+        {
+          "name": "value",
+          "tpe": {
+            "name": "String"
+          }
+        }
+      ],
+      "isValueClass": true
+    },
+    {
       "name": "Health",
       "members": [
         {
           "name": "id",
           "tpe": {
-            "name": "String"
+            "name": "HealthId"
           },
           "desc": "Name of the service."
         },
