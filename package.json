@@ -14,7 +14,7 @@
     "prettier": "prettier --write \"{src,test}/**/*.ts\"",
     "prettier-check": "prettier --list-different \"{src,test}/**/*.ts\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
-    "test": "npm run prettier-check && npm run lint && npm run typings-checker && npm run mocha",
+    "test": "npm run lint && npm run typings-checker && npm run mocha",
     "clean": "rm -rf lib/*",
     "build": "npm run clean && tsc",
     "preversion": "npm run prettier-check && npm run lint && npm run test",
