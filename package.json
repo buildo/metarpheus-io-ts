@@ -11,11 +11,13 @@
   "scripts": {
     "lint": "tslint src/**/*.ts test/**/*.ts",
     "typings-checker": "typings-checker --allow-expect-error --project typings-checker/tsconfig.json typings-checker/index.ts",
+    "prettier": "prettier --write \"{src,test}/**/*.ts\"",
+    "prettier-check": "prettier --list-different \"{src,test}/**/*.ts\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
-    "test": "npm run lint && npm run typings-checker && npm run mocha",
+    "test": "npm run prettier-check && npm run lint && npm run typings-checker && npm run mocha",
     "clean": "rm -rf lib/*",
     "build": "npm run clean && tsc",
-    "preversion": "npm run lint && npm run test",
+    "preversion": "npm run prettier-check && npm run lint && npm run test",
     "prepublish": "npm run build",
     "release-version": "smooth-release"
   },
@@ -40,6 +42,7 @@
     "@types/mocha": "2.2.38",
     "@types/node": "7.0.4",
     "mocha": "3.2.0",
+    "prettier": "^1.11.1",
     "smooth-release": "^8.0.4",
     "ts-node": "3.3.0",
     "tslint": "4.4.2",
