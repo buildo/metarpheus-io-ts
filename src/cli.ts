@@ -1,43 +1,43 @@
-import * as program from 'commander'
-import * as fs from 'fs'
-import * as path from 'path'
-import { getModels, GetModelsOptions, getRoutes } from './index'
-import { Model, Route } from './domain'
+import * as program from 'commander';
+import * as fs from 'fs';
+import * as path from 'path';
+import { getModels, GetModelsOptions, getRoutes } from './index';
+import { Model, Route } from './domain';
 
 program
   .option('-i, --in <file>', 'Input file')
   .option('-c, --config [file]', 'Configuration')
   .option('-o, --out [file]', 'Output file', x => x, '')
-  .parse(process.argv)
+  .parse(process.argv);
 
 if (!program.in) {
-  throw new Error('missing input file')
+  throw new Error('missing input file');
 }
 if (!program.config) {
-  throw new Error('missing config file')
+  throw new Error('missing config file');
 }
 
-const encoding = 'utf-8'
-const source = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), program.in), encoding).toString())
-const config = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), program.config), encoding).toString())
+const encoding = 'utf-8';
+const source = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), program.in), encoding).toString());
+const config = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), program.config), encoding).toString());
 
-const models: Array<Model> = source.models
-const modelsOptions: GetModelsOptions = config.models
+const models: Array<Model> = source.models;
+const modelsOptions: GetModelsOptions = config.models;
 
-const modelsOut = getModels(models, modelsOptions)
+const modelsOut = getModels(models, modelsOptions);
 
 if (program.out) {
-  fs.writeFileSync(path.resolve(process.cwd(), `${program.out}-models.ts`), modelsOut, { encoding })
+  fs.writeFileSync(path.resolve(process.cwd(), `${program.out}-models.ts`), modelsOut, { encoding });
 } else {
-  console.log(modelsOut)
+  console.log(modelsOut);
 }
 
-const routes: Array<Route> = source.routes
+const routes: Array<Route> = source.routes;
 
-const routesOut = getRoutes(routes, { isReadonly: !!program.readonly })
+const routesOut = getRoutes(routes, { isReadonly: !!program.readonly });
 
 if (program.out) {
-  fs.writeFileSync(path.resolve(process.cwd(), `${program.out}-routes.ts`), routesOut, { encoding })
+  fs.writeFileSync(path.resolve(process.cwd(), `${program.out}-routes.ts`), routesOut, { encoding });
 } else {
-  console.log(routesOut)
+  console.log(routesOut);
 }

@@ -1,72 +1,72 @@
 export interface Tpe {
-  name: string
-  args?: Array<Tpe>
+  name: string;
+  args?: Array<Tpe>;
 }
 
 export type CaseClassMember = {
-  name: string
-  tpe: Tpe
-  desc?: string
-}
+  name: string;
+  tpe: Tpe;
+  desc?: string;
+};
 
 export type CaseClass = {
-  name: string
-  members: Array<CaseClassMember>
-  desc?: string,
-  isValueClass: boolean
-}
+  name: string;
+  members: Array<CaseClassMember>;
+  desc?: string;
+  isValueClass: boolean;
+};
 
 export type EnumClassValue = {
-  name: string
-}
+  name: string;
+};
 
 export type EnumClass = {
-  name: string
-  values: Array<EnumClassValue>
-}
+  name: string;
+  values: Array<EnumClassValue>;
+};
 
-export type Model = CaseClass | EnumClass
+export type Model = CaseClass | EnumClass;
 
 export type RouteParam = {
-  name?: string
-  tpe: Tpe
-  required: boolean
-  desc?: string
-  inBody: boolean
-}
+  name?: string;
+  tpe: Tpe;
+  required: boolean;
+  desc?: string;
+  inBody: boolean;
+};
 
 export type RouteSegmentParam = {
-  routeParam: RouteParam
-}
+  routeParam: RouteParam;
+};
 
 export type RouteSegmentString = {
-  str: string
-}
+  str: string;
+};
 
-export type RouteSegment = RouteSegmentParam | RouteSegmentString
+export type RouteSegment = RouteSegmentParam | RouteSegmentString;
 
 export type Body = {
-  tpe: Tpe
-  desc?: string
-}
+  tpe: Tpe;
+  desc?: string;
+};
 
 export type BaseRoute = {
-  route: Array<RouteSegment>
-  params: Array<RouteParam>
-  authenticated: boolean
-  returns: Tpe
-  ctrl: Array<string>
-  desc?: string
-  name: Array<string>
-}
+  route: Array<RouteSegment>;
+  params: Array<RouteParam>;
+  authenticated: boolean;
+  returns: Tpe;
+  ctrl: Array<string>;
+  desc?: string;
+  name: Array<string>;
+};
 
 export type Get = BaseRoute & {
-  method: 'get'
-}
+  method: 'get';
+};
 
 export type Post = BaseRoute & {
-  method: 'post'
-  body?: Body
-}
+  method: 'post';
+  body?: Body;
+};
 
-export type Route = Get | Post
+export type Route = Get | Post;
