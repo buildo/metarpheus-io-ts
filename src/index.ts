@@ -285,7 +285,7 @@ function getRoute(_route: Route, isReadonly: boolean): string {
           }
         : { counter: acc.counter, segments: [...acc.segments, s] };
     },
-    { counter: 1, segments: [] }
+    { counter: 1, segments: [] as RouteSegment[] }
   ).segments;
 
   const route = { ..._route, route: segments };

@@ -14,12 +14,13 @@
     "prettier": "prettier --write \"{src,test}/**/*.ts\"",
     "prettier-check": "prettier --list-different \"{src,test}/**/*.ts\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
-    "test": "npm run lint && npm run typings-checker && npm run mocha",
+    "test": "npm run lint && npm run typings-checker && npm run mocha && npm run typecheck-output",
     "clean": "rm -rf lib/*",
     "build": "npm run clean && tsc",
     "preversion": "npm run prettier-check && npm run lint && npm run test",
     "prepublish": "npm run build",
-    "release-version": "smooth-release"
+    "release-version": "smooth-release",
+    "typecheck-output": "ts-node output && tsc --project output/tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -41,14 +42,16 @@
     "@types/lodash": "^4.14.76",
     "@types/mocha": "2.2.38",
     "@types/node": "7.0.4",
+    "axios": "^0.17.1",
+    "io-ts": "^1.0.5",
     "mocha": "3.2.0",
     "prettier": "^1.11.1",
     "smooth-release": "^8.0.4",
-    "ts-node": "3.3.0",
+    "ts-node": "^5.0.1",
     "tslint": "4.4.2",
     "tslint-config-standard": "4.0.0",
-    "typescript": "^2.7.2",
-    "typings-checker": "1.1.2"
+    "typescript": "^2.8.1",
+    "typings-checker": "^1.1.2"
   },
   "tags": [],
   "keywords": []
