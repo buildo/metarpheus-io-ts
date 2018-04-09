@@ -293,10 +293,9 @@ function getRoute(_route: Route, isReadonly: boolean): string {
   const returns = getType(route.returns, isReadonly, 'm.');
   let s = route.desc ? `    /** ${route.desc} */\n` : '';
   s += `    ${name}: function (${getRouteArguments(route, isReadonly)}): Promise<${gen.printStatic(returns)}> {`;
-  s += `\n      return axios(${getAxiosConfig(
-    route,
-    isReadonly
-  )}).then(res => valueOrThrow(${gen.printRuntime(returns)}, config.unwrapApiResponse(res.data)), parseError) as any`;
+  s += `\n      return axios(${getAxiosConfig(route, isReadonly)}).then(res => valueOrThrow(${gen.printRuntime(
+    returns
+  )}, config.unwrapApiResponse(res.data)), parseError) as any`;
   s += '\n    }';
   return s;
 }

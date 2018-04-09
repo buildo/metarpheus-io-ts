@@ -14,10 +14,10 @@
     "prettier": "prettier --write \"{src,test}/**/*.ts\"",
     "prettier-check": "prettier --list-different \"{src,test}/**/*.ts\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
-    "test": "npm run lint && npm run typings-checker && npm run mocha && npm run typecheck-output",
+    "test": "npm run lint && npm run prettier-check && npm run typings-checker && npm run mocha && npm run typecheck-output",
     "clean": "rm -rf lib/*",
     "build": "npm run clean && tsc",
-    "preversion": "npm run prettier-check && npm run lint && npm run test",
+    "preversion": "npm test",
     "prepublish": "npm run build",
     "release-version": "smooth-release",
     "typecheck-output": "ts-node output && tsc --project output/tsconfig.json"
