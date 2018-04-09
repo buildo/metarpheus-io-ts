@@ -1,0 +1,1832 @@
+{
+  "models": [
+    {
+      "name": "ReservationProfile",
+      "values": [
+        {
+          "name": "Leisure"
+        },
+        {
+          "name": "Business"
+        },
+        {
+          "name": "TourOperator"
+        }
+      ]
+    },
+    {
+      "name": "SpecialEquipment",
+      "values": [
+        {
+          "name": "InfantChildSeat"
+        },
+        {
+          "name": "ChildToddlerSeat"
+        },
+        {
+          "name": "BoosterSeat"
+        },
+        {
+          "name": "NeverLostGPS"
+        },
+        {
+          "name": "SnowTyres"
+        }
+      ]
+    },
+    {
+      "name": "Vendor",
+      "values": [
+        {
+          "name": "Hertz"
+        },
+        {
+          "name": "Dollar"
+        },
+        {
+          "name": "FireFly"
+        },
+        {
+          "name": "Thrifty"
+        }
+      ]
+    },
+    {
+      "name": "AvailableRentalRate",
+      "members": [
+        {
+          "name": "availableVehicleId",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "rentalRate",
+          "tpe": {
+            "name": "RentalRate"
+          }
+        }
+      ]
+    },
+    {
+      "name": "AvailableVehicleSearchQuery",
+      "members": [
+        {
+          "name": "reservationProfile",
+          "tpe": {
+            "name": "ReservationProfile"
+          }
+        },
+        {
+          "name": "pickUpLocation",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "pickUpLocalDate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "pickUpLocalTime",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "dropOffLocation",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "dropOffLocalDate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "dropOffLocalTime",
+          "tpe": {
+            "name": "String"
+          }
+        }
+      ]
+    },
+    {
+      "name": "AvailableVehicleSearchResult",
+      "members": [
+        {
+          "name": "taxPercent",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "BigDecimal"
+              }
+            ]
+          }
+        },
+        {
+          "name": "fares",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "AvailableFare"
+              }
+            ]
+          }
+        },
+        {
+          "name": "availability",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "VehicleAvailability"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "LocationSearchResult",
+      "members": [
+        {
+          "name": "airports",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "List",
+                "args": [
+                  {
+                    "name": "Location"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "stations",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "List",
+                "args": [
+                  {
+                    "name": "Location"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "cities",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "List",
+                "args": [
+                  {
+                    "name": "Location"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "hotels",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "List",
+                "args": [
+                  {
+                    "name": "Location"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "VehicleAvailability",
+      "members": [
+        {
+          "name": "vehicle",
+          "tpe": {
+            "name": "Vehicle"
+          }
+        },
+        {
+          "name": "availableRentalRatesByFare",
+          "tpe": {
+            "name": "Map",
+            "args": [
+              {
+                "name": "String"
+              },
+              {
+                "name": "AvailableRentalRate"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "AvailableSpecialEquipment",
+      "members": [
+        {
+          "name": "id",
+          "tpe": {
+            "name": "SpecialEquipment"
+          }
+        },
+        {
+          "name": "estimatedUnitCost",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "atMost",
+          "tpe": {
+            "name": "Int"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Location",
+      "members": [
+        {
+          "name": "recordType",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "actionCode",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "recordNumber",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "vendorId",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "oagCode",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "country",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "state",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "zipCode",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "city",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "address1",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "address2",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "address3",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "phone",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "altPhone",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "fax",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "telex",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "webUrl",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "email",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open1mon",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close1mon",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open2mon",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close2mon",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open3mon",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close3mon",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open1tue",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close1tue",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open2tue",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close2tue",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open3tue",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close3tue",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open1wed",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close1wed",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open2wed",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close2wed",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open3wed",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close3wed",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open1thu",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close1thu",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open2thu",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close2thu",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open3thu",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close3thu",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open1fri",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close1fri",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open2fri",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close2fri",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open3fri",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close3fri",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open1sat",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close1sat",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open2sat",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close2sat",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open3sat",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close3sat",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open1sun",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close1sun",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open2sun",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close2sun",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "open3sun",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close3sun",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "latitude",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "longitude",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "description",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "locType1",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "locType2",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "truckOrVan",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "csi",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "csiDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "csiWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "cst",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "cstDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "cstWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "bst",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "bstDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "bstWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "nev",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "nevDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "nevWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "skv",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "skvDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "skvWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "sno",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "snoDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "snoWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "sbr",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "sbrDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "sbrWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "src",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "srcDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "srcWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "hmm",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "hmmDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "hmmWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "ldw",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "ldwDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "ldwWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "swd",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "swdDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "swdWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "lis",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "lisDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "lisWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "ppi",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "ppiDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "ppiWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "tp",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "tpDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "tpWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "pkg",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "pkgDailyRate",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "pkgWeeklyRate",
+          "tpe": {
+            "name": "String"
+          }
+        }
+      ]
+    },
+    {
+      "name": "AvailableFare",
+      "members": [
+        {
+          "name": "id",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "name",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "vendor",
+          "tpe": {
+            "name": "Vendor"
+          }
+        },
+        {
+          "name": "paymentMode",
+          "tpe": {
+            "name": "PaymentMode"
+          }
+        },
+        {
+          "name": "additionalInclusions",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        },
+        {
+          "name": "explicitExclusions",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        },
+        {
+          "name": "cancellationPolicy",
+          "tpe": {
+            "name": "CancellationPolicy"
+          }
+        },
+        {
+          "name": "description",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "AvailableVehicle",
+      "members": [
+        {
+          "name": "id",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "createdAt",
+          "tpe": {
+            "name": "Instant"
+          }
+        },
+        {
+          "name": "queryId",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "externalId",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "vehicle",
+          "tpe": {
+            "name": "Vehicle"
+          }
+        },
+        {
+          "name": "fare",
+          "tpe": {
+            "name": "AvailableFare"
+          }
+        },
+        {
+          "name": "rentalRate",
+          "tpe": {
+            "name": "RentalRate"
+          }
+        }
+      ]
+    },
+    {
+      "name": "PricedSpecialEquipment",
+      "members": [
+        {
+          "name": "id",
+          "tpe": {
+            "name": "SpecialEquipment"
+          }
+        },
+        {
+          "name": "units",
+          "tpe": {
+            "name": "Int"
+          }
+        },
+        {
+          "name": "cost",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "taxInclusive",
+          "tpe": {
+            "name": "Boolean"
+          }
+        },
+        {
+          "name": "includedInRate",
+          "tpe": {
+            "name": "Boolean"
+          }
+        }
+      ]
+    },
+    {
+      "name": "RentalRate",
+      "members": [
+        {
+          "name": "externalId",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "total",
+          "tpe": {
+            "name": "RentalRateTotal"
+          }
+        },
+        {
+          "name": "distance",
+          "tpe": {
+            "name": "RentalRateDistance"
+          }
+        },
+        {
+          "name": "superCoverIncluded",
+          "tpe": {
+            "name": "Boolean"
+          }
+        },
+        {
+          "name": "dropOff",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        },
+        {
+          "name": "specialEquipments",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "PricedSpecialEquipment"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "RentalRateDistance",
+      "members": [
+        {
+          "name": "unlimited",
+          "tpe": {
+            "name": "Boolean"
+          }
+        },
+        {
+          "name": "unit",
+          "tpe": {
+            "name": "RentalRateDistanceUnit"
+          }
+        },
+        {
+          "name": "amount",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "Int"
+              }
+            ]
+          }
+        },
+        {
+          "name": "additional",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "RentalRateDistanceUnit",
+      "values": [
+        {
+          "name": "Km"
+        },
+        {
+          "name": "Mile"
+        },
+        {
+          "name": "Block"
+        }
+      ]
+    },
+    {
+      "name": "RentalRateTotal",
+      "members": [
+        {
+          "name": "base",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "estimatedIncludingTaxes",
+          "tpe": {
+            "name": "String"
+          }
+        }
+      ]
+    },
+    {
+      "name": "SelectedSpecialEquipment",
+      "members": [
+        {
+          "name": "id",
+          "tpe": {
+            "name": "SpecialEquipment"
+          }
+        },
+        {
+          "name": "units",
+          "tpe": {
+            "name": "Int"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Vehicle",
+      "members": [
+        {
+          "name": "code",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        },
+        {
+          "name": "codeContext",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        },
+        {
+          "name": "airConditioning",
+          "tpe": {
+            "name": "Boolean"
+          }
+        },
+        {
+          "name": "seats",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "Int"
+              }
+            ]
+          }
+        },
+        {
+          "name": "baggage",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "Int"
+              }
+            ]
+          }
+        },
+        {
+          "name": "transmission",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "VehicleTransmission"
+              }
+            ]
+          }
+        },
+        {
+          "name": "fuel",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "VehicleFuel"
+              }
+            ]
+          }
+        },
+        {
+          "name": "drive",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "VehicleDrive"
+              }
+            ]
+          }
+        },
+        {
+          "name": "doors",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "Int"
+              }
+            ]
+          }
+        },
+        {
+          "name": "category",
+          "tpe": {
+            "name": "VehicleCategory"
+          }
+        },
+        {
+          "name": "size",
+          "tpe": {
+            "name": "VehicleSize"
+          }
+        },
+        {
+          "name": "model",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "modelCode",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "pictureId",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "segment",
+          "tpe": {
+            "name": "Option",
+            "args": [
+              {
+                "name": "String"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "VehicleCategory",
+      "values": [
+        {
+          "name": "Car"
+        },
+        {
+          "name": "Van"
+        },
+        {
+          "name": "Suv"
+        },
+        {
+          "name": "Convertible"
+        },
+        {
+          "name": "Limousine"
+        },
+        {
+          "name": "Wagon"
+        },
+        {
+          "name": "Pickup"
+        },
+        {
+          "name": "Motorhome"
+        },
+        {
+          "name": "AllTerrain"
+        },
+        {
+          "name": "Recreational"
+        },
+        {
+          "name": "Sport"
+        },
+        {
+          "name": "Special"
+        },
+        {
+          "name": "PickupExtendedCab"
+        },
+        {
+          "name": "RegularCabPickup"
+        },
+        {
+          "name": "SpecialOffer"
+        },
+        {
+          "name": "Coupe"
+        },
+        {
+          "name": "Monospace"
+        },
+        {
+          "name": "TwoWheelVehicle"
+        },
+        {
+          "name": "Roadster"
+        },
+        {
+          "name": "Crossover"
+        },
+        {
+          "name": "CommercialVanOrTruck"
+        }
+      ]
+    },
+    {
+      "name": "VehicleDrive",
+      "values": [
+        {
+          "name": "AllWheel"
+        },
+        {
+          "name": "FourWheel"
+        },
+        {
+          "name": "Unspecified"
+        }
+      ]
+    },
+    {
+      "name": "VehicleFuel",
+      "values": [
+        {
+          "name": "Unspecified"
+        },
+        {
+          "name": "Diesel"
+        },
+        {
+          "name": "Hybrid"
+        },
+        {
+          "name": "Electric"
+        },
+        {
+          "name": "LPGCompressedGas"
+        },
+        {
+          "name": "Hydrogen"
+        },
+        {
+          "name": "MultiFuel"
+        },
+        {
+          "name": "Petrol"
+        },
+        {
+          "name": "Ethanol"
+        }
+      ]
+    },
+    {
+      "name": "VehicleSize",
+      "values": [
+        {
+          "name": "Mini"
+        },
+        {
+          "name": "Subcompact"
+        },
+        {
+          "name": "Economy"
+        },
+        {
+          "name": "Compact"
+        },
+        {
+          "name": "Midsize"
+        },
+        {
+          "name": "Intermediate"
+        },
+        {
+          "name": "Standard"
+        },
+        {
+          "name": "Fullsize"
+        },
+        {
+          "name": "Luxury"
+        },
+        {
+          "name": "Premium"
+        },
+        {
+          "name": "Special"
+        },
+        {
+          "name": "MiniElite",
+          "desc": "/ object Special { 32 } //TODO(gabro): why two Special? Are they used?"
+        },
+        {
+          "name": "EconomyElite"
+        },
+        {
+          "name": "CompactElite"
+        },
+        {
+          "name": "IntermediateElite"
+        },
+        {
+          "name": "StandardElite"
+        },
+        {
+          "name": "FullsizeElite"
+        },
+        {
+          "name": "PremiumElite"
+        },
+        {
+          "name": "LuxuryElite"
+        },
+        {
+          "name": "Oversize"
+        }
+      ]
+    },
+    {
+      "name": "VehicleTransmission",
+      "values": [
+        {
+          "name": "Automatic"
+        },
+        {
+          "name": "Manual"
+        }
+      ]
+    },
+    {
+      "name": "CancellationPolicy",
+      "values": [
+        {
+          "name": "Free"
+        }
+      ]
+    },
+    {
+      "name": "PaymentMode",
+      "values": [
+        {
+          "name": "Cash"
+        },
+        {
+          "name": "Prepaid"
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "method": "post",
+      "route": [
+        {
+          "str": "availableVehicles"
+        },
+        {
+          "str": "createQuery"
+        }
+      ],
+      "params": [
+        {
+          "name": "query",
+          "tpe": {
+            "name": "AvailableVehicleSearchQuery"
+          },
+          "required": true,
+          "desc": "the search query",
+          "inBody": true
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "String"
+      },
+      "ctrl": ["availableVehicleController", "createQuery"],
+      "desc": "Create a new search query for available vehicles",
+      "name": ["availableVehicleController", "createQuery"]
+    },
+    {
+      "method": "get",
+      "route": [
+        {
+          "str": "availableVehicles"
+        },
+        {
+          "str": "readQuery"
+        }
+      ],
+      "params": [
+        {
+          "name": "id",
+          "tpe": {
+            "name": "String"
+          },
+          "required": true,
+          "inBody": false
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "AvailableVehicleSearchQuery"
+      },
+      "ctrl": ["availableVehicleController", "readQuery"],
+      "desc": "Returns an existing query for available vehicles",
+      "name": ["availableVehicleController", "readQuery"]
+    },
+    {
+      "method": "get",
+      "route": [
+        {
+          "str": "availableVehicles"
+        },
+        {
+          "str": "readResult"
+        }
+      ],
+      "params": [
+        {
+          "name": "id",
+          "tpe": {
+            "name": "String"
+          },
+          "required": true,
+          "inBody": false
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "AvailableVehicleSearchResult"
+      },
+      "ctrl": ["availableVehicleController", "readResult"],
+      "desc": "Returns the resulting available vehicles for the created query",
+      "name": ["availableVehicleController", "readResult"]
+    },
+    {
+      "method": "post",
+      "route": [
+        {
+          "str": "availableVehicles"
+        },
+        {
+          "str": "updateSpecialEquipments"
+        }
+      ],
+      "params": [
+        {
+          "name": "availableVehicleId",
+          "tpe": {
+            "name": "String"
+          },
+          "required": true,
+          "inBody": true
+        },
+        {
+          "name": "specialEquipments",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "SelectedSpecialEquipment"
+              }
+            ]
+          },
+          "required": true,
+          "inBody": true
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "String"
+      },
+      "ctrl": ["availableVehicleController", "updateSpecialEquipments"],
+      "desc": "Updates the selected SpecialEquipments for the specified AvailableVehicle",
+      "name": ["availableVehicleController", "updateSpecialEquipments"]
+    },
+    {
+      "method": "get",
+      "route": [
+        {
+          "str": "availableVehicles"
+        },
+        {
+          "str": "read"
+        }
+      ],
+      "params": [
+        {
+          "name": "id",
+          "tpe": {
+            "name": "String"
+          },
+          "required": true,
+          "inBody": false
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "AvailableVehicle"
+      },
+      "ctrl": ["availableVehicleController", "read"],
+      "desc": "Returns the specified available vehicle",
+      "name": ["availableVehicleController", "read"]
+    },
+    {
+      "method": "get",
+      "route": [
+        {
+          "str": "locations"
+        },
+        {
+          "str": "search"
+        }
+      ],
+      "params": [
+        {
+          "name": "query",
+          "tpe": {
+            "name": "String"
+          },
+          "required": true,
+          "desc": "the query string to match partially",
+          "inBody": false
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "LocationSearchResult"
+      },
+      "ctrl": ["locationsController", "search"],
+      "desc": "Search locations",
+      "name": ["locationsController", "search"]
+    },
+    {
+      "method": "get",
+      "route": [
+        {
+          "str": "locations"
+        },
+        {
+          "str": "searchSpecialEquipments"
+        },
+        {
+          "routeParam": {
+            "tpe": {
+              "name": "Int"
+            },
+            "required": true,
+            "inBody": false
+          }
+        },
+        {
+          "str": "foo"
+        },
+        {
+          "routeParam": {
+            "tpe": {
+              "name": "String"
+            },
+            "required": true,
+            "inBody": false
+          }
+        }
+      ],
+      "params": [
+        {
+          "name": "location",
+          "tpe": {
+            "name": "String"
+          },
+          "required": true,
+          "desc": "the Location oagCode",
+          "inBody": false
+        },
+        {
+          "name": "duration",
+          "tpe": {
+            "name": "Int"
+          },
+          "required": true,
+          "desc": "the rental duration in days",
+          "inBody": false
+        }
+      ],
+      "authenticated": false,
+      "returns": {
+        "name": "List",
+        "args": [
+          {
+            "name": "AvailableSpecialEquipment"
+          }
+        ]
+      },
+      "ctrl": ["locationsController", "searchSpecialEquipments"],
+      "desc": "Get available SpecialEquipment for a given pickUp Location and rental duration",
+      "name": ["locationsController", "searchSpecialEquipments"]
+    }
+  ]
+}

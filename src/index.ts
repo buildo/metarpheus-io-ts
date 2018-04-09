@@ -285,7 +285,7 @@ function getRoute(_route: Route, isReadonly: boolean): string {
           }
         : { counter: acc.counter, segments: [...acc.segments, s] };
     },
-    { counter: 1, segments: [] }
+    { counter: 1, segments: [] as RouteSegment[] }
   ).segments;
 
   const route = { ..._route, route: segments };
@@ -296,7 +296,7 @@ function getRoute(_route: Route, isReadonly: boolean): string {
   s += `\n      return axios(${getAxiosConfig(
     route,
     isReadonly
-  )}).then(res => unsafeValidate(config.unwrapApiResponse(res.data), ${gen.printRuntime(returns)}), parseError) as any`;
+  )}).then(res => valueOrThrow(${gen.printRuntime(returns)}, config.unwrapApiResponse(res.data)), parseError) as any`;
   s += '\n    }';
   return s;
 }
@@ -312,11 +312,15 @@ export interface RouteConfig {
   unwrapApiResponse: (resp: any) => any
 }
 
-import { failure } from 'io-ts/lib/PathReporter'
-export function unsafeValidate<S, A>(value: any, type: t.Type<S, A>): A {
-  return t.validate(value, type).fold(errors => {
-    throw new Error(failure(errors).join('\\n'))
-  }, t.identity)
+import { PathReporter } from 'io-ts/lib/PathReporter'
+function valueOrThrow<T extends t.Type<any, any>>(iotsType: T, value: T['_I']): t.TypeOf<T> {
+  const validatedValue = iotsType.decode(value);
+
+  if (validatedValue.isLeft()) {
+    throw new Error(PathReporter.report(validatedValue).join('\\n'));
+  }
+
+  return validatedValue.value;
 }
 
 const parseError = (err: AxiosError) => {

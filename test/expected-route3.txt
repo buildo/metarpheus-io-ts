@@ -9,11 +9,15 @@ export interface RouteConfig {
   unwrapApiResponse: (resp: any) => any
 }
 
-import { failure } from 'io-ts/lib/PathReporter'
-export function unsafeValidate<S, A>(value: any, type: t.Type<S, A>): A {
-  return t.validate(value, type).fold(errors => {
-    throw new Error(failure(errors).join('\n'))
-  }, t.identity)
+import { PathReporter } from 'io-ts/lib/PathReporter'
+function valueOrThrow<T extends t.Type<any, any>>(iotsType: T, value: T['_I']): t.TypeOf<T> {
+  const validatedValue = iotsType.decode(value);
+
+  if (validatedValue.isLeft()) {
+    throw new Error(PathReporter.report(validatedValue).join('\n'));
+  }
+
+  return validatedValue.value;
 }
 
 const parseError = (err: AxiosError) => {
@@ -42,7 +46,7 @@ export default function getRoutes(config: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.UUID), parseError) as any
+      }).then(res => valueOrThrow(m.UUID, config.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** Returns an existing query for available vehicles */
@@ -62,7 +66,7 @@ export default function getRoutes(config: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.AvailableVehicleSearchQuery), parseError) as any
+      }).then(res => valueOrThrow(m.AvailableVehicleSearchQuery, config.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** Returns the resulting available vehicles for the created query */
@@ -82,7 +86,7 @@ export default function getRoutes(config: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.AvailableVehicleSearchResult), parseError) as any
+      }).then(res => valueOrThrow(m.AvailableVehicleSearchResult, config.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** Updates the selected SpecialEquipments for the specified AvailableVehicle */
@@ -101,7 +105,7 @@ export default function getRoutes(config: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.UUID), parseError) as any
+      }).then(res => valueOrThrow(m.UUID, config.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** Returns the specified available vehicle */
@@ -121,7 +125,7 @@ export default function getRoutes(config: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.AvailableVehicle), parseError) as any
+      }).then(res => valueOrThrow(m.AvailableVehicle, config.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** Search locations */
@@ -141,7 +145,7 @@ export default function getRoutes(config: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.LocationSearchResult), parseError) as any
+      }).then(res => valueOrThrow(m.LocationSearchResult, config.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** Get available SpecialEquipment for a given pickUp Location and rental duration */
@@ -162,7 +166,7 @@ export default function getRoutes(config: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), t.array(m.AvailableSpecialEquipment)), parseError) as any
+      }).then(res => valueOrThrow(t.array(m.AvailableSpecialEquipment), config.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** log a user in */
@@ -178,7 +182,7 @@ export default function getRoutes(config: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: config.timeout
-      }).then(res => unsafeValidate(config.unwrapApiResponse(res.data), m.API_UserAuthCredentials), parseError) as any
+      }).then(res => valueOrThrow(m.API_UserAuthCredentials, config.unwrapApiResponse(res.data)), parseError) as any
     }
   }
 }
