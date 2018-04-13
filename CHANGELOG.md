@@ -2,6 +2,13 @@
 
 
 
+## [v0.2.3](https://github.com/buildo/metarpheus-io-ts/tree/v0.2.3) (2018-04-13)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.2.2...v0.2.3)
+
+#### Fixes (bugs & defects):
+
+- fromNewType uses t.Type incorrectly [#43](https://github.com/buildo/metarpheus-io-ts/issues/43)
+
 ## [v0.2.2](https://github.com/buildo/metarpheus-io-ts/tree/v0.2.2) (2018-04-09)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.2.1...v0.2.2)
 
