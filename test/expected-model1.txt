@@ -13,7 +13,7 @@ interface Iso<S, A> {
 const unsafeCoerce = <A, B>(a: A): B => a as any
 type Carrier<N extends Newtype<any, any>> = N['_A']
 type AnyNewtype = Newtype<any, any>
-const fromNewtype: <N extends AnyNewtype>(type: t.Type<t.mixed, Carrier<N>>) => t.Type<t.mixed, N> =
+const fromNewtype: <N extends AnyNewtype>(type: t.Type<Carrier<N>, t.mixed>) => t.Type<N, t.mixed> =
   type => type as any
 const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
   ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
