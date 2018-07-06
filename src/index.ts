@@ -19,8 +19,6 @@ let _models: Array<Model>;
 
 function isNewtype(tpe: Tpe): boolean {
   const model = _models.find(m => m.name === tpe.name);
-  // console.log(tpe.name);
-  // console.log(!!(model && 'isValueClass' in model && model.isValueClass));
   return !!(model && 'isValueClass' in model && model.isValueClass);
 }
 
@@ -43,7 +41,6 @@ export function getType(tpe: Tpe, isReadonly: boolean, prefix: string = ''): gen
     // case 'Date':
     // case 'DateTime':
     case 'Instant':
-      // case 'UUID': // TODO(gabro): should this be a refinement to check UUIDs?
       return gen.stringType;
     case 'Int':
     case 'Float':
@@ -363,8 +360,8 @@ const parseError = (err: AxiosError) => {
 
 export function getRoutes(
   routes: Array<Route>,
-  options: GetRoutesOptions,
   models: Array<Model>,
+  options: GetRoutesOptions,
   prelude: string = getRoutesPrelude
 ): string {
   _models = models;

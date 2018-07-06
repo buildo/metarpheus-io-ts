@@ -54,7 +54,7 @@ describe('getRoutes', () => {
     const expected = fs.readFileSync(__dirname + '/expected-route3.txt', 'utf-8');
     const routes: Array<Route> = require('./source3.json').routes;
     const models: Array<Model> = require('./source3.json').models;
-    const out = getRoutes(routes, { isReadonly: false }, models);
+    const out = getRoutes(routes, models, { isReadonly: false });
     assert.strictEqual(trimRight(out), expected);
   });
 
@@ -62,7 +62,7 @@ describe('getRoutes', () => {
     const expected = fs.readFileSync(__dirname + '/expected-route4.txt', 'utf-8');
     const routes: Array<Route> = require('./source4.json').routes;
     const models: Array<Model> = require('./source4.json').models;
-    const out = getRoutes(routes, { isReadonly: false }, models);
+    const out = getRoutes(routes, models, { isReadonly: false });
     assert.strictEqual(trimRight(out), expected);
   });
 });

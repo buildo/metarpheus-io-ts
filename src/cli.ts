@@ -34,7 +34,7 @@ if (program.out) {
 
 const routes: Array<Route> = source.routes;
 
-const routesOut = getRoutes(routes, { isReadonly: !!program.readonly });
+const routesOut = getRoutes(routes, source.models, { isReadonly: !!program.readonly });
 
 if (program.out) {
   fs.writeFileSync(path.resolve(process.cwd(), `${program.out}-routes.ts`), routesOut, { encoding });
