@@ -14,6 +14,28 @@ import sortBy = require('lodash/sortBy');
 import uniq = require('lodash/uniq');
 import lowerFirst = require('lodash/lowerFirst');
 
+// FIXME(gabro): super-hack because I'm lazy and I don't want to pass this parameter around
+let _models: Array<Model>;
+
+function isNewtype(tpe: Tpe): boolean {
+  const model = _models.find(m => m.name === tpe.name);
+  // console.log(tpe.name);
+  // console.log(!!(model && 'isValueClass' in model && model.isValueClass));
+  return !!(model && 'isValueClass' in model && model.isValueClass);
+}
+
+const genericCombinator = (tpe: Tpe, prefix: string): gen.CustomCombinator => {
+  const type = gen.identifier(`${prefix}${tpe.name}`);
+  const staticArgs = tpe.args!.map(arg => gen.printStatic(getType(arg, false, prefix))).join(', ');
+  const runtimeArgs = tpe.args!.map(arg => gen.printRuntime(getType(arg, false, prefix))).join(', ');
+
+  return gen.customCombinator(
+    `${gen.printStatic(type)}<${staticArgs}>`,
+    isNewtype(tpe) ? `${gen.printRuntime(type)}<${staticArgs}>()` : `${gen.printRuntime(type)}(${runtimeArgs})`,
+    []
+  );
+};
+
 export function getType(tpe: Tpe, isReadonly: boolean, prefix: string = ''): gen.TypeReference {
   // TODO(gio): this should switch on structure, rather than on `tpe.name`
   switch (tpe.name) {
@@ -21,6 +43,7 @@ export function getType(tpe: Tpe, isReadonly: boolean, prefix: string = ''): gen
     // case 'Date':
     // case 'DateTime':
     case 'Instant':
+      // case 'UUID': // TODO(gabro): should this be a refinement to check UUIDs?
       return gen.stringType;
     case 'Int':
     case 'Float':
@@ -41,50 +64,44 @@ export function getType(tpe: Tpe, isReadonly: boolean, prefix: string = ''): gen
     case 'Map':
       return gen.dictionaryCombinator(gen.stringType, getType(tpe.args![1], isReadonly, prefix));
     default:
-      return gen.identifier(`${prefix}${tpe.name}`);
+      if (tpe.args && tpe.args.length > 0) {
+        return genericCombinator(tpe, prefix);
+      } else {
+        return gen.identifier(`${prefix}${tpe.name}`);
+      }
   }
 }
 
 export type GetModelsOptions = {
   isReadonly: boolean;
   runtime: boolean;
-  optionalType?: gen.TypeReference;
 };
 
-function getProperty(member: CaseClassMember, isReadonly: boolean, optionalType: gen.TypeReference): gen.Property {
+function getProperty(member: CaseClassMember, isReadonly: boolean): gen.Property {
   const isOptional = member.tpe.name === 'Option';
   const type = getType(member.tpe, isReadonly);
   return gen.property(member.name, type, isOptional, member.desc);
 }
 
-interface NewtypeRawDeclaration {
-  name: string;
-  declaration: string;
-  kind: 'newtype';
-}
-
-function getNewtype(model: CaseClass): NewtypeRawDeclaration {
+function getNewtype(model: CaseClass): gen.CustomTypeDeclaration {
   const tsType = getType(model.members[0].tpe, false);
   const staticType = gen.printStatic(tsType);
   const runtimeType = gen.printRuntime(tsType);
-  return {
-    name: model.name,
-    declaration: [
-      `export interface ${model.name} extends Newtype<'${model.name}', ${staticType}> {}`,
-      `export const ${model.name} = fromNewtype<${model.name}>(${runtimeType})`,
-      `export const ${lowerFirst(model.name)}Iso = iso<${model.name}>()`,
-      '',
-      ''
+  return gen.customTypeDeclaration(
+    model.name,
+    [
+      `export function ${model.name}<A>() { return fromNewtype<${model.name}<A>>(${runtimeType}) }`,
+      `export function ${lowerFirst(model.name)}Iso<A>() { return iso<${model.name}<A>>() }`
     ].join('\n'),
-    kind: 'newtype'
-  };
+    `export interface ${model.name}<_A> extends Newtype<'${model.name}', ${staticType}> {}`,
+    []
+  );
 }
 
 function getDeclarations(
   models: Array<Model>,
-  isReadonly: boolean,
-  optionalType: gen.TypeReference
-): Array<gen.TypeDeclaration | NewtypeRawDeclaration> {
+  isReadonly: boolean
+): Array<gen.TypeDeclaration | gen.CustomTypeDeclaration> {
   return models.map(model => {
     if ('isValueClass' in model && model.isValueClass) {
       return getNewtype(model as CaseClass);
@@ -99,15 +116,27 @@ function getDeclarations(
       );
     }
     const caseClass = model as CaseClass;
-    return gen.typeDeclaration(
-      model.name,
-      gen.interfaceCombinator(
-        caseClass.members.map(member => getProperty(member, isReadonly, optionalType)),
-        model.name
-      ),
-      true,
-      isReadonly
+    const interfaceDecl = gen.interfaceCombinator(
+      caseClass.members.map(member => getProperty(member, isReadonly)),
+      model.name
     );
+    if (caseClass.typeParams && caseClass.typeParams.length > 0) {
+      const staticParams = caseClass.typeParams.map(p => `${p.name} extends t.Any`).join(', ');
+      const runtimeParams = caseClass.typeParams.map(p => `${p.name}: ${p.name}`).join(', ');
+      return gen.customTypeDeclaration(
+        model.name,
+        `export interface ${model.name}<${caseClass.typeParams.map(p => p.name)}> ${gen.printStatic(interfaceDecl)}`,
+        `export const ${model.name} = <${staticParams}>(${runtimeParams}) => ${gen.printRuntime(interfaceDecl)}`,
+        [] // TODO(gabro)
+      );
+    } else {
+      return gen.typeDeclaration(
+        model.name,
+        gen.interfaceCombinator(caseClass.members.map(member => getProperty(member, isReadonly)), model.name),
+        true,
+        isReadonly
+      );
+    }
   });
 }
 
@@ -131,14 +160,15 @@ const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
 `;
 
 export function getModels(models: Array<Model>, options: GetModelsOptions, prelude: string = ''): string {
-  const declarations = getDeclarations(models, options.isReadonly, options.optionalType || gen.undefinedType);
-  const newtypeDeclarations: NewtypeRawDeclaration[] = declarations.filter(
-    (d): d is NewtypeRawDeclaration => d.kind === 'newtype'
+  _models = models;
+  const declarations = getDeclarations(models, options.isReadonly);
+  const newtypeDeclarations: gen.CustomTypeDeclaration[] = declarations.filter(
+    (d): d is gen.CustomTypeDeclaration => d.kind === 'CustomTypeDeclaration'
   );
-  const typeDeclarations: gen.TypeDeclaration[] = declarations.filter(
-    (d): d is gen.TypeDeclaration => d.kind !== 'newtype'
-  );
-  const sortedTypeDeclarations = gen.sort(sortBy(typeDeclarations, ({ name }) => name));
+  // const typeDeclarations: gen.TypeDeclaration[] = declarations.filter(
+  //   (d): d is gen.TypeDeclaration => d.kind !== 'newtype'
+  // );
+  const sortedTypeDeclarations = gen.sort(sortBy(declarations, ({ name }) => name));
   let out = ['// DO NOT EDIT MANUALLY - metarpheus-generated', "import * as t from 'io-ts'", '', ''].join('\n');
   if (newtypeDeclarations.length > 0) {
     out += newtypePrelude;
@@ -146,7 +176,6 @@ export function getModels(models: Array<Model>, options: GetModelsOptions, prelu
   if (options.runtime) {
     out += prelude;
   }
-  out += newtypeDeclarations.map(d => d.declaration).join('\n');
   out += sortedTypeDeclarations
     .map(d => {
       return options.runtime ? gen.printStatic(d) + '\n\n' + gen.printRuntime(d) : gen.printStatic(d);
@@ -332,7 +361,13 @@ const parseError = (err: AxiosError) => {
 };
 `;
 
-export function getRoutes(routes: Array<Route>, options: GetRoutesOptions, prelude: string = getRoutesPrelude): string {
+export function getRoutes(
+  routes: Array<Route>,
+  options: GetRoutesOptions,
+  models: Array<Model>,
+  prelude: string = getRoutesPrelude
+): string {
+  _models = models;
   return (
     prelude +
     `

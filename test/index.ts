@@ -34,6 +34,13 @@ describe('getModels', () => {
     assert.strictEqual(trimRight(out), expected);
   });
 
+  it('should return the models in the right (source4)', () => {
+    const expected = fs.readFileSync(__dirname + '/expected-model4.txt', 'utf-8');
+    const models: Array<Model> = require('./source4.json').models;
+    const out = getModels(models, { isReadonly: false, runtime: true });
+    assert.strictEqual(trimRight(out), expected);
+  });
+
   it('should handle any', () => {
     const expected = fs.readFileSync(__dirname + '/expected-model-any.txt', 'utf-8');
     const models: Array<Model> = require('./source-any.json').models;
@@ -46,7 +53,16 @@ describe('getRoutes', () => {
   it('should return the routes in the right (source3)', () => {
     const expected = fs.readFileSync(__dirname + '/expected-route3.txt', 'utf-8');
     const routes: Array<Route> = require('./source3.json').routes;
-    const out = getRoutes(routes, { isReadonly: false });
+    const models: Array<Model> = require('./source3.json').models;
+    const out = getRoutes(routes, { isReadonly: false }, models);
+    assert.strictEqual(trimRight(out), expected);
+  });
+
+  it('should return the routes in the right (source4)', () => {
+    const expected = fs.readFileSync(__dirname + '/expected-route4.txt', 'utf-8');
+    const routes: Array<Route> = require('./source4.json').routes;
+    const models: Array<Model> = require('./source4.json').models;
+    const out = getRoutes(routes, { isReadonly: false }, models);
     assert.strictEqual(trimRight(out), expected);
   });
 });

@@ -18,10 +18,6 @@ const fromNewtype: <N extends AnyNewtype>(type: t.Type<Carrier<N>, t.mixed>) => 
 const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
   ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
 
-export interface HealthId extends Newtype<'HealthId', string> {}
-export const HealthId = fromNewtype<HealthId>(t.string)
-export const healthIdIso = iso<HealthId>()
-
 export type CampingLocation =
   | 'Seaside'
   | 'Mountains'
@@ -48,6 +44,11 @@ export const Camping = t.interface({
   /** camping location */
   location: CampingLocation
 }, 'Camping')
+
+export function HealthId<A>() { return fromNewtype<HealthId<A>>(t.string) }
+export function healthIdIso<A>() { return iso<HealthId<A>>() }
+
+export interface HealthId<_A> extends Newtype<'HealthId', string> {}
 
 export interface Health {
   /** Name of the service. */

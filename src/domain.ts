@@ -13,6 +13,7 @@ export type CaseClass = {
   name: string;
   members: Array<CaseClassMember>;
   desc?: string;
+  typeParams: Array<Tpe>;
   isValueClass: boolean;
 };
 
