@@ -1,7 +1,7 @@
 import * as gen from 'io-ts-codegen';
 import sortBy = require('lodash/sortBy');
 import lowerFirst = require('lodash/lowerFirst');
-import { Reader, reader, asks } from 'fp-ts/lib/Reader';
+import { Reader, reader, ask } from 'fp-ts/lib/Reader';
 import { array } from 'fp-ts/lib/Array';
 import { sequence } from 'fp-ts/lib/Traversable';
 import {
@@ -19,23 +19,24 @@ import {
 type Ctx = {
   models: Array<Model>;
   prefix: string;
+  isReadonly: boolean;
 };
 
 function isNewtype(tpe: Tpe): Reader<Ctx, boolean> {
-  return asks((ctx: Ctx) => ctx.models).map(models => {
+  return ask<Ctx>().map(({ models }) => {
     const model = models.find(m => m.name === tpe.name);
     return !!(model && 'isValueClass' in model && model.isValueClass);
   });
 }
 
 function genericCombinator(tpe: Tpe): Reader<Ctx, gen.CustomCombinator> {
-  return asks((ctx: Ctx) => ctx.prefix).chain(prefix => {
+  return ask<Ctx>().chain(({ prefix }) => {
     const type = gen.identifier(`${prefix}${tpe.name}`);
-    const staticArgsR = sequence(reader, array)(tpe.args!.map(arg => getType(arg, false).map(gen.printStatic))).map(
-      args => args.join(', ')
+    const staticArgsR = sequence(reader, array)(tpe.args!.map(arg => getType(arg).map(gen.printStatic))).map(args =>
+      args.join(', ')
     );
-    const runtimeArgsR = sequence(reader, array)(tpe.args!.map(arg => getType(arg, false).map(gen.printRuntime))).map(
-      args => args.join(', ')
+    const runtimeArgsR = sequence(reader, array)(tpe.args!.map(arg => getType(arg).map(gen.printRuntime))).map(args =>
+      args.join(', ')
     );
 
     return staticArgsR.chain(staticArgs =>
@@ -52,8 +53,8 @@ function genericCombinator(tpe: Tpe): Reader<Ctx, gen.CustomCombinator> {
   });
 }
 
-export function getType(tpe: Tpe, isReadonly: boolean): Reader<Ctx, gen.TypeReference> {
-  return asks((ctx: Ctx) => ctx.prefix).chain(prefix => {
+export function getType(tpe: Tpe): Reader<Ctx, gen.TypeReference> {
+  return ask<Ctx>().chain(({ prefix, isReadonly }) => {
     switch (tpe.name) {
       case 'String':
       // case 'Date':
@@ -69,15 +70,15 @@ export function getType(tpe: Tpe, isReadonly: boolean): Reader<Ctx, gen.TypeRefe
       case 'Any':
         return reader.of(gen.anyType);
       case 'Option':
-        return getType(tpe.args![0], isReadonly);
+        return getType(tpe.args![0]);
       case 'List':
       case 'Set':
       case 'TreeSet':
         return isReadonly
-          ? getType(tpe.args![0], isReadonly).map(gen.readonlyArrayCombinator)
-          : getType(tpe.args![0], isReadonly).map(gen.arrayCombinator);
+          ? getType(tpe.args![0]).map(gen.readonlyArrayCombinator)
+          : getType(tpe.args![0]).map(gen.arrayCombinator);
       case 'Map':
-        return getType(tpe.args![1], isReadonly).map(t => gen.dictionaryCombinator(gen.stringType, t));
+        return getType(tpe.args![1]).map(t => gen.dictionaryCombinator(gen.stringType, t));
       default:
         if (tpe.args && tpe.args.length > 0) {
           return genericCombinator(tpe);
@@ -92,13 +93,13 @@ export type GetModelsOptions = {
   runtime: boolean;
 };
 
-function getProperty(member: CaseClassMember, isReadonly: boolean): Reader<Ctx, gen.Property> {
+function getProperty(member: CaseClassMember): Reader<Ctx, gen.Property> {
   const isOptional = member.tpe.name === 'Option';
-  return getType(member.tpe, isReadonly).map(type => gen.property(member.name, type, isOptional, member.desc));
+  return getType(member.tpe).map(type => gen.property(member.name, type, isOptional, member.desc));
 }
 
 function getNewtype(model: CaseClass): Reader<Ctx, gen.CustomTypeDeclaration> {
-  return getType(model.members[0].tpe, false).map(tsType => {
+  return getType(model.members[0].tpe).map(tsType => {
     const staticType = gen.printStatic(tsType);
     const runtimeType = gen.printRuntime(tsType);
     return gen.customTypeDeclaration(
@@ -113,29 +114,26 @@ function getNewtype(model: CaseClass): Reader<Ctx, gen.CustomTypeDeclaration> {
   });
 }
 
-function getDeclarations(
-  models: Array<Model>,
-  isReadonly: boolean
-): Reader<Ctx, Array<gen.TypeDeclaration | gen.CustomTypeDeclaration>> {
-  return sequence(reader, array)(
-    models.map(model => {
-      if ('isValueClass' in model && model.isValueClass) {
-        return getNewtype(model as CaseClass);
-      }
-      if (model.hasOwnProperty('values')) {
-        const enumClass = model as EnumClass;
-        return reader.of(
-          gen.typeDeclaration(
-            model.name,
-            gen.keyofCombinator(enumClass.values.map((v: any) => v.name), model.name),
-            true,
-            false
-          )
-        );
-      }
-      const caseClass = model as CaseClass;
-      return sequence(reader, array)(caseClass.members.map(member => getProperty(member, isReadonly))).map(
-        properties => {
+function getDeclarations(models: Array<Model>): Reader<Ctx, Array<gen.TypeDeclaration | gen.CustomTypeDeclaration>> {
+  return ask<Ctx>().chain(({ isReadonly }) =>
+    sequence(reader, array)(
+      models.map(model => {
+        if ('isValueClass' in model && model.isValueClass) {
+          return getNewtype(model as CaseClass);
+        }
+        if (model.hasOwnProperty('values')) {
+          const enumClass = model as EnumClass;
+          return reader.of(
+            gen.typeDeclaration(
+              model.name,
+              gen.keyofCombinator(enumClass.values.map((v: any) => v.name), model.name),
+              true,
+              false
+            )
+          );
+        }
+        const caseClass = model as CaseClass;
+        return sequence(reader, array)(caseClass.members.map(member => getProperty(member))).map(properties => {
           const interfaceDecl = gen.interfaceCombinator(properties, model.name);
           if (caseClass.typeParams && caseClass.typeParams.length > 0) {
             const staticParams = caseClass.typeParams.map(p => `${p.name} extends t.Any`).join(', ');
@@ -154,9 +152,9 @@ function getDeclarations(
           } else {
             return gen.typeDeclaration(model.name, gen.interfaceCombinator(properties, model.name), true, isReadonly);
           }
-        }
-      );
-    })
+        });
+      })
+    )
   );
 }
 
@@ -180,7 +178,11 @@ const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
 `;
 
 export function getModels(models: Array<Model>, options: GetModelsOptions, prelude: string = ''): string {
-  const declarations = getDeclarations(models, options.isReadonly).run({ models, prefix: '' });
+  const declarations = getDeclarations(models).run({
+    models,
+    prefix: '',
+    isReadonly: options.isReadonly
+  });
   const hasNewtypeDeclarations = models.some(m => 'isValueClass' in m && m.isValueClass);
   const sortedTypeDeclarations = gen.sort(sortBy(declarations, ({ name }) => name));
   let out = ['// DO NOT EDIT MANUALLY - metarpheus-generated', "import * as t from 'io-ts'", '', ''].join('\n');
@@ -271,7 +273,7 @@ function getRouteHeaders(route: Route): string {
   return s;
 }
 
-function getAxiosConfig(route: Route, isReadonly: boolean): string {
+function getAxiosConfig(route: Route): string {
   let s = '{';
   s += `\n        method: '${route.method}',`;
   s += `\n        url: ${getRoutePath(route)},`;
@@ -283,14 +285,14 @@ function getAxiosConfig(route: Route, isReadonly: boolean): string {
   return s;
 }
 
-function getRouteArguments(route: Route, isReadonly: boolean): Reader<Ctx, string> {
+function getRouteArguments(route: Route): Reader<Ctx, string> {
   const paramsR = [
     ...route.params,
     ...route.route
       .filter(isRouteSegmentParam)
       .map(({ routeParam }, index) => ({ ...routeParam, name: routeParam.name || `param${index + 1}` }))
   ].map(param => {
-    return getType(param.tpe, isReadonly).map(type => {
+    return getType(param.tpe).map(type => {
       const tpe = param.required ? type : gen.unionCombinator([type, gen.undefinedType]);
       return {
         name: param.name,
@@ -299,7 +301,7 @@ function getRouteArguments(route: Route, isReadonly: boolean): Reader<Ctx, strin
     });
   });
   return sequence(reader, array)(paramsR).chain(params =>
-    getParamsToPrint(route, params, isReadonly).map(paramsToPrint => {
+    getParamsToPrint(route, params).map(paramsToPrint => {
       return `{ ${paramsToPrint.map(param => param.name).join(', ')} }: { ${paramsToPrint
         .map(param => `${param.name}: ${param.type}`)
         .join(', ')} }`;
@@ -308,17 +310,17 @@ function getRouteArguments(route: Route, isReadonly: boolean): Reader<Ctx, strin
 }
 
 type Param = { name: string | undefined; type: string };
-function getParamsToPrint(route: Route, params: Array<Param>, isReadonly: boolean): Reader<Ctx, Array<Param>> {
+function getParamsToPrint(route: Route, params: Array<Param>): Reader<Ctx, Array<Param>> {
   const p1 = route.authenticated ? params.filter(x => !(x.name === 'token' && x.type === 'string')) : params;
   return route.method === 'post' && route.body
-    ? getType(route.body.tpe, isReadonly).map(bodyType =>
+    ? getType(route.body.tpe).map(bodyType =>
         // the name `data` for this param is hardcoded in `getRouteData`
         [...p1, { name: 'data', type: gen.printStatic(bodyType) }]
       )
     : reader.of(p1);
 }
 
-function getRoute(_route: Route, isReadonly: boolean): Reader<Ctx, string> {
+function getRoute(_route: Route): Reader<Ctx, string> {
   const segments = _route.route.reduce(
     (acc, s: RouteSegment) => {
       return isRouteSegmentParam(s)
@@ -336,17 +338,19 @@ function getRoute(_route: Route, isReadonly: boolean): Reader<Ctx, string> {
 
   const route = { ..._route, route: segments };
   const name = route.name.join('_');
-  return getType(route.returns, isReadonly).chain(returns =>
-    getRouteArguments(route, isReadonly).map(routeArguments => {
-      const docs = route.desc ? `    /** ${route.desc} */\n` : '';
-      return [
-        `${docs}    ${name}: function (${routeArguments}): Promise<${gen.printStatic(returns)}> {`,
-        `      return axios(${getAxiosConfig(route, isReadonly)}).then(res => valueOrThrow(${gen.printRuntime(
-          returns
-        )}, config.unwrapApiResponse(res.data)), parseError) as any`,
-        '    }'
-      ].join('\n');
-    })
+  return ask<Ctx>().chain(({ isReadonly }) =>
+    getType(route.returns).chain(returns =>
+      getRouteArguments(route).map(routeArguments => {
+        const docs = route.desc ? `    /** ${route.desc} */\n` : '';
+        return [
+          `${docs}    ${name}: function (${routeArguments}): Promise<${gen.printStatic(returns)}> {`,
+          `      return axios(${getAxiosConfig(route)}).then(res => valueOrThrow(${gen.printRuntime(
+            returns
+          )}, config.unwrapApiResponse(res.data)), parseError) as any`,
+          '    }'
+        ].join('\n');
+      })
+    )
   );
 }
 
@@ -394,7 +398,7 @@ export function getRoutes(
 export default function getRoutes(config: RouteConfig) {
   return {
 ` +
-    routes.map(route => getRoute(route, options.isReadonly).run({ models, prefix: 'm.' })).join(',\n\n') +
+    routes.map(route => getRoute(route).run({ models, prefix: 'm.', isReadonly: options.isReadonly })).join(',\n\n') +
     `
   }
 }`
