@@ -1,7 +1,9 @@
 import * as gen from 'io-ts-codegen';
 import sortBy = require('lodash/sortBy');
 import lowerFirst = require('lodash/lowerFirst');
-import uniq = require('lodash/uniq');
+import { Reader, reader, ask } from 'fp-ts/lib/Reader';
+import { array } from 'fp-ts/lib/Array';
+import { sequence } from 'fp-ts/lib/Traversable';
 import {
   Tpe,
   Model,
@@ -14,58 +16,67 @@ import {
   RouteSegmentParam
 } from './domain';
 
-// FIXME(gabro): super-hack because I'm lazy and I don't want to pass this parameter around
-let _models: Array<Model>;
+type Models = Array<Model>;
 
-function isNewtype(tpe: Tpe): boolean {
-  const model = _models.find(m => m.name === tpe.name);
-  return !!(model && 'isValueClass' in model && model.isValueClass);
+function isNewtype(tpe: Tpe): Reader<Models, boolean> {
+  return ask<Models>().map(models => {
+    const model = models.find(m => m.name === tpe.name);
+    return !!(model && 'isValueClass' in model && model.isValueClass);
+  });
 }
 
-const genericCombinator = (tpe: Tpe, prefix: string): gen.CustomCombinator => {
+function genericCombinator(tpe: Tpe, prefix: string): Reader<Models, gen.CustomCombinator> {
   const type = gen.identifier(`${prefix}${tpe.name}`);
-  const staticArgs = tpe.args!.map(arg => gen.printStatic(getType(arg, false, prefix))).join(', ');
-  const runtimeArgs = tpe.args!.map(arg => gen.printRuntime(getType(arg, false, prefix))).join(', ');
+  const staticArgsR = sequence(reader, array)(
+    tpe.args!.map(arg => getType(arg, false, prefix).map(gen.printStatic))
+  ).map(args => args.join(', '));
+  const runtimeArgsR = sequence(reader, array)(
+    tpe.args!.map(arg => getType(arg, false, prefix).map(gen.printRuntime))
+  ).map(args => args.join(', '));
 
-  return gen.customCombinator(
-    `${gen.printStatic(type)}<${staticArgs}>`,
-    isNewtype(tpe) ? `${gen.printRuntime(type)}<${staticArgs}>()` : `${gen.printRuntime(type)}(${runtimeArgs})`,
-    []
+  return staticArgsR.chain(staticArgs =>
+    runtimeArgsR.chain(runtimeArgs =>
+      isNewtype(tpe).map(newtype =>
+        gen.customCombinator(
+          `${gen.printStatic(type)}<${staticArgs}>`,
+          newtype ? `${gen.printRuntime(type)}<${staticArgs}>()` : `${gen.printRuntime(type)}(${runtimeArgs})`,
+          []
+        )
+      )
+    )
   );
-};
+}
 
-export function getType(tpe: Tpe, isReadonly: boolean, prefix: string = ''): gen.TypeReference {
-  // TODO(gio): this should switch on structure, rather than on `tpe.name`
+export function getType(tpe: Tpe, isReadonly: boolean, prefix: string = ''): Reader<Models, gen.TypeReference> {
   switch (tpe.name) {
     case 'String':
     // case 'Date':
     // case 'DateTime':
     case 'Instant':
-      return gen.stringType;
+      return reader.of(gen.stringType);
     case 'Int':
     case 'Float':
     case 'BigDecimal':
-      return gen.numberType;
+      return reader.of(gen.numberType);
     case 'Boolean':
-      return gen.booleanType;
+      return reader.of(gen.booleanType);
     case 'Any':
-      return gen.anyType;
+      return reader.of(gen.anyType);
     case 'Option':
       return getType(tpe.args![0], isReadonly, prefix);
     case 'List':
     case 'Set':
     case 'TreeSet':
       return isReadonly
-        ? gen.readonlyArrayCombinator(getType(tpe.args![0], isReadonly, prefix))
-        : gen.arrayCombinator(getType(tpe.args![0], isReadonly, prefix));
+        ? getType(tpe.args![0], isReadonly, prefix).map(gen.readonlyArrayCombinator)
+        : getType(tpe.args![0], isReadonly, prefix).map(gen.arrayCombinator);
     case 'Map':
-      return gen.dictionaryCombinator(gen.stringType, getType(tpe.args![1], isReadonly, prefix));
+      return getType(tpe.args![1], isReadonly, prefix).map(t => gen.dictionaryCombinator(gen.stringType, t));
     default:
       if (tpe.args && tpe.args.length > 0) {
         return genericCombinator(tpe, prefix);
-      } else {
-        return gen.identifier(`${prefix}${tpe.name}`);
       }
+      return reader.of(gen.identifier(`${prefix}${tpe.name}`));
   }
 }
 
@@ -74,70 +85,72 @@ export type GetModelsOptions = {
   runtime: boolean;
 };
 
-function getProperty(member: CaseClassMember, isReadonly: boolean): gen.Property {
+function getProperty(member: CaseClassMember, isReadonly: boolean): Reader<Models, gen.Property> {
   const isOptional = member.tpe.name === 'Option';
-  const type = getType(member.tpe, isReadonly);
-  return gen.property(member.name, type, isOptional, member.desc);
+  return getType(member.tpe, isReadonly).map(type => gen.property(member.name, type, isOptional, member.desc));
 }
 
-function getNewtype(model: CaseClass): gen.CustomTypeDeclaration {
-  const tsType = getType(model.members[0].tpe, false);
-  const staticType = gen.printStatic(tsType);
-  const runtimeType = gen.printRuntime(tsType);
-  return gen.customTypeDeclaration(
-    model.name,
-    [
-      `export function ${model.name}<A>() { return fromNewtype<${model.name}<A>>(${runtimeType}) }`,
-      `export function ${lowerFirst(model.name)}Iso<A>() { return iso<${model.name}<A>>() }`
-    ].join('\n'),
-    `export interface ${model.name}<_A> extends Newtype<'${model.name}', ${staticType}> {}`,
-    [staticType]
-  );
+function getNewtype(model: CaseClass): Reader<Models, gen.CustomTypeDeclaration> {
+  return getType(model.members[0].tpe, false).map(tsType => {
+    const staticType = gen.printStatic(tsType);
+    const runtimeType = gen.printRuntime(tsType);
+    return gen.customTypeDeclaration(
+      model.name,
+      [
+        `export function ${model.name}<A>() { return fromNewtype<${model.name}<A>>(${runtimeType}) }`,
+        `export function ${lowerFirst(model.name)}Iso<A>() { return iso<${model.name}<A>>() }`
+      ].join('\n'),
+      `export interface ${model.name}<_A> extends Newtype<'${model.name}', ${staticType}> {}`,
+      [staticType]
+    );
+  });
 }
 
 function getDeclarations(
   models: Array<Model>,
   isReadonly: boolean
-): Array<gen.TypeDeclaration | gen.CustomTypeDeclaration> {
-  return models.map(model => {
-    if ('isValueClass' in model && model.isValueClass) {
-      return getNewtype(model as CaseClass);
-    }
-    if (model.hasOwnProperty('values')) {
-      const enumClass = model as EnumClass;
-      return gen.typeDeclaration(
-        model.name,
-        gen.keyofCombinator(enumClass.values.map((v: any) => v.name), model.name),
-        true,
-        false
+): Reader<Models, Array<gen.TypeDeclaration | gen.CustomTypeDeclaration>> {
+  return sequence(reader, array)(
+    models.map(model => {
+      if ('isValueClass' in model && model.isValueClass) {
+        return getNewtype(model as CaseClass);
+      }
+      if (model.hasOwnProperty('values')) {
+        const enumClass = model as EnumClass;
+        return reader.of(
+          gen.typeDeclaration(
+            model.name,
+            gen.keyofCombinator(enumClass.values.map((v: any) => v.name), model.name),
+            true,
+            false
+          )
+        );
+      }
+      const caseClass = model as CaseClass;
+      return sequence(reader, array)(caseClass.members.map(member => getProperty(member, isReadonly))).map(
+        properties => {
+          const interfaceDecl = gen.interfaceCombinator(properties, model.name);
+          if (caseClass.typeParams && caseClass.typeParams.length > 0) {
+            const staticParams = caseClass.typeParams.map(p => `${p.name} extends t.Any`).join(', ');
+            const runtimeParams = caseClass.typeParams.map(p => `${p.name}: ${p.name}`).join(', ');
+            const dependencies = interfaceDecl.properties
+              .map(p => gen.printStatic(p.type))
+              .filter(p => !caseClass.typeParams.map(p => p.name).includes(p));
+            return gen.customTypeDeclaration(
+              model.name,
+              `export interface ${model.name}<${caseClass.typeParams.map(p => p.name)}> ${gen.printStatic(
+                interfaceDecl
+              )}`,
+              `export const ${model.name} = <${staticParams}>(${runtimeParams}) => ${gen.printRuntime(interfaceDecl)}`,
+              dependencies
+            );
+          } else {
+            return gen.typeDeclaration(model.name, gen.interfaceCombinator(properties, model.name), true, isReadonly);
+          }
+        }
       );
-    }
-    const caseClass = model as CaseClass;
-    const interfaceDecl = gen.interfaceCombinator(
-      caseClass.members.map(member => getProperty(member, isReadonly)),
-      model.name
-    );
-    if (caseClass.typeParams && caseClass.typeParams.length > 0) {
-      const staticParams = caseClass.typeParams.map(p => `${p.name} extends t.Any`).join(', ');
-      const runtimeParams = caseClass.typeParams.map(p => `${p.name}: ${p.name}`).join(', ');
-      const dependencies = interfaceDecl.properties
-        .map(p => gen.printStatic(p.type))
-        .filter(p => !caseClass.typeParams.map(p => p.name).includes(p));
-      return gen.customTypeDeclaration(
-        model.name,
-        `export interface ${model.name}<${caseClass.typeParams.map(p => p.name)}> ${gen.printStatic(interfaceDecl)}`,
-        `export const ${model.name} = <${staticParams}>(${runtimeParams}) => ${gen.printRuntime(interfaceDecl)}`,
-        dependencies
-      );
-    } else {
-      return gen.typeDeclaration(
-        model.name,
-        gen.interfaceCombinator(caseClass.members.map(member => getProperty(member, isReadonly)), model.name),
-        true,
-        isReadonly
-      );
-    }
-  });
+    })
+  );
 }
 
 const newtypePrelude = `
@@ -160,8 +173,7 @@ const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
 `;
 
 export function getModels(models: Array<Model>, options: GetModelsOptions, prelude: string = ''): string {
-  _models = models;
-  const declarations = getDeclarations(models, options.isReadonly);
+  const declarations = getDeclarations(models, options.isReadonly).run(models);
   const hasNewtypeDeclarations = models.some(m => 'isValueClass' in m && m.isValueClass);
   const sortedTypeDeclarations = gen.sort(sortBy(declarations, ({ name }) => name));
   let out = ['// DO NOT EDIT MANUALLY - metarpheus-generated', "import * as t from 'io-ts'", '', ''].join('\n');
@@ -264,39 +276,42 @@ function getAxiosConfig(route: Route, isReadonly: boolean): string {
   return s;
 }
 
-function getRouteArguments(route: Route, isReadonly: boolean): string {
-  const params = [
+function getRouteArguments(route: Route, isReadonly: boolean): Reader<Models, string> {
+  const paramsR = [
     ...route.params,
     ...route.route
       .filter(isRouteSegmentParam)
       .map(({ routeParam }, index) => ({ ...routeParam, name: routeParam.name || `param${index + 1}` }))
   ].map(param => {
-    let type = getType(param.tpe, isReadonly, 'm.');
-    if (!param.required) {
-      type = gen.unionCombinator([type, gen.undefinedType]);
-    }
-    return {
-      name: param.name,
-      type: gen.printStatic(type)
-    };
+    return getType(param.tpe, isReadonly, 'm.').map(type => {
+      const tpe = param.required ? type : gen.unionCombinator([type, gen.undefinedType]);
+      return {
+        name: param.name,
+        type: gen.printStatic(tpe)
+      };
+    });
   });
-  if (route.authenticated) {
-    params.unshift({ name: 'token', type: 'string' });
-  }
-  if (route.method === 'post' && route.body) {
-    const bodyType = getType(route.body.tpe, isReadonly, 'm.');
-    // the name `data` for this param is hardcoded in `getRouteData`
-    params.push({ name: 'data', type: gen.printStatic(bodyType) });
-  }
-  if (uniq(params.map(p => p.name)).length !== params.length) {
-    throw new Error('Some params have the same name');
-  }
-  return `{ ${params.map(param => param.name).join(', ')} }: { ${params
-    .map(param => `${param.name}: ${param.type}`)
-    .join(', ')} }`;
+  return sequence(reader, array)(paramsR).chain(params =>
+    getParamsToPrint(route, params, isReadonly).map(paramsToPrint => {
+      return `{ ${paramsToPrint.map(param => param.name).join(', ')} }: { ${paramsToPrint
+        .map(param => `${param.name}: ${param.type}`)
+        .join(', ')} }`;
+    })
+  );
 }
 
-function getRoute(_route: Route, isReadonly: boolean): string {
+type Param = { name: string | undefined; type: string };
+function getParamsToPrint(route: Route, params: Array<Param>, isReadonly: boolean): Reader<Models, Array<Param>> {
+  const p1 = route.authenticated ? params.filter(x => !(x.name === 'token' && x.type === 'string')) : params;
+  return route.method === 'post' && route.body
+    ? getType(route.body.tpe, isReadonly, 'm.').map(bodyType =>
+        // the name `data` for this param is hardcoded in `getRouteData`
+        [...p1, { name: 'data', type: gen.printStatic(bodyType) }]
+      )
+    : reader.of(p1);
+}
+
+function getRoute(_route: Route, isReadonly: boolean): Reader<Models, string> {
   const segments = _route.route.reduce(
     (acc, s: RouteSegment) => {
       return isRouteSegmentParam(s)
@@ -314,14 +329,18 @@ function getRoute(_route: Route, isReadonly: boolean): string {
 
   const route = { ..._route, route: segments };
   const name = route.name.join('_');
-  const returns = getType(route.returns, isReadonly, 'm.');
-  let s = route.desc ? `    /** ${route.desc} */\n` : '';
-  s += `    ${name}: function (${getRouteArguments(route, isReadonly)}): Promise<${gen.printStatic(returns)}> {`;
-  s += `\n      return axios(${getAxiosConfig(route, isReadonly)}).then(res => valueOrThrow(${gen.printRuntime(
-    returns
-  )}, config.unwrapApiResponse(res.data)), parseError) as any`;
-  s += '\n    }';
-  return s;
+  return getType(route.returns, isReadonly, 'm.').chain(returns =>
+    getRouteArguments(route, isReadonly).map(routeArguments => {
+      const docs = route.desc ? `    /** ${route.desc} */\n` : '';
+      return [
+        `${docs}    ${name}: function (${routeArguments}): Promise<${gen.printStatic(returns)}> {`,
+        `      return axios(${getAxiosConfig(route, isReadonly)}).then(res => valueOrThrow(${gen.printRuntime(
+          returns
+        )}, config.unwrapApiResponse(res.data)), parseError) as any`,
+        '    }'
+      ].join('\n');
+    })
+  );
 }
 
 const getRoutesPrelude = `// DO NOT EDIT MANUALLY - metarpheus-generated
@@ -362,14 +381,13 @@ export function getRoutes(
   options: GetRoutesOptions,
   prelude: string = getRoutesPrelude
 ): string {
-  _models = models;
   return (
     prelude +
     `
 export default function getRoutes(config: RouteConfig) {
   return {
 ` +
-    routes.map(route => getRoute(route, options.isReadonly)).join(',\n\n') +
+    routes.map(route => getRoute(route, options.isReadonly).run(models)).join(',\n\n') +
     `
   }
 }`
