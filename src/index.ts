@@ -91,7 +91,7 @@ function getNewtype(model: CaseClass): gen.CustomTypeDeclaration {
       `export function ${lowerFirst(model.name)}Iso<A>() { return iso<${model.name}<A>>() }`
     ].join('\n'),
     `export interface ${model.name}<_A> extends Newtype<'${model.name}', ${staticType}> {}`,
-    []
+    [staticType]
   );
 }
 
@@ -120,11 +120,14 @@ function getDeclarations(
     if (caseClass.typeParams && caseClass.typeParams.length > 0) {
       const staticParams = caseClass.typeParams.map(p => `${p.name} extends t.Any`).join(', ');
       const runtimeParams = caseClass.typeParams.map(p => `${p.name}: ${p.name}`).join(', ');
+      const dependencies = interfaceDecl.properties
+        .map(p => gen.printStatic(p.type))
+        .filter(p => !caseClass.typeParams.map(p => p.name).includes(p));
       return gen.customTypeDeclaration(
         model.name,
         `export interface ${model.name}<${caseClass.typeParams.map(p => p.name)}> ${gen.printStatic(interfaceDecl)}`,
         `export const ${model.name} = <${staticParams}>(${runtimeParams}) => ${gen.printRuntime(interfaceDecl)}`,
-        [] // TODO(gabro)
+        dependencies
       );
     } else {
       return gen.typeDeclaration(

@@ -11,6 +11,6 @@
     "target": "es5"
   },
   "lib": [
-    "es6", "dom"
+    "es2017", "dom"
   ]
 }
