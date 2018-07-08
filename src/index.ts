@@ -1,4 +1,7 @@
 import * as gen from 'io-ts-codegen';
+import sortBy = require('lodash/sortBy');
+import lowerFirst = require('lodash/lowerFirst');
+import uniq = require('lodash/uniq');
 import {
   Tpe,
   Model,
@@ -10,9 +13,6 @@ import {
   RouteSegmentString,
   RouteSegmentParam
 } from './domain';
-import sortBy = require('lodash/sortBy');
-import uniq = require('lodash/uniq');
-import lowerFirst = require('lodash/lowerFirst');
 
 // FIXME(gabro): super-hack because I'm lazy and I don't want to pass this parameter around
 let _models: Array<Model>;
@@ -162,15 +162,10 @@ const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
 export function getModels(models: Array<Model>, options: GetModelsOptions, prelude: string = ''): string {
   _models = models;
   const declarations = getDeclarations(models, options.isReadonly);
-  const newtypeDeclarations: gen.CustomTypeDeclaration[] = declarations.filter(
-    (d): d is gen.CustomTypeDeclaration => d.kind === 'CustomTypeDeclaration'
-  );
-  // const typeDeclarations: gen.TypeDeclaration[] = declarations.filter(
-  //   (d): d is gen.TypeDeclaration => d.kind !== 'newtype'
-  // );
+  const hasNewtypeDeclarations = models.some(m => 'isValueClass' in m && m.isValueClass);
   const sortedTypeDeclarations = gen.sort(sortBy(declarations, ({ name }) => name));
   let out = ['// DO NOT EDIT MANUALLY - metarpheus-generated', "import * as t from 'io-ts'", '', ''].join('\n');
-  if (newtypeDeclarations.length > 0) {
+  if (hasNewtypeDeclarations) {
     out += newtypePrelude;
   }
   if (options.runtime) {
