@@ -3,55 +3,55 @@ export interface Tpe {
   args?: Array<Tpe>;
 }
 
-export type CaseClassMember = {
+export interface CaseClassMember {
   name: string;
   tpe: Tpe;
   desc?: string;
-};
+}
 
-export type CaseClass = {
+export interface CaseClass {
   name: string;
   members: Array<CaseClassMember>;
   desc?: string;
   typeParams: Array<Tpe>;
   isValueClass: boolean;
-};
+}
 
-export type EnumClassValue = {
+export interface EnumClassValue {
   name: string;
-};
+}
 
-export type EnumClass = {
+export interface EnumClass {
   name: string;
   values: Array<EnumClassValue>;
-};
+}
 
 export type Model = CaseClass | EnumClass;
 
-export type RouteParam = {
+export interface RouteParam {
   name?: string;
   tpe: Tpe;
   required: boolean;
   desc?: string;
   inBody: boolean;
-};
+}
 
-export type RouteSegmentParam = {
+export interface RouteSegmentParam {
   routeParam: RouteParam;
-};
+}
 
-export type RouteSegmentString = {
+export interface RouteSegmentString {
   str: string;
-};
+}
 
 export type RouteSegment = RouteSegmentParam | RouteSegmentString;
 
-export type Body = {
+export interface Body {
   tpe: Tpe;
   desc?: string;
-};
+}
 
-export type BaseRoute = {
+export interface BaseRoute {
   route: Array<RouteSegment>;
   params: Array<RouteParam>;
   authenticated: boolean;
@@ -59,15 +59,15 @@ export type BaseRoute = {
   ctrl: Array<string>;
   desc?: string;
   name: Array<string>;
-};
+}
 
-export type Get = BaseRoute & {
+export interface Get extends BaseRoute {
   method: 'get';
-};
+}
 
-export type Post = BaseRoute & {
+export interface Post extends BaseRoute {
   method: 'post';
   body?: Body;
-};
+}
 
 export type Route = Get | Post;

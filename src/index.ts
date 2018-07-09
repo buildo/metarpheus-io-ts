@@ -16,11 +16,11 @@ import {
   RouteSegmentParam
 } from './domain';
 
-type Ctx = {
+interface Ctx {
   models: Array<Model>;
   prefix: string;
   isReadonly: boolean;
-};
+}
 
 function isNewtype(tpe: Tpe): Reader<Ctx, boolean> {
   return ask<Ctx>().map(({ models }) => {
@@ -88,10 +88,10 @@ export function getType(tpe: Tpe): Reader<Ctx, gen.TypeReference> {
   });
 }
 
-export type GetModelsOptions = {
+export interface GetModelsOptions {
   isReadonly: boolean;
   runtime: boolean;
-};
+}
 
 function getProperty(member: CaseClassMember): Reader<Ctx, gen.Property> {
   const isOptional = member.tpe.name === 'Option';
@@ -200,9 +200,9 @@ export function getModels(models: Array<Model>, options: GetModelsOptions, prelu
   return out;
 }
 
-export type GetRoutesOptions = {
+export interface GetRoutesOptions {
   isReadonly: boolean;
-};
+}
 
 function isRouteSegmentString(routeSegment: RouteSegment): routeSegment is RouteSegmentString {
   return routeSegment.hasOwnProperty('str');
@@ -309,7 +309,11 @@ function getRouteArguments(route: Route): Reader<Ctx, string> {
   );
 }
 
-type Param = { name: string | undefined; type: string };
+interface Param {
+  name: string | undefined;
+  type: string;
+}
+
 function getParamsToPrint(route: Route, params: Array<Param>): Reader<Ctx, Array<Param>> {
   const p1 = route.authenticated ? params.filter(x => !(x.name === 'token' && x.type === 'string')) : params;
   return route.method === 'post' && route.body
