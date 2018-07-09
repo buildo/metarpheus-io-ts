@@ -28,15 +28,15 @@ export const Entity = <A extends t.Any>(A: A) => t.interface({
   value: A
 }, 'Entity')
 
-export function ExternalId<A>() { return fromNewtype<ExternalId<A>>(t.string) }
-export function externalIdIso<A>() { return iso<ExternalId<A>>() }
-
 export interface ExternalId<_A> extends Newtype<'ExternalId', string> {}
 
-export function Id<A>() { return fromNewtype<Id<A>>(UUID) }
-export function idIso<A>() { return iso<Id<A>>() }
+export function ExternalId<_A>() { return fromNewtype<ExternalId<_A>>(t.string) }
+export function externalIdIso<_A>() { return iso<ExternalId<_A>>() }
 
 export interface Id<_A> extends Newtype<'Id', UUID> {}
+
+export function Id<_A>() { return fromNewtype<Id<_A>>(UUID) }
+export function idIso<_A>() { return iso<Id<_A>>() }
 
 export type Role =
   | 'Admin'

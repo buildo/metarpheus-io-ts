@@ -102,15 +102,23 @@ function getNewtype(model: CaseClass): Reader<Ctx, gen.CustomTypeDeclaration> {
   return getType(model.members[0].tpe).map(tsType => {
     const staticType = gen.printStatic(tsType);
     const runtimeType = gen.printRuntime(tsType);
-    return gen.customTypeDeclaration(
-      model.name,
-      [
-        `export function ${model.name}<A>() { return fromNewtype<${model.name}<A>>(${runtimeType}) }`,
-        `export function ${lowerFirst(model.name)}Iso<A>() { return iso<${model.name}<A>>() }`
-      ].join('\n'),
-      `export interface ${model.name}<_A> extends Newtype<'${model.name}', ${staticType}> {}`,
-      [staticType]
-    );
+    const hasTypeParams = model.typeParams && model.typeParams.length > 0;
+    const typeParams = hasTypeParams ? `<${model.typeParams.map(t => `_${t.name}`).join(', ')}>` : '';
+    const dependencies = [staticType];
+    const staticRepr = `export interface ${model.name}${typeParams} extends Newtype<'${model.name}', ${staticType}> {}`;
+    const runtimeRepr = hasTypeParams
+      ? [
+          `export function ${model.name}${typeParams}() { return fromNewtype<${
+            model.name
+          }${typeParams}>(${runtimeType}) }`,
+          `export function ${lowerFirst(model.name)}Iso${typeParams}() { return iso<${model.name}${typeParams}>() }`
+        ].join('\n')
+      : [
+          `export const ${model.name} = fromNewtype<${model.name}>(${runtimeType});`,
+          `export const ${lowerFirst(model.name)}Iso = iso<${model.name}>();`
+        ].join('\n');
+
+    return gen.customTypeDeclaration(model.name, staticRepr, runtimeRepr, dependencies);
   });
 }
 
