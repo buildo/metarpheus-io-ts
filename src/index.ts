@@ -1,7 +1,7 @@
 import * as gen from 'io-ts-codegen';
 import lowerFirst = require('lodash/lowerFirst');
 import { Reader, reader, ask } from 'fp-ts/lib/Reader';
-import { array, sort } from 'fp-ts/lib/Array';
+import { array, sort, findFirst } from 'fp-ts/lib/Array';
 import {
   Tpe,
   Model,
@@ -22,10 +22,9 @@ interface Ctx {
 }
 
 function isNewtype(tpe: Tpe): Reader<Ctx, boolean> {
-  return ask<Ctx>().map(({ models }) => {
-    const model = models.find(m => m.name === tpe.name);
-    return !!(model && 'isValueClass' in model && model.isValueClass);
-  });
+  return ask<Ctx>().map(({ models }) =>
+    findFirst(models, m => m.name === tpe.name && 'isValueClass' in m && m.isValueClass).isSome()
+  );
 }
 
 const traverseReader = array.traverse(reader);
