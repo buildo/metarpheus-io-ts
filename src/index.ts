@@ -1,8 +1,7 @@
 import * as gen from 'io-ts-codegen';
-import sortBy = require('lodash/sortBy');
 import lowerFirst = require('lodash/lowerFirst');
 import { Reader, reader, ask } from 'fp-ts/lib/Reader';
-import { array } from 'fp-ts/lib/Array';
+import { array, sort } from 'fp-ts/lib/Array';
 import { sequence } from 'fp-ts/lib/Traversable';
 import {
   Tpe,
@@ -15,6 +14,7 @@ import {
   RouteSegmentString,
   RouteSegmentParam
 } from './domain';
+import { contramap, ordString } from 'fp-ts/lib/Ord';
 
 interface Ctx {
   models: Array<Model>;
@@ -177,6 +177,9 @@ const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
 
 `;
 
+const ordDeclarations = contramap((d: gen.TypeDeclaration | gen.CustomTypeDeclaration) => d.name, ordString);
+const sortDeclarations = sort(ordDeclarations);
+
 export function getModels(models: Array<Model>, options: GetModelsOptions, prelude: string = ''): string {
   const declarations = getDeclarations(models).run({
     models,
@@ -184,7 +187,7 @@ export function getModels(models: Array<Model>, options: GetModelsOptions, prelu
     isReadonly: options.isReadonly
   });
   const hasNewtypeDeclarations = models.some(m => 'isValueClass' in m && m.isValueClass);
-  const sortedTypeDeclarations = gen.sort(sortBy(declarations, ({ name }) => name));
+  const sortedTypeDeclarations = gen.sort(sortDeclarations(declarations));
   let out = ['// DO NOT EDIT MANUALLY - metarpheus-generated', "import * as t from 'io-ts'", '', ''].join('\n');
   if (hasNewtypeDeclarations) {
     out += newtypePrelude;
