@@ -2,7 +2,6 @@ import * as gen from 'io-ts-codegen';
 import lowerFirst = require('lodash/lowerFirst');
 import { Reader, reader, ask } from 'fp-ts/lib/Reader';
 import { array, sort } from 'fp-ts/lib/Array';
-import { sequence } from 'fp-ts/lib/Traversable';
 import {
   Tpe,
   Model,
@@ -29,16 +28,17 @@ function isNewtype(tpe: Tpe): Reader<Ctx, boolean> {
   });
 }
 
+const traverseReader = array.traverse(reader);
+
 function genericCombinator(tpe: Tpe): Reader<Ctx, gen.CustomCombinator> {
   return ask<Ctx>().chain(({ prefix }) => {
     const type = gen.identifier(`${prefix}${tpe.name}`);
-    const staticArgsR = sequence(reader, array)(tpe.args!.map(arg => getType(arg).map(gen.printStatic))).map(args =>
-      args.join(', ')
+    const staticArgsR = traverseReader(tpe.args!, getType).map(typeReferences =>
+      typeReferences.map(gen.printStatic).join(', ')
     );
-    const runtimeArgsR = sequence(reader, array)(tpe.args!.map(arg => getType(arg).map(gen.printRuntime))).map(args =>
-      args.join(', ')
+    const runtimeArgsR = traverseReader(tpe.args!, getType).map(typeReferences =>
+      typeReferences.map(gen.printRuntime).join(', ')
     );
-
     return staticArgsR.chain(staticArgs =>
       runtimeArgsR.chain(runtimeArgs =>
         isNewtype(tpe).map(newtype =>
@@ -116,45 +116,43 @@ function getNewtype(model: CaseClass): Reader<Ctx, gen.CustomTypeDeclaration> {
 
 function getDeclarations(models: Array<Model>): Reader<Ctx, Array<gen.TypeDeclaration | gen.CustomTypeDeclaration>> {
   return ask<Ctx>().chain(({ isReadonly }) =>
-    sequence(reader, array)(
-      models.map(model => {
-        if ('isValueClass' in model && model.isValueClass) {
-          return getNewtype(model as CaseClass);
-        }
-        if (model.hasOwnProperty('values')) {
-          const enumClass = model as EnumClass;
-          return reader.of(
-            gen.typeDeclaration(
-              model.name,
-              gen.keyofCombinator(enumClass.values.map((v: any) => v.name), model.name),
-              true,
-              false
-            )
+    traverseReader(models, model => {
+      if ('isValueClass' in model && model.isValueClass) {
+        return getNewtype(model as CaseClass);
+      }
+      if (model.hasOwnProperty('values')) {
+        const enumClass = model as EnumClass;
+        return reader.of(
+          gen.typeDeclaration(
+            model.name,
+            gen.keyofCombinator(enumClass.values.map((v: any) => v.name), model.name),
+            true,
+            false
+          )
+        );
+      }
+      const caseClass = model as CaseClass;
+      return traverseReader(caseClass.members, getProperty).map(properties => {
+        const interfaceDecl = gen.interfaceCombinator(properties, model.name);
+        if (caseClass.typeParams && caseClass.typeParams.length > 0) {
+          const staticParams = caseClass.typeParams.map(p => `${p.name} extends t.Any`).join(', ');
+          const runtimeParams = caseClass.typeParams.map(p => `${p.name}: ${p.name}`).join(', ');
+          const dependencies = interfaceDecl.properties
+            .map(p => gen.printStatic(p.type))
+            .filter(p => !caseClass.typeParams.map(p => p.name).includes(p));
+          return gen.customTypeDeclaration(
+            model.name,
+            `export interface ${model.name}<${caseClass.typeParams.map(p => p.name)}> ${gen.printStatic(
+              interfaceDecl
+            )}`,
+            `export const ${model.name} = <${staticParams}>(${runtimeParams}) => ${gen.printRuntime(interfaceDecl)}`,
+            dependencies
           );
+        } else {
+          return gen.typeDeclaration(model.name, gen.interfaceCombinator(properties, model.name), true, isReadonly);
         }
-        const caseClass = model as CaseClass;
-        return sequence(reader, array)(caseClass.members.map(member => getProperty(member))).map(properties => {
-          const interfaceDecl = gen.interfaceCombinator(properties, model.name);
-          if (caseClass.typeParams && caseClass.typeParams.length > 0) {
-            const staticParams = caseClass.typeParams.map(p => `${p.name} extends t.Any`).join(', ');
-            const runtimeParams = caseClass.typeParams.map(p => `${p.name}: ${p.name}`).join(', ');
-            const dependencies = interfaceDecl.properties
-              .map(p => gen.printStatic(p.type))
-              .filter(p => !caseClass.typeParams.map(p => p.name).includes(p));
-            return gen.customTypeDeclaration(
-              model.name,
-              `export interface ${model.name}<${caseClass.typeParams.map(p => p.name)}> ${gen.printStatic(
-                interfaceDecl
-              )}`,
-              `export const ${model.name} = <${staticParams}>(${runtimeParams}) => ${gen.printRuntime(interfaceDecl)}`,
-              dependencies
-            );
-          } else {
-            return gen.typeDeclaration(model.name, gen.interfaceCombinator(properties, model.name), true, isReadonly);
-          }
-        });
-      })
-    )
+      });
+    })
   );
 }
 
@@ -294,16 +292,16 @@ function getRouteArguments(route: Route): Reader<Ctx, string> {
     ...route.route
       .filter(isRouteSegmentParam)
       .map(({ routeParam }, index) => ({ ...routeParam, name: routeParam.name || `param${index + 1}` }))
-  ].map(param => {
-    return getType(param.tpe).map(type => {
+  ];
+  return traverseReader(paramsR, param =>
+    getType(param.tpe).map(type => {
       const tpe = param.required ? type : gen.unionCombinator([type, gen.undefinedType]);
       return {
         name: param.name,
         type: gen.printStatic(tpe)
       };
-    });
-  });
-  return sequence(reader, array)(paramsR).chain(params =>
+    })
+  ).chain(params =>
     getParamsToPrint(route, params).map(paramsToPrint => {
       return `{ ${paramsToPrint.map(param => param.name).join(', ')} }: { ${paramsToPrint
         .map(param => `${param.name}: ${param.type}`)
