@@ -2,6 +2,13 @@
 
 
 
+## [v0.3.0](https://github.com/buildo/metarpheus-io-ts/tree/v0.3.0) (2018-07-20)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.2.3...v0.3.0)
+
+#### Breaking:
+
+- Add support for generics [#48](https://github.com/buildo/metarpheus-io-ts/issues/48)
+
 ## [v0.2.3](https://github.com/buildo/metarpheus-io-ts/tree/v0.2.3) (2018-04-13)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.2.2...v0.2.3)
 
