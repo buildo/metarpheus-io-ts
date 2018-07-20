@@ -18,7 +18,7 @@ sourceFileNames.forEach(sourceFileName => {
   const modelsSource: Array<Model> = source.models;
   const routesSource: Array<Route> = source.routes;
   const modelsOutput = getModels(modelsSource, { isReadonly: false, runtime: true });
-  const routesOutput = getRoutes(routesSource, { isReadonly: false });
+  const routesOutput = getRoutes(routesSource, modelsSource, { isReadonly: false });
   const dir = resolve(__dirname, `${sourceFileName}.dir`);
   fs.mkdirSync(dir);
   fs.writeFileSync(resolve(dir, 'model-ts.ts'), modelsOutput);

@@ -1,0 +1,200 @@
+{
+  "models" : [ {
+    "name" : "ExternalId",
+    "members" : [ {
+      "name" : "unwrap",
+      "tpe" : {
+        "name" : "String"
+      }
+    } ],
+    "isValueClass" : true,
+    "typeParams" : [ {
+      "name" : "A"
+    } ]
+  }, {
+    "name" : "Role",
+    "values" : [ {
+      "name" : "Admin"
+    }, {
+      "name" : "User"
+    } ]
+  }, {
+    "name" : "Id",
+    "members" : [ {
+      "name" : "unwrap",
+      "tpe" : {
+        "name" : "UUID"
+      }
+    } ],
+    "isValueClass" : true,
+    "typeParams" : [ {
+      "name" : "A"
+    } ]
+  }, {
+    "name" : "Entity",
+    "members" : [ {
+      "name" : "id",
+      "tpe" : {
+        "name" : "Id",
+        "args" : [ {
+          "name" : "A"
+        } ]
+      }
+    }, {
+      "name" : "value",
+      "tpe" : {
+        "name" : "A"
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ {
+      "name" : "A"
+    } ]
+  }, {
+    "name" : "User",
+    "members" : [ {
+      "name" : "externalId",
+      "tpe" : {
+        "name" : "ExternalId",
+        "args" : [ {
+          "name" : "User"
+        } ]
+      }
+    }, {
+      "name" : "role",
+      "tpe" : {
+        "name" : "Role"
+      }
+    }, {
+      "name" : "fullName",
+      "tpe" : {
+        "name" : "Option",
+        "args" : [ {
+          "name" : "String"
+        } ]
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ ]
+  } ],
+  "routes" : [ {
+    "method" : "get",
+    "route" : [ {
+      "str" : "me"
+    }, {
+      "str" : "read"
+    } ],
+    "params" : [ ],
+    "authenticated" : false,
+    "returns" : {
+      "name" : "Entity",
+      "args" : [ {
+        "name" : "User"
+      } ]
+    },
+    "ctrl" : [ "meController", "read" ],
+    "name" : [ "meController", "read" ]
+  }, {
+    "method" : "get",
+    "route" : [ {
+      "str" : "user"
+    }, {
+      "str" : "read"
+    } ],
+    "params" : [ {
+      "name" : "id",
+      "tpe" : {
+        "name" : "Id",
+        "args" : [ {
+          "name" : "User"
+        } ]
+      },
+      "required" : true,
+      "inBody" : false
+    } ],
+    "authenticated" : false,
+    "returns" : {
+      "name" : "Option",
+      "args" : [ {
+        "name" : "Entity",
+        "args" : [ {
+          "name" : "User"
+        } ]
+      } ]
+    },
+    "ctrl" : [ "userController", "read" ],
+    "name" : [ "userController", "read" ]
+  }, {
+    "method" : "post",
+    "route" : [ {
+      "str" : "user"
+    }, {
+      "str" : "create"
+    } ],
+    "params" : [ {
+      "name" : "user",
+      "tpe" : {
+        "name" : "User"
+      },
+      "required" : true,
+      "inBody" : true
+    } ],
+    "authenticated" : false,
+    "returns" : {
+      "name" : "Id",
+      "args" : [ {
+        "name" : "User"
+      } ]
+    },
+    "ctrl" : [ "userController", "create" ],
+    "name" : [ "userController", "create" ]
+  }, {
+    "method" : "post",
+    "route" : [ {
+      "str" : "user"
+    }, {
+      "str" : "update"
+    } ],
+    "params" : [ {
+      "name" : "user",
+      "tpe" : {
+        "name" : "Entity",
+        "args" : [ {
+          "name" : "User"
+        } ]
+      },
+      "required" : true,
+      "inBody" : true
+    } ],
+    "authenticated" : false,
+    "returns" : {
+      "name" : "Unit"
+    },
+    "ctrl" : [ "userController", "update" ],
+    "name" : [ "userController", "update" ]
+  }, {
+    "method" : "post",
+    "route" : [ {
+      "str" : "user"
+    }, {
+      "str" : "delete"
+    } ],
+    "params" : [ {
+      "name" : "id",
+      "tpe" : {
+        "name" : "Id",
+        "args" : [ {
+          "name" : "User"
+        } ]
+      },
+      "required" : true,
+      "inBody" : true
+    } ],
+    "authenticated" : false,
+    "returns" : {
+      "name" : "Unit"
+    },
+    "ctrl" : [ "userController", "delete" ],
+    "name" : [ "userController", "delete" ]
+  } ]
+}

@@ -1,0 +1,123 @@
+// DO NOT EDIT MANUALLY - metarpheus-generated
+import axios, { AxiosError } from 'axios'
+import * as t from 'io-ts'
+import * as m from './model-ts'
+
+export interface RouteConfig {
+  apiEndpoint: string,
+  timeout: number,
+  unwrapApiResponse: (resp: any) => any
+}
+
+import { PathReporter } from 'io-ts/lib/PathReporter'
+function valueOrThrow<T extends t.Type<any, any>>(iotsType: T, value: T['_I']): t.TypeOf<T> {
+  const validatedValue = iotsType.decode(value);
+
+  if (validatedValue.isLeft()) {
+    throw new Error(PathReporter.report(validatedValue).join('\n'));
+  }
+
+  return validatedValue.value;
+}
+
+const parseError = (err: AxiosError) => {
+  try {
+    const { errors = [] } = err.response!.data;
+    return Promise.reject({ status: err.response!.status, errors });
+  } catch (e) {
+    return Promise.reject({ status: err && err.response && err.response.status || 0, errors: [] });
+  }
+};
+
+export default function getRoutes(config: RouteConfig) {
+  return {
+    meController_read: function ({  }: {  }): Promise<m.Entity<m.User>> {
+      return axios({
+        method: 'get',
+        url: `${config.apiEndpoint}/me/read`,
+        params: {
+
+        },
+        data: {
+
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.Entity(m.User), config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    userController_read: function ({ id }: { id: m.Id<m.User> }): Promise<m.Entity<m.User>> {
+      return axios({
+        method: 'get',
+        url: `${config.apiEndpoint}/user/read`,
+        params: {
+          id
+        },
+        data: {
+
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.Entity(m.User), config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    userController_create: function ({ user }: { user: m.User }): Promise<m.Id<m.User>> {
+      return axios({
+        method: 'post',
+        url: `${config.apiEndpoint}/user/create`,
+        params: {
+
+        },
+        data: {
+          user
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.Id<m.User>(), config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    userController_update: function ({ user }: { user: m.Entity<m.User> }): Promise<m.Unit> {
+      return axios({
+        method: 'post',
+        url: `${config.apiEndpoint}/user/update`,
+        params: {
+
+        },
+        data: {
+          user
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.Unit, config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    userController_delete: function ({ id }: { id: m.Id<m.User> }): Promise<m.Unit> {
+      return axios({
+        method: 'post',
+        url: `${config.apiEndpoint}/user/delete`,
+        params: {
+
+        },
+        data: {
+          id
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.Unit, config.unwrapApiResponse(res.data)), parseError) as any
+    }
+  }
+}

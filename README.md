@@ -21,5 +21,5 @@ import { getModels, getRoutes } from 'metarpheus-io-ts'
 
 const source = ...
 const models: string = getModels(source.models, modelsOptions)
-const routes: string = getRoutes(source.routes, routesOptions)
+const routes: string = getRoutes(source.routes, source.models, routesOptions)
 ```

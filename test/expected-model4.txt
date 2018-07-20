@@ -1,0 +1,63 @@
+// DO NOT EDIT MANUALLY - metarpheus-generated
+import * as t from 'io-ts'
+
+
+interface Newtype<URI, A> {
+  _URI: URI
+  _A: A
+}
+interface Iso<S, A> {
+  unwrap: (s: S) => A
+  wrap: (a: A) => S
+}
+const unsafeCoerce = <A, B>(a: A): B => a as any
+type Carrier<N extends Newtype<any, any>> = N['_A']
+type AnyNewtype = Newtype<any, any>
+const fromNewtype: <N extends AnyNewtype>(type: t.Type<Carrier<N>, Carrier<N>>) => t.Type<N, Carrier<N>> =
+  type => type as any
+const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
+  ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
+
+export interface Entity<A> {
+  id: Id<A>,
+  value: A
+}
+
+export const Entity = <A extends t.Any>(A: A) => t.interface({
+  id: Id<A>(),
+  value: A
+}, 'Entity')
+
+export interface ExternalId<_A> extends Newtype<'ExternalId', string> {}
+
+export function ExternalId<_A>() { return fromNewtype<ExternalId<_A>>(t.string) }
+export function externalIdIso<_A>() { return iso<ExternalId<_A>>() }
+
+export interface Id<_A> extends Newtype<'Id', UUID> {}
+
+export function Id<_A>() { return fromNewtype<Id<_A>>(UUID) }
+export function idIso<_A>() { return iso<Id<_A>>() }
+
+export type Role =
+  | 'Admin'
+  | 'User'
+
+export const Role = t.keyof({
+  Admin: true,
+  User: true
+}, 'Role')
+
+export interface User {
+  externalId: ExternalId<User>,
+  role: Role,
+  fullName?: string
+}
+
+export const User = t.interface({
+  externalId: ExternalId<User>(),
+  role: Role,
+  fullName: t.union([
+    t.string,
+    t.undefined
+  ])
+}, 'User')
