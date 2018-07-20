@@ -4,6 +4,7 @@
     "space-before-function-paren": false,
     "no-use-before-declare": false,
     "variable-name": false,
-    "semicolon": true
+    "semicolon": true,
+    "interface-over-type-literal": true
   }
 }

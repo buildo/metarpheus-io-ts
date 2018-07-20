@@ -10,11 +10,10 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "lint": "tslint src/**/*.ts test/**/*.ts",
-    "typings-checker": "typings-checker --allow-expect-error --project typings-checker/tsconfig.json typings-checker/index.ts",
     "prettier": "prettier --write \"{src,test}/**/*.ts\"",
     "prettier-check": "prettier --list-different \"{src,test}/**/*.ts\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
-    "test": "npm run lint && npm run prettier-check && npm run typings-checker && npm run mocha && npm run typecheck-output",
+    "test": "npm run lint && npm run prettier-check && npm run mocha && npm run typecheck-output",
     "clean": "rm -rf lib/*",
     "build": "npm run clean && tsc",
     "preversion": "npm test",
@@ -34,11 +33,11 @@
   "homepage": "https://github.com/gcanti/metarpheus-io-ts",
   "dependencies": {
     "commander": "^2.9.0",
+    "fp-ts": "^1.7.0",
     "io-ts-codegen": "^0.1.8",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "@types/commander": "^2.3.31",
     "@types/lodash": "^4.14.76",
     "@types/mocha": "2.2.38",
     "@types/node": "7.0.4",
@@ -50,8 +49,7 @@
     "ts-node": "^5.0.1",
     "tslint": "4.4.2",
     "tslint-config-standard": "4.0.0",
-    "typescript": "^2.8.1",
-    "typings-checker": "^1.1.2"
+    "typescript": "^2.8.1"
   },
   "tags": [],
   "keywords": []

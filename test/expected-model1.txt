@@ -45,10 +45,10 @@ export const Camping = t.interface({
   location: CampingLocation
 }, 'Camping')
 
-export function HealthId<A>() { return fromNewtype<HealthId<A>>(t.string) }
-export function healthIdIso<A>() { return iso<HealthId<A>>() }
+export interface HealthId extends Newtype<'HealthId', string> {}
 
-export interface HealthId<_A> extends Newtype<'HealthId', string> {}
+export const HealthId = fromNewtype<HealthId>(t.string);
+export const healthIdIso = iso<HealthId>();
 
 export interface Health {
   /** Name of the service. */
