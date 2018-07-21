@@ -60,6 +60,7 @@ export function getType(tpe: Tpe): Reader<Ctx, gen.TypeReference> {
         return reader.of(gen.stringType);
       case 'Int':
       case 'Float':
+      case 'Double':
       case 'BigDecimal':
         return reader.of(gen.numberType);
       case 'Boolean':
