@@ -1,7 +1,9 @@
 #  Change Log
 
-## [Unreleased](https://github.com/buildo/metarpheus-io-ts/tree/HEAD)
-[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.3.0...HEAD)
+
+
+## [v0.4.0](https://github.com/buildo/metarpheus-io-ts/tree/v0.4.0) (2018-07-21)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.3.0...v0.4.0)
 
 #### New features:
 
