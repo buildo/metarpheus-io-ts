@@ -67,6 +67,8 @@ export function getType(tpe: Tpe): Reader<Ctx, gen.TypeReference> {
         return reader.of(gen.booleanType);
       case 'Any':
         return reader.of(gen.anyType);
+      case 'Unit':
+        return reader.of(gen.strictCombinator([]));
       case 'Option':
         return getType(tpe.args![0]);
       case 'List':
