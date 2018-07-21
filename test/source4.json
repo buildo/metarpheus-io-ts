@@ -1,5 +1,45 @@
 {
   "models" : [ {
+    "name" : "TemperaturePoint",
+    "members" : [ {
+      "name" : "linearPositionIndex",
+      "tpe" : {
+        "name" : "Int"
+      }
+    }, {
+      "name" : "radialPositionIndex",
+      "tpe" : {
+        "name" : "Int"
+      }
+    }, {
+      "name" : "temperature",
+      "tpe" : {
+        "name" : "Double"
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ ]
+  }, {
+    "name" : "ExternalSemiconductiveLayer",
+    "members" : [ {
+      "name" : "unwrap",
+      "tpe" : {
+        "name" : "Layer"
+      }
+    } ],
+    "isValueClass" : true,
+    "typeParams" : [ ]
+  }, {
+    "name" : "ConductorLayer",
+    "members" : [ {
+      "name" : "unwrap",
+      "tpe" : {
+        "name" : "Layer"
+      }
+    } ],
+    "isValueClass" : true,
+    "typeParams" : [ ]
+  }, {
     "name" : "ExternalId",
     "members" : [ {
       "name" : "unwrap",
@@ -31,6 +71,92 @@
       "name" : "A"
     } ]
   }, {
+    "name" : "CalculationRun",
+    "members" : [ {
+      "name" : "conductorMaxTemperature",
+      "tpe" : {
+        "name" : "Celsius"
+      }
+    }, {
+      "name" : "conductorMaxLongitudinalPosition",
+      "tpe" : {
+        "name" : "Meters"
+      }
+    }, {
+      "name" : "cableSurfaceMaxTemperature",
+      "tpe" : {
+        "name" : "Celsius"
+      }
+    }, {
+      "name" : "cableSurfaceMaxLongitudinalPosition",
+      "tpe" : {
+        "name" : "Meters"
+      }
+    }, {
+      "name" : "conductorTouchpointTemperature",
+      "tpe" : {
+        "name" : "Celsius"
+      }
+    }, {
+      "name" : "conductorTouchpointLongitudinalPosition",
+      "tpe" : {
+        "name" : "Meters"
+      }
+    }, {
+      "name" : "cableSurfaceTouchpointTemperature",
+      "tpe" : {
+        "name" : "Celsius"
+      }
+    }, {
+      "name" : "conductorWaterLevelTemperature",
+      "tpe" : {
+        "name" : "Celsius"
+      }
+    }, {
+      "name" : "waterLevelLongitudinalPosition",
+      "tpe" : {
+        "name" : "Meters"
+      }
+    }, {
+      "name" : "cableSurfaceWaterLevelTemperature",
+      "tpe" : {
+        "name" : "Celsius"
+      }
+    }, {
+      "name" : "waterLevelMaxCableTemperature",
+      "tpe" : {
+        "name" : "Celsius"
+      }
+    }, {
+      "name" : "waterLevelMaximumRadialPosition",
+      "tpe" : {
+        "name" : "Millimiters"
+      }
+    }, {
+      "name" : "lineSpeed",
+      "tpe" : {
+        "name" : "MetersPerMinute"
+      }
+    }, {
+      "name" : "temperaturePoints",
+      "tpe" : {
+        "name" : "List",
+        "args" : [ {
+          "name" : "TemperaturePoint"
+        } ]
+      }
+    }, {
+      "name" : "crossLinkingPoints",
+      "tpe" : {
+        "name" : "List",
+        "args" : [ {
+          "name" : "CrossLinkingPoint"
+        } ]
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ ]
+  }, {
     "name" : "Entity",
     "members" : [ {
       "name" : "id",
@@ -50,6 +176,31 @@
     "typeParams" : [ {
       "name" : "A"
     } ]
+  }, {
+    "name" : "VolumetricSpecificHeat",
+    "members" : [ {
+      "name" : "temperature",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "value",
+      "tpe" : {
+        "name" : "Double"
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ ]
+  }, {
+    "name" : "InsulationLayer",
+    "members" : [ {
+      "name" : "unwrap",
+      "tpe" : {
+        "name" : "Layer"
+      }
+    } ],
+    "isValueClass" : true,
+    "typeParams" : [ ]
   }, {
     "name" : "User",
     "members" : [ {
@@ -76,8 +227,376 @@
     } ],
     "isValueClass" : false,
     "typeParams" : [ ]
+  }, {
+    "name" : "Zone",
+    "members" : [ {
+      "name" : "type",
+      "tpe" : {
+        "name" : "ZoneType"
+      }
+    }, {
+      "name" : "temperature",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "linearlyVaryingTemperature",
+      "tpe" : {
+        "name" : "Boolean"
+      }
+    }, {
+      "name" : "length",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "tubeDiameter",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "tubeAbsolutePressure",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "tubeEmissivity",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "cableEmissivity",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "turbulentWater",
+      "tpe" : {
+        "name" : "Boolean"
+      }
+    }, {
+      "name" : "flowRate",
+      "tpe" : {
+        "name" : "Double"
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ ]
+  }, {
+    "name" : "ActivationEnergy",
+    "members" : [ {
+      "name" : "temperature",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "value",
+      "tpe" : {
+        "name" : "Double"
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ ]
+  }, {
+    "name" : "Material",
+    "members" : [ {
+      "name" : "volumetricSpecificHeatMap",
+      "tpe" : {
+        "name" : "List",
+        "args" : [ {
+          "name" : "VolumetricSpecificHeat"
+        } ]
+      }
+    }, {
+      "name" : "thermalResistivityMap",
+      "tpe" : {
+        "name" : "List",
+        "args" : [ {
+          "name" : "ThermalResistivity"
+        } ]
+      }
+    }, {
+      "name" : "crossLinksFormationTimeMap",
+      "tpe" : {
+        "name" : "List",
+        "args" : [ {
+          "name" : "CrossLinksFormationTime"
+        } ]
+      }
+    }, {
+      "name" : "activationEnergyMap",
+      "tpe" : {
+        "name" : "List",
+        "args" : [ {
+          "name" : "ActivationEnergy"
+        } ]
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ ]
+  }, {
+    "name" : "ZoneType",
+    "values" : [ {
+      "name" : "Air"
+    }, {
+      "name" : "Steam"
+    }, {
+      "name" : "Water"
+    }, {
+      "name" : "WaterTrans"
+    }, {
+      "name" : "Nitrogen"
+    }, {
+      "name" : "NitrogenHeat"
+    }, {
+      "name" : "NitrogenTrans"
+    }, {
+      "name" : "NitrogenCool"
+    }, {
+      "name" : "RhodorsilSiliconeOil"
+    }, {
+      "name" : "DowcorSiliconeOil"
+    }, {
+      "name" : "Flange"
+    } ]
+  }, {
+    "name" : "CalculationInput",
+    "members" : [ {
+      "name" : "name",
+      "tpe" : {
+        "name" : "String"
+      }
+    }, {
+      "name" : "lineSpeedRangeStart",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "lineSpeedRangeEnd",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "lineSpeedRangeStep",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "longitudinalCalculationStep",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "longitudinalCalculationSavingSteps",
+      "tpe" : {
+        "name" : "Int"
+      }
+    }, {
+      "name" : "longitudinalTouchPoint",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "longitudinalWaterLevel",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "cableRadialPositions",
+      "tpe" : {
+        "name" : "List",
+        "args" : [ {
+          "name" : "Double"
+        } ]
+      }
+    }, {
+      "name" : "conductorTransversalSection",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "conductorLayer",
+      "tpe" : {
+        "name" : "ConductorLayer"
+      }
+    }, {
+      "name" : "internalSemiconductiveLayer",
+      "tpe" : {
+        "name" : "InternalSemiconductiveLayer"
+      }
+    }, {
+      "name" : "insulationLayer",
+      "tpe" : {
+        "name" : "InsulationLayer"
+      }
+    }, {
+      "name" : "externalSemiconductiveLayer",
+      "tpe" : {
+        "name" : "ExternalSemiconductiveLayer"
+      }
+    }, {
+      "name" : "zones",
+      "tpe" : {
+        "name" : "List",
+        "args" : [ {
+          "name" : "Zone"
+        } ]
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ ]
+  }, {
+    "name" : "ThermalResistivity",
+    "members" : [ {
+      "name" : "temperature",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "value",
+      "tpe" : {
+        "name" : "Double"
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ ]
+  }, {
+    "name" : "CalculationOutput",
+    "members" : [ {
+      "name" : "lineSpeeds",
+      "tpe" : {
+        "name" : "List",
+        "args" : [ {
+          "name" : "MetersPerMinute"
+        } ]
+      }
+    }, {
+      "name" : "runs",
+      "tpe" : {
+        "name" : "List",
+        "args" : [ {
+          "name" : "CalculationRun"
+        } ]
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ ]
+  }, {
+    "name" : "Layer",
+    "members" : [ {
+      "name" : "discretisationLayers",
+      "tpe" : {
+        "name" : "Int"
+      }
+    }, {
+      "name" : "externalDiameter",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "initialTemperature",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "materialId",
+      "tpe" : {
+        "name" : "Id",
+        "args" : [ {
+          "name" : "Material"
+        } ]
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ ]
+  }, {
+    "name" : "CrossLinksFormationTime",
+    "members" : [ {
+      "name" : "temperature",
+      "tpe" : {
+        "name" : "Double"
+      }
+    }, {
+      "name" : "value",
+      "tpe" : {
+        "name" : "Double"
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ ]
+  }, {
+    "name" : "InternalSemiconductiveLayer",
+    "members" : [ {
+      "name" : "unwrap",
+      "tpe" : {
+        "name" : "Layer"
+      }
+    } ],
+    "isValueClass" : true,
+    "typeParams" : [ ]
+  }, {
+    "name" : "CrossLinkingPoint",
+    "members" : [ {
+      "name" : "linearPositionIndex",
+      "tpe" : {
+        "name" : "Int"
+      }
+    }, {
+      "name" : "radialPositionIndex",
+      "tpe" : {
+        "name" : "Int"
+      }
+    }, {
+      "name" : "crossLinkingDegree",
+      "tpe" : {
+        "name" : "Double"
+      }
+    } ],
+    "isValueClass" : false,
+    "typeParams" : [ ]
   } ],
   "routes" : [ {
+    "method" : "get",
+    "route" : [ {
+      "str" : "material"
+    }, {
+      "str" : "readAll"
+    } ],
+    "params" : [ ],
+    "authenticated" : false,
+    "returns" : {
+      "name" : "List",
+      "args" : [ {
+        "name" : "Entity",
+        "args" : [ {
+          "name" : "Material"
+        } ]
+      } ]
+    },
+    "ctrl" : [ "materialController", "readAll" ],
+    "name" : [ "materialController", "readAll" ]
+  }, {
+    "method" : "post",
+    "route" : [ {
+      "str" : "calculation"
+    }, {
+      "str" : "run"
+    } ],
+    "params" : [ {
+      "name" : "calculation",
+      "tpe" : {
+        "name" : "CalculationInput"
+      },
+      "required" : true,
+      "inBody" : true
+    } ],
+    "authenticated" : false,
+    "returns" : {
+      "name" : "CalculationOutput"
+    },
+    "ctrl" : [ "calculationController", "run" ],
+    "name" : [ "calculationController", "run" ]
+  }, {
     "method" : "get",
     "route" : [ {
       "str" : "me"
@@ -94,6 +613,26 @@
     },
     "ctrl" : [ "meController", "read" ],
     "name" : [ "meController", "read" ]
+  }, {
+    "method" : "get",
+    "route" : [ {
+      "str" : "user"
+    }, {
+      "str" : "readAll"
+    } ],
+    "params" : [ ],
+    "authenticated" : false,
+    "returns" : {
+      "name" : "List",
+      "args" : [ {
+        "name" : "Entity",
+        "args" : [ {
+          "name" : "User"
+        } ]
+      } ]
+    },
+    "ctrl" : [ "userController", "readAll" ],
+    "name" : [ "userController", "readAll" ]
   }, {
     "method" : "get",
     "route" : [ {

@@ -31,6 +31,42 @@ const parseError = (err: AxiosError) => {
 
 export default function getRoutes(config: RouteConfig) {
   return {
+    materialController_readAll: function ({  }: {  }): Promise<Array<m.Entity<m.Material>>> {
+      return axios({
+        method: 'get',
+        url: `${config.apiEndpoint}/material/readAll`,
+        params: {
+
+        },
+        data: {
+
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(t.array(m.Entity(m.Material)), config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    calculationController_run: function ({ calculation }: { calculation: m.CalculationInput }): Promise<m.CalculationOutput> {
+      return axios({
+        method: 'post',
+        url: `${config.apiEndpoint}/calculation/run`,
+        params: {
+
+        },
+        data: {
+          calculation
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.CalculationOutput, config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
     meController_read: function ({  }: {  }): Promise<m.Entity<m.User>> {
       return axios({
         method: 'get',
@@ -48,6 +84,25 @@ export default function getRoutes(config: RouteConfig) {
         },
         timeout: config.timeout
       }).then(res => valueOrThrow(m.Entity(m.User), config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    userController_readAll: function ({  }: {  }): Promise<Array<m.Entity<m.User>>> {
+      return axios({
+        method: 'get',
+        url: `${config.apiEndpoint}/user/readAll`,
+        params: {
+
+        },
+        data: {
+
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(t.array(m.Entity(m.User)), config.unwrapApiResponse(res.data)), parseError) as any
     },
 
     userController_read: function ({ id }: { id: m.Id<m.User> }): Promise<m.Entity<m.User>> {
@@ -86,7 +141,9 @@ export default function getRoutes(config: RouteConfig) {
       }).then(res => valueOrThrow(m.Id<m.User>(), config.unwrapApiResponse(res.data)), parseError) as any
     },
 
-    userController_update: function ({ user }: { user: m.Entity<m.User> }): Promise<m.Unit> {
+    userController_update: function ({ user }: { user: m.Entity<m.User> }): Promise<{
+
+}> {
       return axios({
         method: 'post',
         url: `${config.apiEndpoint}/user/update`,
@@ -100,10 +157,14 @@ export default function getRoutes(config: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: config.timeout
-      }).then(res => valueOrThrow(m.Unit, config.unwrapApiResponse(res.data)), parseError) as any
+      }).then(res => valueOrThrow(t.strict({
+
+}), config.unwrapApiResponse(res.data)), parseError) as any
     },
 
-    userController_delete: function ({ id }: { id: m.Id<m.User> }): Promise<m.Unit> {
+    userController_delete: function ({ id }: { id: m.Id<m.User> }): Promise<{
+
+}> {
       return axios({
         method: 'post',
         url: `${config.apiEndpoint}/user/delete`,
@@ -117,7 +178,9 @@ export default function getRoutes(config: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: config.timeout
-      }).then(res => valueOrThrow(m.Unit, config.unwrapApiResponse(res.data)), parseError) as any
+      }).then(res => valueOrThrow(t.strict({
+
+}), config.unwrapApiResponse(res.data)), parseError) as any
     }
   }
 }

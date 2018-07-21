@@ -102,18 +102,25 @@ function getNewtype(model: CaseClass): Reader<Ctx, gen.CustomTypeDeclaration> {
     const staticType = gen.printStatic(tsType);
     const runtimeType = gen.printRuntime(tsType);
     const hasTypeParams = model.typeParams && model.typeParams.length > 0;
-    const typeParams = hasTypeParams ? `<${model.typeParams.map(t => `_${t.name}`).join(', ')}>` : '';
+    const typeParams = hasTypeParams ? `<${model.typeParams.map(t => `${t.name}`).join(', ')}>` : '';
     const dependencies = [staticType];
-    const staticRepr = `export interface ${model.name}${typeParams} extends Newtype<'${model.name}', ${staticType}> {}`;
+    const newtypeSymbol = `readonly ${model.name}: unique symbol`;
+    const readonlyTypeParams = () =>
+      model.typeParams.map(t => `readonly ${model.name}_${t.name}: ${t.name}`).join(', ');
+    const staticRepr = hasTypeParams
+      ? `export interface ${
+          model.name
+        }${typeParams} extends Newtype<{ ${newtypeSymbol}, ${readonlyTypeParams()} }, ${staticType}> {}`
+      : `export interface ${model.name}${typeParams} extends Newtype<{ ${newtypeSymbol} }, ${staticType}> {}`;
     const runtimeRepr = hasTypeParams
       ? [
           `export function ${model.name}${typeParams}() { return fromNewtype<${
             model.name
-          }${typeParams}>(${runtimeType}) }`,
+          }${typeParams}>()(${runtimeType}) }`,
           `export function ${lowerFirst(model.name)}Iso${typeParams}() { return iso<${model.name}${typeParams}>() }`
         ].join('\n')
       : [
-          `export const ${model.name} = fromNewtype<${model.name}>(${runtimeType});`,
+          `export const ${model.name} = fromNewtype<${model.name}>()(${runtimeType});`,
           `export const ${lowerFirst(model.name)}Iso = iso<${model.name}>();`
         ].join('\n');
 
@@ -175,8 +182,8 @@ interface Iso<S, A> {
 const unsafeCoerce = <A, B>(a: A): B => a as any
 type Carrier<N extends Newtype<any, any>> = N['_A']
 type AnyNewtype = Newtype<any, any>
-const fromNewtype: <N extends AnyNewtype>(type: t.Type<Carrier<N>, Carrier<N>>) => t.Type<N, Carrier<N>> =
-  type => type as any
+const fromNewtype = <N extends AnyNewtype>() => <O>(type: t.Type<Carrier<N>, O>): t.Type<N, O> =>
+  type as any
 const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
   ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
 

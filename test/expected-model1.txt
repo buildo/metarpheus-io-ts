@@ -13,8 +13,8 @@ interface Iso<S, A> {
 const unsafeCoerce = <A, B>(a: A): B => a as any
 type Carrier<N extends Newtype<any, any>> = N['_A']
 type AnyNewtype = Newtype<any, any>
-const fromNewtype: <N extends AnyNewtype>(type: t.Type<Carrier<N>, Carrier<N>>) => t.Type<N, Carrier<N>> =
-  type => type as any
+const fromNewtype = <N extends AnyNewtype>() => <O>(type: t.Type<Carrier<N>, O>): t.Type<N, O> =>
+  type as any
 const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
   ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
 
@@ -45,9 +45,9 @@ export const Camping = t.interface({
   location: CampingLocation
 }, 'Camping')
 
-export interface HealthId extends Newtype<'HealthId', string> {}
+export interface HealthId extends Newtype<{ readonly HealthId: unique symbol }, string> {}
 
-export const HealthId = fromNewtype<HealthId>(t.string);
+export const HealthId = fromNewtype<HealthId>()(t.string);
 export const healthIdIso = iso<HealthId>();
 
 export interface Health {
