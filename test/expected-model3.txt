@@ -31,7 +31,7 @@ export const CancellationPolicy = t.keyof({
 }, 'CancellationPolicy')
 
 export interface AvailableFare {
-  id: UUID,
+  id: string,
   name: string,
   vendor: Vendor,
   paymentMode: PaymentMode,
@@ -42,7 +42,7 @@ export interface AvailableFare {
 }
 
 export const AvailableFare = t.interface({
-  id: UUID,
+  id: t.string,
   name: t.string,
   vendor: Vendor,
   paymentMode: PaymentMode,
@@ -155,12 +155,12 @@ export const RentalRate = t.interface({
 }, 'RentalRate')
 
 export interface AvailableRentalRate {
-  availableVehicleId: UUID,
+  availableVehicleId: string,
   rentalRate: RentalRate
 }
 
 export const AvailableRentalRate = t.interface({
-  availableVehicleId: UUID,
+  availableVehicleId: t.string,
   rentalRate: RentalRate
 }, 'AvailableRentalRate')
 
@@ -375,9 +375,9 @@ export const Vehicle = t.interface({
 }, 'Vehicle')
 
 export interface AvailableVehicle {
-  id: UUID,
+  id: string,
   createdAt: string,
-  queryId: UUID,
+  queryId: string,
   externalId: string,
   vehicle: Vehicle,
   fare: AvailableFare,
@@ -385,9 +385,9 @@ export interface AvailableVehicle {
 }
 
 export const AvailableVehicle = t.interface({
-  id: UUID,
+  id: t.string,
   createdAt: t.string,
-  queryId: UUID,
+  queryId: t.string,
   externalId: t.string,
   vehicle: Vehicle,
   fare: AvailableFare,

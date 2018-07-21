@@ -54,9 +54,8 @@ export function getType(tpe: Tpe): Reader<Ctx, gen.TypeReference> {
   return ask<Ctx>().chain(({ prefix, isReadonly }) => {
     switch (tpe.name) {
       case 'String':
-      // case 'Date':
-      // case 'DateTime':
       case 'Instant':
+      case 'UUID':
         return reader.of(gen.stringType);
       case 'Int':
       case 'Float':
