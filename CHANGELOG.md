@@ -1,6 +1,22 @@
 #  Change Log
 
+## [Unreleased](https://github.com/buildo/metarpheus-io-ts/tree/HEAD)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.3.0...HEAD)
 
+#### New features:
+
+- Use unique symbol for newtype encoding [#54](https://github.com/buildo/metarpheus-io-ts/issues/54)
+
+#### Breaking:
+
+- Generic parameter of newtypes is unused [#53](https://github.com/buildo/metarpheus-io-ts/issues/53)
+
+#### Fixes (bugs & defects):
+
+- Current encoding of fromNewtype breaks in some cases [#52](https://github.com/buildo/metarpheus-io-ts/issues/52)
+- Add support for UUID [#51](https://github.com/buildo/metarpheus-io-ts/issues/51)
+- Add support for Unit [#50](https://github.com/buildo/metarpheus-io-ts/issues/50)
+- Add support for Double [#49](https://github.com/buildo/metarpheus-io-ts/issues/49)
 
 ## [v0.3.0](https://github.com/buildo/metarpheus-io-ts/tree/v0.3.0) (2018-07-20)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.2.3...v0.3.0)
@@ -125,3 +141,6 @@
 - fix gen-io-ts imports [#2](https://github.com/buildo/metarpheus-io-ts/issues/2)
 
 ## [v0.1.0](https://github.com/buildo/metarpheus-io-ts/tree/v0.1.0) (2017-06-20)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/rm...v0.1.0)
+
+## [rm](https://github.com/buildo/metarpheus-io-ts/tree/rm) (2018-07-20)
