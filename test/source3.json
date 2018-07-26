@@ -1699,7 +1699,7 @@
           "inBody": true
         }
       ],
-      "authenticated": false,
+      "authenticated": true,
       "returns": {
         "name": "UUID"
       },

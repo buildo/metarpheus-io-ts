@@ -90,7 +90,7 @@ export default function getRoutes(config: RouteConfig) {
     },
 
     /** Updates the selected SpecialEquipments for the specified AvailableVehicle */
-    availableVehicleController_updateSpecialEquipments: function ({ availableVehicleId, specialEquipments }: { availableVehicleId: string, specialEquipments: Array<m.SelectedSpecialEquipment> }): Promise<string> {
+    availableVehicleController_updateSpecialEquipments: function ({ token, availableVehicleId, specialEquipments }: { token: string, availableVehicleId: string, specialEquipments: Array<m.SelectedSpecialEquipment> }): Promise<string> {
       return axios({
         method: 'post',
         url: `${config.apiEndpoint}/availableVehicles/updateSpecialEquipments`,
@@ -102,7 +102,8 @@ export default function getRoutes(config: RouteConfig) {
           specialEquipments
         },
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Token token="${token}"`
         },
         timeout: config.timeout
       }).then(res => valueOrThrow(t.string, config.unwrapApiResponse(res.data)), parseError) as any

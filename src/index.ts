@@ -330,7 +330,7 @@ interface Param {
 }
 
 function getParamsToPrint(route: Route, params: Array<Param>): Reader<Ctx, Array<Param>> {
-  const p1 = route.authenticated ? params.filter(x => !(x.name === 'token' && x.type === 'string')) : params;
+  const p1 = route.authenticated ? [{ name: 'token', type: 'string' }, ...params] : params;
   return route.method === 'post' && route.body
     ? getType(route.body.tpe).map(bodyType =>
         // the name `data` for this param is hardcoded in `getRouteData`
