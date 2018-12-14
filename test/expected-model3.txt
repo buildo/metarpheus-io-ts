@@ -376,7 +376,6 @@ export const Vehicle = t.interface({
 
 export interface AvailableVehicle {
   id: UUID,
-  createdAt: Instant,
   queryId: UUID,
   externalId: string,
   vehicle: Vehicle,
@@ -386,7 +385,6 @@ export interface AvailableVehicle {
 
 export const AvailableVehicle = t.interface({
   id: UUID,
-  createdAt: Instant,
   queryId: UUID,
   externalId: t.string,
   vehicle: Vehicle,
