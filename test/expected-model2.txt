@@ -2,12 +2,12 @@
 import * as t from 'io-ts'
 
 export type Tag = Readonly<{
-  id: string,
+  id: UUID,
   label: string
 }>
 
 export const Tag = t.readonly(t.interface({
-  id: t.string,
+  id: UUID,
   label: t.string
 }, 'Tag'))
 
@@ -81,7 +81,7 @@ export const FareRule = t.readonly(t.interface({
 }, 'FareRule'))
 
 export type Fare = Readonly<{
-  id: string,
+  id: UUID,
   name: string,
   vendor: Vendor,
   paymentMode: PaymentMode,
@@ -96,7 +96,7 @@ export type Fare = Readonly<{
 }>
 
 export const Fare = t.readonly(t.interface({
-  id: t.string,
+  id: UUID,
   name: t.string,
   vendor: Vendor,
   paymentMode: PaymentMode,
@@ -131,7 +131,7 @@ export const ReservationProfile = t.keyof({
 }, 'ReservationProfile')
 
 export type FareSummary = Readonly<{
-  id: string,
+  id: UUID,
   reservationProfile: ReservationProfile,
   name: string,
   vendor: Vendor,
@@ -140,7 +140,7 @@ export type FareSummary = Readonly<{
 }>
 
 export const FareSummary = t.readonly(t.interface({
-  id: t.string,
+  id: UUID,
   reservationProfile: ReservationProfile,
   name: t.string,
   vendor: Vendor,
