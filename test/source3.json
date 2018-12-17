@@ -1,6 +1,49 @@
 {
   "models": [
     {
+      "name": "DayOfWeek",
+      "values": [
+        {
+          "name": "Monday"
+        },
+        {
+          "name": "Tuesday"
+        },
+        {
+          "name": "Wednesday"
+        },
+        {
+          "name": "Thursday"
+        },
+        {
+          "name": "Friday"
+        },
+        {
+          "name": "Saturday"
+        },
+        {
+          "name": "Sunday"
+        }
+      ]
+    },
+    {
+      "name": "OpeningHours",
+      "members": [
+        {
+          "name": "open",
+          "tpe": {
+            "name": "String"
+          }
+        },
+        {
+          "name": "close",
+          "tpe": {
+            "name": "String"
+          }
+        }
+      ]
+    },
+    {
       "name": "ReservationProfile",
       "values": [
         {
@@ -382,255 +425,22 @@
           }
         },
         {
-          "name": "open1mon",
+          "name": "openingHours",
           "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close1mon",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open2mon",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close2mon",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open3mon",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close3mon",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open1tue",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close1tue",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open2tue",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close2tue",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open3tue",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close3tue",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open1wed",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close1wed",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open2wed",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close2wed",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open3wed",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close3wed",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open1thu",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close1thu",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open2thu",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close2thu",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open3thu",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close3thu",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open1fri",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close1fri",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open2fri",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close2fri",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open3fri",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close3fri",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open1sat",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close1sat",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open2sat",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close2sat",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open3sat",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close3sat",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open1sun",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close1sun",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open2sun",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close2sun",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "open3sun",
-          "tpe": {
-            "name": "String"
-          }
-        },
-        {
-          "name": "close3sun",
-          "tpe": {
-            "name": "String"
+            "name": "Map",
+            "args": [
+              {
+                "name" : "DayOfWeek"
+              },
+              {
+                "name" : "List",
+                "args" : [
+                  {
+                    "name" : "OpeningHours"
+                  }
+                ]
+              }
+            ]
           }
         },
         {

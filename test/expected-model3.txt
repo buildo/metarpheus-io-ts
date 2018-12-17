@@ -448,6 +448,35 @@ export const AvailableVehicleSearchResult = t.interface({
   availability: t.array(VehicleAvailability)
 }, 'AvailableVehicleSearchResult')
 
+export type DayOfWeek =
+  | 'Monday'
+  | 'Tuesday'
+  | 'Wednesday'
+  | 'Thursday'
+  | 'Friday'
+  | 'Saturday'
+  | 'Sunday'
+
+export const DayOfWeek = t.keyof({
+  Monday: true,
+  Tuesday: true,
+  Wednesday: true,
+  Thursday: true,
+  Friday: true,
+  Saturday: true,
+  Sunday: true
+}, 'DayOfWeek')
+
+export interface OpeningHours {
+  open: string,
+  close: string
+}
+
+export const OpeningHours = t.interface({
+  open: t.string,
+  close: t.string
+}, 'OpeningHours')
+
 export interface Location {
   recordType: string,
   actionCode: string,
@@ -467,48 +496,7 @@ export interface Location {
   telex: string,
   webUrl: string,
   email: string,
-  open1mon: string,
-  close1mon: string,
-  open2mon: string,
-  close2mon: string,
-  open3mon: string,
-  close3mon: string,
-  open1tue: string,
-  close1tue: string,
-  open2tue: string,
-  close2tue: string,
-  open3tue: string,
-  close3tue: string,
-  open1wed: string,
-  close1wed: string,
-  open2wed: string,
-  close2wed: string,
-  open3wed: string,
-  close3wed: string,
-  open1thu: string,
-  close1thu: string,
-  open2thu: string,
-  close2thu: string,
-  open3thu: string,
-  close3thu: string,
-  open1fri: string,
-  close1fri: string,
-  open2fri: string,
-  close2fri: string,
-  open3fri: string,
-  close3fri: string,
-  open1sat: string,
-  close1sat: string,
-  open2sat: string,
-  close2sat: string,
-  open3sat: string,
-  close3sat: string,
-  open1sun: string,
-  close1sun: string,
-  open2sun: string,
-  close2sun: string,
-  open3sun: string,
-  close3sun: string,
+  openingHours: { [key in DayOfWeek]: Array<OpeningHours> },
   latitude: string,
   longitude: string,
   description: string,
@@ -581,48 +569,7 @@ export const Location = t.interface({
   telex: t.string,
   webUrl: t.string,
   email: t.string,
-  open1mon: t.string,
-  close1mon: t.string,
-  open2mon: t.string,
-  close2mon: t.string,
-  open3mon: t.string,
-  close3mon: t.string,
-  open1tue: t.string,
-  close1tue: t.string,
-  open2tue: t.string,
-  close2tue: t.string,
-  open3tue: t.string,
-  close3tue: t.string,
-  open1wed: t.string,
-  close1wed: t.string,
-  open2wed: t.string,
-  close2wed: t.string,
-  open3wed: t.string,
-  close3wed: t.string,
-  open1thu: t.string,
-  close1thu: t.string,
-  open2thu: t.string,
-  close2thu: t.string,
-  open3thu: t.string,
-  close3thu: t.string,
-  open1fri: t.string,
-  close1fri: t.string,
-  open2fri: t.string,
-  close2fri: t.string,
-  open3fri: t.string,
-  close3fri: t.string,
-  open1sat: t.string,
-  close1sat: t.string,
-  open2sat: t.string,
-  close2sat: t.string,
-  open3sat: t.string,
-  close3sat: t.string,
-  open1sun: t.string,
-  close1sun: t.string,
-  open2sun: t.string,
-  close2sun: t.string,
-  open3sun: t.string,
-  close3sun: t.string,
+  openingHours: t.dictionary(DayOfWeek, t.array(OpeningHours)),
   latitude: t.string,
   longitude: t.string,
   description: t.string,
