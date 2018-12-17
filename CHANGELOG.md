@@ -2,6 +2,13 @@
 
 
 
+## [v0.4.2](https://github.com/buildo/metarpheus-io-ts/tree/v0.4.2) (2018-12-17)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.4.1...v0.4.2)
+
+#### Fixes (bugs & defects):
+
+- Containers with optional values are encoded incorrectly [#61](https://github.com/buildo/metarpheus-io-ts/issues/61)
+
 ## [v0.4.1](https://github.com/buildo/metarpheus-io-ts/tree/v0.4.1) (2018-07-26)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.4.0...v0.4.1)
 
