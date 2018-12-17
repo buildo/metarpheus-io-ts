@@ -71,7 +71,7 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
       case 'Option':
         const innerType = getType(tpe.args![0], tpe);
         if (owner && ['List', 'Set', 'TreeSet', 'Map'].includes(owner.name)) {
-          return innerType.map(t => gen.unionCombinator([t, gen.undefinedType]));
+          return innerType.map(t => gen.unionCombinator([t, gen.nullType]));
         }
         return innerType;
       case 'List':

@@ -126,7 +126,7 @@ export interface CalculationInput {
   longitudinalWaterLevel: number,
   cableRadialPositions: Array<
     | number
-    | undefined>,
+    | null>,
   conductorTransversalSection: number,
   conductorLayer: ConductorLayer,
   internalSemiconductiveLayer: InternalSemiconductiveLayer,
@@ -146,7 +146,7 @@ export const CalculationInput = t.interface({
   longitudinalWaterLevel: t.number,
   cableRadialPositions: t.array(t.union([
     t.number,
-    t.undefined
+    t.null
   ])),
   conductorTransversalSection: t.number,
   conductorLayer: ConductorLayer,
