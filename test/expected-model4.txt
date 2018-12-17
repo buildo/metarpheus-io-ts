@@ -251,9 +251,9 @@ export interface ExternalId<A> extends Newtype<{ readonly ExternalId: unique sym
 export function ExternalId<A>() { return fromNewtype<ExternalId<A>>()(t.string) }
 export function externalIdIso<A>() { return iso<ExternalId<A>>() }
 
-export interface Id<A> extends Newtype<{ readonly Id: unique symbol, readonly Id_A: A }, string> {}
+export interface Id<A> extends Newtype<{ readonly Id: unique symbol, readonly Id_A: A }, UUID> {}
 
-export function Id<A>() { return fromNewtype<Id<A>>()(t.string) }
+export function Id<A>() { return fromNewtype<Id<A>>()(UUID) }
 export function idIso<A>() { return iso<Id<A>>() }
 
 export interface VolumetricSpecificHeat {

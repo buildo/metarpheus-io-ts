@@ -1019,12 +1019,6 @@
           }
         },
         {
-          "name": "createdAt",
-          "tpe": {
-            "name": "Instant"
-          }
-        },
-        {
           "name": "queryId",
           "tpe": {
             "name": "UUID"

@@ -54,8 +54,6 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
   return ask<Ctx>().chain(({ prefix, isReadonly }) => {
     switch (tpe.name) {
       case 'String':
-      case 'Instant':
-      case 'UUID':
         return reader.of(gen.stringType);
       case 'Int':
       case 'Float':
