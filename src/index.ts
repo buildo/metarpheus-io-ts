@@ -93,12 +93,7 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
 
 function dictionaryCombinator(domain: gen.TypeReference, codomain: gen.TypeReference) {
   const defaultCombinator = gen.dictionaryCombinator(domain, codomain);
-  let staticRepr = '';
-  if (domain.kind === 'Identifier') {
-    staticRepr = `{ [key in ${gen.printStatic(domain)}]: ${gen.printStatic(codomain)} }`;
-  } else {
-    staticRepr = gen.printStatic(defaultCombinator);
-  }
+  const staticRepr = `{ [key in ${gen.printStatic(domain)}]: ${gen.printStatic(codomain)} }`;
   const runtimeRepr = gen.printRuntime(defaultCombinator);
   const dependencies = [...gen.getNodeDependencies(domain), ...gen.getNodeDependencies(codomain)];
   return gen.customCombinator(staticRepr, runtimeRepr, dependencies);

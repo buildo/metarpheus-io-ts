@@ -425,12 +425,12 @@ export const AvailableVehicleSearchQuery = t.interface({
 
 export interface VehicleAvailability {
   vehicle: Vehicle,
-  availableRentalRatesByFare: { [key: string]: AvailableRentalRate }
+  availableRentalRatesByFare: { [key in UUID]: AvailableRentalRate }
 }
 
 export const VehicleAvailability = t.interface({
   vehicle: Vehicle,
-  availableRentalRatesByFare: t.dictionary(t.string, AvailableRentalRate)
+  availableRentalRatesByFare: t.dictionary(UUID, AvailableRentalRate)
 }, 'VehicleAvailability')
 
 export interface AvailableVehicleSearchResult {
