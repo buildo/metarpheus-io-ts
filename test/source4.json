@@ -406,7 +406,10 @@
       "tpe" : {
         "name" : "List",
         "args" : [ {
-          "name" : "Double"
+          "name" : "Option",
+          "args" : [ {
+            "name": "Double"
+          } ]
         } ]
       }
     }, {
