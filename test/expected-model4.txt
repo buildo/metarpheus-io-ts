@@ -305,11 +305,12 @@ export interface User {
   fullName?: string
 }
 
-export const User = t.interface({
-  externalId: ExternalId<User>(),
-  role: Role,
-  fullName: t.union([
-    t.string,
-    t.undefined
-  ])
-}, 'User')
+export const User = t.intersection([
+  t.interface({
+    externalId: ExternalId<User>(),
+    role: Role
+  }),
+  t.partial({
+    fullName: t.string
+  })
+])

@@ -91,20 +91,21 @@ export interface ICQAlert {
   description: string
 }
 
-export const ICQAlert = t.interface({
-  _moduleId: t.number,
-  moduleName: t.string,
-  _workcellSerialNumber: t.string,
-  workcellName: t.string,
-  AIMCode: t.number,
-  AIMSubCode: t.union([
-    t.number,
-    t.undefined
-  ]),
-  alertDateTime: Date,
-  category: ICQAlertCategory,
-  description: t.string
-}, 'ICQAlert')
+export const ICQAlert = t.intersection([
+  t.interface({
+    _moduleId: t.number,
+    moduleName: t.string,
+    _workcellSerialNumber: t.string,
+    workcellName: t.string,
+    AIMCode: t.number,
+    alertDateTime: Date,
+    category: ICQAlertCategory,
+    description: t.string
+  }),
+  t.partial({
+    AIMSubCode: t.number
+  })
+])
 
 export interface ICQAssayReference {
   _number: number,
@@ -210,31 +211,26 @@ export interface ICQCalibration {
   user?: string
 }
 
-export const ICQCalibration = t.interface({
-  _moduleId: t.number,
-  moduleName: t.string,
-  _workcellSerialNumber: t.string,
-  workcellName: t.string,
-  assayReference: ICQAssayReference,
-  assayName: t.string,
-  reagentLotNumber: t.string,
-  calibratorLotNumber: t.string,
-  method: ICQCalibrationMethod,
-  type: ICQCalibrationType,
-  calibrationDateTime: t.union([
-    Date,
-    t.undefined
-  ]),
-  expirationDateTime: t.union([
-    Date,
-    t.undefined
-  ]),
-  status: ICQCalibrationStatus,
-  user: t.union([
-    t.string,
-    t.undefined
-  ])
-}, 'ICQCalibration')
+export const ICQCalibration = t.intersection([
+  t.interface({
+    _moduleId: t.number,
+    moduleName: t.string,
+    _workcellSerialNumber: t.string,
+    workcellName: t.string,
+    assayReference: ICQAssayReference,
+    assayName: t.string,
+    reagentLotNumber: t.string,
+    calibratorLotNumber: t.string,
+    method: ICQCalibrationMethod,
+    type: ICQCalibrationType,
+    status: ICQCalibrationStatus
+  }),
+  t.partial({
+    calibrationDateTime: Date,
+    expirationDateTime: Date,
+    user: t.string
+  })
+])
 
 export type ICQConnectionStatus =
   | 'Connected'
@@ -355,32 +351,27 @@ export interface ICQOnBoardSolution {
   cartridgeStatus: ICQReagentCartridgeStatus
 }
 
-export const ICQOnBoardSolution = t.interface({
-  _moduleId: t.number,
-  moduleName: t.string,
-  _workcellSerialNumber: t.string,
-  workcellName: t.string,
-  _lotNumber: t.string,
-  _serialNumber: t.string,
-  configurationId: t.string,
-  configurationVersion: t.number,
-  expirationDate: Date,
-  carouselPosition: t.union([
-    t.number,
-    t.undefined
-  ]),
-  RSMPosition: t.union([
-    t.number,
-    t.undefined
-  ]),
-  percentOfRemainingVolume: t.number,
-  remainingHoursOfOnBoardStability: t.union([
-    t.number,
-    t.undefined
-  ]),
-  status: ICQReagentStatus,
-  cartridgeStatus: ICQReagentCartridgeStatus
-}, 'ICQOnBoardSolution')
+export const ICQOnBoardSolution = t.intersection([
+  t.interface({
+    _moduleId: t.number,
+    moduleName: t.string,
+    _workcellSerialNumber: t.string,
+    workcellName: t.string,
+    _lotNumber: t.string,
+    _serialNumber: t.string,
+    configurationId: t.string,
+    configurationVersion: t.number,
+    expirationDate: Date,
+    percentOfRemainingVolume: t.number,
+    status: ICQReagentStatus,
+    cartridgeStatus: ICQReagentCartridgeStatus
+  }),
+  t.partial({
+    carouselPosition: t.number,
+    RSMPosition: t.number,
+    remainingHoursOfOnBoardStability: t.number
+  })
+])
 
 export type ICQOverallStatus =
   | 'Ok'
@@ -512,36 +503,31 @@ export interface ICQQCMaterial {
   status: ICQQCMaterialStatus
 }
 
-export const ICQQCMaterial = t.interface({
-  _moduleId: t.number,
-  moduleName: t.string,
-  _workcellSerialNumber: t.string,
-  workcellName: t.string,
-  assayReferences: t.array(ICQAssayReference),
-  assayNames: t.array(t.string),
-  _setName: t.string,
-  _levelName: t.string,
-  _lotNumber: t.string,
-  _serialNumber: t.string,
-  carouselPosition: t.union([
-    t.number,
-    t.undefined
-  ]),
-  RSMPosition: t.union([
-    t.number,
-    t.undefined
-  ]),
-  rackId: t.string,
-  rackPosition: t.number,
-  percentVolumeRemaining: t.number,
-  materialExpirationDate: Date,
-  remainingHoursOfOnBoardStability: t.number,
-  remainingMinutesOfInUseStability: t.union([
-    t.number,
-    t.undefined
-  ]),
-  status: ICQQCMaterialStatus
-}, 'ICQQCMaterial')
+export const ICQQCMaterial = t.intersection([
+  t.interface({
+    _moduleId: t.number,
+    moduleName: t.string,
+    _workcellSerialNumber: t.string,
+    workcellName: t.string,
+    assayReferences: t.array(ICQAssayReference),
+    assayNames: t.array(t.string),
+    _setName: t.string,
+    _levelName: t.string,
+    _lotNumber: t.string,
+    _serialNumber: t.string,
+    rackId: t.string,
+    rackPosition: t.number,
+    percentVolumeRemaining: t.number,
+    materialExpirationDate: Date,
+    remainingHoursOfOnBoardStability: t.number,
+    status: ICQQCMaterialStatus
+  }),
+  t.partial({
+    carouselPosition: t.number,
+    RSMPosition: t.number,
+    remainingMinutesOfInUseStability: t.number
+  })
+])
 
 export type ICQRSMStatus =
   | 'Offline'
