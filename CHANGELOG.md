@@ -2,6 +2,21 @@
 
 
 
+## [v0.6.0](https://github.com/buildo/metarpheus-io-ts/tree/v0.6.0) (2018-12-21)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.5.1...v0.6.0)
+
+#### Fixes (bugs & defects):
+
+- Enum Types become strings when used as map keys [#62](https://github.com/buildo/metarpheus-io-ts/issues/62)
+
+#### Breaking:
+
+- optional values in scala translates wrongly in `io-ts` [#57](https://github.com/buildo/metarpheus-io-ts/issues/57)
+
+#### New features:
+
+- Better integer handling [#7](https://github.com/buildo/metarpheus-io-ts/issues/7)
+
 ## [v0.5.1](https://github.com/buildo/metarpheus-io-ts/tree/v0.5.1) (2018-12-17)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.5.0...v0.5.1)
 
