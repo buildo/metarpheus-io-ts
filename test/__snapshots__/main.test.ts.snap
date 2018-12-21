@@ -1,0 +1,2157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getModels should handle any 1`] = `
+"// DO NOT EDIT MANUALLY - metarpheus-generated
+import * as t from 'io-ts'
+
+export interface NotificationPayload {
+  userLanguage?: string,
+  notificationKind: NotificationKind,
+  params: { [key in string]: any },
+  workcellSerialNumber: string,
+  workcellType: InstrumentType
+}
+
+export const NotificationPayload = t.intersection([
+  t.interface({
+    notificationKind: NotificationKind,
+    params: t.dictionary(t.string, t.any),
+    workcellSerialNumber: t.string,
+    workcellType: InstrumentType
+  }),
+  t.partial({
+    userLanguage: t.string
+  })
+])
+"
+`;
+
+exports[`getModels should return the models (source1) 1`] = `
+"// DO NOT EDIT MANUALLY - metarpheus-generated
+import * as t from 'io-ts'
+
+
+interface Newtype<URI, A> {
+  _URI: URI
+  _A: A
+}
+interface Iso<S, A> {
+  unwrap: (s: S) => A
+  wrap: (a: A) => S
+}
+const unsafeCoerce = <A, B>(a: A): B => a as any
+type Carrier<N extends Newtype<any, any>> = N['_A']
+type AnyNewtype = Newtype<any, any>
+const fromNewtype = <N extends AnyNewtype>() => <O>(type: t.Type<Carrier<N>, O>): t.Type<N, O> =>
+  type as any
+const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
+  ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
+
+export type CampingLocation =
+  | 'Seaside'
+  | 'Mountains'
+
+export const CampingLocation = t.keyof({
+  Seaside: true,
+  Mountains: true
+}, 'CampingLocation')
+
+export interface Camping {
+  /** camping name */
+  name: string,
+  /** number of tents */
+  size: number,
+  /** camping location */
+  location: CampingLocation
+}
+
+export const Camping = t.interface({
+  /** camping name */
+  name: t.string,
+  /** number of tents */
+  size: t.number,
+  /** camping location */
+  location: CampingLocation
+}, 'Camping')
+
+export interface HealthId extends Newtype<{ readonly HealthId: unique symbol }, string> {}
+
+export const HealthId = fromNewtype<HealthId>()(t.string);
+export const healthIdIso = iso<HealthId>();
+
+export interface Health {
+  /** Name of the service. */
+  id: HealthId,
+  /** Version of the service. */
+  version: string,
+  /** Current UTC date and time of the request, in ISO 8601 format. */
+  currentAsOfUtc: Date
+}
+
+export const Health = t.interface({
+  /** Name of the service. */
+  id: HealthId,
+  /** Version of the service. */
+  version: t.string,
+  /** Current UTC date and time of the request, in ISO 8601 format. */
+  currentAsOfUtc: Date
+}, 'Health')
+
+export type ICQAlertCategory =
+  | 'Critical'
+  | 'Alert'
+  | 'Notification'
+
+export const ICQAlertCategory = t.keyof({
+  Critical: true,
+  Alert: true,
+  Notification: true
+}, 'ICQAlertCategory')
+
+export interface ICQAlert {
+  _moduleId: number,
+  moduleName: string,
+  _workcellSerialNumber: string,
+  workcellName: string,
+  AIMCode: number,
+  AIMSubCode?: number,
+  alertDateTime: Date,
+  category: ICQAlertCategory,
+  description: string
+}
+
+export const ICQAlert = t.intersection([
+  t.interface({
+    _moduleId: t.number,
+    moduleName: t.string,
+    _workcellSerialNumber: t.string,
+    workcellName: t.string,
+    AIMCode: t.number,
+    alertDateTime: Date,
+    category: ICQAlertCategory,
+    description: t.string
+  }),
+  t.partial({
+    AIMSubCode: t.number
+  })
+])
+
+export interface ICQAssayReference {
+  _number: number,
+  _version: number
+}
+
+export const ICQAssayReference = t.interface({
+  _number: t.number,
+  _version: t.number
+}, 'ICQAssayReference')
+
+export type ICQCalibrationMethod =
+  | 'Qual1Point'
+  | 'Qual2Point'
+  | 'CalValueReference'
+  | 'ICT'
+  | 'Exponential'
+  | 'Linear'
+  | 'Spline'
+  | 'ABS'
+  | 'Factor'
+  | 'UseFactor'
+  | 'UseFactorBlank'
+  | 'PLC4Y'
+  | 'PLC4X'
+  | 'PLC4XTransform'
+  | 'PLC5Y'
+  | 'PLC5X'
+  | 'PLC5XTransform'
+  | 'PointToPoint'
+  | 'IAReference'
+  | 'Logit-4'
+  | 'Logit-5'
+
+export const ICQCalibrationMethod = t.keyof({
+  Qual1Point: true,
+  Qual2Point: true,
+  CalValueReference: true,
+  ICT: true,
+  Exponential: true,
+  Linear: true,
+  Spline: true,
+  ABS: true,
+  Factor: true,
+  UseFactor: true,
+  UseFactorBlank: true,
+  PLC4Y: true,
+  PLC4X: true,
+  PLC4XTransform: true,
+  PLC5Y: true,
+  PLC5X: true,
+  PLC5XTransform: true,
+  PointToPoint: true,
+  IAReference: true,
+  'Logit-4': true,
+  'Logit-5': true
+}, 'ICQCalibrationMethod')
+
+export type ICQCalibrationType =
+  | 'Full'
+  | 'Adjust'
+
+export const ICQCalibrationType = t.keyof({
+  Full: true,
+  Adjust: true
+}, 'ICQCalibrationType')
+
+export type ICQCalibrationStatus =
+  | 'NoCal'
+  | 'Ok'
+  | 'Failed'
+  | 'Expired'
+  | 'Overridden'
+  | 'OverriddenLot'
+  | 'PendingQC'
+  | 'InProcess'
+
+export const ICQCalibrationStatus = t.keyof({
+  NoCal: true,
+  Ok: true,
+  Failed: true,
+  Expired: true,
+  Overridden: true,
+  OverriddenLot: true,
+  PendingQC: true,
+  InProcess: true
+}, 'ICQCalibrationStatus')
+
+export interface ICQCalibration {
+  _moduleId: number,
+  moduleName: string,
+  _workcellSerialNumber: string,
+  workcellName: string,
+  assayReference: ICQAssayReference,
+  assayName: string,
+  reagentLotNumber: string,
+  calibratorLotNumber: string,
+  method: ICQCalibrationMethod,
+  type: ICQCalibrationType,
+  calibrationDateTime?: Date,
+  expirationDateTime?: Date,
+  status: ICQCalibrationStatus,
+  user?: string
+}
+
+export const ICQCalibration = t.intersection([
+  t.interface({
+    _moduleId: t.number,
+    moduleName: t.string,
+    _workcellSerialNumber: t.string,
+    workcellName: t.string,
+    assayReference: ICQAssayReference,
+    assayName: t.string,
+    reagentLotNumber: t.string,
+    calibratorLotNumber: t.string,
+    method: ICQCalibrationMethod,
+    type: ICQCalibrationType,
+    status: ICQCalibrationStatus
+  }),
+  t.partial({
+    calibrationDateTime: Date,
+    expirationDateTime: Date,
+    user: t.string
+  })
+])
+
+export type ICQConnectionStatus =
+  | 'Connected'
+  | 'NotConnected'
+  | 'NotConfigured'
+
+export const ICQConnectionStatus = t.keyof({
+  Connected: true,
+  NotConnected: true,
+  NotConfigured: true
+}, 'ICQConnectionStatus')
+
+export type ICQModuleStatus =
+  | 'Offline'
+  | 'Stopped'
+  | 'Initializing'
+  | 'Warming'
+  | 'Idle'
+  | 'Running'
+  | 'Processing'
+  | 'Pausing'
+  | 'Maintenance'
+
+export const ICQModuleStatus = t.keyof({
+  Offline: true,
+  Stopped: true,
+  Initializing: true,
+  Warming: true,
+  Idle: true,
+  Running: true,
+  Processing: true,
+  Pausing: true,
+  Maintenance: true
+}, 'ICQModuleStatus')
+
+export type ICQModuleType =
+  | 'IA'
+  | 'CC'
+
+export const ICQModuleType = t.keyof({
+  IA: true,
+  CC: true
+}, 'ICQModuleType')
+
+export type ICQReagentStatus =
+  | 'Ok'
+  | 'Mixing'
+  | 'Overridden'
+  | 'Disabled'
+  | 'LowAlert'
+  | 'Expired'
+  | 'ExpiredError'
+  | 'Empty'
+  | 'NoAssay'
+  | 'PickError'
+  | 'PlaceError'
+  | 'LoadError'
+  | 'Incomplete'
+  | 'BCFail'
+  | 'Undefined'
+
+export const ICQReagentStatus = t.keyof({
+  Ok: true,
+  Mixing: true,
+  Overridden: true,
+  Disabled: true,
+  LowAlert: true,
+  Expired: true,
+  ExpiredError: true,
+  Empty: true,
+  NoAssay: true,
+  PickError: true,
+  PlaceError: true,
+  LoadError: true,
+  Incomplete: true,
+  BCFail: true,
+  Undefined: true
+}, 'ICQReagentStatus')
+
+export type ICQReagentCartridgeStatus =
+  | 'Ok'
+  | 'UnloadError'
+  | 'LoadError'
+  | 'ScheduledUnload'
+  | 'ScheduledLoad'
+  | 'PartiallyUnloaded'
+  | 'Scanning'
+  | 'Unloading'
+  | 'Loading'
+
+export const ICQReagentCartridgeStatus = t.keyof({
+  Ok: true,
+  UnloadError: true,
+  LoadError: true,
+  ScheduledUnload: true,
+  ScheduledLoad: true,
+  PartiallyUnloaded: true,
+  Scanning: true,
+  Unloading: true,
+  Loading: true
+}, 'ICQReagentCartridgeStatus')
+
+export interface ICQOnBoardSolution {
+  _moduleId: number,
+  moduleName: string,
+  _workcellSerialNumber: string,
+  workcellName: string,
+  _lotNumber: string,
+  _serialNumber: string,
+  configurationId: string,
+  configurationVersion: number,
+  expirationDate: Date,
+  carouselPosition?: number,
+  RSMPosition?: number,
+  percentOfRemainingVolume: number,
+  remainingHoursOfOnBoardStability?: number,
+  status: ICQReagentStatus,
+  cartridgeStatus: ICQReagentCartridgeStatus
+}
+
+export const ICQOnBoardSolution = t.intersection([
+  t.interface({
+    _moduleId: t.number,
+    moduleName: t.string,
+    _workcellSerialNumber: t.string,
+    workcellName: t.string,
+    _lotNumber: t.string,
+    _serialNumber: t.string,
+    configurationId: t.string,
+    configurationVersion: t.number,
+    expirationDate: Date,
+    percentOfRemainingVolume: t.number,
+    status: ICQReagentStatus,
+    cartridgeStatus: ICQReagentCartridgeStatus
+  }),
+  t.partial({
+    carouselPosition: t.number,
+    RSMPosition: t.number,
+    remainingHoursOfOnBoardStability: t.number
+  })
+])
+
+export type ICQOverallStatus =
+  | 'Ok'
+  | 'Warning'
+  | 'Error'
+
+export const ICQOverallStatus = t.keyof({
+  Ok: true,
+  Warning: true,
+  Error: true
+}, 'ICQOverallStatus')
+
+export type ICQPrinterStatus =
+  | 'NoError'
+  | 'Warning'
+  | 'Error'
+  | 'NotConfigured'
+
+export const ICQPrinterStatus = t.keyof({
+  NoError: true,
+  Warning: true,
+  Error: true,
+  NotConfigured: true
+}, 'ICQPrinterStatus')
+
+export interface ICQProcessingModule {
+  _id: number,
+  serialNumber: string,
+  type: ICQModuleType,
+  name: string,
+  overallStatus: ICQOverallStatus,
+  status: ICQModuleStatus,
+  numberOfTestsInProgress: number,
+  reagentOverallStatus: ICQOverallStatus,
+  supplyOverallStatus: ICQOverallStatus,
+  calibrationOverallStatus: ICQOverallStatus,
+  QCAnalysisOverallStatus: ICQOverallStatus,
+  maintenanceOverallStatus: ICQOverallStatus
+}
+
+export const ICQProcessingModule = t.interface({
+  _id: t.number,
+  serialNumber: t.string,
+  type: ICQModuleType,
+  name: t.string,
+  overallStatus: ICQOverallStatus,
+  status: ICQModuleStatus,
+  numberOfTestsInProgress: t.number,
+  reagentOverallStatus: ICQOverallStatus,
+  supplyOverallStatus: ICQOverallStatus,
+  calibrationOverallStatus: ICQOverallStatus,
+  QCAnalysisOverallStatus: ICQOverallStatus,
+  maintenanceOverallStatus: ICQOverallStatus
+}, 'ICQProcessingModule')
+
+export type ICQQCAnalysisStatus =
+  | 'Success'
+  | 'QCOutOfRange'
+  | 'WestgardWarning'
+  | 'WestgardFailure'
+
+export const ICQQCAnalysisStatus = t.keyof({
+  Success: true,
+  QCOutOfRange: true,
+  WestgardWarning: true,
+  WestgardFailure: true
+}, 'ICQQCAnalysisStatus')
+
+export interface ICQQCAnalysis {
+  _moduleId: number,
+  moduleName: string,
+  _workcellSerialNumber: string,
+  workcellName: string,
+  assayReference: ICQAssayReference,
+  assayName: string,
+  controlSetName: string,
+  controlLevelName: string,
+  controlLotNumber: string,
+  assayQCStatus: ICQQCAnalysisStatus
+}
+
+export const ICQQCAnalysis = t.interface({
+  _moduleId: t.number,
+  moduleName: t.string,
+  _workcellSerialNumber: t.string,
+  workcellName: t.string,
+  assayReference: ICQAssayReference,
+  assayName: t.string,
+  controlSetName: t.string,
+  controlLevelName: t.string,
+  controlLotNumber: t.string,
+  assayQCStatus: ICQQCAnalysisStatus
+}, 'ICQQCAnalysis')
+
+export type ICQQCMaterialStatus =
+  | 'Ok'
+  | 'LowAlert'
+  | 'Empty'
+  | 'Expired'
+  | 'Overridden'
+
+export const ICQQCMaterialStatus = t.keyof({
+  Ok: true,
+  LowAlert: true,
+  Empty: true,
+  Expired: true,
+  Overridden: true
+}, 'ICQQCMaterialStatus')
+
+export interface ICQQCMaterial {
+  _moduleId: number,
+  moduleName: string,
+  _workcellSerialNumber: string,
+  workcellName: string,
+  assayReferences: Array<ICQAssayReference>,
+  assayNames: Array<string>,
+  _setName: string,
+  _levelName: string,
+  _lotNumber: string,
+  _serialNumber: string,
+  carouselPosition?: number,
+  RSMPosition?: number,
+  rackId: string,
+  rackPosition: number,
+  percentVolumeRemaining: number,
+  materialExpirationDate: Date,
+  remainingHoursOfOnBoardStability: number,
+  remainingMinutesOfInUseStability?: number,
+  status: ICQQCMaterialStatus
+}
+
+export const ICQQCMaterial = t.intersection([
+  t.interface({
+    _moduleId: t.number,
+    moduleName: t.string,
+    _workcellSerialNumber: t.string,
+    workcellName: t.string,
+    assayReferences: t.array(ICQAssayReference),
+    assayNames: t.array(t.string),
+    _setName: t.string,
+    _levelName: t.string,
+    _lotNumber: t.string,
+    _serialNumber: t.string,
+    rackId: t.string,
+    rackPosition: t.number,
+    percentVolumeRemaining: t.number,
+    materialExpirationDate: Date,
+    remainingHoursOfOnBoardStability: t.number,
+    status: ICQQCMaterialStatus
+  }),
+  t.partial({
+    carouselPosition: t.number,
+    RSMPosition: t.number,
+    remainingMinutesOfInUseStability: t.number
+  })
+])
+
+export type ICQRSMStatus =
+  | 'Offline'
+  | 'Stopped'
+  | 'Initializing'
+  | 'Idle'
+  | 'Running'
+  | 'Pausing'
+  | 'Maintenance'
+
+export const ICQRSMStatus = t.keyof({
+  Offline: true,
+  Stopped: true,
+  Initializing: true,
+  Idle: true,
+  Running: true,
+  Pausing: true,
+  Maintenance: true
+}, 'ICQRSMStatus')
+
+export interface ICQRSM {
+  serialNumber: string,
+  name: string,
+  overallStatus: ICQOverallStatus,
+  status: ICQRSMStatus
+}
+
+export const ICQRSM = t.interface({
+  serialNumber: t.string,
+  name: t.string,
+  overallStatus: ICQOverallStatus,
+  status: ICQRSMStatus
+}, 'ICQRSM')
+
+export interface ICQWorkcell {
+  _serialNumber: string,
+  name: string,
+  numberOfSamples: number,
+  numberOfResultsPending: number,
+  numberOfExceptions: number,
+  LISConnectionStatus: ICQConnectionStatus,
+  LASConnectionStatus: ICQConnectionStatus,
+  AbbottLinkConnectionStatus: ICQConnectionStatus,
+  PrinterConnectionStatus: ICQPrinterStatus,
+  currentUser: string,
+  processingModules: Array<ICQProcessingModule>,
+  RSM: ICQRSM
+}
+
+export const ICQWorkcell = t.interface({
+  _serialNumber: t.string,
+  name: t.string,
+  numberOfSamples: t.number,
+  numberOfResultsPending: t.number,
+  numberOfExceptions: t.number,
+  LISConnectionStatus: ICQConnectionStatus,
+  LASConnectionStatus: ICQConnectionStatus,
+  AbbottLinkConnectionStatus: ICQConnectionStatus,
+  PrinterConnectionStatus: ICQPrinterStatus,
+  currentUser: t.string,
+  processingModules: t.array(ICQProcessingModule),
+  RSM: ICQRSM
+}, 'ICQWorkcell')
+"
+`;
+
+exports[`getModels should return the models in the right (source2) 1`] = `
+"// DO NOT EDIT MANUALLY - metarpheus-generated
+import * as t from 'io-ts'
+
+export type Tag = Readonly<{
+  id: UUID,
+  label: string
+}>
+
+export const Tag = t.readonly(t.interface({
+  id: UUID,
+  label: t.string
+}, 'Tag'))
+
+export type AgencySearchResult = Readonly<{
+  agencies: ReadonlyArray<Tag>,
+  networks: ReadonlyArray<Tag>
+}>
+
+export const AgencySearchResult = t.readonly(t.interface({
+  agencies: t.readonlyArray(Tag),
+  networks: t.readonlyArray(Tag)
+}, 'AgencySearchResult'))
+
+export type CancellationPolicy =
+  | 'Free'
+
+export const CancellationPolicy = t.keyof({
+  Free: true
+}, 'CancellationPolicy')
+
+export type Vendor =
+  | 'Hertz'
+  | 'Dollar'
+  | 'FireFly'
+  | 'Thrifty'
+
+export const Vendor = t.keyof({
+  Hertz: true,
+  Dollar: true,
+  FireFly: true,
+  Thrifty: true
+}, 'Vendor')
+
+export type PaymentMode =
+  | 'Cash'
+  | 'Prepaid'
+
+export const PaymentMode = t.keyof({
+  Cash: true,
+  Prepaid: true
+}, 'PaymentMode')
+
+export type FareRule = Readonly<{
+  pickUpValidFrom?: LocalDate,
+  pickUpValidUntil?: LocalDate,
+  reservationValidFrom?: LocalDate,
+  reservationValidUntil?: LocalDate,
+  nations: ReadonlyArray<Tag>,
+  agencies: ReadonlyArray<Tag>
+}>
+
+export const FareRule = t.readonly(t.intersection([
+  t.interface({
+    nations: t.readonlyArray(Tag),
+    agencies: t.readonlyArray(Tag)
+  }),
+  t.partial({
+    pickUpValidFrom: LocalDate,
+    pickUpValidUntil: LocalDate,
+    reservationValidFrom: LocalDate,
+    reservationValidUntil: LocalDate
+  })
+]))
+
+export type Fare = Readonly<{
+  id: UUID,
+  name: string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  rateCode: string,
+  cdp?: string,
+  tourOperatorCode?: string,
+  additionalInclusions?: string,
+  cancellationPolicy: CancellationPolicy,
+  description: string,
+  disabled: boolean,
+  rules: ReadonlyArray<FareRule>
+}>
+
+export const Fare = t.readonly(t.intersection([
+  t.interface({
+    id: UUID,
+    name: t.string,
+    vendor: Vendor,
+    paymentMode: PaymentMode,
+    rateCode: t.string,
+    cancellationPolicy: CancellationPolicy,
+    description: t.string,
+    disabled: t.boolean,
+    rules: t.readonlyArray(FareRule)
+  }),
+  t.partial({
+    cdp: t.string,
+    tourOperatorCode: t.string,
+    additionalInclusions: t.string
+  })
+]))
+
+export type ReservationProfile =
+  | 'Leisure'
+  | 'Business'
+  | 'TourOperator'
+
+export const ReservationProfile = t.keyof({
+  Leisure: true,
+  Business: true,
+  TourOperator: true
+}, 'ReservationProfile')
+
+export type FareSummary = Readonly<{
+  id: UUID,
+  reservationProfile: ReservationProfile,
+  name: string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  disabled: boolean
+}>
+
+export const FareSummary = t.readonly(t.interface({
+  id: UUID,
+  reservationProfile: ReservationProfile,
+  name: t.string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  disabled: t.boolean
+}, 'FareSummary'))
+
+export type FareSummarySorting =
+  | 'Name'
+  | 'Vendor'
+  | 'PaymentMode'
+  | 'Disabled'
+
+export const FareSummarySorting = t.keyof({
+  Name: true,
+  Vendor: true,
+  PaymentMode: true,
+  Disabled: true
+}, 'FareSummarySorting')
+
+export type NationSearchResult = Readonly<{
+  regions: ReadonlyArray<Tag>,
+  countries: ReadonlyArray<Tag>,
+  states: ReadonlyArray<Tag>
+}>
+
+export const NationSearchResult = t.readonly(t.interface({
+  regions: t.readonlyArray(Tag),
+  countries: t.readonlyArray(Tag),
+  states: t.readonlyArray(Tag)
+}, 'NationSearchResult'))
+
+export type NewFare = Readonly<{
+  name: string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  rateCode: string,
+  cdp?: string,
+  additionalInclusions?: string,
+  tourOperatorCode?: string,
+  cancellationPolicy: CancellationPolicy,
+  description: string,
+  disabled: boolean,
+  rules: ReadonlyArray<FareRule>
+}>
+
+export const NewFare = t.readonly(t.intersection([
+  t.interface({
+    name: t.string,
+    vendor: Vendor,
+    paymentMode: PaymentMode,
+    rateCode: t.string,
+    cancellationPolicy: CancellationPolicy,
+    description: t.string,
+    disabled: t.boolean,
+    rules: t.readonlyArray(FareRule)
+  }),
+  t.partial({
+    cdp: t.string,
+    additionalInclusions: t.string,
+    tourOperatorCode: t.string
+  })
+]))
+
+export type SortOrder =
+  | 'Ascending'
+  | 'Descending'
+
+export const SortOrder = t.keyof({
+  Ascending: true,
+  Descending: true
+}, 'SortOrder')
+"
+`;
+
+exports[`getModels should return the models in the right (source3) 1`] = `
+"// DO NOT EDIT MANUALLY - metarpheus-generated
+import * as t from 'io-ts'
+
+export type Vendor =
+  | 'Hertz'
+  | 'Dollar'
+  | 'FireFly'
+  | 'Thrifty'
+
+export const Vendor = t.keyof({
+  Hertz: true,
+  Dollar: true,
+  FireFly: true,
+  Thrifty: true
+}, 'Vendor')
+
+export type PaymentMode =
+  | 'Cash'
+  | 'Prepaid'
+
+export const PaymentMode = t.keyof({
+  Cash: true,
+  Prepaid: true
+}, 'PaymentMode')
+
+export type CancellationPolicy =
+  | 'Free'
+
+export const CancellationPolicy = t.keyof({
+  Free: true
+}, 'CancellationPolicy')
+
+export interface AvailableFare {
+  id: UUID,
+  name: string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  additionalInclusions?: string,
+  explicitExclusions?: string,
+  cancellationPolicy: CancellationPolicy,
+  description?: string
+}
+
+export const AvailableFare = t.intersection([
+  t.interface({
+    id: UUID,
+    name: t.string,
+    vendor: Vendor,
+    paymentMode: PaymentMode,
+    cancellationPolicy: CancellationPolicy
+  }),
+  t.partial({
+    additionalInclusions: t.string,
+    explicitExclusions: t.string,
+    description: t.string
+  })
+])
+
+export interface RentalRateTotal {
+  base: Money,
+  estimatedIncludingTaxes: Money
+}
+
+export const RentalRateTotal = t.interface({
+  base: Money,
+  estimatedIncludingTaxes: Money
+}, 'RentalRateTotal')
+
+export type RentalRateDistanceUnit =
+  | 'Km'
+  | 'Mile'
+  | 'Block'
+
+export const RentalRateDistanceUnit = t.keyof({
+  Km: true,
+  Mile: true,
+  Block: true
+}, 'RentalRateDistanceUnit')
+
+export interface RentalRateDistance {
+  unlimited: boolean,
+  unit: RentalRateDistanceUnit,
+  amount?: number,
+  additional?: Money
+}
+
+export const RentalRateDistance = t.intersection([
+  t.interface({
+    unlimited: t.boolean,
+    unit: RentalRateDistanceUnit
+  }),
+  t.partial({
+    amount: t.number,
+    additional: Money
+  })
+])
+
+export type SpecialEquipment =
+  | 'InfantChildSeat'
+  | 'ChildToddlerSeat'
+  | 'BoosterSeat'
+  | 'NeverLostGPS'
+  | 'SnowTyres'
+
+export const SpecialEquipment = t.keyof({
+  InfantChildSeat: true,
+  ChildToddlerSeat: true,
+  BoosterSeat: true,
+  NeverLostGPS: true,
+  SnowTyres: true
+}, 'SpecialEquipment')
+
+export interface PricedSpecialEquipment {
+  id: SpecialEquipment,
+  units: number,
+  cost: Money,
+  taxInclusive: boolean,
+  includedInRate: boolean
+}
+
+export const PricedSpecialEquipment = t.interface({
+  id: SpecialEquipment,
+  units: t.number,
+  cost: Money,
+  taxInclusive: t.boolean,
+  includedInRate: t.boolean
+}, 'PricedSpecialEquipment')
+
+export interface RentalRate {
+  externalId: string,
+  total: RentalRateTotal,
+  distance: RentalRateDistance,
+  superCoverIncluded: boolean,
+  dropOff?: Money,
+  specialEquipments: Array<PricedSpecialEquipment>
+}
+
+export const RentalRate = t.intersection([
+  t.interface({
+    externalId: t.string,
+    total: RentalRateTotal,
+    distance: RentalRateDistance,
+    superCoverIncluded: t.boolean,
+    specialEquipments: t.array(PricedSpecialEquipment)
+  }),
+  t.partial({
+    dropOff: Money
+  })
+])
+
+export interface AvailableRentalRate {
+  availableVehicleId: UUID,
+  rentalRate: RentalRate
+}
+
+export const AvailableRentalRate = t.interface({
+  availableVehicleId: UUID,
+  rentalRate: RentalRate
+}, 'AvailableRentalRate')
+
+export interface AvailableSpecialEquipment {
+  id: SpecialEquipment,
+  estimatedUnitCost: Money,
+  atMost: number
+}
+
+export const AvailableSpecialEquipment = t.interface({
+  id: SpecialEquipment,
+  estimatedUnitCost: Money,
+  atMost: t.number
+}, 'AvailableSpecialEquipment')
+
+export type VehicleTransmission =
+  | 'Automatic'
+  | 'Manual'
+
+export const VehicleTransmission = t.keyof({
+  Automatic: true,
+  Manual: true
+}, 'VehicleTransmission')
+
+export type VehicleFuel =
+  | 'Unspecified'
+  | 'Diesel'
+  | 'Hybrid'
+  | 'Electric'
+  | 'LPGCompressedGas'
+  | 'Hydrogen'
+  | 'MultiFuel'
+  | 'Petrol'
+  | 'Ethanol'
+
+export const VehicleFuel = t.keyof({
+  Unspecified: true,
+  Diesel: true,
+  Hybrid: true,
+  Electric: true,
+  LPGCompressedGas: true,
+  Hydrogen: true,
+  MultiFuel: true,
+  Petrol: true,
+  Ethanol: true
+}, 'VehicleFuel')
+
+export type VehicleDrive =
+  | 'AllWheel'
+  | 'FourWheel'
+  | 'Unspecified'
+
+export const VehicleDrive = t.keyof({
+  AllWheel: true,
+  FourWheel: true,
+  Unspecified: true
+}, 'VehicleDrive')
+
+export type VehicleCategory =
+  | 'Car'
+  | 'Van'
+  | 'Suv'
+  | 'Convertible'
+  | 'Limousine'
+  | 'Wagon'
+  | 'Pickup'
+  | 'Motorhome'
+  | 'AllTerrain'
+  | 'Recreational'
+  | 'Sport'
+  | 'Special'
+  | 'PickupExtendedCab'
+  | 'RegularCabPickup'
+  | 'SpecialOffer'
+  | 'Coupe'
+  | 'Monospace'
+  | 'TwoWheelVehicle'
+  | 'Roadster'
+  | 'Crossover'
+  | 'CommercialVanOrTruck'
+
+export const VehicleCategory = t.keyof({
+  Car: true,
+  Van: true,
+  Suv: true,
+  Convertible: true,
+  Limousine: true,
+  Wagon: true,
+  Pickup: true,
+  Motorhome: true,
+  AllTerrain: true,
+  Recreational: true,
+  Sport: true,
+  Special: true,
+  PickupExtendedCab: true,
+  RegularCabPickup: true,
+  SpecialOffer: true,
+  Coupe: true,
+  Monospace: true,
+  TwoWheelVehicle: true,
+  Roadster: true,
+  Crossover: true,
+  CommercialVanOrTruck: true
+}, 'VehicleCategory')
+
+export type VehicleSize =
+  | 'Mini'
+  | 'Subcompact'
+  | 'Economy'
+  | 'Compact'
+  | 'Midsize'
+  | 'Intermediate'
+  | 'Standard'
+  | 'Fullsize'
+  | 'Luxury'
+  | 'Premium'
+  | 'Special'
+  | 'MiniElite'
+  | 'EconomyElite'
+  | 'CompactElite'
+  | 'IntermediateElite'
+  | 'StandardElite'
+  | 'FullsizeElite'
+  | 'PremiumElite'
+  | 'LuxuryElite'
+  | 'Oversize'
+
+export const VehicleSize = t.keyof({
+  Mini: true,
+  Subcompact: true,
+  Economy: true,
+  Compact: true,
+  Midsize: true,
+  Intermediate: true,
+  Standard: true,
+  Fullsize: true,
+  Luxury: true,
+  Premium: true,
+  Special: true,
+  MiniElite: true,
+  EconomyElite: true,
+  CompactElite: true,
+  IntermediateElite: true,
+  StandardElite: true,
+  FullsizeElite: true,
+  PremiumElite: true,
+  LuxuryElite: true,
+  Oversize: true
+}, 'VehicleSize')
+
+export interface Vehicle {
+  code?: string,
+  codeContext?: string,
+  airConditioning: boolean,
+  seats?: number,
+  baggage?: number,
+  transmission?: VehicleTransmission,
+  fuel?: VehicleFuel,
+  drive?: VehicleDrive,
+  doors?: number,
+  category: VehicleCategory,
+  size: VehicleSize,
+  model: string,
+  modelCode: string,
+  pictureId: string,
+  segment?: string
+}
+
+export const Vehicle = t.intersection([
+  t.interface({
+    airConditioning: t.boolean,
+    category: VehicleCategory,
+    size: VehicleSize,
+    model: t.string,
+    modelCode: t.string,
+    pictureId: t.string
+  }),
+  t.partial({
+    code: t.string,
+    codeContext: t.string,
+    seats: t.number,
+    baggage: t.number,
+    transmission: VehicleTransmission,
+    fuel: VehicleFuel,
+    drive: VehicleDrive,
+    doors: t.number,
+    segment: t.string
+  })
+])
+
+export interface AvailableVehicle {
+  id: UUID,
+  queryId: UUID,
+  externalId: string,
+  vehicle: Vehicle,
+  fare: AvailableFare,
+  rentalRate: RentalRate
+}
+
+export const AvailableVehicle = t.interface({
+  id: UUID,
+  queryId: UUID,
+  externalId: t.string,
+  vehicle: Vehicle,
+  fare: AvailableFare,
+  rentalRate: RentalRate
+}, 'AvailableVehicle')
+
+export type ReservationProfile =
+  | 'Leisure'
+  | 'Business'
+  | 'TourOperator'
+
+export const ReservationProfile = t.keyof({
+  Leisure: true,
+  Business: true,
+  TourOperator: true
+}, 'ReservationProfile')
+
+export interface AvailableVehicleSearchQuery {
+  reservationProfile: ReservationProfile,
+  pickUpLocation: string,
+  pickUpLocalDate: LocalDate,
+  pickUpLocalTime: LocalTime,
+  dropOffLocation: string,
+  dropOffLocalDate: LocalDate,
+  dropOffLocalTime: LocalTime
+}
+
+export const AvailableVehicleSearchQuery = t.interface({
+  reservationProfile: ReservationProfile,
+  pickUpLocation: t.string,
+  pickUpLocalDate: LocalDate,
+  pickUpLocalTime: LocalTime,
+  dropOffLocation: t.string,
+  dropOffLocalDate: LocalDate,
+  dropOffLocalTime: LocalTime
+}, 'AvailableVehicleSearchQuery')
+
+export interface VehicleAvailability {
+  vehicle: Vehicle,
+  availableRentalRatesByFare: { [key in UUID]: AvailableRentalRate }
+}
+
+export const VehicleAvailability = t.interface({
+  vehicle: Vehicle,
+  availableRentalRatesByFare: t.dictionary(UUID, AvailableRentalRate)
+}, 'VehicleAvailability')
+
+export interface AvailableVehicleSearchResult {
+  taxPercent?: number,
+  fares: Array<AvailableFare>,
+  availability: Array<VehicleAvailability>
+}
+
+export const AvailableVehicleSearchResult = t.intersection([
+  t.interface({
+    fares: t.array(AvailableFare),
+    availability: t.array(VehicleAvailability)
+  }),
+  t.partial({
+    taxPercent: t.number
+  })
+])
+
+export type DayOfWeek =
+  | 'Monday'
+  | 'Tuesday'
+  | 'Wednesday'
+  | 'Thursday'
+  | 'Friday'
+  | 'Saturday'
+  | 'Sunday'
+
+export const DayOfWeek = t.keyof({
+  Monday: true,
+  Tuesday: true,
+  Wednesday: true,
+  Thursday: true,
+  Friday: true,
+  Saturday: true,
+  Sunday: true
+}, 'DayOfWeek')
+
+export interface OpeningHours {
+  open: string,
+  close: string
+}
+
+export const OpeningHours = t.interface({
+  open: t.string,
+  close: t.string
+}, 'OpeningHours')
+
+export interface Location {
+  recordType: string,
+  actionCode: string,
+  recordNumber: string,
+  vendorId: string,
+  oagCode: string,
+  country: string,
+  state: string,
+  zipCode: string,
+  city: string,
+  address1: string,
+  address2: string,
+  address3: string,
+  phone: string,
+  altPhone: string,
+  fax: string,
+  telex: string,
+  webUrl: string,
+  email: string,
+  openingHours: { [key in DayOfWeek]: Array<OpeningHours> },
+  latitude: string,
+  longitude: string,
+  description: string,
+  locType1: string,
+  locType2: string,
+  truckOrVan: string,
+  csi: string,
+  csiDailyRate: string,
+  csiWeeklyRate: string,
+  cst: string,
+  cstDailyRate: string,
+  cstWeeklyRate: string,
+  bst: string,
+  bstDailyRate: string,
+  bstWeeklyRate: string,
+  nev: string,
+  nevDailyRate: string,
+  nevWeeklyRate: string,
+  skv: string,
+  skvDailyRate: string,
+  skvWeeklyRate: string,
+  sno: string,
+  snoDailyRate: string,
+  snoWeeklyRate: string,
+  sbr: string,
+  sbrDailyRate: string,
+  sbrWeeklyRate: string,
+  src: string,
+  srcDailyRate: string,
+  srcWeeklyRate: string,
+  hmm: string,
+  hmmDailyRate: string,
+  hmmWeeklyRate: string,
+  ldw: string,
+  ldwDailyRate: string,
+  ldwWeeklyRate: string,
+  swd: string,
+  swdDailyRate: string,
+  swdWeeklyRate: string,
+  lis: string,
+  lisDailyRate: string,
+  lisWeeklyRate: string,
+  ppi: string,
+  ppiDailyRate: string,
+  ppiWeeklyRate: string,
+  tp: string,
+  tpDailyRate: string,
+  tpWeeklyRate: string,
+  pkg: string,
+  pkgDailyRate: string,
+  pkgWeeklyRate: string
+}
+
+export const Location = t.interface({
+  recordType: t.string,
+  actionCode: t.string,
+  recordNumber: t.string,
+  vendorId: t.string,
+  oagCode: t.string,
+  country: t.string,
+  state: t.string,
+  zipCode: t.string,
+  city: t.string,
+  address1: t.string,
+  address2: t.string,
+  address3: t.string,
+  phone: t.string,
+  altPhone: t.string,
+  fax: t.string,
+  telex: t.string,
+  webUrl: t.string,
+  email: t.string,
+  openingHours: t.dictionary(DayOfWeek, t.array(OpeningHours)),
+  latitude: t.string,
+  longitude: t.string,
+  description: t.string,
+  locType1: t.string,
+  locType2: t.string,
+  truckOrVan: t.string,
+  csi: t.string,
+  csiDailyRate: t.string,
+  csiWeeklyRate: t.string,
+  cst: t.string,
+  cstDailyRate: t.string,
+  cstWeeklyRate: t.string,
+  bst: t.string,
+  bstDailyRate: t.string,
+  bstWeeklyRate: t.string,
+  nev: t.string,
+  nevDailyRate: t.string,
+  nevWeeklyRate: t.string,
+  skv: t.string,
+  skvDailyRate: t.string,
+  skvWeeklyRate: t.string,
+  sno: t.string,
+  snoDailyRate: t.string,
+  snoWeeklyRate: t.string,
+  sbr: t.string,
+  sbrDailyRate: t.string,
+  sbrWeeklyRate: t.string,
+  src: t.string,
+  srcDailyRate: t.string,
+  srcWeeklyRate: t.string,
+  hmm: t.string,
+  hmmDailyRate: t.string,
+  hmmWeeklyRate: t.string,
+  ldw: t.string,
+  ldwDailyRate: t.string,
+  ldwWeeklyRate: t.string,
+  swd: t.string,
+  swdDailyRate: t.string,
+  swdWeeklyRate: t.string,
+  lis: t.string,
+  lisDailyRate: t.string,
+  lisWeeklyRate: t.string,
+  ppi: t.string,
+  ppiDailyRate: t.string,
+  ppiWeeklyRate: t.string,
+  tp: t.string,
+  tpDailyRate: t.string,
+  tpWeeklyRate: t.string,
+  pkg: t.string,
+  pkgDailyRate: t.string,
+  pkgWeeklyRate: t.string
+}, 'Location')
+
+export interface LocationSearchResult {
+  airports?: Array<Location>,
+  stations?: Array<Location>,
+  cities?: Array<Location>,
+  hotels?: Array<Location>
+}
+
+export const LocationSearchResult = t.partial({
+  airports: t.array(Location),
+  stations: t.array(Location),
+  cities: t.array(Location),
+  hotels: t.array(Location)
+})
+
+export interface SelectedSpecialEquipment {
+  id: SpecialEquipment,
+  units: number
+}
+
+export const SelectedSpecialEquipment = t.interface({
+  id: SpecialEquipment,
+  units: t.number
+}, 'SelectedSpecialEquipment')
+"
+`;
+
+exports[`getModels should return the models in the right (source4) 1`] = `
+"// DO NOT EDIT MANUALLY - metarpheus-generated
+import * as t from 'io-ts'
+
+
+interface Newtype<URI, A> {
+  _URI: URI
+  _A: A
+}
+interface Iso<S, A> {
+  unwrap: (s: S) => A
+  wrap: (a: A) => S
+}
+const unsafeCoerce = <A, B>(a: A): B => a as any
+type Carrier<N extends Newtype<any, any>> = N['_A']
+type AnyNewtype = Newtype<any, any>
+const fromNewtype = <N extends AnyNewtype>() => <O>(type: t.Type<Carrier<N>, O>): t.Type<N, O> =>
+  type as any
+const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
+  ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
+
+export interface ActivationEnergy {
+  temperature: number,
+  value: number
+}
+
+export const ActivationEnergy = t.interface({
+  temperature: t.number,
+  value: t.number
+}, 'ActivationEnergy')
+
+export interface Layer {
+  discretisationLayers: number,
+  externalDiameter: number,
+  initialTemperature: number,
+  materialId: Id<Material>
+}
+
+export const Layer = t.interface({
+  discretisationLayers: t.number,
+  externalDiameter: t.number,
+  initialTemperature: t.number,
+  materialId: Id<Material>()
+}, 'Layer')
+
+export interface ConductorLayer extends Newtype<{ readonly ConductorLayer: unique symbol }, Layer> {}
+
+export const ConductorLayer = fromNewtype<ConductorLayer>()(Layer);
+export const conductorLayerIso = iso<ConductorLayer>();
+
+export interface InternalSemiconductiveLayer extends Newtype<{ readonly InternalSemiconductiveLayer: unique symbol }, Layer> {}
+
+export const InternalSemiconductiveLayer = fromNewtype<InternalSemiconductiveLayer>()(Layer);
+export const internalSemiconductiveLayerIso = iso<InternalSemiconductiveLayer>();
+
+export interface InsulationLayer extends Newtype<{ readonly InsulationLayer: unique symbol }, Layer> {}
+
+export const InsulationLayer = fromNewtype<InsulationLayer>()(Layer);
+export const insulationLayerIso = iso<InsulationLayer>();
+
+export interface ExternalSemiconductiveLayer extends Newtype<{ readonly ExternalSemiconductiveLayer: unique symbol }, Layer> {}
+
+export const ExternalSemiconductiveLayer = fromNewtype<ExternalSemiconductiveLayer>()(Layer);
+export const externalSemiconductiveLayerIso = iso<ExternalSemiconductiveLayer>();
+
+export type ZoneType =
+  | 'Air'
+  | 'Steam'
+  | 'Water'
+  | 'WaterTrans'
+  | 'Nitrogen'
+  | 'NitrogenHeat'
+  | 'NitrogenTrans'
+  | 'NitrogenCool'
+  | 'RhodorsilSiliconeOil'
+  | 'DowcorSiliconeOil'
+  | 'Flange'
+
+export const ZoneType = t.keyof({
+  Air: true,
+  Steam: true,
+  Water: true,
+  WaterTrans: true,
+  Nitrogen: true,
+  NitrogenHeat: true,
+  NitrogenTrans: true,
+  NitrogenCool: true,
+  RhodorsilSiliconeOil: true,
+  DowcorSiliconeOil: true,
+  Flange: true
+}, 'ZoneType')
+
+export interface Zone {
+  type: ZoneType,
+  temperature: number,
+  linearlyVaryingTemperature: boolean,
+  length: number,
+  tubeDiameter: number,
+  tubeAbsolutePressure: number,
+  tubeEmissivity: number,
+  cableEmissivity: number,
+  turbulentWater: boolean,
+  flowRate: number
+}
+
+export const Zone = t.interface({
+  type: ZoneType,
+  temperature: t.number,
+  linearlyVaryingTemperature: t.boolean,
+  length: t.number,
+  tubeDiameter: t.number,
+  tubeAbsolutePressure: t.number,
+  tubeEmissivity: t.number,
+  cableEmissivity: t.number,
+  turbulentWater: t.boolean,
+  flowRate: t.number
+}, 'Zone')
+
+export interface CalculationInput {
+  name: string,
+  lineSpeedRangeStart: number,
+  lineSpeedRangeEnd: number,
+  lineSpeedRangeStep: number,
+  longitudinalCalculationStep: number,
+  longitudinalCalculationSavingSteps: number,
+  longitudinalTouchPoint: number,
+  longitudinalWaterLevel: number,
+  cableRadialPositions: Array<
+    | number
+    | null>,
+  conductorTransversalSection: number,
+  conductorLayer: ConductorLayer,
+  internalSemiconductiveLayer: InternalSemiconductiveLayer,
+  insulationLayer: InsulationLayer,
+  externalSemiconductiveLayer: ExternalSemiconductiveLayer,
+  zones: Array<Zone>
+}
+
+export const CalculationInput = t.interface({
+  name: t.string,
+  lineSpeedRangeStart: t.number,
+  lineSpeedRangeEnd: t.number,
+  lineSpeedRangeStep: t.number,
+  longitudinalCalculationStep: t.number,
+  longitudinalCalculationSavingSteps: t.number,
+  longitudinalTouchPoint: t.number,
+  longitudinalWaterLevel: t.number,
+  cableRadialPositions: t.array(t.union([
+    t.number,
+    t.null
+  ])),
+  conductorTransversalSection: t.number,
+  conductorLayer: ConductorLayer,
+  internalSemiconductiveLayer: InternalSemiconductiveLayer,
+  insulationLayer: InsulationLayer,
+  externalSemiconductiveLayer: ExternalSemiconductiveLayer,
+  zones: t.array(Zone)
+}, 'CalculationInput')
+
+export interface TemperaturePoint {
+  linearPositionIndex: number,
+  radialPositionIndex: number,
+  temperature: number
+}
+
+export const TemperaturePoint = t.interface({
+  linearPositionIndex: t.number,
+  radialPositionIndex: t.number,
+  temperature: t.number
+}, 'TemperaturePoint')
+
+export interface CrossLinkingPoint {
+  linearPositionIndex: number,
+  radialPositionIndex: number,
+  crossLinkingDegree: number
+}
+
+export const CrossLinkingPoint = t.interface({
+  linearPositionIndex: t.number,
+  radialPositionIndex: t.number,
+  crossLinkingDegree: t.number
+}, 'CrossLinkingPoint')
+
+export interface CalculationRun {
+  conductorMaxTemperature: Celsius,
+  conductorMaxLongitudinalPosition: Meters,
+  cableSurfaceMaxTemperature: Celsius,
+  cableSurfaceMaxLongitudinalPosition: Meters,
+  conductorTouchpointTemperature: Celsius,
+  conductorTouchpointLongitudinalPosition: Meters,
+  cableSurfaceTouchpointTemperature: Celsius,
+  conductorWaterLevelTemperature: Celsius,
+  waterLevelLongitudinalPosition: Meters,
+  cableSurfaceWaterLevelTemperature: Celsius,
+  waterLevelMaxCableTemperature: Celsius,
+  waterLevelMaximumRadialPosition: Millimiters,
+  lineSpeed: MetersPerMinute,
+  temperaturePoints: Array<TemperaturePoint>,
+  crossLinkingPoints: Array<CrossLinkingPoint>
+}
+
+export const CalculationRun = t.interface({
+  conductorMaxTemperature: Celsius,
+  conductorMaxLongitudinalPosition: Meters,
+  cableSurfaceMaxTemperature: Celsius,
+  cableSurfaceMaxLongitudinalPosition: Meters,
+  conductorTouchpointTemperature: Celsius,
+  conductorTouchpointLongitudinalPosition: Meters,
+  cableSurfaceTouchpointTemperature: Celsius,
+  conductorWaterLevelTemperature: Celsius,
+  waterLevelLongitudinalPosition: Meters,
+  cableSurfaceWaterLevelTemperature: Celsius,
+  waterLevelMaxCableTemperature: Celsius,
+  waterLevelMaximumRadialPosition: Millimiters,
+  lineSpeed: MetersPerMinute,
+  temperaturePoints: t.array(TemperaturePoint),
+  crossLinkingPoints: t.array(CrossLinkingPoint)
+}, 'CalculationRun')
+
+export interface CalculationOutput {
+  lineSpeeds: Array<MetersPerMinute>,
+  runs: Array<CalculationRun>
+}
+
+export const CalculationOutput = t.interface({
+  lineSpeeds: t.array(MetersPerMinute),
+  runs: t.array(CalculationRun)
+}, 'CalculationOutput')
+
+export interface CrossLinksFormationTime {
+  temperature: number,
+  value: number
+}
+
+export const CrossLinksFormationTime = t.interface({
+  temperature: t.number,
+  value: t.number
+}, 'CrossLinksFormationTime')
+
+export interface Entity<A> {
+  id: Id<A>,
+  value: A
+}
+
+export const Entity = <A extends t.Any>(A: A) => t.interface({
+  id: Id<A>(),
+  value: A
+}, 'Entity')
+
+export interface ExternalId<A> extends Newtype<{ readonly ExternalId: unique symbol, readonly ExternalId_A: A }, string> {}
+
+export function ExternalId<A>() { return fromNewtype<ExternalId<A>>()(t.string) }
+export function externalIdIso<A>() { return iso<ExternalId<A>>() }
+
+export interface Id<A> extends Newtype<{ readonly Id: unique symbol, readonly Id_A: A }, UUID> {}
+
+export function Id<A>() { return fromNewtype<Id<A>>()(UUID) }
+export function idIso<A>() { return iso<Id<A>>() }
+
+export interface VolumetricSpecificHeat {
+  temperature: number,
+  value: number
+}
+
+export const VolumetricSpecificHeat = t.interface({
+  temperature: t.number,
+  value: t.number
+}, 'VolumetricSpecificHeat')
+
+export interface ThermalResistivity {
+  temperature: number,
+  value: number
+}
+
+export const ThermalResistivity = t.interface({
+  temperature: t.number,
+  value: t.number
+}, 'ThermalResistivity')
+
+export interface Material {
+  volumetricSpecificHeatMap: Array<VolumetricSpecificHeat>,
+  thermalResistivityMap: Array<ThermalResistivity>,
+  crossLinksFormationTimeMap: Array<CrossLinksFormationTime>,
+  activationEnergyMap: Array<ActivationEnergy>
+}
+
+export const Material = t.interface({
+  volumetricSpecificHeatMap: t.array(VolumetricSpecificHeat),
+  thermalResistivityMap: t.array(ThermalResistivity),
+  crossLinksFormationTimeMap: t.array(CrossLinksFormationTime),
+  activationEnergyMap: t.array(ActivationEnergy)
+}, 'Material')
+
+export type Role =
+  | 'Admin'
+  | 'User'
+
+export const Role = t.keyof({
+  Admin: true,
+  User: true
+}, 'Role')
+
+export interface User {
+  externalId: ExternalId<User>,
+  role: Role,
+  fullName?: string
+}
+
+export const User = t.intersection([
+  t.interface({
+    externalId: ExternalId<User>(),
+    role: Role
+  }),
+  t.partial({
+    fullName: t.string
+  })
+])
+"
+`;
+
+exports[`getRoutes should return the routes in the right (source3) 1`] = `
+"// DO NOT EDIT MANUALLY - metarpheus-generated
+import axios, { AxiosError } from 'axios'
+import * as t from 'io-ts'
+import * as m from './model-ts'
+
+export interface RouteConfig {
+  apiEndpoint: string,
+  timeout: number,
+  unwrapApiResponse: (resp: any) => any
+}
+
+import { PathReporter } from 'io-ts/lib/PathReporter'
+function valueOrThrow<T extends t.Type<any, any>>(iotsType: T, value: T['_I']): t.TypeOf<T> {
+  const validatedValue = iotsType.decode(value);
+
+  if (validatedValue.isLeft()) {
+    throw new Error(PathReporter.report(validatedValue).join('\\\\n'));
+  }
+
+  return validatedValue.value;
+}
+
+const parseError = (err: AxiosError) => {
+  try {
+    const { errors = [] } = err.response!.data;
+    return Promise.reject({ status: err.response!.status, errors });
+  } catch (e) {
+    return Promise.reject({ status: err && err.response && err.response.status || 0, errors: [] });
+  }
+};
+
+export default function getRoutes(config: RouteConfig) {
+  return {
+    /** Create a new search query for available vehicles */
+    availableVehicleController_createQuery: function ({ query }: { query: m.AvailableVehicleSearchQuery }): Promise<m.UUID> {
+      return axios({
+        method: 'post',
+        url: \`\${config.apiEndpoint}/availableVehicles/createQuery\`,
+        params: {
+
+        },
+        data: {
+          query
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.UUID, config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    /** Returns an existing query for available vehicles */
+    availableVehicleController_readQuery: function ({ id }: { id: m.UUID }): Promise<m.AvailableVehicleSearchQuery> {
+      return axios({
+        method: 'get',
+        url: \`\${config.apiEndpoint}/availableVehicles/readQuery\`,
+        params: {
+          id
+        },
+        data: {
+
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.AvailableVehicleSearchQuery, config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    /** Returns the resulting available vehicles for the created query */
+    availableVehicleController_readResult: function ({ id }: { id: m.UUID }): Promise<m.AvailableVehicleSearchResult> {
+      return axios({
+        method: 'get',
+        url: \`\${config.apiEndpoint}/availableVehicles/readResult\`,
+        params: {
+          id
+        },
+        data: {
+
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.AvailableVehicleSearchResult, config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    /** Updates the selected SpecialEquipments for the specified AvailableVehicle */
+    availableVehicleController_updateSpecialEquipments: function ({ token, availableVehicleId, specialEquipments }: { token: string, availableVehicleId: m.UUID, specialEquipments: Array<m.SelectedSpecialEquipment> }): Promise<m.UUID> {
+      return axios({
+        method: 'post',
+        url: \`\${config.apiEndpoint}/availableVehicles/updateSpecialEquipments\`,
+        params: {
+
+        },
+        data: {
+          availableVehicleId,
+          specialEquipments
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': \`Token token=\\"\${token}\\"\`
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.UUID, config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    /** Returns the specified available vehicle */
+    availableVehicleController_read: function ({ id }: { id: m.UUID }): Promise<m.AvailableVehicle> {
+      return axios({
+        method: 'get',
+        url: \`\${config.apiEndpoint}/availableVehicles/read\`,
+        params: {
+          id
+        },
+        data: {
+
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.AvailableVehicle, config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    /** Search locations */
+    locationsController_search: function ({ query }: { query: string }): Promise<m.LocationSearchResult> {
+      return axios({
+        method: 'get',
+        url: \`\${config.apiEndpoint}/locations/search\`,
+        params: {
+          query
+        },
+        data: {
+
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.LocationSearchResult, config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    /** Get available SpecialEquipment for a given pickUp Location and rental duration */
+    locationsController_searchSpecialEquipments: function ({ location, duration, param1, param2 }: { location: string, duration: number, param1: number, param2: string }): Promise<Array<m.AvailableSpecialEquipment>> {
+      return axios({
+        method: 'get',
+        url: \`\${config.apiEndpoint}/locations/searchSpecialEquipments/\${param1}/foo/\${param2}\`,
+        params: {
+          location,
+          duration
+        },
+        data: {
+
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(t.array(m.AvailableSpecialEquipment), config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    /** log a user in */
+    userController_login: function ({ data }: { data: m.API_UserLoginCredentials }): Promise<m.API_UserAuthCredentials> {
+      return axios({
+        method: 'post',
+        url: \`\${config.apiEndpoint}/users/login\`,
+        params: {
+
+        },
+        data: data,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.API_UserAuthCredentials, config.unwrapApiResponse(res.data)), parseError) as any
+    }
+  }
+}
+"
+`;
+
+exports[`getRoutes should return the routes in the right (source4) 1`] = `
+"// DO NOT EDIT MANUALLY - metarpheus-generated
+import axios, { AxiosError } from 'axios'
+import * as t from 'io-ts'
+import * as m from './model-ts'
+
+export interface RouteConfig {
+  apiEndpoint: string,
+  timeout: number,
+  unwrapApiResponse: (resp: any) => any
+}
+
+import { PathReporter } from 'io-ts/lib/PathReporter'
+function valueOrThrow<T extends t.Type<any, any>>(iotsType: T, value: T['_I']): t.TypeOf<T> {
+  const validatedValue = iotsType.decode(value);
+
+  if (validatedValue.isLeft()) {
+    throw new Error(PathReporter.report(validatedValue).join('\\\\n'));
+  }
+
+  return validatedValue.value;
+}
+
+const parseError = (err: AxiosError) => {
+  try {
+    const { errors = [] } = err.response!.data;
+    return Promise.reject({ status: err.response!.status, errors });
+  } catch (e) {
+    return Promise.reject({ status: err && err.response && err.response.status || 0, errors: [] });
+  }
+};
+
+export default function getRoutes(config: RouteConfig) {
+  return {
+    materialController_readAll: function ({  }: {  }): Promise<Array<m.Entity<m.Material>>> {
+      return axios({
+        method: 'get',
+        url: \`\${config.apiEndpoint}/material/readAll\`,
+        params: {
+
+        },
+        data: {
+
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(t.array(m.Entity(m.Material)), config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    calculationController_run: function ({ calculation }: { calculation: m.CalculationInput }): Promise<m.CalculationOutput> {
+      return axios({
+        method: 'post',
+        url: \`\${config.apiEndpoint}/calculation/run\`,
+        params: {
+
+        },
+        data: {
+          calculation
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.CalculationOutput, config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    meController_read: function ({  }: {  }): Promise<m.Entity<m.User>> {
+      return axios({
+        method: 'get',
+        url: \`\${config.apiEndpoint}/me/read\`,
+        params: {
+
+        },
+        data: {
+
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.Entity(m.User), config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    userController_readAll: function ({  }: {  }): Promise<Array<m.Entity<m.User>>> {
+      return axios({
+        method: 'get',
+        url: \`\${config.apiEndpoint}/user/readAll\`,
+        params: {
+
+        },
+        data: {
+
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(t.array(m.Entity(m.User)), config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    userController_read: function ({ id }: { id: m.Id<m.User> }): Promise<m.Entity<m.User>> {
+      return axios({
+        method: 'get',
+        url: \`\${config.apiEndpoint}/user/read\`,
+        params: {
+          id
+        },
+        data: {
+
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Pragma': 'no-cache',
+          'Cache-Control': 'no-cache, no-store'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.Entity(m.User), config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    userController_create: function ({ user }: { user: m.User }): Promise<m.Id<m.User>> {
+      return axios({
+        method: 'post',
+        url: \`\${config.apiEndpoint}/user/create\`,
+        params: {
+
+        },
+        data: {
+          user
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(m.Id<m.User>(), config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    userController_update: function ({ user }: { user: m.Entity<m.User> }): Promise<{
+
+}> {
+      return axios({
+        method: 'post',
+        url: \`\${config.apiEndpoint}/user/update\`,
+        params: {
+
+        },
+        data: {
+          user
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(t.strict({
+
+}), config.unwrapApiResponse(res.data)), parseError) as any
+    },
+
+    userController_delete: function ({ id }: { id: m.Id<m.User> }): Promise<{
+
+}> {
+      return axios({
+        method: 'post',
+        url: \`\${config.apiEndpoint}/user/delete\`,
+        params: {
+
+        },
+        data: {
+          id
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: config.timeout
+      }).then(res => valueOrThrow(t.strict({
+
+}), config.unwrapApiResponse(res.data)), parseError) as any
+    }
+  }
+}
+"
+`;
