@@ -69,7 +69,7 @@ export const Camping = t.interface({
   /** camping name */
   name: t.string,
   /** number of tents */
-  size: t.number,
+  size: t.Integer,
   /** camping location */
   location: CampingLocation
 }, 'Camping')
@@ -122,17 +122,17 @@ export interface ICQAlert {
 
 export const ICQAlert = t.intersection([
   t.interface({
-    _moduleId: t.number,
+    _moduleId: t.Integer,
     moduleName: t.string,
     _workcellSerialNumber: t.string,
     workcellName: t.string,
-    AIMCode: t.number,
+    AIMCode: t.Integer,
     alertDateTime: Date,
     category: ICQAlertCategory,
     description: t.string
   }),
   t.partial({
-    AIMSubCode: t.number
+    AIMSubCode: t.Integer
   })
 ])
 
@@ -142,8 +142,8 @@ export interface ICQAssayReference {
 }
 
 export const ICQAssayReference = t.interface({
-  _number: t.number,
-  _version: t.number
+  _number: t.Integer,
+  _version: t.Integer
 }, 'ICQAssayReference')
 
 export type ICQCalibrationMethod =
@@ -242,7 +242,7 @@ export interface ICQCalibration {
 
 export const ICQCalibration = t.intersection([
   t.interface({
-    _moduleId: t.number,
+    _moduleId: t.Integer,
     moduleName: t.string,
     _workcellSerialNumber: t.string,
     workcellName: t.string,
@@ -382,23 +382,23 @@ export interface ICQOnBoardSolution {
 
 export const ICQOnBoardSolution = t.intersection([
   t.interface({
-    _moduleId: t.number,
+    _moduleId: t.Integer,
     moduleName: t.string,
     _workcellSerialNumber: t.string,
     workcellName: t.string,
     _lotNumber: t.string,
     _serialNumber: t.string,
     configurationId: t.string,
-    configurationVersion: t.number,
+    configurationVersion: t.Integer,
     expirationDate: Date,
-    percentOfRemainingVolume: t.number,
+    percentOfRemainingVolume: t.Integer,
     status: ICQReagentStatus,
     cartridgeStatus: ICQReagentCartridgeStatus
   }),
   t.partial({
-    carouselPosition: t.number,
-    RSMPosition: t.number,
-    remainingHoursOfOnBoardStability: t.number
+    carouselPosition: t.Integer,
+    RSMPosition: t.Integer,
+    remainingHoursOfOnBoardStability: t.Integer
   })
 ])
 
@@ -442,13 +442,13 @@ export interface ICQProcessingModule {
 }
 
 export const ICQProcessingModule = t.interface({
-  _id: t.number,
+  _id: t.Integer,
   serialNumber: t.string,
   type: ICQModuleType,
   name: t.string,
   overallStatus: ICQOverallStatus,
   status: ICQModuleStatus,
-  numberOfTestsInProgress: t.number,
+  numberOfTestsInProgress: t.Integer,
   reagentOverallStatus: ICQOverallStatus,
   supplyOverallStatus: ICQOverallStatus,
   calibrationOverallStatus: ICQOverallStatus,
@@ -483,7 +483,7 @@ export interface ICQQCAnalysis {
 }
 
 export const ICQQCAnalysis = t.interface({
-  _moduleId: t.number,
+  _moduleId: t.Integer,
   moduleName: t.string,
   _workcellSerialNumber: t.string,
   workcellName: t.string,
@@ -534,7 +534,7 @@ export interface ICQQCMaterial {
 
 export const ICQQCMaterial = t.intersection([
   t.interface({
-    _moduleId: t.number,
+    _moduleId: t.Integer,
     moduleName: t.string,
     _workcellSerialNumber: t.string,
     workcellName: t.string,
@@ -545,16 +545,16 @@ export const ICQQCMaterial = t.intersection([
     _lotNumber: t.string,
     _serialNumber: t.string,
     rackId: t.string,
-    rackPosition: t.number,
-    percentVolumeRemaining: t.number,
+    rackPosition: t.Integer,
+    percentVolumeRemaining: t.Integer,
     materialExpirationDate: Date,
-    remainingHoursOfOnBoardStability: t.number,
+    remainingHoursOfOnBoardStability: t.Integer,
     status: ICQQCMaterialStatus
   }),
   t.partial({
-    carouselPosition: t.number,
-    RSMPosition: t.number,
-    remainingMinutesOfInUseStability: t.number
+    carouselPosition: t.Integer,
+    RSMPosition: t.Integer,
+    remainingMinutesOfInUseStability: t.Integer
   })
 ])
 
@@ -609,9 +609,9 @@ export interface ICQWorkcell {
 export const ICQWorkcell = t.interface({
   _serialNumber: t.string,
   name: t.string,
-  numberOfSamples: t.number,
-  numberOfResultsPending: t.number,
-  numberOfExceptions: t.number,
+  numberOfSamples: t.Integer,
+  numberOfResultsPending: t.Integer,
+  numberOfExceptions: t.Integer,
   LISConnectionStatus: ICQConnectionStatus,
   LASConnectionStatus: ICQConnectionStatus,
   AbbottLinkConnectionStatus: ICQConnectionStatus,
@@ -922,7 +922,7 @@ export const RentalRateDistance = t.intersection([
     unit: RentalRateDistanceUnit
   }),
   t.partial({
-    amount: t.number,
+    amount: t.Integer,
     additional: Money
   })
 ])
@@ -952,7 +952,7 @@ export interface PricedSpecialEquipment {
 
 export const PricedSpecialEquipment = t.interface({
   id: SpecialEquipment,
-  units: t.number,
+  units: t.Integer,
   cost: Money,
   taxInclusive: t.boolean,
   includedInRate: t.boolean
@@ -999,7 +999,7 @@ export interface AvailableSpecialEquipment {
 export const AvailableSpecialEquipment = t.interface({
   id: SpecialEquipment,
   estimatedUnitCost: Money,
-  atMost: t.number
+  atMost: t.Integer
 }, 'AvailableSpecialEquipment')
 
 export type VehicleTransmission =
@@ -1167,12 +1167,12 @@ export const Vehicle = t.intersection([
   t.partial({
     code: t.string,
     codeContext: t.string,
-    seats: t.number,
-    baggage: t.number,
+    seats: t.Integer,
+    baggage: t.Integer,
     transmission: VehicleTransmission,
     fuel: VehicleFuel,
     drive: VehicleDrive,
-    doors: t.number,
+    doors: t.Integer,
     segment: t.string
   })
 ])
@@ -1448,7 +1448,7 @@ export interface SelectedSpecialEquipment {
 
 export const SelectedSpecialEquipment = t.interface({
   id: SpecialEquipment,
-  units: t.number
+  units: t.Integer
 }, 'SelectedSpecialEquipment')
 "
 `;
@@ -1492,7 +1492,7 @@ export interface Layer {
 }
 
 export const Layer = t.interface({
-  discretisationLayers: t.number,
+  discretisationLayers: t.Integer,
   externalDiameter: t.number,
   initialTemperature: t.number,
   materialId: Id<Material>()
@@ -1597,7 +1597,7 @@ export const CalculationInput = t.interface({
   lineSpeedRangeEnd: t.number,
   lineSpeedRangeStep: t.number,
   longitudinalCalculationStep: t.number,
-  longitudinalCalculationSavingSteps: t.number,
+  longitudinalCalculationSavingSteps: t.Integer,
   longitudinalTouchPoint: t.number,
   longitudinalWaterLevel: t.number,
   cableRadialPositions: t.array(t.union([
@@ -1619,8 +1619,8 @@ export interface TemperaturePoint {
 }
 
 export const TemperaturePoint = t.interface({
-  linearPositionIndex: t.number,
-  radialPositionIndex: t.number,
+  linearPositionIndex: t.Integer,
+  radialPositionIndex: t.Integer,
   temperature: t.number
 }, 'TemperaturePoint')
 
@@ -1631,8 +1631,8 @@ export interface CrossLinkingPoint {
 }
 
 export const CrossLinkingPoint = t.interface({
-  linearPositionIndex: t.number,
-  radialPositionIndex: t.number,
+  linearPositionIndex: t.Integer,
+  radialPositionIndex: t.Integer,
   crossLinkingDegree: t.number
 }, 'CrossLinkingPoint')
 
