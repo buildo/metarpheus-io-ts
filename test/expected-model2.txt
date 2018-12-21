@@ -59,26 +59,18 @@ export type FareRule = Readonly<{
   agencies: ReadonlyArray<Tag>
 }>
 
-export const FareRule = t.readonly(t.interface({
-  pickUpValidFrom: t.union([
-    LocalDate,
-    t.undefined
-  ]),
-  pickUpValidUntil: t.union([
-    LocalDate,
-    t.undefined
-  ]),
-  reservationValidFrom: t.union([
-    LocalDate,
-    t.undefined
-  ]),
-  reservationValidUntil: t.union([
-    LocalDate,
-    t.undefined
-  ]),
-  nations: t.readonlyArray(Tag),
-  agencies: t.readonlyArray(Tag)
-}, 'FareRule'))
+export const FareRule = t.readonly(t.intersection([
+  t.interface({
+    nations: t.readonlyArray(Tag),
+    agencies: t.readonlyArray(Tag)
+  }),
+  t.partial({
+    pickUpValidFrom: LocalDate,
+    pickUpValidUntil: LocalDate,
+    reservationValidFrom: LocalDate,
+    reservationValidUntil: LocalDate
+  })
+]))
 
 export type Fare = Readonly<{
   id: UUID,
@@ -95,29 +87,24 @@ export type Fare = Readonly<{
   rules: ReadonlyArray<FareRule>
 }>
 
-export const Fare = t.readonly(t.interface({
-  id: UUID,
-  name: t.string,
-  vendor: Vendor,
-  paymentMode: PaymentMode,
-  rateCode: t.string,
-  cdp: t.union([
-    t.string,
-    t.undefined
-  ]),
-  tourOperatorCode: t.union([
-    t.string,
-    t.undefined
-  ]),
-  additionalInclusions: t.union([
-    t.string,
-    t.undefined
-  ]),
-  cancellationPolicy: CancellationPolicy,
-  description: t.string,
-  disabled: t.boolean,
-  rules: t.readonlyArray(FareRule)
-}, 'Fare'))
+export const Fare = t.readonly(t.intersection([
+  t.interface({
+    id: UUID,
+    name: t.string,
+    vendor: Vendor,
+    paymentMode: PaymentMode,
+    rateCode: t.string,
+    cancellationPolicy: CancellationPolicy,
+    description: t.string,
+    disabled: t.boolean,
+    rules: t.readonlyArray(FareRule)
+  }),
+  t.partial({
+    cdp: t.string,
+    tourOperatorCode: t.string,
+    additionalInclusions: t.string
+  })
+]))
 
 export type ReservationProfile =
   | 'Leisure'
@@ -187,28 +174,23 @@ export type NewFare = Readonly<{
   rules: ReadonlyArray<FareRule>
 }>
 
-export const NewFare = t.readonly(t.interface({
-  name: t.string,
-  vendor: Vendor,
-  paymentMode: PaymentMode,
-  rateCode: t.string,
-  cdp: t.union([
-    t.string,
-    t.undefined
-  ]),
-  additionalInclusions: t.union([
-    t.string,
-    t.undefined
-  ]),
-  tourOperatorCode: t.union([
-    t.string,
-    t.undefined
-  ]),
-  cancellationPolicy: CancellationPolicy,
-  description: t.string,
-  disabled: t.boolean,
-  rules: t.readonlyArray(FareRule)
-}, 'NewFare'))
+export const NewFare = t.readonly(t.intersection([
+  t.interface({
+    name: t.string,
+    vendor: Vendor,
+    paymentMode: PaymentMode,
+    rateCode: t.string,
+    cancellationPolicy: CancellationPolicy,
+    description: t.string,
+    disabled: t.boolean,
+    rules: t.readonlyArray(FareRule)
+  }),
+  t.partial({
+    cdp: t.string,
+    additionalInclusions: t.string,
+    tourOperatorCode: t.string
+  })
+]))
 
 export type SortOrder =
   | 'Ascending'

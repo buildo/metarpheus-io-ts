@@ -41,25 +41,20 @@ export interface AvailableFare {
   description?: string
 }
 
-export const AvailableFare = t.interface({
-  id: UUID,
-  name: t.string,
-  vendor: Vendor,
-  paymentMode: PaymentMode,
-  additionalInclusions: t.union([
-    t.string,
-    t.undefined
-  ]),
-  explicitExclusions: t.union([
-    t.string,
-    t.undefined
-  ]),
-  cancellationPolicy: CancellationPolicy,
-  description: t.union([
-    t.string,
-    t.undefined
-  ])
-}, 'AvailableFare')
+export const AvailableFare = t.intersection([
+  t.interface({
+    id: UUID,
+    name: t.string,
+    vendor: Vendor,
+    paymentMode: PaymentMode,
+    cancellationPolicy: CancellationPolicy
+  }),
+  t.partial({
+    additionalInclusions: t.string,
+    explicitExclusions: t.string,
+    description: t.string
+  })
+])
 
 export interface RentalRateTotal {
   base: Money,
@@ -89,18 +84,16 @@ export interface RentalRateDistance {
   additional?: Money
 }
 
-export const RentalRateDistance = t.interface({
-  unlimited: t.boolean,
-  unit: RentalRateDistanceUnit,
-  amount: t.union([
-    t.number,
-    t.undefined
-  ]),
-  additional: t.union([
-    Money,
-    t.undefined
-  ])
-}, 'RentalRateDistance')
+export const RentalRateDistance = t.intersection([
+  t.interface({
+    unlimited: t.boolean,
+    unit: RentalRateDistanceUnit
+  }),
+  t.partial({
+    amount: t.number,
+    additional: Money
+  })
+])
 
 export type SpecialEquipment =
   | 'InfantChildSeat'
@@ -142,17 +135,18 @@ export interface RentalRate {
   specialEquipments: Array<PricedSpecialEquipment>
 }
 
-export const RentalRate = t.interface({
-  externalId: t.string,
-  total: RentalRateTotal,
-  distance: RentalRateDistance,
-  superCoverIncluded: t.boolean,
-  dropOff: t.union([
-    Money,
-    t.undefined
-  ]),
-  specialEquipments: t.array(PricedSpecialEquipment)
-}, 'RentalRate')
+export const RentalRate = t.intersection([
+  t.interface({
+    externalId: t.string,
+    total: RentalRateTotal,
+    distance: RentalRateDistance,
+    superCoverIncluded: t.boolean,
+    specialEquipments: t.array(PricedSpecialEquipment)
+  }),
+  t.partial({
+    dropOff: Money
+  })
+])
 
 export interface AvailableRentalRate {
   availableVehicleId: UUID,
@@ -329,50 +323,27 @@ export interface Vehicle {
   segment?: string
 }
 
-export const Vehicle = t.interface({
-  code: t.union([
-    t.string,
-    t.undefined
-  ]),
-  codeContext: t.union([
-    t.string,
-    t.undefined
-  ]),
-  airConditioning: t.boolean,
-  seats: t.union([
-    t.number,
-    t.undefined
-  ]),
-  baggage: t.union([
-    t.number,
-    t.undefined
-  ]),
-  transmission: t.union([
-    VehicleTransmission,
-    t.undefined
-  ]),
-  fuel: t.union([
-    VehicleFuel,
-    t.undefined
-  ]),
-  drive: t.union([
-    VehicleDrive,
-    t.undefined
-  ]),
-  doors: t.union([
-    t.number,
-    t.undefined
-  ]),
-  category: VehicleCategory,
-  size: VehicleSize,
-  model: t.string,
-  modelCode: t.string,
-  pictureId: t.string,
-  segment: t.union([
-    t.string,
-    t.undefined
-  ])
-}, 'Vehicle')
+export const Vehicle = t.intersection([
+  t.interface({
+    airConditioning: t.boolean,
+    category: VehicleCategory,
+    size: VehicleSize,
+    model: t.string,
+    modelCode: t.string,
+    pictureId: t.string
+  }),
+  t.partial({
+    code: t.string,
+    codeContext: t.string,
+    seats: t.number,
+    baggage: t.number,
+    transmission: VehicleTransmission,
+    fuel: VehicleFuel,
+    drive: VehicleDrive,
+    doors: t.number,
+    segment: t.string
+  })
+])
 
 export interface AvailableVehicle {
   id: UUID,
@@ -439,14 +410,15 @@ export interface AvailableVehicleSearchResult {
   availability: Array<VehicleAvailability>
 }
 
-export const AvailableVehicleSearchResult = t.interface({
-  taxPercent: t.union([
-    t.number,
-    t.undefined
-  ]),
-  fares: t.array(AvailableFare),
-  availability: t.array(VehicleAvailability)
-}, 'AvailableVehicleSearchResult')
+export const AvailableVehicleSearchResult = t.intersection([
+  t.interface({
+    fares: t.array(AvailableFare),
+    availability: t.array(VehicleAvailability)
+  }),
+  t.partial({
+    taxPercent: t.number
+  })
+])
 
 export type DayOfWeek =
   | 'Monday'
@@ -630,24 +602,12 @@ export interface LocationSearchResult {
   hotels?: Array<Location>
 }
 
-export const LocationSearchResult = t.interface({
-  airports: t.union([
-    t.array(Location),
-    t.undefined
-  ]),
-  stations: t.union([
-    t.array(Location),
-    t.undefined
-  ]),
-  cities: t.union([
-    t.array(Location),
-    t.undefined
-  ]),
-  hotels: t.union([
-    t.array(Location),
-    t.undefined
-  ])
-}, 'LocationSearchResult')
+export const LocationSearchResult = t.partial({
+  airports: t.array(Location),
+  stations: t.array(Location),
+  cities: t.array(Location),
+  hotels: t.array(Location)
+})
 
 export interface SelectedSpecialEquipment {
   id: SpecialEquipment,

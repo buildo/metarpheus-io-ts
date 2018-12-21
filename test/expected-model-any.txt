@@ -9,13 +9,14 @@ export interface NotificationPayload {
   workcellType: InstrumentType
 }
 
-export const NotificationPayload = t.interface({
-  userLanguage: t.union([
-    t.string,
-    t.undefined
-  ]),
-  notificationKind: NotificationKind,
-  params: t.dictionary(t.string, t.any),
-  workcellSerialNumber: t.string,
-  workcellType: InstrumentType
-}, 'NotificationPayload')
+export const NotificationPayload = t.intersection([
+  t.interface({
+    notificationKind: NotificationKind,
+    params: t.dictionary(t.string, t.any),
+    workcellSerialNumber: t.string,
+    workcellType: InstrumentType
+  }),
+  t.partial({
+    userLanguage: t.string
+  })
+])
