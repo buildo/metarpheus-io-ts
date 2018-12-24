@@ -2,6 +2,13 @@
 
 
 
+## [v0.6.3](https://github.com/buildo/metarpheus-io-ts/tree/v0.6.3) (2018-12-24)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.6.2...v0.6.3)
+
+#### Fixes (bugs & defects):
+
+- Fix generated type with useLegacyNewtype [#74](https://github.com/buildo/metarpheus-io-ts/issues/74)
+
 ## [v0.6.2](https://github.com/buildo/metarpheus-io-ts/tree/v0.6.2) (2018-12-24)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.6.1...v0.6.2)
 
