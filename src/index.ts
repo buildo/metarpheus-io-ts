@@ -96,7 +96,7 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
 export interface GetModelsOptions {
   isReadonly: boolean;
   runtime: boolean;
-  useLegacyNewtype: boolean;
+  useLegacyNewtype?: boolean;
 }
 
 function getProperty(member: CaseClassMember): Reader<Ctx, gen.Property> {
