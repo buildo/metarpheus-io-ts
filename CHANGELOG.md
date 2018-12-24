@@ -2,6 +2,14 @@
 
 
 
+## [v0.6.1](https://github.com/buildo/metarpheus-io-ts/tree/v0.6.1) (2018-12-24)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.6.0...v0.6.1)
+
+#### New features:
+
+- Allow legacy serialization of newtype [#71](https://github.com/buildo/metarpheus-io-ts/issues/71)
+- Remove custom dictionaryCombinator [#64](https://github.com/buildo/metarpheus-io-ts/issues/64)
+
 ## [v0.6.0](https://github.com/buildo/metarpheus-io-ts/tree/v0.6.0) (2018-12-21)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.5.1...v0.6.0)
 
