@@ -119,7 +119,9 @@ function getNewtype(model: CaseClass): Reader<Ctx, gen.CustomTypeDeclaration> {
         ? `export interface ${model.name}${typeParams} extends Newtype<{ ${
             useLegacyNewtype ? `'${model.name}'` : newtypeSymbol
           }, ${readonlyTypeParams()} }, ${staticType}> {}`
-        : `export interface ${model.name}${typeParams} extends Newtype<{ ${newtypeSymbol} }, ${staticType}> {}`;
+        : `export interface ${model.name}${typeParams} extends Newtype<{ ${
+            useLegacyNewtype ? `'${model.name}'` : newtypeSymbol
+          } }, ${staticType}> {}`;
       const runtimeRepr = hasTypeParams
         ? [
             `export function ${model.name}${typeParams}() { return fromNewtype<${
