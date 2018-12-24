@@ -19,6 +19,7 @@ interface Ctx {
   models: Array<Model>;
   prefix: string;
   isReadonly: boolean;
+  useLegacyNewtype: boolean;
 }
 
 function isNewtype(tpe: Tpe): Reader<Ctx, boolean> {
@@ -95,6 +96,7 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
 export interface GetModelsOptions {
   isReadonly: boolean;
   runtime: boolean;
+  useLegacyNewtype?: boolean;
 }
 
 function getProperty(member: CaseClassMember): Reader<Ctx, gen.Property> {
@@ -103,33 +105,35 @@ function getProperty(member: CaseClassMember): Reader<Ctx, gen.Property> {
 }
 
 function getNewtype(model: CaseClass): Reader<Ctx, gen.CustomTypeDeclaration> {
-  return getType(model.members[0].tpe, null).map(tsType => {
-    const staticType = gen.printStatic(tsType);
-    const runtimeType = gen.printRuntime(tsType);
-    const hasTypeParams = model.typeParams && model.typeParams.length > 0;
-    const typeParams = hasTypeParams ? `<${model.typeParams.map(t => `${t.name}`).join(', ')}>` : '';
-    const dependencies = [staticType];
-    const newtypeSymbol = `readonly ${model.name}: unique symbol`;
-    const readonlyTypeParams = () =>
-      model.typeParams.map(t => `readonly ${model.name}_${t.name}: ${t.name}`).join(', ');
-    const staticRepr = hasTypeParams
-      ? `export interface ${
-          model.name
-        }${typeParams} extends Newtype<{ ${newtypeSymbol}, ${readonlyTypeParams()} }, ${staticType}> {}`
-      : `export interface ${model.name}${typeParams} extends Newtype<{ ${newtypeSymbol} }, ${staticType}> {}`;
-    const runtimeRepr = hasTypeParams
-      ? [
-          `export function ${model.name}${typeParams}() { return fromNewtype<${
-            model.name
-          }${typeParams}>()(${runtimeType}) }`,
-          `export function ${lowerFirst(model.name)}Iso${typeParams}() { return iso<${model.name}${typeParams}>() }`
-        ].join('\n')
-      : [
-          `export const ${model.name} = fromNewtype<${model.name}>()(${runtimeType});`,
-          `export const ${lowerFirst(model.name)}Iso = iso<${model.name}>();`
-        ].join('\n');
+  return ask<Ctx>().chain(({ useLegacyNewtype }) => {
+    return getType(model.members[0].tpe, null).map(tsType => {
+      const staticType = gen.printStatic(tsType);
+      const runtimeType = gen.printRuntime(tsType);
+      const hasTypeParams = model.typeParams && model.typeParams.length > 0;
+      const typeParams = hasTypeParams ? `<${model.typeParams.map(t => `${t.name}`).join(', ')}>` : '';
+      const dependencies = [staticType];
+      const newtypeSymbol = `readonly ${model.name}: unique symbol`;
+      const readonlyTypeParams = () =>
+        model.typeParams.map(t => `readonly ${model.name}_${t.name}: ${t.name}`).join(', ');
+      const staticRepr = hasTypeParams
+        ? `export interface ${model.name}${typeParams} extends Newtype<{ ${
+            useLegacyNewtype ? `'${model.name}'` : newtypeSymbol
+          }, ${readonlyTypeParams()} }, ${staticType}> {}`
+        : `export interface ${model.name}${typeParams} extends Newtype<{ ${newtypeSymbol} }, ${staticType}> {}`;
+      const runtimeRepr = hasTypeParams
+        ? [
+            `export function ${model.name}${typeParams}() { return fromNewtype<${
+              model.name
+            }${typeParams}>()(${runtimeType}) }`,
+            `export function ${lowerFirst(model.name)}Iso${typeParams}() { return iso<${model.name}${typeParams}>() }`
+          ].join('\n')
+        : [
+            `export const ${model.name} = fromNewtype<${model.name}>()(${runtimeType});`,
+            `export const ${lowerFirst(model.name)}Iso = iso<${model.name}>();`
+          ].join('\n');
 
-    return gen.customTypeDeclaration(model.name, staticRepr, runtimeRepr, dependencies);
+      return gen.customTypeDeclaration(model.name, staticRepr, runtimeRepr, dependencies);
+    });
   });
 }
 
@@ -201,7 +205,8 @@ export function getModels(models: Array<Model>, options: GetModelsOptions, prelu
   const declarations = getDeclarations(models).run({
     models,
     prefix: '',
-    isReadonly: options.isReadonly
+    isReadonly: options.isReadonly,
+    useLegacyNewtype: options.useLegacyNewtype || false
   });
   const hasNewtypeDeclarations = models.some(m => 'isValueClass' in m && m.isValueClass);
   const sortedTypeDeclarations = gen.sort(sortDeclarations(declarations));
@@ -422,7 +427,11 @@ export function getRoutes(
 export default function getRoutes(config: RouteConfig) {
   return {
 ` +
-    routes.map(route => getRoute(route).run({ models, prefix: 'm.', isReadonly: options.isReadonly })).join(',\n\n') +
+    routes
+      .map(route =>
+        getRoute(route).run({ models, prefix: 'm.', isReadonly: options.isReadonly, useLegacyNewtype: false })
+      )
+      .join(',\n\n') +
     `
   }
 }`
