@@ -206,7 +206,7 @@ export function getModels(models: Array<Model>, options: GetModelsOptions, prelu
     models,
     prefix: '',
     isReadonly: options.isReadonly,
-    useLegacyNewtype: options.useLegacyNewtype
+    useLegacyNewtype: options.useLegacyNewtype || false
   });
   const hasNewtypeDeclarations = models.some(m => 'isValueClass' in m && m.isValueClass);
   const sortedTypeDeclarations = gen.sort(sortDeclarations(declarations));
