@@ -1,0 +1,21 @@
+{
+  "models" : [
+    {
+      "name" : "ExternalId",
+      "members" : [
+        {
+          "name" : "unwrap",
+          "tpe" : {
+            "name" : "String"
+          }
+        }
+      ],
+      "isValueClass" : true,
+      "typeParams" : [
+        {
+          "name" : "A"
+        }
+      ]
+    }
+  ]
+}

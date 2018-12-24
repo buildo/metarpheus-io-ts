@@ -13,31 +13,37 @@ function trimRight(s: string): string {
 describe('getModels', () => {
   it('should return the models (source1)', () => {
     const models: Array<Model> = require('./source1.json').models;
-    const out = getModels(models, { isReadonly: false, runtime: true });
+    const out = getModels(models, { isReadonly: false, runtime: true, useLegacyNewtype: false });
     expect(trimRight(out)).toMatchSnapshot();
   });
 
   it('should return the models in the right (source2)', () => {
     const models: Array<Model> = require('./source2.json').models;
-    const out = getModels(models, { isReadonly: true, runtime: true });
+    const out = getModels(models, { isReadonly: true, runtime: true, useLegacyNewtype: false });
     expect(trimRight(out)).toMatchSnapshot();
   });
 
   it('should return the models in the right (source3)', () => {
     const models: Array<Model> = require('./source3.json').models;
-    const out = getModels(models, { isReadonly: false, runtime: true });
+    const out = getModels(models, { isReadonly: false, runtime: true, useLegacyNewtype: false });
     expect(trimRight(out)).toMatchSnapshot();
   });
 
   it('should return the models in the right (source4)', () => {
     const models: Array<Model> = require('./source4.json').models;
-    const out = getModels(models, { isReadonly: false, runtime: true });
+    const out = getModels(models, { isReadonly: false, runtime: true, useLegacyNewtype: false });
     expect(trimRight(out)).toMatchSnapshot();
   });
 
   it('should handle any', () => {
     const models: Array<Model> = require('./source-any.json').models;
-    const out = getModels(models, { isReadonly: false, runtime: true });
+    const out = getModels(models, { isReadonly: false, runtime: true, useLegacyNewtype: false });
+    expect(trimRight(out)).toMatchSnapshot();
+  });
+
+  it('should allow legacy newtype encoding', () => {
+    const models: Array<Model> = require('./source-legacy-newtype').models;
+    const out = getModels(models, { isReadonly: false, runtime: true, useLegacyNewtype: true });
     expect(trimRight(out)).toMatchSnapshot();
   });
 });

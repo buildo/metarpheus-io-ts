@@ -1,5 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`getModels should allow legacy newtype encoding 1`] = `
+"// DO NOT EDIT MANUALLY - metarpheus-generated
+import * as t from 'io-ts'
+
+
+interface Newtype<URI, A> {
+  _URI: URI
+  _A: A
+}
+interface Iso<S, A> {
+  unwrap: (s: S) => A
+  wrap: (a: A) => S
+}
+const unsafeCoerce = <A, B>(a: A): B => a as any
+type Carrier<N extends Newtype<any, any>> = N['_A']
+type AnyNewtype = Newtype<any, any>
+const fromNewtype = <N extends AnyNewtype>() => <O>(type: t.Type<Carrier<N>, O>): t.Type<N, O> =>
+  type as any
+const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
+  ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
+
+export interface ExternalId<A> extends Newtype<{ 'ExternalId', readonly ExternalId_A: A }, string> {}
+
+export function ExternalId<A>() { return fromNewtype<ExternalId<A>>()(t.string) }
+export function externalIdIso<A>() { return iso<ExternalId<A>>() }
+"
+`;
+
 exports[`getModels should handle any 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
