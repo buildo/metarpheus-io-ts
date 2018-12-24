@@ -21,7 +21,7 @@ const fromNewtype = <N extends AnyNewtype>() => <O>(type: t.Type<Carrier<N>, O>)
 const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
   ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
 
-export interface ExternalId<A> extends Newtype<{ 'ExternalId', readonly ExternalId_A: A }, string> {}
+export interface ExternalId<A> extends Newtype<{ readonly ExternalId: 'ExternalId', readonly ExternalId_A: A }, string> {}
 
 export function ExternalId<A>() { return fromNewtype<ExternalId<A>>()(t.string) }
 export function externalIdIso<A>() { return iso<ExternalId<A>>() }

@@ -113,14 +113,15 @@ function getNewtype(model: CaseClass): Reader<Ctx, gen.CustomTypeDeclaration> {
       const typeParams = hasTypeParams ? `<${model.typeParams.map(t => `${t.name}`).join(', ')}>` : '';
       const dependencies = [staticType];
       const newtypeSymbol = `readonly ${model.name}: unique symbol`;
+      const legacyNewtypeSymbol = `readonly ${model.name}: '${model.name}'`;
       const readonlyTypeParams = () =>
         model.typeParams.map(t => `readonly ${model.name}_${t.name}: ${t.name}`).join(', ');
       const staticRepr = hasTypeParams
         ? `export interface ${model.name}${typeParams} extends Newtype<{ ${
-            useLegacyNewtype ? `'${model.name}'` : newtypeSymbol
+            useLegacyNewtype ? legacyNewtypeSymbol : newtypeSymbol
           }, ${readonlyTypeParams()} }, ${staticType}> {}`
         : `export interface ${model.name}${typeParams} extends Newtype<{ ${
-            useLegacyNewtype ? `'${model.name}'` : newtypeSymbol
+            useLegacyNewtype ? legacyNewtypeSymbol : newtypeSymbol
           } }, ${staticType}> {}`;
       const runtimeRepr = hasTypeParams
         ? [
