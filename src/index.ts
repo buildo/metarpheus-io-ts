@@ -81,7 +81,7 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
           : getType(tpe.args![0], tpe).map(gen.arrayCombinator);
       case 'Map':
         return getType(tpe.args![0], tpe).chain(keyType =>
-          getType(tpe.args![1], tpe).map(valueType => dictionaryCombinator(keyType, valueType))
+          getType(tpe.args![1], tpe).map(valueType => gen.dictionaryCombinator(keyType, valueType))
         );
       default:
         if (tpe.args && tpe.args.length > 0) {
@@ -90,14 +90,6 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
         return reader.of(gen.identifier(`${prefix}${tpe.name}`));
     }
   });
-}
-
-function dictionaryCombinator(domain: gen.TypeReference, codomain: gen.TypeReference) {
-  const defaultCombinator = gen.dictionaryCombinator(domain, codomain);
-  const staticRepr = `{ [key in ${gen.printStatic(domain)}]: ${gen.printStatic(codomain)} }`;
-  const runtimeRepr = gen.printRuntime(defaultCombinator);
-  const dependencies = [...gen.getNodeDependencies(domain), ...gen.getNodeDependencies(codomain)];
-  return gen.customCombinator(staticRepr, runtimeRepr, dependencies);
 }
 
 export interface GetModelsOptions {
