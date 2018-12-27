@@ -2,6 +2,13 @@
 
 
 
+## [v0.7.0](https://github.com/buildo/metarpheus-io-ts/tree/v0.7.0) (2018-12-27)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.6.3...v0.7.0)
+
+#### Breaking:
+
+- correctly serialize api route params (and body, and query) [#30](https://github.com/buildo/metarpheus-io-ts/issues/30)
+
 ## [v0.6.3](https://github.com/buildo/metarpheus-io-ts/tree/v0.6.3) (2018-12-24)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.6.2...v0.6.3)
 
