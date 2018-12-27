@@ -254,32 +254,27 @@ function getRoutePath(route: Route): string {
   return '`${config.apiEndpoint}/' + path + '`';
 }
 
-function getRouteParams(route: Route): string {
-  let s = '{\n';
-  s += route.params
-    .filter(param => !param.inBody)
-    .map(param => {
-      return `          ${param.name}`;
-    })
-    .join(',\n');
-  s += '\n        }';
-  return s;
+function getRouteParams(route: Route): Reader<Ctx, string> {
+  const routeParams = route.params.filter(param => !param.inBody);
+  return traverseReader(routeParams, param =>
+    getType(param.tpe, null).map(type => `          ${param.name}: ${gen.printRuntime(type)}.encode(${param.name})`)
+  ).map(params => {
+    return `{\n${params.join(',\n')}\n        }`;
+  });
 }
 
-function getRouteData(route: Route): string {
+function getRouteData(route: Route): Reader<Ctx, string> {
   if (route.method === 'post' && route.body) {
-    return 'data'; // the name `data` is hardcoded for this param in `getRouteArguments`
+    // the name `data` is hardcoded for this param in `getRouteArguments`
+    return getType(route.body.tpe, null).map(type => `${gen.printRuntime(type)}.encode(data)`);
   }
 
-  let s = '{\n';
-  s += route.params
-    .filter(param => param.inBody)
-    .map(param => {
-      return `          ${param.name}`;
-    })
-    .join(',\n');
-  s += '\n        }';
-  return s;
+  const routeParams = route.params.filter(param => param.inBody);
+  return traverseReader(routeParams, param =>
+    getType(param.tpe, null).map(type => `          ${param.name}: ${gen.printRuntime(type)}.encode(${param.name})`)
+  ).map(params => {
+    return `{\n${params.join(',\n')}\n        }`;
+  });
 }
 
 function getRouteHeaders(route: Route): string {
@@ -301,16 +296,20 @@ function getRouteHeaders(route: Route): string {
   return s;
 }
 
-function getAxiosConfig(route: Route): string {
-  let s = '{';
-  s += `\n        method: '${route.method}',`;
-  s += `\n        url: ${getRoutePath(route)},`;
-  s += `\n        params: ${getRouteParams(route)},`;
-  s += `\n        data: ${getRouteData(route)},`;
-  s += `\n        headers: ${getRouteHeaders(route)},`;
-  s += '\n        timeout: config.timeout';
-  s += '\n      }';
-  return s;
+function getAxiosConfig(route: Route): Reader<Ctx, string> {
+  return getRouteParams(route).chain(routeParams =>
+    getRouteData(route).map(routeData => {
+      let s = '{';
+      s += `\n        method: '${route.method}',`;
+      s += `\n        url: ${getRoutePath(route)},`;
+      s += `\n        params: ${routeParams},`;
+      s += `\n        data: ${routeData},`;
+      s += `\n        headers: ${getRouteHeaders(route)},`;
+      s += '\n        timeout: config.timeout';
+      s += '\n      }';
+      return s;
+    })
+  );
 }
 
 function getRouteArguments(route: Route): Reader<Ctx, string> {
@@ -372,16 +371,18 @@ function getRoute(_route: Route): Reader<Ctx, string> {
   const name = route.name.join('_');
   return ask<Ctx>().chain(() =>
     getType(route.returns, null).chain(returns =>
-      getRouteArguments(route).map(routeArguments => {
-        const docs = route.desc ? `    /** ${route.desc} */\n` : '';
-        return [
-          `${docs}    ${name}: function (${routeArguments}): Promise<${gen.printStatic(returns)}> {`,
-          `      return axios(${getAxiosConfig(route)}).then(res => valueOrThrow(${gen.printRuntime(
-            returns
-          )}, config.unwrapApiResponse(res.data)), parseError) as any`,
-          '    }'
-        ].join('\n');
-      })
+      getAxiosConfig(route).chain(axiosConfig =>
+        getRouteArguments(route).map(routeArguments => {
+          const docs = route.desc ? `    /** ${route.desc} */\n` : '';
+          return [
+            `${docs}    ${name}: function (${routeArguments}): Promise<${gen.printStatic(returns)}> {`,
+            `      return axios(${axiosConfig}).then(res => valueOrThrow(${gen.printRuntime(
+              returns
+            )}, config.unwrapApiResponse(res.data)), parseError) as any`,
+            '    }'
+          ].join('\n');
+        })
+      )
     )
   );
 }

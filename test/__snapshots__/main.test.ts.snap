@@ -1844,7 +1844,7 @@ export default function getRoutes(config: RouteConfig) {
 
         },
         data: {
-          query
+          query: m.AvailableVehicleSearchQuery.encode(query)
         },
         headers: {
           'Content-Type': 'application/json'
@@ -1859,7 +1859,7 @@ export default function getRoutes(config: RouteConfig) {
         method: 'get',
         url: \`\${config.apiEndpoint}/availableVehicles/readQuery\`,
         params: {
-          id
+          id: m.UUID.encode(id)
         },
         data: {
 
@@ -1879,7 +1879,7 @@ export default function getRoutes(config: RouteConfig) {
         method: 'get',
         url: \`\${config.apiEndpoint}/availableVehicles/readResult\`,
         params: {
-          id
+          id: m.UUID.encode(id)
         },
         data: {
 
@@ -1902,8 +1902,8 @@ export default function getRoutes(config: RouteConfig) {
 
         },
         data: {
-          availableVehicleId,
-          specialEquipments
+          availableVehicleId: m.UUID.encode(availableVehicleId),
+          specialEquipments: t.array(m.SelectedSpecialEquipment).encode(specialEquipments)
         },
         headers: {
           'Content-Type': 'application/json',
@@ -1919,7 +1919,7 @@ export default function getRoutes(config: RouteConfig) {
         method: 'get',
         url: \`\${config.apiEndpoint}/availableVehicles/read\`,
         params: {
-          id
+          id: m.UUID.encode(id)
         },
         data: {
 
@@ -1939,7 +1939,7 @@ export default function getRoutes(config: RouteConfig) {
         method: 'get',
         url: \`\${config.apiEndpoint}/locations/search\`,
         params: {
-          query
+          query: t.string.encode(query)
         },
         data: {
 
@@ -1959,8 +1959,8 @@ export default function getRoutes(config: RouteConfig) {
         method: 'get',
         url: \`\${config.apiEndpoint}/locations/searchSpecialEquipments/\${param1}/foo/\${param2}\`,
         params: {
-          location,
-          duration
+          location: t.string.encode(location),
+          duration: t.Integer.encode(duration)
         },
         data: {
 
@@ -1982,7 +1982,7 @@ export default function getRoutes(config: RouteConfig) {
         params: {
 
         },
-        data: data,
+        data: m.API_UserLoginCredentials.encode(data),
         headers: {
           'Content-Type': 'application/json'
         },
@@ -2055,7 +2055,7 @@ export default function getRoutes(config: RouteConfig) {
 
         },
         data: {
-          calculation
+          calculation: m.CalculationInput.encode(calculation)
         },
         headers: {
           'Content-Type': 'application/json'
@@ -2107,7 +2107,7 @@ export default function getRoutes(config: RouteConfig) {
         method: 'get',
         url: \`\${config.apiEndpoint}/user/read\`,
         params: {
-          id
+          id: m.Id<m.User>().encode(id)
         },
         data: {
 
@@ -2129,7 +2129,7 @@ export default function getRoutes(config: RouteConfig) {
 
         },
         data: {
-          user
+          user: m.User.encode(user)
         },
         headers: {
           'Content-Type': 'application/json'
@@ -2148,7 +2148,7 @@ export default function getRoutes(config: RouteConfig) {
 
         },
         data: {
-          user
+          user: m.Entity(m.User).encode(user)
         },
         headers: {
           'Content-Type': 'application/json'
@@ -2169,7 +2169,7 @@ export default function getRoutes(config: RouteConfig) {
 
         },
         data: {
-          id
+          id: m.Id<m.User>().encode(id)
         },
         headers: {
           'Content-Type': 'application/json'
