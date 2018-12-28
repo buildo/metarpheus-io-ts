@@ -257,7 +257,10 @@ function getRoutePath(route: Route): string {
 function getRouteParams(route: Route): Reader<Ctx, string> {
   const routeParams = route.params.filter(param => !param.inBody);
   return traverseReader(routeParams, param =>
-    getType(param.tpe, null).map(type => `          ${param.name}: ${gen.printRuntime(type)}.encode(${param.name})`)
+    getType(param.tpe, null).map(type => {
+      const paramTpe = param.required ? type : gen.unionCombinator([type, gen.undefinedType]);
+      return `          ${param.name}: ${gen.printRuntime(paramTpe)}.encode(${param.name})`;
+    })
   ).map(params => {
     return `{\n${params.join(',\n')}\n        }`;
   });
@@ -271,7 +274,10 @@ function getRouteData(route: Route): Reader<Ctx, string> {
 
   const routeParams = route.params.filter(param => param.inBody);
   return traverseReader(routeParams, param =>
-    getType(param.tpe, null).map(type => `          ${param.name}: ${gen.printRuntime(type)}.encode(${param.name})`)
+    getType(param.tpe, null).map(type => {
+      const paramTpe = param.required ? type : gen.unionCombinator([type, gen.undefinedType]);
+      return `          ${param.name}: ${gen.printRuntime(paramTpe)}.encode(${param.name})`;
+    })
   ).map(params => {
     return `{\n${params.join(',\n')}\n        }`;
   });
