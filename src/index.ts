@@ -276,7 +276,7 @@ function getRouteData(route: Route): Reader<Ctx, string> {
   return traverseReader(routeParams, param =>
     getType(param.tpe, null).map(type => {
       const paramTpe = param.required ? type : gen.unionCombinator([type, gen.undefinedType]);
-      return `          ${param.name}: ${gen.printRuntime(paramTpe)}.encode(${param.name})`
+      return `          ${param.name}: ${gen.printRuntime(paramTpe)}.encode(${param.name})`;
     })
   ).map(params => {
     return `{\n${params.join(',\n')}\n        }`;
