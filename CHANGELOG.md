@@ -2,6 +2,13 @@
 
 
 
+## [v0.7.1](https://github.com/buildo/metarpheus-io-ts/tree/v0.7.1) (2018-12-28)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.7.0...v0.7.1)
+
+#### Fixes (bugs & defects):
+
+- Incorrect encoding of optional post parameters [#75](https://github.com/buildo/metarpheus-io-ts/issues/75)
+
 ## [v0.7.0](https://github.com/buildo/metarpheus-io-ts/tree/v0.7.0) (2018-12-27)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.6.3...v0.7.0)
 
