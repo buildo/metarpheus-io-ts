@@ -2121,7 +2121,9 @@ export default function getRoutes(config: RouteConfig) {
       }).then(res => valueOrThrow(m.Entity(m.User), config.unwrapApiResponse(res.data)), parseError) as any
     },
 
-    userController_create: function ({ user }: { user: m.User }): Promise<m.Id<m.User>> {
+    userController_create: function ({ user }: { user:
+  | m.User
+  | undefined }): Promise<m.Id<m.User>> {
       return axios({
         method: 'post',
         url: \`\${config.apiEndpoint}/user/create\`,
@@ -2129,7 +2131,10 @@ export default function getRoutes(config: RouteConfig) {
 
         },
         data: {
-          user: m.User.encode(user)
+          user: t.union([
+  m.User,
+  t.undefined
+]).encode(user)
         },
         headers: {
           'Content-Type': 'application/json'

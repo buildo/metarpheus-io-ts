@@ -678,7 +678,7 @@
       "tpe" : {
         "name" : "User"
       },
-      "required" : true,
+      "required" : false,
       "inBody" : true
     } ],
     "authenticated" : false,
