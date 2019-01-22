@@ -21,6 +21,12 @@ const fromNewtype = <N extends AnyNewtype>() => <O>(type: t.Type<Carrier<N>, O>)
 const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
   ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
 
+const VoidFromUnit = new t.Type<void, {}>(
+  'VoidFromUnit',
+  (_m): _m is void => true,
+  () => t.success(undefined),
+  () => ({})
+)
 export interface ExternalId<A> extends Newtype<{ readonly ExternalId: 'ExternalId', readonly ExternalId_A: A }, string> {}
 
 export function ExternalId<A>() { return fromNewtype<ExternalId<A>>()(t.string) }
@@ -32,6 +38,12 @@ exports[`getModels should handle any 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
+const VoidFromUnit = new t.Type<void, {}>(
+  'VoidFromUnit',
+  (_m): _m is void => true,
+  () => t.success(undefined),
+  () => ({})
+)
 export interface NotificationPayload {
   userLanguage?: string,
   notificationKind: NotificationKind,
@@ -75,6 +87,12 @@ const fromNewtype = <N extends AnyNewtype>() => <O>(type: t.Type<Carrier<N>, O>)
 const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
   ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
 
+const VoidFromUnit = new t.Type<void, {}>(
+  'VoidFromUnit',
+  (_m): _m is void => true,
+  () => t.success(undefined),
+  () => ({})
+)
 export type CampingLocation =
   | 'Seaside'
   | 'Mountains'
@@ -655,6 +673,12 @@ exports[`getModels should return the models in the right (source2) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
+const VoidFromUnit = new t.Type<void, {}>(
+  'VoidFromUnit',
+  (_m): _m is void => true,
+  () => t.success(undefined),
+  () => ({})
+)
 export type Tag = Readonly<{
   id: UUID,
   label: string
@@ -861,6 +885,12 @@ exports[`getModels should return the models in the right (source3) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
+const VoidFromUnit = new t.Type<void, {}>(
+  'VoidFromUnit',
+  (_m): _m is void => true,
+  () => t.success(undefined),
+  () => ({})
+)
 export type Vendor =
   | 'Hertz'
   | 'Dollar'
@@ -1502,6 +1532,12 @@ const fromNewtype = <N extends AnyNewtype>() => <O>(type: t.Type<Carrier<N>, O>)
 const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
   ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
 
+const VoidFromUnit = new t.Type<void, {}>(
+  'VoidFromUnit',
+  (_m): _m is void => true,
+  () => t.success(undefined),
+  () => ({})
+)
 export interface ActivationEnergy {
   temperature: number,
   value: number
@@ -2143,9 +2179,7 @@ export default function getRoutes(config: RouteConfig) {
       }).then(res => valueOrThrow(m.Id<m.User>(), config.unwrapApiResponse(res.data)), parseError) as any
     },
 
-    userController_update: function ({ user }: { user: m.Entity<m.User> }): Promise<{
-
-}> {
+    userController_update: function ({ user }: { user: m.Entity<m.User> }): Promise<void> {
       return axios({
         method: 'post',
         url: \`\${config.apiEndpoint}/user/update\`,
@@ -2159,14 +2193,10 @@ export default function getRoutes(config: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: config.timeout
-      }).then(res => valueOrThrow(t.strict({
-
-}), config.unwrapApiResponse(res.data)), parseError) as any
+      }).then(res => valueOrThrow(VoidFromUnit, config.unwrapApiResponse(res.data)), parseError) as any
     },
 
-    userController_delete: function ({ id }: { id: m.Id<m.User> }): Promise<{
-
-}> {
+    userController_delete: function ({ id }: { id: m.Id<m.User> }): Promise<void> {
       return axios({
         method: 'post',
         url: \`\${config.apiEndpoint}/user/delete\`,
@@ -2180,9 +2210,7 @@ export default function getRoutes(config: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: config.timeout
-      }).then(res => valueOrThrow(t.strict({
-
-}), config.unwrapApiResponse(res.data)), parseError) as any
+      }).then(res => valueOrThrow(VoidFromUnit, config.unwrapApiResponse(res.data)), parseError) as any
     }
   }
 }
