@@ -67,7 +67,7 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
       case 'Any':
         return reader.of(gen.anyType);
       case 'Unit':
-        return reader.of(gen.customCombinator('void', 'VoidFromUnit'));
+        return reader.of(gen.customCombinator('void', `${prefix}VoidFromUnit`));
       case 'Option':
         const innerType = getType(tpe.args![0], tpe);
         if (owner && ['List', 'Set', 'TreeSet', 'Map'].includes(owner.name)) {
@@ -201,7 +201,7 @@ const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
 
 `;
 
-const unitPrelude = `const VoidFromUnit = new t.Type<void, {}>(
+const unitPrelude = `export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
   (_m): _m is void => true,
   () => t.success(undefined),

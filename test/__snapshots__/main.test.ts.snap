@@ -21,7 +21,7 @@ const fromNewtype = <N extends AnyNewtype>() => <O>(type: t.Type<Carrier<N>, O>)
 const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
   ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
 
-const VoidFromUnit = new t.Type<void, {}>(
+export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
   (_m): _m is void => true,
   () => t.success(undefined),
@@ -38,7 +38,7 @@ exports[`getModels should handle any 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
-const VoidFromUnit = new t.Type<void, {}>(
+export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
   (_m): _m is void => true,
   () => t.success(undefined),
@@ -87,7 +87,7 @@ const fromNewtype = <N extends AnyNewtype>() => <O>(type: t.Type<Carrier<N>, O>)
 const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
   ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
 
-const VoidFromUnit = new t.Type<void, {}>(
+export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
   (_m): _m is void => true,
   () => t.success(undefined),
@@ -673,7 +673,7 @@ exports[`getModels should return the models in the right (source2) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
-const VoidFromUnit = new t.Type<void, {}>(
+export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
   (_m): _m is void => true,
   () => t.success(undefined),
@@ -885,7 +885,7 @@ exports[`getModels should return the models in the right (source3) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 
-const VoidFromUnit = new t.Type<void, {}>(
+export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
   (_m): _m is void => true,
   () => t.success(undefined),
@@ -1532,7 +1532,7 @@ const fromNewtype = <N extends AnyNewtype>() => <O>(type: t.Type<Carrier<N>, O>)
 const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
   ({ wrap: unsafeCoerce, unwrap: unsafeCoerce })
 
-const VoidFromUnit = new t.Type<void, {}>(
+export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
   (_m): _m is void => true,
   () => t.success(undefined),
@@ -2193,7 +2193,7 @@ export default function getRoutes(config: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: config.timeout
-      }).then(res => valueOrThrow(VoidFromUnit, config.unwrapApiResponse(res.data)), parseError) as any
+      }).then(res => valueOrThrow(m.VoidFromUnit, config.unwrapApiResponse(res.data)), parseError) as any
     },
 
     userController_delete: function ({ id }: { id: m.Id<m.User> }): Promise<void> {
@@ -2210,7 +2210,7 @@ export default function getRoutes(config: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: config.timeout
-      }).then(res => valueOrThrow(VoidFromUnit, config.unwrapApiResponse(res.data)), parseError) as any
+      }).then(res => valueOrThrow(m.VoidFromUnit, config.unwrapApiResponse(res.data)), parseError) as any
     }
   }
 }
