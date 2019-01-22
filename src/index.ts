@@ -67,7 +67,7 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
       case 'Any':
         return reader.of(gen.anyType);
       case 'Unit':
-        return reader.of(gen.strictCombinator([]));
+        return reader.of(gen.customCombinator('void', `${prefix}VoidFromUnit`));
       case 'Option':
         const innerType = getType(tpe.args![0], tpe);
         if (owner && ['List', 'Set', 'TreeSet', 'Map'].includes(owner.name)) {
@@ -201,6 +201,14 @@ const iso = <S extends AnyNewtype>(): Iso<S, Carrier<S>> =>
 
 `;
 
+const unitPrelude = `export const VoidFromUnit = new t.Type<void, {}>(
+  'VoidFromUnit',
+  (_m): _m is void => true,
+  () => t.success(undefined),
+  () => ({})
+)
+`;
+
 const ordDeclarations = contramap((d: gen.TypeDeclaration | gen.CustomTypeDeclaration) => d.name, ordString);
 const sortDeclarations = sort(ordDeclarations);
 
@@ -219,6 +227,7 @@ export function getModels(models: Array<Model>, options: GetModelsOptions, prelu
   }
   if (options.runtime) {
     out += prelude;
+    out += unitPrelude;
   }
   out += sortedTypeDeclarations
     .map(d => {
