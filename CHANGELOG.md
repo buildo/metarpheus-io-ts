@@ -2,6 +2,13 @@
 
 
 
+## [v0.7.2](https://github.com/buildo/metarpheus-io-ts/tree/v0.7.2) (2019-01-22)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.7.1...v0.7.2)
+
+#### New features:
+
+- Decode Unit as void instead of empty object [#77](https://github.com/buildo/metarpheus-io-ts/issues/77)
+
 ## [v0.7.1](https://github.com/buildo/metarpheus-io-ts/tree/v0.7.1) (2018-12-28)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.7.0...v0.7.1)
 
