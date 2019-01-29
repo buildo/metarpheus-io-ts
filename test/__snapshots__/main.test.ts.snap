@@ -47,15 +47,15 @@ export const VoidFromUnit = new t.Type<void, {}>(
 export interface NotificationPayload {
   userLanguage?: string,
   notificationKind: NotificationKind,
-  params: { [key in string]: any },
+  params: Record<string, unknown>,
   workcellSerialNumber: string,
   workcellType: InstrumentType
 }
 
 export const NotificationPayload = t.intersection([
-  t.interface({
+  t.type({
     notificationKind: NotificationKind,
-    params: t.dictionary(t.string, t.any),
+    params: t.record(t.string, t.unknown),
     workcellSerialNumber: t.string,
     workcellType: InstrumentType
   }),
@@ -98,8 +98,8 @@ export type CampingLocation =
   | 'Mountains'
 
 export const CampingLocation = t.keyof({
-  Seaside: true,
-  Mountains: true
+  Seaside: null,
+  Mountains: null
 }, 'CampingLocation')
 
 export interface Camping {
@@ -111,7 +111,7 @@ export interface Camping {
   location: CampingLocation
 }
 
-export const Camping = t.interface({
+export const Camping = t.type({
   /** camping name */
   name: t.string,
   /** number of tents */
@@ -134,7 +134,7 @@ export interface Health {
   currentAsOfUtc: Date
 }
 
-export const Health = t.interface({
+export const Health = t.type({
   /** Name of the service. */
   id: HealthId,
   /** Version of the service. */
@@ -149,9 +149,9 @@ export type ICQAlertCategory =
   | 'Notification'
 
 export const ICQAlertCategory = t.keyof({
-  Critical: true,
-  Alert: true,
-  Notification: true
+  Critical: null,
+  Alert: null,
+  Notification: null
 }, 'ICQAlertCategory')
 
 export interface ICQAlert {
@@ -167,7 +167,7 @@ export interface ICQAlert {
 }
 
 export const ICQAlert = t.intersection([
-  t.interface({
+  t.type({
     _moduleId: t.Integer,
     moduleName: t.string,
     _workcellSerialNumber: t.string,
@@ -187,7 +187,7 @@ export interface ICQAssayReference {
   _version: number
 }
 
-export const ICQAssayReference = t.interface({
+export const ICQAssayReference = t.type({
   _number: t.Integer,
   _version: t.Integer
 }, 'ICQAssayReference')
@@ -216,27 +216,27 @@ export type ICQCalibrationMethod =
   | 'Logit-5'
 
 export const ICQCalibrationMethod = t.keyof({
-  Qual1Point: true,
-  Qual2Point: true,
-  CalValueReference: true,
-  ICT: true,
-  Exponential: true,
-  Linear: true,
-  Spline: true,
-  ABS: true,
-  Factor: true,
-  UseFactor: true,
-  UseFactorBlank: true,
-  PLC4Y: true,
-  PLC4X: true,
-  PLC4XTransform: true,
-  PLC5Y: true,
-  PLC5X: true,
-  PLC5XTransform: true,
-  PointToPoint: true,
-  IAReference: true,
-  'Logit-4': true,
-  'Logit-5': true
+  Qual1Point: null,
+  Qual2Point: null,
+  CalValueReference: null,
+  ICT: null,
+  Exponential: null,
+  Linear: null,
+  Spline: null,
+  ABS: null,
+  Factor: null,
+  UseFactor: null,
+  UseFactorBlank: null,
+  PLC4Y: null,
+  PLC4X: null,
+  PLC4XTransform: null,
+  PLC5Y: null,
+  PLC5X: null,
+  PLC5XTransform: null,
+  PointToPoint: null,
+  IAReference: null,
+  'Logit-4': null,
+  'Logit-5': null
 }, 'ICQCalibrationMethod')
 
 export type ICQCalibrationType =
@@ -244,8 +244,8 @@ export type ICQCalibrationType =
   | 'Adjust'
 
 export const ICQCalibrationType = t.keyof({
-  Full: true,
-  Adjust: true
+  Full: null,
+  Adjust: null
 }, 'ICQCalibrationType')
 
 export type ICQCalibrationStatus =
@@ -259,14 +259,14 @@ export type ICQCalibrationStatus =
   | 'InProcess'
 
 export const ICQCalibrationStatus = t.keyof({
-  NoCal: true,
-  Ok: true,
-  Failed: true,
-  Expired: true,
-  Overridden: true,
-  OverriddenLot: true,
-  PendingQC: true,
-  InProcess: true
+  NoCal: null,
+  Ok: null,
+  Failed: null,
+  Expired: null,
+  Overridden: null,
+  OverriddenLot: null,
+  PendingQC: null,
+  InProcess: null
 }, 'ICQCalibrationStatus')
 
 export interface ICQCalibration {
@@ -287,7 +287,7 @@ export interface ICQCalibration {
 }
 
 export const ICQCalibration = t.intersection([
-  t.interface({
+  t.type({
     _moduleId: t.Integer,
     moduleName: t.string,
     _workcellSerialNumber: t.string,
@@ -313,9 +313,9 @@ export type ICQConnectionStatus =
   | 'NotConfigured'
 
 export const ICQConnectionStatus = t.keyof({
-  Connected: true,
-  NotConnected: true,
-  NotConfigured: true
+  Connected: null,
+  NotConnected: null,
+  NotConfigured: null
 }, 'ICQConnectionStatus')
 
 export type ICQModuleStatus =
@@ -330,15 +330,15 @@ export type ICQModuleStatus =
   | 'Maintenance'
 
 export const ICQModuleStatus = t.keyof({
-  Offline: true,
-  Stopped: true,
-  Initializing: true,
-  Warming: true,
-  Idle: true,
-  Running: true,
-  Processing: true,
-  Pausing: true,
-  Maintenance: true
+  Offline: null,
+  Stopped: null,
+  Initializing: null,
+  Warming: null,
+  Idle: null,
+  Running: null,
+  Processing: null,
+  Pausing: null,
+  Maintenance: null
 }, 'ICQModuleStatus')
 
 export type ICQModuleType =
@@ -346,8 +346,8 @@ export type ICQModuleType =
   | 'CC'
 
 export const ICQModuleType = t.keyof({
-  IA: true,
-  CC: true
+  IA: null,
+  CC: null
 }, 'ICQModuleType')
 
 export type ICQReagentStatus =
@@ -368,21 +368,21 @@ export type ICQReagentStatus =
   | 'Undefined'
 
 export const ICQReagentStatus = t.keyof({
-  Ok: true,
-  Mixing: true,
-  Overridden: true,
-  Disabled: true,
-  LowAlert: true,
-  Expired: true,
-  ExpiredError: true,
-  Empty: true,
-  NoAssay: true,
-  PickError: true,
-  PlaceError: true,
-  LoadError: true,
-  Incomplete: true,
-  BCFail: true,
-  Undefined: true
+  Ok: null,
+  Mixing: null,
+  Overridden: null,
+  Disabled: null,
+  LowAlert: null,
+  Expired: null,
+  ExpiredError: null,
+  Empty: null,
+  NoAssay: null,
+  PickError: null,
+  PlaceError: null,
+  LoadError: null,
+  Incomplete: null,
+  BCFail: null,
+  Undefined: null
 }, 'ICQReagentStatus')
 
 export type ICQReagentCartridgeStatus =
@@ -397,15 +397,15 @@ export type ICQReagentCartridgeStatus =
   | 'Loading'
 
 export const ICQReagentCartridgeStatus = t.keyof({
-  Ok: true,
-  UnloadError: true,
-  LoadError: true,
-  ScheduledUnload: true,
-  ScheduledLoad: true,
-  PartiallyUnloaded: true,
-  Scanning: true,
-  Unloading: true,
-  Loading: true
+  Ok: null,
+  UnloadError: null,
+  LoadError: null,
+  ScheduledUnload: null,
+  ScheduledLoad: null,
+  PartiallyUnloaded: null,
+  Scanning: null,
+  Unloading: null,
+  Loading: null
 }, 'ICQReagentCartridgeStatus')
 
 export interface ICQOnBoardSolution {
@@ -427,7 +427,7 @@ export interface ICQOnBoardSolution {
 }
 
 export const ICQOnBoardSolution = t.intersection([
-  t.interface({
+  t.type({
     _moduleId: t.Integer,
     moduleName: t.string,
     _workcellSerialNumber: t.string,
@@ -454,9 +454,9 @@ export type ICQOverallStatus =
   | 'Error'
 
 export const ICQOverallStatus = t.keyof({
-  Ok: true,
-  Warning: true,
-  Error: true
+  Ok: null,
+  Warning: null,
+  Error: null
 }, 'ICQOverallStatus')
 
 export type ICQPrinterStatus =
@@ -466,10 +466,10 @@ export type ICQPrinterStatus =
   | 'NotConfigured'
 
 export const ICQPrinterStatus = t.keyof({
-  NoError: true,
-  Warning: true,
-  Error: true,
-  NotConfigured: true
+  NoError: null,
+  Warning: null,
+  Error: null,
+  NotConfigured: null
 }, 'ICQPrinterStatus')
 
 export interface ICQProcessingModule {
@@ -487,7 +487,7 @@ export interface ICQProcessingModule {
   maintenanceOverallStatus: ICQOverallStatus
 }
 
-export const ICQProcessingModule = t.interface({
+export const ICQProcessingModule = t.type({
   _id: t.Integer,
   serialNumber: t.string,
   type: ICQModuleType,
@@ -509,10 +509,10 @@ export type ICQQCAnalysisStatus =
   | 'WestgardFailure'
 
 export const ICQQCAnalysisStatus = t.keyof({
-  Success: true,
-  QCOutOfRange: true,
-  WestgardWarning: true,
-  WestgardFailure: true
+  Success: null,
+  QCOutOfRange: null,
+  WestgardWarning: null,
+  WestgardFailure: null
 }, 'ICQQCAnalysisStatus')
 
 export interface ICQQCAnalysis {
@@ -528,7 +528,7 @@ export interface ICQQCAnalysis {
   assayQCStatus: ICQQCAnalysisStatus
 }
 
-export const ICQQCAnalysis = t.interface({
+export const ICQQCAnalysis = t.type({
   _moduleId: t.Integer,
   moduleName: t.string,
   _workcellSerialNumber: t.string,
@@ -549,11 +549,11 @@ export type ICQQCMaterialStatus =
   | 'Overridden'
 
 export const ICQQCMaterialStatus = t.keyof({
-  Ok: true,
-  LowAlert: true,
-  Empty: true,
-  Expired: true,
-  Overridden: true
+  Ok: null,
+  LowAlert: null,
+  Empty: null,
+  Expired: null,
+  Overridden: null
 }, 'ICQQCMaterialStatus')
 
 export interface ICQQCMaterial {
@@ -579,7 +579,7 @@ export interface ICQQCMaterial {
 }
 
 export const ICQQCMaterial = t.intersection([
-  t.interface({
+  t.type({
     _moduleId: t.Integer,
     moduleName: t.string,
     _workcellSerialNumber: t.string,
@@ -614,13 +614,13 @@ export type ICQRSMStatus =
   | 'Maintenance'
 
 export const ICQRSMStatus = t.keyof({
-  Offline: true,
-  Stopped: true,
-  Initializing: true,
-  Idle: true,
-  Running: true,
-  Pausing: true,
-  Maintenance: true
+  Offline: null,
+  Stopped: null,
+  Initializing: null,
+  Idle: null,
+  Running: null,
+  Pausing: null,
+  Maintenance: null
 }, 'ICQRSMStatus')
 
 export interface ICQRSM {
@@ -630,7 +630,7 @@ export interface ICQRSM {
   status: ICQRSMStatus
 }
 
-export const ICQRSM = t.interface({
+export const ICQRSM = t.type({
   serialNumber: t.string,
   name: t.string,
   overallStatus: ICQOverallStatus,
@@ -652,7 +652,7 @@ export interface ICQWorkcell {
   RSM: ICQRSM
 }
 
-export const ICQWorkcell = t.interface({
+export const ICQWorkcell = t.type({
   _serialNumber: t.string,
   name: t.string,
   numberOfSamples: t.Integer,
@@ -684,7 +684,7 @@ export type Tag = Readonly<{
   label: string
 }>
 
-export const Tag = t.readonly(t.interface({
+export const Tag = t.readonly(t.type({
   id: UUID,
   label: t.string
 }, 'Tag'))
@@ -694,7 +694,7 @@ export type AgencySearchResult = Readonly<{
   networks: ReadonlyArray<Tag>
 }>
 
-export const AgencySearchResult = t.readonly(t.interface({
+export const AgencySearchResult = t.readonly(t.type({
   agencies: t.readonlyArray(Tag),
   networks: t.readonlyArray(Tag)
 }, 'AgencySearchResult'))
@@ -703,7 +703,7 @@ export type CancellationPolicy =
   | 'Free'
 
 export const CancellationPolicy = t.keyof({
-  Free: true
+  Free: null
 }, 'CancellationPolicy')
 
 export type Vendor =
@@ -713,10 +713,10 @@ export type Vendor =
   | 'Thrifty'
 
 export const Vendor = t.keyof({
-  Hertz: true,
-  Dollar: true,
-  FireFly: true,
-  Thrifty: true
+  Hertz: null,
+  Dollar: null,
+  FireFly: null,
+  Thrifty: null
 }, 'Vendor')
 
 export type PaymentMode =
@@ -724,8 +724,8 @@ export type PaymentMode =
   | 'Prepaid'
 
 export const PaymentMode = t.keyof({
-  Cash: true,
-  Prepaid: true
+  Cash: null,
+  Prepaid: null
 }, 'PaymentMode')
 
 export type FareRule = Readonly<{
@@ -738,7 +738,7 @@ export type FareRule = Readonly<{
 }>
 
 export const FareRule = t.readonly(t.intersection([
-  t.interface({
+  t.type({
     nations: t.readonlyArray(Tag),
     agencies: t.readonlyArray(Tag)
   }),
@@ -766,7 +766,7 @@ export type Fare = Readonly<{
 }>
 
 export const Fare = t.readonly(t.intersection([
-  t.interface({
+  t.type({
     id: UUID,
     name: t.string,
     vendor: Vendor,
@@ -790,9 +790,9 @@ export type ReservationProfile =
   | 'TourOperator'
 
 export const ReservationProfile = t.keyof({
-  Leisure: true,
-  Business: true,
-  TourOperator: true
+  Leisure: null,
+  Business: null,
+  TourOperator: null
 }, 'ReservationProfile')
 
 export type FareSummary = Readonly<{
@@ -804,7 +804,7 @@ export type FareSummary = Readonly<{
   disabled: boolean
 }>
 
-export const FareSummary = t.readonly(t.interface({
+export const FareSummary = t.readonly(t.type({
   id: UUID,
   reservationProfile: ReservationProfile,
   name: t.string,
@@ -820,10 +820,10 @@ export type FareSummarySorting =
   | 'Disabled'
 
 export const FareSummarySorting = t.keyof({
-  Name: true,
-  Vendor: true,
-  PaymentMode: true,
-  Disabled: true
+  Name: null,
+  Vendor: null,
+  PaymentMode: null,
+  Disabled: null
 }, 'FareSummarySorting')
 
 export type NationSearchResult = Readonly<{
@@ -832,7 +832,7 @@ export type NationSearchResult = Readonly<{
   states: ReadonlyArray<Tag>
 }>
 
-export const NationSearchResult = t.readonly(t.interface({
+export const NationSearchResult = t.readonly(t.type({
   regions: t.readonlyArray(Tag),
   countries: t.readonlyArray(Tag),
   states: t.readonlyArray(Tag)
@@ -853,7 +853,7 @@ export type NewFare = Readonly<{
 }>
 
 export const NewFare = t.readonly(t.intersection([
-  t.interface({
+  t.type({
     name: t.string,
     vendor: Vendor,
     paymentMode: PaymentMode,
@@ -875,8 +875,8 @@ export type SortOrder =
   | 'Descending'
 
 export const SortOrder = t.keyof({
-  Ascending: true,
-  Descending: true
+  Ascending: null,
+  Descending: null
 }, 'SortOrder')
 "
 `;
@@ -898,10 +898,10 @@ export type Vendor =
   | 'Thrifty'
 
 export const Vendor = t.keyof({
-  Hertz: true,
-  Dollar: true,
-  FireFly: true,
-  Thrifty: true
+  Hertz: null,
+  Dollar: null,
+  FireFly: null,
+  Thrifty: null
 }, 'Vendor')
 
 export type PaymentMode =
@@ -909,15 +909,15 @@ export type PaymentMode =
   | 'Prepaid'
 
 export const PaymentMode = t.keyof({
-  Cash: true,
-  Prepaid: true
+  Cash: null,
+  Prepaid: null
 }, 'PaymentMode')
 
 export type CancellationPolicy =
   | 'Free'
 
 export const CancellationPolicy = t.keyof({
-  Free: true
+  Free: null
 }, 'CancellationPolicy')
 
 export interface AvailableFare {
@@ -932,7 +932,7 @@ export interface AvailableFare {
 }
 
 export const AvailableFare = t.intersection([
-  t.interface({
+  t.type({
     id: UUID,
     name: t.string,
     vendor: Vendor,
@@ -951,7 +951,7 @@ export interface RentalRateTotal {
   estimatedIncludingTaxes: Money
 }
 
-export const RentalRateTotal = t.interface({
+export const RentalRateTotal = t.type({
   base: Money,
   estimatedIncludingTaxes: Money
 }, 'RentalRateTotal')
@@ -962,9 +962,9 @@ export type RentalRateDistanceUnit =
   | 'Block'
 
 export const RentalRateDistanceUnit = t.keyof({
-  Km: true,
-  Mile: true,
-  Block: true
+  Km: null,
+  Mile: null,
+  Block: null
 }, 'RentalRateDistanceUnit')
 
 export interface RentalRateDistance {
@@ -975,7 +975,7 @@ export interface RentalRateDistance {
 }
 
 export const RentalRateDistance = t.intersection([
-  t.interface({
+  t.type({
     unlimited: t.boolean,
     unit: RentalRateDistanceUnit
   }),
@@ -993,11 +993,11 @@ export type SpecialEquipment =
   | 'SnowTyres'
 
 export const SpecialEquipment = t.keyof({
-  InfantChildSeat: true,
-  ChildToddlerSeat: true,
-  BoosterSeat: true,
-  NeverLostGPS: true,
-  SnowTyres: true
+  InfantChildSeat: null,
+  ChildToddlerSeat: null,
+  BoosterSeat: null,
+  NeverLostGPS: null,
+  SnowTyres: null
 }, 'SpecialEquipment')
 
 export interface PricedSpecialEquipment {
@@ -1008,7 +1008,7 @@ export interface PricedSpecialEquipment {
   includedInRate: boolean
 }
 
-export const PricedSpecialEquipment = t.interface({
+export const PricedSpecialEquipment = t.type({
   id: SpecialEquipment,
   units: t.Integer,
   cost: Money,
@@ -1026,7 +1026,7 @@ export interface RentalRate {
 }
 
 export const RentalRate = t.intersection([
-  t.interface({
+  t.type({
     externalId: t.string,
     total: RentalRateTotal,
     distance: RentalRateDistance,
@@ -1043,7 +1043,7 @@ export interface AvailableRentalRate {
   rentalRate: RentalRate
 }
 
-export const AvailableRentalRate = t.interface({
+export const AvailableRentalRate = t.type({
   availableVehicleId: UUID,
   rentalRate: RentalRate
 }, 'AvailableRentalRate')
@@ -1054,7 +1054,7 @@ export interface AvailableSpecialEquipment {
   atMost: number
 }
 
-export const AvailableSpecialEquipment = t.interface({
+export const AvailableSpecialEquipment = t.type({
   id: SpecialEquipment,
   estimatedUnitCost: Money,
   atMost: t.Integer
@@ -1065,8 +1065,8 @@ export type VehicleTransmission =
   | 'Manual'
 
 export const VehicleTransmission = t.keyof({
-  Automatic: true,
-  Manual: true
+  Automatic: null,
+  Manual: null
 }, 'VehicleTransmission')
 
 export type VehicleFuel =
@@ -1081,15 +1081,15 @@ export type VehicleFuel =
   | 'Ethanol'
 
 export const VehicleFuel = t.keyof({
-  Unspecified: true,
-  Diesel: true,
-  Hybrid: true,
-  Electric: true,
-  LPGCompressedGas: true,
-  Hydrogen: true,
-  MultiFuel: true,
-  Petrol: true,
-  Ethanol: true
+  Unspecified: null,
+  Diesel: null,
+  Hybrid: null,
+  Electric: null,
+  LPGCompressedGas: null,
+  Hydrogen: null,
+  MultiFuel: null,
+  Petrol: null,
+  Ethanol: null
 }, 'VehicleFuel')
 
 export type VehicleDrive =
@@ -1098,9 +1098,9 @@ export type VehicleDrive =
   | 'Unspecified'
 
 export const VehicleDrive = t.keyof({
-  AllWheel: true,
-  FourWheel: true,
-  Unspecified: true
+  AllWheel: null,
+  FourWheel: null,
+  Unspecified: null
 }, 'VehicleDrive')
 
 export type VehicleCategory =
@@ -1127,27 +1127,27 @@ export type VehicleCategory =
   | 'CommercialVanOrTruck'
 
 export const VehicleCategory = t.keyof({
-  Car: true,
-  Van: true,
-  Suv: true,
-  Convertible: true,
-  Limousine: true,
-  Wagon: true,
-  Pickup: true,
-  Motorhome: true,
-  AllTerrain: true,
-  Recreational: true,
-  Sport: true,
-  Special: true,
-  PickupExtendedCab: true,
-  RegularCabPickup: true,
-  SpecialOffer: true,
-  Coupe: true,
-  Monospace: true,
-  TwoWheelVehicle: true,
-  Roadster: true,
-  Crossover: true,
-  CommercialVanOrTruck: true
+  Car: null,
+  Van: null,
+  Suv: null,
+  Convertible: null,
+  Limousine: null,
+  Wagon: null,
+  Pickup: null,
+  Motorhome: null,
+  AllTerrain: null,
+  Recreational: null,
+  Sport: null,
+  Special: null,
+  PickupExtendedCab: null,
+  RegularCabPickup: null,
+  SpecialOffer: null,
+  Coupe: null,
+  Monospace: null,
+  TwoWheelVehicle: null,
+  Roadster: null,
+  Crossover: null,
+  CommercialVanOrTruck: null
 }, 'VehicleCategory')
 
 export type VehicleSize =
@@ -1173,26 +1173,26 @@ export type VehicleSize =
   | 'Oversize'
 
 export const VehicleSize = t.keyof({
-  Mini: true,
-  Subcompact: true,
-  Economy: true,
-  Compact: true,
-  Midsize: true,
-  Intermediate: true,
-  Standard: true,
-  Fullsize: true,
-  Luxury: true,
-  Premium: true,
-  Special: true,
-  MiniElite: true,
-  EconomyElite: true,
-  CompactElite: true,
-  IntermediateElite: true,
-  StandardElite: true,
-  FullsizeElite: true,
-  PremiumElite: true,
-  LuxuryElite: true,
-  Oversize: true
+  Mini: null,
+  Subcompact: null,
+  Economy: null,
+  Compact: null,
+  Midsize: null,
+  Intermediate: null,
+  Standard: null,
+  Fullsize: null,
+  Luxury: null,
+  Premium: null,
+  Special: null,
+  MiniElite: null,
+  EconomyElite: null,
+  CompactElite: null,
+  IntermediateElite: null,
+  StandardElite: null,
+  FullsizeElite: null,
+  PremiumElite: null,
+  LuxuryElite: null,
+  Oversize: null
 }, 'VehicleSize')
 
 export interface Vehicle {
@@ -1214,7 +1214,7 @@ export interface Vehicle {
 }
 
 export const Vehicle = t.intersection([
-  t.interface({
+  t.type({
     airConditioning: t.boolean,
     category: VehicleCategory,
     size: VehicleSize,
@@ -1244,7 +1244,7 @@ export interface AvailableVehicle {
   rentalRate: RentalRate
 }
 
-export const AvailableVehicle = t.interface({
+export const AvailableVehicle = t.type({
   id: UUID,
   queryId: UUID,
   externalId: t.string,
@@ -1259,9 +1259,9 @@ export type ReservationProfile =
   | 'TourOperator'
 
 export const ReservationProfile = t.keyof({
-  Leisure: true,
-  Business: true,
-  TourOperator: true
+  Leisure: null,
+  Business: null,
+  TourOperator: null
 }, 'ReservationProfile')
 
 export interface AvailableVehicleSearchQuery {
@@ -1274,7 +1274,7 @@ export interface AvailableVehicleSearchQuery {
   dropOffLocalTime: LocalTime
 }
 
-export const AvailableVehicleSearchQuery = t.interface({
+export const AvailableVehicleSearchQuery = t.type({
   reservationProfile: ReservationProfile,
   pickUpLocation: t.string,
   pickUpLocalDate: LocalDate,
@@ -1286,12 +1286,12 @@ export const AvailableVehicleSearchQuery = t.interface({
 
 export interface VehicleAvailability {
   vehicle: Vehicle,
-  availableRentalRatesByFare: { [key in UUID]: AvailableRentalRate }
+  availableRentalRatesByFare: Record<UUID, AvailableRentalRate>
 }
 
-export const VehicleAvailability = t.interface({
+export const VehicleAvailability = t.type({
   vehicle: Vehicle,
-  availableRentalRatesByFare: t.dictionary(UUID, AvailableRentalRate)
+  availableRentalRatesByFare: t.record(UUID, AvailableRentalRate)
 }, 'VehicleAvailability')
 
 export interface AvailableVehicleSearchResult {
@@ -1301,7 +1301,7 @@ export interface AvailableVehicleSearchResult {
 }
 
 export const AvailableVehicleSearchResult = t.intersection([
-  t.interface({
+  t.type({
     fares: t.array(AvailableFare),
     availability: t.array(VehicleAvailability)
   }),
@@ -1320,13 +1320,13 @@ export type DayOfWeek =
   | 'Sunday'
 
 export const DayOfWeek = t.keyof({
-  Monday: true,
-  Tuesday: true,
-  Wednesday: true,
-  Thursday: true,
-  Friday: true,
-  Saturday: true,
-  Sunday: true
+  Monday: null,
+  Tuesday: null,
+  Wednesday: null,
+  Thursday: null,
+  Friday: null,
+  Saturday: null,
+  Sunday: null
 }, 'DayOfWeek')
 
 export interface OpeningHours {
@@ -1334,7 +1334,7 @@ export interface OpeningHours {
   close: string
 }
 
-export const OpeningHours = t.interface({
+export const OpeningHours = t.type({
   open: t.string,
   close: t.string
 }, 'OpeningHours')
@@ -1358,7 +1358,7 @@ export interface Location {
   telex: string,
   webUrl: string,
   email: string,
-  openingHours: { [key in DayOfWeek]: Array<OpeningHours> },
+  openingHours: Record<DayOfWeek, Array<OpeningHours>>,
   latitude: string,
   longitude: string,
   description: string,
@@ -1412,7 +1412,7 @@ export interface Location {
   pkgWeeklyRate: string
 }
 
-export const Location = t.interface({
+export const Location = t.type({
   recordType: t.string,
   actionCode: t.string,
   recordNumber: t.string,
@@ -1431,7 +1431,7 @@ export const Location = t.interface({
   telex: t.string,
   webUrl: t.string,
   email: t.string,
-  openingHours: t.dictionary(DayOfWeek, t.array(OpeningHours)),
+  openingHours: t.record(DayOfWeek, t.array(OpeningHours)),
   latitude: t.string,
   longitude: t.string,
   description: t.string,
@@ -1504,7 +1504,7 @@ export interface SelectedSpecialEquipment {
   units: number
 }
 
-export const SelectedSpecialEquipment = t.interface({
+export const SelectedSpecialEquipment = t.type({
   id: SpecialEquipment,
   units: t.Integer
 }, 'SelectedSpecialEquipment')
@@ -1543,7 +1543,7 @@ export interface ActivationEnergy {
   value: number
 }
 
-export const ActivationEnergy = t.interface({
+export const ActivationEnergy = t.type({
   temperature: t.number,
   value: t.number
 }, 'ActivationEnergy')
@@ -1555,7 +1555,7 @@ export interface Layer {
   materialId: Id<Material>
 }
 
-export const Layer = t.interface({
+export const Layer = t.type({
   discretisationLayers: t.Integer,
   externalDiameter: t.number,
   initialTemperature: t.number,
@@ -1596,17 +1596,17 @@ export type ZoneType =
   | 'Flange'
 
 export const ZoneType = t.keyof({
-  Air: true,
-  Steam: true,
-  Water: true,
-  WaterTrans: true,
-  Nitrogen: true,
-  NitrogenHeat: true,
-  NitrogenTrans: true,
-  NitrogenCool: true,
-  RhodorsilSiliconeOil: true,
-  DowcorSiliconeOil: true,
-  Flange: true
+  Air: null,
+  Steam: null,
+  Water: null,
+  WaterTrans: null,
+  Nitrogen: null,
+  NitrogenHeat: null,
+  NitrogenTrans: null,
+  NitrogenCool: null,
+  RhodorsilSiliconeOil: null,
+  DowcorSiliconeOil: null,
+  Flange: null
 }, 'ZoneType')
 
 export interface Zone {
@@ -1622,7 +1622,7 @@ export interface Zone {
   flowRate: number
 }
 
-export const Zone = t.interface({
+export const Zone = t.type({
   type: ZoneType,
   temperature: t.number,
   linearlyVaryingTemperature: t.boolean,
@@ -1655,7 +1655,7 @@ export interface CalculationInput {
   zones: Array<Zone>
 }
 
-export const CalculationInput = t.interface({
+export const CalculationInput = t.type({
   name: t.string,
   lineSpeedRangeStart: t.number,
   lineSpeedRangeEnd: t.number,
@@ -1682,7 +1682,7 @@ export interface TemperaturePoint {
   temperature: number
 }
 
-export const TemperaturePoint = t.interface({
+export const TemperaturePoint = t.type({
   linearPositionIndex: t.Integer,
   radialPositionIndex: t.Integer,
   temperature: t.number
@@ -1694,7 +1694,7 @@ export interface CrossLinkingPoint {
   crossLinkingDegree: number
 }
 
-export const CrossLinkingPoint = t.interface({
+export const CrossLinkingPoint = t.type({
   linearPositionIndex: t.Integer,
   radialPositionIndex: t.Integer,
   crossLinkingDegree: t.number
@@ -1718,7 +1718,7 @@ export interface CalculationRun {
   crossLinkingPoints: Array<CrossLinkingPoint>
 }
 
-export const CalculationRun = t.interface({
+export const CalculationRun = t.type({
   conductorMaxTemperature: Celsius,
   conductorMaxLongitudinalPosition: Meters,
   cableSurfaceMaxTemperature: Celsius,
@@ -1741,7 +1741,7 @@ export interface CalculationOutput {
   runs: Array<CalculationRun>
 }
 
-export const CalculationOutput = t.interface({
+export const CalculationOutput = t.type({
   lineSpeeds: t.array(MetersPerMinute),
   runs: t.array(CalculationRun)
 }, 'CalculationOutput')
@@ -1751,7 +1751,7 @@ export interface CrossLinksFormationTime {
   value: number
 }
 
-export const CrossLinksFormationTime = t.interface({
+export const CrossLinksFormationTime = t.type({
   temperature: t.number,
   value: t.number
 }, 'CrossLinksFormationTime')
@@ -1761,7 +1761,7 @@ export interface Entity<A> {
   value: A
 }
 
-export const Entity = <A extends t.Any>(A: A) => t.interface({
+export const Entity = <A extends t.Any>(A: A) => t.type({
   id: Id<A>(),
   value: A
 }, 'Entity')
@@ -1781,7 +1781,7 @@ export interface VolumetricSpecificHeat {
   value: number
 }
 
-export const VolumetricSpecificHeat = t.interface({
+export const VolumetricSpecificHeat = t.type({
   temperature: t.number,
   value: t.number
 }, 'VolumetricSpecificHeat')
@@ -1791,7 +1791,7 @@ export interface ThermalResistivity {
   value: number
 }
 
-export const ThermalResistivity = t.interface({
+export const ThermalResistivity = t.type({
   temperature: t.number,
   value: t.number
 }, 'ThermalResistivity')
@@ -1803,7 +1803,7 @@ export interface Material {
   activationEnergyMap: Array<ActivationEnergy>
 }
 
-export const Material = t.interface({
+export const Material = t.type({
   volumetricSpecificHeatMap: t.array(VolumetricSpecificHeat),
   thermalResistivityMap: t.array(ThermalResistivity),
   crossLinksFormationTimeMap: t.array(CrossLinksFormationTime),
@@ -1815,8 +1815,8 @@ export type Role =
   | 'User'
 
 export const Role = t.keyof({
-  Admin: true,
-  User: true
+  Admin: null,
+  User: null
 }, 'Role')
 
 export interface User {
@@ -1826,7 +1826,7 @@ export interface User {
 }
 
 export const User = t.intersection([
-  t.interface({
+  t.type({
     externalId: ExternalId<User>(),
     role: Role
   }),

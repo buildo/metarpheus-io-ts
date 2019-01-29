@@ -65,7 +65,7 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
       case 'Boolean':
         return reader.of(gen.booleanType);
       case 'Any':
-        return reader.of(gen.anyType);
+        return reader.of(gen.unknownType);
       case 'Unit':
         return reader.of(gen.customCombinator('void', `${prefix}VoidFromUnit`));
       case 'Option':
