@@ -65,7 +65,7 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
       case 'Boolean':
         return reader.of(gen.booleanType);
       case 'Any':
-        return reader.of(gen.anyType);
+        return reader.of(gen.unknownType);
       case 'Unit':
         return reader.of(gen.customCombinator('void', `${prefix}VoidFromUnit`));
       case 'Option':
@@ -82,7 +82,7 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
           : getType(tpe.args![0], tpe).map(gen.arrayCombinator);
       case 'Map':
         return getType(tpe.args![0], tpe).chain(keyType =>
-          getType(tpe.args![1], tpe).map(valueType => gen.dictionaryCombinator(keyType, valueType))
+          getType(tpe.args![1], tpe).map(valueType => gen.recordCombinator(keyType, valueType))
         );
       default:
         if (tpe.args && tpe.args.length > 0) {
@@ -159,7 +159,7 @@ function getDeclarations(models: Array<Model>): Reader<Ctx, Array<gen.TypeDeclar
       }
       const caseClass = model as CaseClass;
       return traverseReader(caseClass.members, getProperty).map(properties => {
-        const interfaceDecl = gen.interfaceCombinator(properties, model.name);
+        const interfaceDecl = gen.typeCombinator(properties, model.name);
         if (caseClass.typeParams && caseClass.typeParams.length > 0) {
           const staticParams = caseClass.typeParams.map(p => `${p.name} extends t.Any`).join(', ');
           const runtimeParams = caseClass.typeParams.map(p => `${p.name}: ${p.name}`).join(', ');
@@ -175,7 +175,7 @@ function getDeclarations(models: Array<Model>): Reader<Ctx, Array<gen.TypeDeclar
             dependencies
           );
         } else {
-          return gen.typeDeclaration(model.name, gen.interfaceCombinator(properties, model.name), true, isReadonly);
+          return gen.typeDeclaration(model.name, gen.typeCombinator(properties, model.name), true, isReadonly);
         }
       });
     })
