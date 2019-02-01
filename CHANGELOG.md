@@ -1,14 +1,13 @@
 #  Change Log
 
-## [Unreleased](https://github.com/buildo/metarpheus-io-ts/tree/HEAD)
-[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.0...HEAD)
+
+
+## [v0.8.0](https://github.com/buildo/metarpheus-io-ts/tree/v0.8.0) (2019-02-01)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.7.2...v0.8.0)
 
 #### Breaking:
 
 - Upgrade to io-ts-codegen 0.3.0 [#81](https://github.com/buildo/metarpheus-io-ts/issues/81)
-
-## [v0.8.0](https://github.com/buildo/metarpheus-io-ts/tree/v0.8.0) (2019-02-01)
-[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.7.2...v0.8.0)
 
 ## [v0.7.2](https://github.com/buildo/metarpheus-io-ts/tree/v0.7.2) (2019-01-22)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.7.1...v0.7.2)
