@@ -2,6 +2,9 @@
 
 
 
+## [v0.8.1](https://github.com/buildo/metarpheus-io-ts/tree/v0.8.1) (2019-02-07)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.0...v0.8.1)
+
 ## [v0.8.0](https://github.com/buildo/metarpheus-io-ts/tree/v0.8.0) (2019-02-01)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.7.2...v0.8.0)
 
