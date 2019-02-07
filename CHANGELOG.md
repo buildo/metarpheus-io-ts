@@ -2,6 +2,13 @@
 
 
 
+## [v0.8.2](https://github.com/buildo/metarpheus-io-ts/tree/v0.8.2) (2019-02-07)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.1...v0.8.2)
+
+#### New features:
+
+- Add support for Long [#84](https://github.com/buildo/metarpheus-io-ts/issues/84)
+
 ## [v0.8.1](https://github.com/buildo/metarpheus-io-ts/tree/v0.8.1) (2019-02-07)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.0...v0.8.1)
 
