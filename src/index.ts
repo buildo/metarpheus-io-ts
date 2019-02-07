@@ -57,6 +57,7 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
       case 'String':
         return reader.of(gen.stringType);
       case 'Int':
+      case 'Long':
         return reader.of(gen.integerType);
       case 'Float':
       case 'Double':
