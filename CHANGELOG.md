@@ -2,6 +2,13 @@
 
 
 
+## [v0.8.3](https://github.com/buildo/metarpheus-io-ts/tree/v0.8.3) (2019-03-06)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.2...v0.8.3)
+
+#### Fixes (bugs & defects):
+
+- Generated API file file: param named `config` clashes with `getRoutes(config: RouteConfig)` [#89](https://github.com/buildo/metarpheus-io-ts/issues/89)
+
 ## [v0.8.2](https://github.com/buildo/metarpheus-io-ts/tree/v0.8.2) (2019-02-07)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.1...v0.8.2)
 
