@@ -261,7 +261,7 @@ function getRoutePath(route: Route): string {
       }
     })
     .join('/');
-  return '`${config.apiEndpoint}/' + path + '`';
+  return '`${_metarpheusRouteConfig.apiEndpoint}/' + path + '`';
 }
 
 function getRouteParams(route: Route): Reader<Ctx, string> {
@@ -321,7 +321,7 @@ function getAxiosConfig(route: Route): Reader<Ctx, string> {
       s += `\n        params: ${routeParams},`;
       s += `\n        data: ${routeData},`;
       s += `\n        headers: ${getRouteHeaders(route)},`;
-      s += '\n        timeout: config.timeout';
+      s += '\n        timeout: _metarpheusRouteConfig.timeout';
       s += '\n      }';
       return s;
     })
@@ -394,7 +394,7 @@ function getRoute(_route: Route): Reader<Ctx, string> {
             `${docs}    ${name}: function (${routeArguments}): Promise<${gen.printStatic(returns)}> {`,
             `      return axios(${axiosConfig}).then(res => valueOrThrow(${gen.printRuntime(
               returns
-            )}, config.unwrapApiResponse(res.data)), parseError) as any`,
+            )}, _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any`,
             '    }'
           ].join('\n');
         })
@@ -444,7 +444,7 @@ export function getRoutes(
   return (
     prelude +
     `
-export default function getRoutes(config: RouteConfig) {
+export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
   return {
 ` +
     routes

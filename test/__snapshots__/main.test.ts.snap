@@ -1869,13 +1869,13 @@ const parseError = (err: AxiosError) => {
   }
 };
 
-export default function getRoutes(config: RouteConfig) {
+export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
   return {
     /** Create a new search query for available vehicles */
     availableVehicleController_createQuery: function ({ query }: { query: m.AvailableVehicleSearchQuery }): Promise<m.UUID> {
       return axios({
         method: 'post',
-        url: \`\${config.apiEndpoint}/availableVehicles/createQuery\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/createQuery\`,
         params: {
 
         },
@@ -1885,15 +1885,15 @@ export default function getRoutes(config: RouteConfig) {
         headers: {
           'Content-Type': 'application/json'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(m.UUID, config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(m.UUID, _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** Returns an existing query for available vehicles */
     availableVehicleController_readQuery: function ({ id }: { id: m.UUID }): Promise<m.AvailableVehicleSearchQuery> {
       return axios({
         method: 'get',
-        url: \`\${config.apiEndpoint}/availableVehicles/readQuery\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/readQuery\`,
         params: {
           id: m.UUID.encode(id)
         },
@@ -1905,15 +1905,15 @@ export default function getRoutes(config: RouteConfig) {
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(m.AvailableVehicleSearchQuery, config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(m.AvailableVehicleSearchQuery, _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** Returns the resulting available vehicles for the created query */
     availableVehicleController_readResult: function ({ id }: { id: m.UUID }): Promise<m.AvailableVehicleSearchResult> {
       return axios({
         method: 'get',
-        url: \`\${config.apiEndpoint}/availableVehicles/readResult\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/readResult\`,
         params: {
           id: m.UUID.encode(id)
         },
@@ -1925,15 +1925,15 @@ export default function getRoutes(config: RouteConfig) {
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(m.AvailableVehicleSearchResult, config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(m.AvailableVehicleSearchResult, _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** Updates the selected SpecialEquipments for the specified AvailableVehicle */
     availableVehicleController_updateSpecialEquipments: function ({ token, availableVehicleId, specialEquipments }: { token: string, availableVehicleId: m.UUID, specialEquipments: Array<m.SelectedSpecialEquipment> }): Promise<m.UUID> {
       return axios({
         method: 'post',
-        url: \`\${config.apiEndpoint}/availableVehicles/updateSpecialEquipments\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/updateSpecialEquipments\`,
         params: {
 
         },
@@ -1945,15 +1945,15 @@ export default function getRoutes(config: RouteConfig) {
           'Content-Type': 'application/json',
           'Authorization': \`Token token=\\"\${token}\\"\`
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(m.UUID, config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(m.UUID, _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** Returns the specified available vehicle */
     availableVehicleController_read: function ({ id }: { id: m.UUID }): Promise<m.AvailableVehicle> {
       return axios({
         method: 'get',
-        url: \`\${config.apiEndpoint}/availableVehicles/read\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/read\`,
         params: {
           id: m.UUID.encode(id)
         },
@@ -1965,15 +1965,15 @@ export default function getRoutes(config: RouteConfig) {
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(m.AvailableVehicle, config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(m.AvailableVehicle, _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** Search locations */
     locationsController_search: function ({ query }: { query: string }): Promise<m.LocationSearchResult> {
       return axios({
         method: 'get',
-        url: \`\${config.apiEndpoint}/locations/search\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/locations/search\`,
         params: {
           query: t.string.encode(query)
         },
@@ -1985,15 +1985,15 @@ export default function getRoutes(config: RouteConfig) {
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(m.LocationSearchResult, config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(m.LocationSearchResult, _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** Get available SpecialEquipment for a given pickUp Location and rental duration */
     locationsController_searchSpecialEquipments: function ({ location, duration, param1, param2 }: { location: string, duration: number, param1: number, param2: string }): Promise<Array<m.AvailableSpecialEquipment>> {
       return axios({
         method: 'get',
-        url: \`\${config.apiEndpoint}/locations/searchSpecialEquipments/\${param1}/foo/\${param2}\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/locations/searchSpecialEquipments/\${param1}/foo/\${param2}\`,
         params: {
           location: t.string.encode(location),
           duration: t.Integer.encode(duration)
@@ -2006,15 +2006,15 @@ export default function getRoutes(config: RouteConfig) {
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(t.array(m.AvailableSpecialEquipment), config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(t.array(m.AvailableSpecialEquipment), _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     /** log a user in */
     userController_login: function ({ data }: { data: m.API_UserLoginCredentials }): Promise<m.API_UserAuthCredentials> {
       return axios({
         method: 'post',
-        url: \`\${config.apiEndpoint}/users/login\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/users/login\`,
         params: {
 
         },
@@ -2022,8 +2022,8 @@ export default function getRoutes(config: RouteConfig) {
         headers: {
           'Content-Type': 'application/json'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(m.API_UserAuthCredentials, config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(m.API_UserAuthCredentials, _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     }
   }
 }
@@ -2062,12 +2062,12 @@ const parseError = (err: AxiosError) => {
   }
 };
 
-export default function getRoutes(config: RouteConfig) {
+export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
   return {
     materialController_readAll: function ({  }: {  }): Promise<Array<m.Entity<m.Material>>> {
       return axios({
         method: 'get',
-        url: \`\${config.apiEndpoint}/material/readAll\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/material/readAll\`,
         params: {
 
         },
@@ -2079,14 +2079,14 @@ export default function getRoutes(config: RouteConfig) {
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(t.array(m.Entity(m.Material)), config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(t.array(m.Entity(m.Material)), _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     calculationController_run: function ({ calculation }: { calculation: m.CalculationInput }): Promise<m.CalculationOutput> {
       return axios({
         method: 'post',
-        url: \`\${config.apiEndpoint}/calculation/run\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/calculation/run\`,
         params: {
 
         },
@@ -2096,14 +2096,14 @@ export default function getRoutes(config: RouteConfig) {
         headers: {
           'Content-Type': 'application/json'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(m.CalculationOutput, config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(m.CalculationOutput, _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     meController_read: function ({  }: {  }): Promise<m.Entity<m.User>> {
       return axios({
         method: 'get',
-        url: \`\${config.apiEndpoint}/me/read\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/me/read\`,
         params: {
 
         },
@@ -2115,14 +2115,14 @@ export default function getRoutes(config: RouteConfig) {
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(m.Entity(m.User), config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(m.Entity(m.User), _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     userController_readAll: function ({  }: {  }): Promise<Array<m.Entity<m.User>>> {
       return axios({
         method: 'get',
-        url: \`\${config.apiEndpoint}/user/readAll\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/readAll\`,
         params: {
 
         },
@@ -2134,14 +2134,14 @@ export default function getRoutes(config: RouteConfig) {
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(t.array(m.Entity(m.User)), config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(t.array(m.Entity(m.User)), _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     userController_read: function ({ id }: { id: m.Id<m.User> }): Promise<m.Entity<m.User>> {
       return axios({
         method: 'get',
-        url: \`\${config.apiEndpoint}/user/read\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/read\`,
         params: {
           id: m.Id<m.User>().encode(id)
         },
@@ -2153,8 +2153,8 @@ export default function getRoutes(config: RouteConfig) {
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(m.Entity(m.User), config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(m.Entity(m.User), _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     userController_create: function ({ user }: { user:
@@ -2162,7 +2162,7 @@ export default function getRoutes(config: RouteConfig) {
   | undefined }): Promise<m.Id<m.User>> {
       return axios({
         method: 'post',
-        url: \`\${config.apiEndpoint}/user/create\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/create\`,
         params: {
 
         },
@@ -2175,14 +2175,14 @@ export default function getRoutes(config: RouteConfig) {
         headers: {
           'Content-Type': 'application/json'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(m.Id<m.User>(), config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(m.Id<m.User>(), _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     userController_update: function ({ user }: { user: m.Entity<m.User> }): Promise<void> {
       return axios({
         method: 'post',
-        url: \`\${config.apiEndpoint}/user/update\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/update\`,
         params: {
 
         },
@@ -2192,14 +2192,14 @@ export default function getRoutes(config: RouteConfig) {
         headers: {
           'Content-Type': 'application/json'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(m.VoidFromUnit, config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(m.VoidFromUnit, _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     },
 
     userController_delete: function ({ id }: { id: m.Id<m.User> }): Promise<void> {
       return axios({
         method: 'post',
-        url: \`\${config.apiEndpoint}/user/delete\`,
+        url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/delete\`,
         params: {
 
         },
@@ -2209,8 +2209,8 @@ export default function getRoutes(config: RouteConfig) {
         headers: {
           'Content-Type': 'application/json'
         },
-        timeout: config.timeout
-      }).then(res => valueOrThrow(m.VoidFromUnit, config.unwrapApiResponse(res.data)), parseError) as any
+        timeout: _metarpheusRouteConfig.timeout
+      }).then(res => valueOrThrow(m.VoidFromUnit, _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any
     }
   }
 }
