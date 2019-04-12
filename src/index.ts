@@ -418,7 +418,7 @@ function getRoute(_route: Route): Reader<Ctx, string> {
 
 const getRoutesPrelude = `// DO NOT EDIT MANUALLY - metarpheus-generated
 import axios, { AxiosError } from 'axios'
-import { tryCatch, TaskEither, fromEither } from 'fp-ts/lib/TaskEither'
+import { tryCatch, TaskEither } from 'fp-ts/lib/TaskEither'
 import { identity } from 'fp-ts/lib/function'
 import * as t from 'io-ts'
 import * as m from './model-ts'
