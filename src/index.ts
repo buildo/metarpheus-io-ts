@@ -402,10 +402,12 @@ function getRoute(_route: Route): Reader<Ctx, string> {
         getRouteArguments(route).map(routeArguments => {
           const docs = route.desc ? `    /** ${route.desc} */\n` : '';
           return [
-            `${docs}    ${name}: function (${routeArguments}): Promise<${gen.printStatic(returns)}> {`,
-            `      return axios(${axiosConfig}).then(res => valueOrThrow(${gen.printRuntime(
+            `${docs}    ${name}: function (${routeArguments}): TaskEither<AxiosError | t.Errors, ${gen.printStatic(
               returns
-            )}, _metarpheusRouteConfig.unwrapApiResponse(res.data)), parseError) as any`,
+            )}> {`,
+            `      return tryCatch(() => axios(${axiosConfig}), identity).chain(res => fromEither(${gen.printRuntime(
+              returns
+            )}.decode(res.data))) as any`,
             '    }'
           ].join('\n');
         })
@@ -416,34 +418,15 @@ function getRoute(_route: Route): Reader<Ctx, string> {
 
 const getRoutesPrelude = `// DO NOT EDIT MANUALLY - metarpheus-generated
 import axios, { AxiosError } from 'axios'
+import { tryCatch, TaskEither, fromEither } from 'fp-ts/lib/TaskEither'
+import { identity } from 'fp-ts/lib/function'
 import * as t from 'io-ts'
 import * as m from './model-ts'
 
 export interface RouteConfig {
   apiEndpoint: string,
-  timeout: number,
-  unwrapApiResponse: (resp: any) => any
+  timeout: number
 }
-
-import { PathReporter } from 'io-ts/lib/PathReporter'
-function valueOrThrow<T extends t.Type<any, any>>(iotsType: T, value: T['_I']): t.TypeOf<T> {
-  const validatedValue = iotsType.decode(value);
-
-  if (validatedValue.isLeft()) {
-    throw new Error(PathReporter.report(validatedValue).join('\\n'));
-  }
-
-  return validatedValue.value;
-}
-
-const parseError = (err: AxiosError) => {
-  try {
-    const { errors = [] } = err.response!.data;
-    return Promise.reject({ status: err.response!.status, errors });
-  } catch (e) {
-    return Promise.reject({ status: err && err.response && err.response.status || 0, errors: [] });
-  }
-};
 `;
 
 export function getRoutes(
