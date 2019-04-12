@@ -402,12 +402,12 @@ function getRoute(_route: Route): Reader<Ctx, string> {
         getRouteArguments(route).map(routeArguments => {
           const docs = route.desc ? `    /** ${route.desc} */\n` : '';
           return [
-            `${docs}    ${name}: function (${routeArguments}): TaskEither<AxiosError | t.Errors, ${gen.printStatic(
-              returns
-            )}> {`,
-            `      return tryCatch(() => axios(${axiosConfig}), identity).chain(res => fromEither(${gen.printRuntime(
-              returns
-            )}.decode(res.data))) as any`,
+            `${docs}    ${name}: function (${routeArguments}): TaskEither<AxiosError, ${gen.printStatic(returns)}> {`,
+            `      return tryCatch(() => axios(${axiosConfig}), identity).map(res =>
+              ${gen.printRuntime(returns)}.decode(res.data).getOrElseL(err => {
+                throw err;
+              })
+            ) as any`,
             '    }'
           ].join('\n');
         })
