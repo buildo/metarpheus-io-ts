@@ -62,7 +62,7 @@ export const NotificationPayload = t.intersection([
   t.partial({
     userLanguage: t.string
   })
-])
+], 'NotificationPayload')
 "
 `;
 
@@ -180,7 +180,7 @@ export const ICQAlert = t.intersection([
   t.partial({
     AIMSubCode: t.Integer
   })
-])
+], 'ICQAlert')
 
 export interface ICQAssayReference {
   _number: number,
@@ -305,7 +305,7 @@ export const ICQCalibration = t.intersection([
     expirationDateTime: Date,
     user: t.string
   })
-])
+], 'ICQCalibration')
 
 export type ICQConnectionStatus =
   | 'Connected'
@@ -446,7 +446,7 @@ export const ICQOnBoardSolution = t.intersection([
     RSMPosition: t.Integer,
     remainingHoursOfOnBoardStability: t.Integer
   })
-])
+], 'ICQOnBoardSolution')
 
 export type ICQOverallStatus =
   | 'Ok'
@@ -602,7 +602,7 @@ export const ICQQCMaterial = t.intersection([
     RSMPosition: t.Integer,
     remainingMinutesOfInUseStability: t.Integer
   })
-])
+], 'ICQQCMaterial')
 
 export type ICQRSMStatus =
   | 'Offline'
@@ -687,7 +687,7 @@ export type Tag = Readonly<{
 export const Tag = t.readonly(t.type({
   id: UUID,
   label: t.string
-}, 'Tag'))
+}, 'Tag'), 'Tag')
 
 export type AgencySearchResult = Readonly<{
   agencies: ReadonlyArray<Tag>,
@@ -697,7 +697,7 @@ export type AgencySearchResult = Readonly<{
 export const AgencySearchResult = t.readonly(t.type({
   agencies: t.readonlyArray(Tag),
   networks: t.readonlyArray(Tag)
-}, 'AgencySearchResult'))
+}, 'AgencySearchResult'), 'AgencySearchResult')
 
 export type CancellationPolicy =
   | 'Free'
@@ -748,7 +748,7 @@ export const FareRule = t.readonly(t.intersection([
     reservationValidFrom: LocalDate,
     reservationValidUntil: LocalDate
   })
-]))
+], 'FareRule'), 'FareRule')
 
 export type Fare = Readonly<{
   id: UUID,
@@ -782,7 +782,7 @@ export const Fare = t.readonly(t.intersection([
     tourOperatorCode: t.string,
     additionalInclusions: t.string
   })
-]))
+], 'Fare'), 'Fare')
 
 export type ReservationProfile =
   | 'Leisure'
@@ -811,7 +811,7 @@ export const FareSummary = t.readonly(t.type({
   vendor: Vendor,
   paymentMode: PaymentMode,
   disabled: t.boolean
-}, 'FareSummary'))
+}, 'FareSummary'), 'FareSummary')
 
 export type FareSummarySorting =
   | 'Name'
@@ -836,7 +836,7 @@ export const NationSearchResult = t.readonly(t.type({
   regions: t.readonlyArray(Tag),
   countries: t.readonlyArray(Tag),
   states: t.readonlyArray(Tag)
-}, 'NationSearchResult'))
+}, 'NationSearchResult'), 'NationSearchResult')
 
 export type NewFare = Readonly<{
   name: string,
@@ -868,7 +868,7 @@ export const NewFare = t.readonly(t.intersection([
     additionalInclusions: t.string,
     tourOperatorCode: t.string
   })
-]))
+], 'NewFare'), 'NewFare')
 
 export type SortOrder =
   | 'Ascending'
@@ -944,7 +944,7 @@ export const AvailableFare = t.intersection([
     explicitExclusions: t.string,
     description: t.string
   })
-])
+], 'AvailableFare')
 
 export interface RentalRateTotal {
   base: Money,
@@ -983,7 +983,7 @@ export const RentalRateDistance = t.intersection([
     amount: t.Integer,
     additional: Money
   })
-])
+], 'RentalRateDistance')
 
 export type SpecialEquipment =
   | 'InfantChildSeat'
@@ -1036,7 +1036,7 @@ export const RentalRate = t.intersection([
   t.partial({
     dropOff: Money
   })
-])
+], 'RentalRate')
 
 export interface AvailableRentalRate {
   availableVehicleId: UUID,
@@ -1233,7 +1233,7 @@ export const Vehicle = t.intersection([
     doors: t.Integer,
     segment: t.string
   })
-])
+], 'Vehicle')
 
 export interface AvailableVehicle {
   id: UUID,
@@ -1308,7 +1308,7 @@ export const AvailableVehicleSearchResult = t.intersection([
   t.partial({
     taxPercent: t.number
   })
-])
+], 'AvailableVehicleSearchResult')
 
 export type DayOfWeek =
   | 'Monday'
@@ -1513,7 +1513,7 @@ export const LocationSearchResult = t.partial({
   stations: t.array(Location),
   cities: t.array(Location),
   hotels: t.array(Location)
-})
+}, 'LocationSearchResult')
 
 export interface SelectedSpecialEquipment {
   id: SpecialEquipment,
@@ -1849,7 +1849,7 @@ export const User = t.intersection([
   t.partial({
     fullName: t.string
   })
-])
+], 'User')
 "
 `;
 
