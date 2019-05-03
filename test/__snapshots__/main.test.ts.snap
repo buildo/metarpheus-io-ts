@@ -1859,6 +1859,7 @@ import axios, { AxiosError } from 'axios'
 import { tryCatch, TaskEither } from 'fp-ts/lib/TaskEither'
 import { identity } from 'fp-ts/lib/function'
 import * as t from 'io-ts'
+import { failure } from 'io-ts/lib/PathReporter'
 import * as m from './model-ts'
 
 export interface RouteConfig {
@@ -1884,8 +1885,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.UUID.decode(res.data).getOrElseL(err => {
-                throw err;
+              m.UUID.decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -1908,8 +1909,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.AvailableVehicleSearchQuery.decode(res.data).getOrElseL(err => {
-                throw err;
+              m.AvailableVehicleSearchQuery.decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -1932,8 +1933,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.AvailableVehicleSearchResult.decode(res.data).getOrElseL(err => {
-                throw err;
+              m.AvailableVehicleSearchResult.decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -1956,8 +1957,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.UUID.decode(res.data).getOrElseL(err => {
-                throw err;
+              m.UUID.decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -1980,8 +1981,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.AvailableVehicle.decode(res.data).getOrElseL(err => {
-                throw err;
+              m.AvailableVehicle.decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -2004,8 +2005,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.LocationSearchResult.decode(res.data).getOrElseL(err => {
-                throw err;
+              m.LocationSearchResult.decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -2029,8 +2030,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              t.array(m.AvailableSpecialEquipment).decode(res.data).getOrElseL(err => {
-                throw err;
+              t.array(m.AvailableSpecialEquipment).decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -2049,8 +2050,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.API_UserAuthCredentials.decode(res.data).getOrElseL(err => {
-                throw err;
+              m.API_UserAuthCredentials.decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     }
@@ -2065,6 +2066,7 @@ import axios, { AxiosError } from 'axios'
 import { tryCatch, TaskEither } from 'fp-ts/lib/TaskEither'
 import { identity } from 'fp-ts/lib/function'
 import * as t from 'io-ts'
+import { failure } from 'io-ts/lib/PathReporter'
 import * as m from './model-ts'
 
 export interface RouteConfig {
@@ -2091,8 +2093,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              t.array(m.Entity(m.Material)).decode(res.data).getOrElseL(err => {
-                throw err;
+              t.array(m.Entity(m.Material)).decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -2112,8 +2114,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.CalculationOutput.decode(res.data).getOrElseL(err => {
-                throw err;
+              m.CalculationOutput.decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -2135,8 +2137,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.Entity(m.User).decode(res.data).getOrElseL(err => {
-                throw err;
+              m.Entity(m.User).decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -2158,8 +2160,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              t.array(m.Entity(m.User)).decode(res.data).getOrElseL(err => {
-                throw err;
+              t.array(m.Entity(m.User)).decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -2181,8 +2183,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.Entity(m.User).decode(res.data).getOrElseL(err => {
-                throw err;
+              m.Entity(m.User).decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -2207,8 +2209,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.Id<m.User>().decode(res.data).getOrElseL(err => {
-                throw err;
+              m.Id<m.User>().decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -2228,8 +2230,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.VoidFromUnit.decode(res.data).getOrElseL(err => {
-                throw err;
+              m.VoidFromUnit.decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     },
@@ -2249,8 +2251,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.VoidFromUnit.decode(res.data).getOrElseL(err => {
-                throw err;
+              m.VoidFromUnit.decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
     }
