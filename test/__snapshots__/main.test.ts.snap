@@ -3,6 +3,8 @@
 exports[`getModels should allow legacy newtype encoding 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
+import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { Option } from 'fp-ts/lib/Option'
 
 
 interface Newtype<URI, A> {
@@ -37,6 +39,8 @@ export function externalIdIso<A>() { return iso<ExternalId<A>>() }
 exports[`getModels should handle any 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
+import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { Option } from 'fp-ts/lib/Option'
 
 export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
@@ -45,30 +49,28 @@ export const VoidFromUnit = new t.Type<void, {}>(
   () => ({})
 )
 export interface NotificationPayload {
-  userLanguage?: string,
+  userLanguage: Option<string>,
   notificationKind: NotificationKind,
   params: Record<string, unknown>,
   workcellSerialNumber: string,
   workcellType: InstrumentType
 }
 
-export const NotificationPayload = t.intersection([
-  t.type({
-    notificationKind: NotificationKind,
-    params: t.record(t.string, t.unknown),
-    workcellSerialNumber: t.string,
-    workcellType: InstrumentType
-  }),
-  t.partial({
-    userLanguage: t.string
-  })
-], 'NotificationPayload')
+export const NotificationPayload = t.type({
+  userLanguage: createOptionFromNullable(t.string),
+  notificationKind: NotificationKind,
+  params: t.record(t.string, t.unknown),
+  workcellSerialNumber: t.string,
+  workcellType: InstrumentType
+}, 'NotificationPayload')
 "
 `;
 
 exports[`getModels should return the models (source1) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
+import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { Option } from 'fp-ts/lib/Option'
 
 
 interface Newtype<URI, A> {
@@ -160,27 +162,23 @@ export interface ICQAlert {
   _workcellSerialNumber: string,
   workcellName: string,
   AIMCode: number,
-  AIMSubCode?: number,
+  AIMSubCode: Option<number>,
   alertDateTime: Date,
   category: ICQAlertCategory,
   description: string
 }
 
-export const ICQAlert = t.intersection([
-  t.type({
-    _moduleId: t.Integer,
-    moduleName: t.string,
-    _workcellSerialNumber: t.string,
-    workcellName: t.string,
-    AIMCode: t.Integer,
-    alertDateTime: Date,
-    category: ICQAlertCategory,
-    description: t.string
-  }),
-  t.partial({
-    AIMSubCode: t.Integer
-  })
-], 'ICQAlert')
+export const ICQAlert = t.type({
+  _moduleId: t.Integer,
+  moduleName: t.string,
+  _workcellSerialNumber: t.string,
+  workcellName: t.string,
+  AIMCode: t.Integer,
+  AIMSubCode: createOptionFromNullable(t.Integer),
+  alertDateTime: Date,
+  category: ICQAlertCategory,
+  description: t.string
+}, 'ICQAlert')
 
 export interface ICQAssayReference {
   _number: number,
@@ -280,32 +278,28 @@ export interface ICQCalibration {
   calibratorLotNumber: string,
   method: ICQCalibrationMethod,
   type: ICQCalibrationType,
-  calibrationDateTime?: Date,
-  expirationDateTime?: Date,
+  calibrationDateTime: Option<Date>,
+  expirationDateTime: Option<Date>,
   status: ICQCalibrationStatus,
-  user?: string
+  user: Option<string>
 }
 
-export const ICQCalibration = t.intersection([
-  t.type({
-    _moduleId: t.Integer,
-    moduleName: t.string,
-    _workcellSerialNumber: t.string,
-    workcellName: t.string,
-    assayReference: ICQAssayReference,
-    assayName: t.string,
-    reagentLotNumber: t.string,
-    calibratorLotNumber: t.string,
-    method: ICQCalibrationMethod,
-    type: ICQCalibrationType,
-    status: ICQCalibrationStatus
-  }),
-  t.partial({
-    calibrationDateTime: Date,
-    expirationDateTime: Date,
-    user: t.string
-  })
-], 'ICQCalibration')
+export const ICQCalibration = t.type({
+  _moduleId: t.Integer,
+  moduleName: t.string,
+  _workcellSerialNumber: t.string,
+  workcellName: t.string,
+  assayReference: ICQAssayReference,
+  assayName: t.string,
+  reagentLotNumber: t.string,
+  calibratorLotNumber: t.string,
+  method: ICQCalibrationMethod,
+  type: ICQCalibrationType,
+  calibrationDateTime: createOptionFromNullable(Date),
+  expirationDateTime: createOptionFromNullable(Date),
+  status: ICQCalibrationStatus,
+  user: createOptionFromNullable(t.string)
+}, 'ICQCalibration')
 
 export type ICQConnectionStatus =
   | 'Connected'
@@ -418,35 +412,31 @@ export interface ICQOnBoardSolution {
   configurationId: string,
   configurationVersion: number,
   expirationDate: Date,
-  carouselPosition?: number,
-  RSMPosition?: number,
+  carouselPosition: Option<number>,
+  RSMPosition: Option<number>,
   percentOfRemainingVolume: number,
-  remainingHoursOfOnBoardStability?: number,
+  remainingHoursOfOnBoardStability: Option<number>,
   status: ICQReagentStatus,
   cartridgeStatus: ICQReagentCartridgeStatus
 }
 
-export const ICQOnBoardSolution = t.intersection([
-  t.type({
-    _moduleId: t.Integer,
-    moduleName: t.string,
-    _workcellSerialNumber: t.string,
-    workcellName: t.string,
-    _lotNumber: t.string,
-    _serialNumber: t.string,
-    configurationId: t.string,
-    configurationVersion: t.Integer,
-    expirationDate: Date,
-    percentOfRemainingVolume: t.Integer,
-    status: ICQReagentStatus,
-    cartridgeStatus: ICQReagentCartridgeStatus
-  }),
-  t.partial({
-    carouselPosition: t.Integer,
-    RSMPosition: t.Integer,
-    remainingHoursOfOnBoardStability: t.Integer
-  })
-], 'ICQOnBoardSolution')
+export const ICQOnBoardSolution = t.type({
+  _moduleId: t.Integer,
+  moduleName: t.string,
+  _workcellSerialNumber: t.string,
+  workcellName: t.string,
+  _lotNumber: t.string,
+  _serialNumber: t.string,
+  configurationId: t.string,
+  configurationVersion: t.Integer,
+  expirationDate: Date,
+  carouselPosition: createOptionFromNullable(t.Integer),
+  RSMPosition: createOptionFromNullable(t.Integer),
+  percentOfRemainingVolume: t.Integer,
+  remainingHoursOfOnBoardStability: createOptionFromNullable(t.Integer),
+  status: ICQReagentStatus,
+  cartridgeStatus: ICQReagentCartridgeStatus
+}, 'ICQOnBoardSolution')
 
 export type ICQOverallStatus =
   | 'Ok'
@@ -567,42 +557,38 @@ export interface ICQQCMaterial {
   _levelName: string,
   _lotNumber: string,
   _serialNumber: string,
-  carouselPosition?: number,
-  RSMPosition?: number,
+  carouselPosition: Option<number>,
+  RSMPosition: Option<number>,
   rackId: string,
   rackPosition: number,
   percentVolumeRemaining: number,
   materialExpirationDate: Date,
   remainingHoursOfOnBoardStability: number,
-  remainingMinutesOfInUseStability?: number,
+  remainingMinutesOfInUseStability: Option<number>,
   status: ICQQCMaterialStatus
 }
 
-export const ICQQCMaterial = t.intersection([
-  t.type({
-    _moduleId: t.Integer,
-    moduleName: t.string,
-    _workcellSerialNumber: t.string,
-    workcellName: t.string,
-    assayReferences: t.array(ICQAssayReference),
-    assayNames: t.array(t.string),
-    _setName: t.string,
-    _levelName: t.string,
-    _lotNumber: t.string,
-    _serialNumber: t.string,
-    rackId: t.string,
-    rackPosition: t.Integer,
-    percentVolumeRemaining: t.Integer,
-    materialExpirationDate: Date,
-    remainingHoursOfOnBoardStability: t.Integer,
-    status: ICQQCMaterialStatus
-  }),
-  t.partial({
-    carouselPosition: t.Integer,
-    RSMPosition: t.Integer,
-    remainingMinutesOfInUseStability: t.Integer
-  })
-], 'ICQQCMaterial')
+export const ICQQCMaterial = t.type({
+  _moduleId: t.Integer,
+  moduleName: t.string,
+  _workcellSerialNumber: t.string,
+  workcellName: t.string,
+  assayReferences: t.array(ICQAssayReference),
+  assayNames: t.array(t.string),
+  _setName: t.string,
+  _levelName: t.string,
+  _lotNumber: t.string,
+  _serialNumber: t.string,
+  carouselPosition: createOptionFromNullable(t.Integer),
+  RSMPosition: createOptionFromNullable(t.Integer),
+  rackId: t.string,
+  rackPosition: t.Integer,
+  percentVolumeRemaining: t.Integer,
+  materialExpirationDate: Date,
+  remainingHoursOfOnBoardStability: t.Integer,
+  remainingMinutesOfInUseStability: createOptionFromNullable(t.Integer),
+  status: ICQQCMaterialStatus
+}, 'ICQQCMaterial')
 
 export type ICQRSMStatus =
   | 'Offline'
@@ -672,6 +658,8 @@ export const ICQWorkcell = t.type({
 exports[`getModels should return the models in the right (source2) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
+import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { Option } from 'fp-ts/lib/Option'
 
 export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
@@ -729,26 +717,22 @@ export const PaymentMode = t.keyof({
 }, 'PaymentMode')
 
 export type FareRule = Readonly<{
-  pickUpValidFrom?: LocalDate,
-  pickUpValidUntil?: LocalDate,
-  reservationValidFrom?: LocalDate,
-  reservationValidUntil?: LocalDate,
+  pickUpValidFrom: Option<LocalDate>,
+  pickUpValidUntil: Option<LocalDate>,
+  reservationValidFrom: Option<LocalDate>,
+  reservationValidUntil: Option<LocalDate>,
   nations: ReadonlyArray<Tag>,
   agencies: ReadonlyArray<Tag>
 }>
 
-export const FareRule = t.readonly(t.intersection([
-  t.type({
-    nations: t.readonlyArray(Tag),
-    agencies: t.readonlyArray(Tag)
-  }),
-  t.partial({
-    pickUpValidFrom: LocalDate,
-    pickUpValidUntil: LocalDate,
-    reservationValidFrom: LocalDate,
-    reservationValidUntil: LocalDate
-  })
-], 'FareRule'), 'FareRule')
+export const FareRule = t.readonly(t.type({
+  pickUpValidFrom: createOptionFromNullable(LocalDate),
+  pickUpValidUntil: createOptionFromNullable(LocalDate),
+  reservationValidFrom: createOptionFromNullable(LocalDate),
+  reservationValidUntil: createOptionFromNullable(LocalDate),
+  nations: t.readonlyArray(Tag),
+  agencies: t.readonlyArray(Tag)
+}, 'FareRule'), 'FareRule')
 
 export type Fare = Readonly<{
   id: UUID,
@@ -756,33 +740,29 @@ export type Fare = Readonly<{
   vendor: Vendor,
   paymentMode: PaymentMode,
   rateCode: string,
-  cdp?: string,
-  tourOperatorCode?: string,
-  additionalInclusions?: string,
+  cdp: Option<string>,
+  tourOperatorCode: Option<string>,
+  additionalInclusions: Option<string>,
   cancellationPolicy: CancellationPolicy,
   description: string,
   disabled: boolean,
   rules: ReadonlyArray<FareRule>
 }>
 
-export const Fare = t.readonly(t.intersection([
-  t.type({
-    id: UUID,
-    name: t.string,
-    vendor: Vendor,
-    paymentMode: PaymentMode,
-    rateCode: t.string,
-    cancellationPolicy: CancellationPolicy,
-    description: t.string,
-    disabled: t.boolean,
-    rules: t.readonlyArray(FareRule)
-  }),
-  t.partial({
-    cdp: t.string,
-    tourOperatorCode: t.string,
-    additionalInclusions: t.string
-  })
-], 'Fare'), 'Fare')
+export const Fare = t.readonly(t.type({
+  id: UUID,
+  name: t.string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  rateCode: t.string,
+  cdp: createOptionFromNullable(t.string),
+  tourOperatorCode: createOptionFromNullable(t.string),
+  additionalInclusions: createOptionFromNullable(t.string),
+  cancellationPolicy: CancellationPolicy,
+  description: t.string,
+  disabled: t.boolean,
+  rules: t.readonlyArray(FareRule)
+}, 'Fare'), 'Fare')
 
 export type ReservationProfile =
   | 'Leisure'
@@ -843,32 +823,28 @@ export type NewFare = Readonly<{
   vendor: Vendor,
   paymentMode: PaymentMode,
   rateCode: string,
-  cdp?: string,
-  additionalInclusions?: string,
-  tourOperatorCode?: string,
+  cdp: Option<string>,
+  additionalInclusions: Option<string>,
+  tourOperatorCode: Option<string>,
   cancellationPolicy: CancellationPolicy,
   description: string,
   disabled: boolean,
   rules: ReadonlyArray<FareRule>
 }>
 
-export const NewFare = t.readonly(t.intersection([
-  t.type({
-    name: t.string,
-    vendor: Vendor,
-    paymentMode: PaymentMode,
-    rateCode: t.string,
-    cancellationPolicy: CancellationPolicy,
-    description: t.string,
-    disabled: t.boolean,
-    rules: t.readonlyArray(FareRule)
-  }),
-  t.partial({
-    cdp: t.string,
-    additionalInclusions: t.string,
-    tourOperatorCode: t.string
-  })
-], 'NewFare'), 'NewFare')
+export const NewFare = t.readonly(t.type({
+  name: t.string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  rateCode: t.string,
+  cdp: createOptionFromNullable(t.string),
+  additionalInclusions: createOptionFromNullable(t.string),
+  tourOperatorCode: createOptionFromNullable(t.string),
+  cancellationPolicy: CancellationPolicy,
+  description: t.string,
+  disabled: t.boolean,
+  rules: t.readonlyArray(FareRule)
+}, 'NewFare'), 'NewFare')
 
 export type SortOrder =
   | 'Ascending'
@@ -884,6 +860,8 @@ export const SortOrder = t.keyof({
 exports[`getModels should return the models in the right (source3) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
+import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { Option } from 'fp-ts/lib/Option'
 
 export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
@@ -925,26 +903,22 @@ export interface AvailableFare {
   name: string,
   vendor: Vendor,
   paymentMode: PaymentMode,
-  additionalInclusions?: string,
-  explicitExclusions?: string,
+  additionalInclusions: Option<string>,
+  explicitExclusions: Option<string>,
   cancellationPolicy: CancellationPolicy,
-  description?: string
+  description: Option<string>
 }
 
-export const AvailableFare = t.intersection([
-  t.type({
-    id: UUID,
-    name: t.string,
-    vendor: Vendor,
-    paymentMode: PaymentMode,
-    cancellationPolicy: CancellationPolicy
-  }),
-  t.partial({
-    additionalInclusions: t.string,
-    explicitExclusions: t.string,
-    description: t.string
-  })
-], 'AvailableFare')
+export const AvailableFare = t.type({
+  id: UUID,
+  name: t.string,
+  vendor: Vendor,
+  paymentMode: PaymentMode,
+  additionalInclusions: createOptionFromNullable(t.string),
+  explicitExclusions: createOptionFromNullable(t.string),
+  cancellationPolicy: CancellationPolicy,
+  description: createOptionFromNullable(t.string)
+}, 'AvailableFare')
 
 export interface RentalRateTotal {
   base: Money,
@@ -970,20 +944,16 @@ export const RentalRateDistanceUnit = t.keyof({
 export interface RentalRateDistance {
   unlimited: boolean,
   unit: RentalRateDistanceUnit,
-  amount?: number,
-  additional?: Money
+  amount: Option<number>,
+  additional: Option<Money>
 }
 
-export const RentalRateDistance = t.intersection([
-  t.type({
-    unlimited: t.boolean,
-    unit: RentalRateDistanceUnit
-  }),
-  t.partial({
-    amount: t.Integer,
-    additional: Money
-  })
-], 'RentalRateDistance')
+export const RentalRateDistance = t.type({
+  unlimited: t.boolean,
+  unit: RentalRateDistanceUnit,
+  amount: createOptionFromNullable(t.Integer),
+  additional: createOptionFromNullable(Money)
+}, 'RentalRateDistance')
 
 export type SpecialEquipment =
   | 'InfantChildSeat'
@@ -1021,22 +991,18 @@ export interface RentalRate {
   total: RentalRateTotal,
   distance: RentalRateDistance,
   superCoverIncluded: boolean,
-  dropOff?: Money,
+  dropOff: Option<Money>,
   specialEquipments: Array<PricedSpecialEquipment>
 }
 
-export const RentalRate = t.intersection([
-  t.type({
-    externalId: t.string,
-    total: RentalRateTotal,
-    distance: RentalRateDistance,
-    superCoverIncluded: t.boolean,
-    specialEquipments: t.array(PricedSpecialEquipment)
-  }),
-  t.partial({
-    dropOff: Money
-  })
-], 'RentalRate')
+export const RentalRate = t.type({
+  externalId: t.string,
+  total: RentalRateTotal,
+  distance: RentalRateDistance,
+  superCoverIncluded: t.boolean,
+  dropOff: createOptionFromNullable(Money),
+  specialEquipments: t.array(PricedSpecialEquipment)
+}, 'RentalRate')
 
 export interface AvailableRentalRate {
   availableVehicleId: UUID,
@@ -1196,44 +1162,40 @@ export const VehicleSize = t.keyof({
 }, 'VehicleSize')
 
 export interface Vehicle {
-  code?: string,
-  codeContext?: string,
+  code: Option<string>,
+  codeContext: Option<string>,
   airConditioning: boolean,
-  seats?: number,
-  baggage?: number,
-  transmission?: VehicleTransmission,
-  fuel?: VehicleFuel,
-  drive?: VehicleDrive,
-  doors?: number,
+  seats: Option<number>,
+  baggage: Option<number>,
+  transmission: Option<VehicleTransmission>,
+  fuel: Option<VehicleFuel>,
+  drive: Option<VehicleDrive>,
+  doors: Option<number>,
   category: VehicleCategory,
   size: VehicleSize,
   model: string,
   modelCode: string,
   pictureId: string,
-  segment?: string
+  segment: Option<string>
 }
 
-export const Vehicle = t.intersection([
-  t.type({
-    airConditioning: t.boolean,
-    category: VehicleCategory,
-    size: VehicleSize,
-    model: t.string,
-    modelCode: t.string,
-    pictureId: t.string
-  }),
-  t.partial({
-    code: t.string,
-    codeContext: t.string,
-    seats: t.Integer,
-    baggage: t.Integer,
-    transmission: VehicleTransmission,
-    fuel: VehicleFuel,
-    drive: VehicleDrive,
-    doors: t.Integer,
-    segment: t.string
-  })
-], 'Vehicle')
+export const Vehicle = t.type({
+  code: createOptionFromNullable(t.string),
+  codeContext: createOptionFromNullable(t.string),
+  airConditioning: t.boolean,
+  seats: createOptionFromNullable(t.Integer),
+  baggage: createOptionFromNullable(t.Integer),
+  transmission: createOptionFromNullable(VehicleTransmission),
+  fuel: createOptionFromNullable(VehicleFuel),
+  drive: createOptionFromNullable(VehicleDrive),
+  doors: createOptionFromNullable(t.Integer),
+  category: VehicleCategory,
+  size: VehicleSize,
+  model: t.string,
+  modelCode: t.string,
+  pictureId: t.string,
+  segment: createOptionFromNullable(t.string)
+}, 'Vehicle')
 
 export interface AvailableVehicle {
   id: UUID,
@@ -1295,20 +1257,16 @@ export const VehicleAvailability = t.type({
 }, 'VehicleAvailability')
 
 export interface AvailableVehicleSearchResult {
-  taxPercent?: number,
+  taxPercent: Option<number>,
   fares: Array<AvailableFare>,
   availability: Array<VehicleAvailability>
 }
 
-export const AvailableVehicleSearchResult = t.intersection([
-  t.type({
-    fares: t.array(AvailableFare),
-    availability: t.array(VehicleAvailability)
-  }),
-  t.partial({
-    taxPercent: t.number
-  })
-], 'AvailableVehicleSearchResult')
+export const AvailableVehicleSearchResult = t.type({
+  taxPercent: createOptionFromNullable(t.number),
+  fares: t.array(AvailableFare),
+  availability: t.array(VehicleAvailability)
+}, 'AvailableVehicleSearchResult')
 
 export type DayOfWeek =
   | 'Monday'
@@ -1486,17 +1444,17 @@ export const Location = t.type({
 }, 'Location')
 
 export interface LocationSearchResult {
-  airports?: Array<Location>,
-  stations?: Array<Location>,
-  cities?: Array<Location>,
-  hotels?: Array<Location>
+  airports: Option<Array<Location>>,
+  stations: Option<Array<Location>>,
+  cities: Option<Array<Location>>,
+  hotels: Option<Array<Location>>
 }
 
-export const LocationSearchResult = t.partial({
-  airports: t.array(Location),
-  stations: t.array(Location),
-  cities: t.array(Location),
-  hotels: t.array(Location)
+export const LocationSearchResult = t.type({
+  airports: createOptionFromNullable(t.array(Location)),
+  stations: createOptionFromNullable(t.array(Location)),
+  cities: createOptionFromNullable(t.array(Location)),
+  hotels: createOptionFromNullable(t.array(Location))
 }, 'LocationSearchResult')
 
 export interface SelectedSpecialEquipment {
@@ -1514,6 +1472,8 @@ export const SelectedSpecialEquipment = t.type({
 exports[`getModels should return the models in the right (source4) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
+import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { Option } from 'fp-ts/lib/Option'
 
 
 interface Newtype<URI, A> {
@@ -1644,9 +1604,7 @@ export interface CalculationInput {
   longitudinalCalculationSavingSteps: number,
   longitudinalTouchPoint: number,
   longitudinalWaterLevel: number,
-  cableRadialPositions: Array<
-    | number
-    | null>,
+  cableRadialPositions: Array<Option<number>>,
   conductorTransversalSection: number,
   conductorLayer: ConductorLayer,
   internalSemiconductiveLayer: InternalSemiconductiveLayer,
@@ -1664,10 +1622,7 @@ export const CalculationInput = t.type({
   longitudinalCalculationSavingSteps: t.Integer,
   longitudinalTouchPoint: t.number,
   longitudinalWaterLevel: t.number,
-  cableRadialPositions: t.array(t.union([
-    t.number,
-    t.null
-  ])),
+  cableRadialPositions: t.array(createOptionFromNullable(t.number)),
   conductorTransversalSection: t.number,
   conductorLayer: ConductorLayer,
   internalSemiconductiveLayer: InternalSemiconductiveLayer,
@@ -1822,18 +1777,14 @@ export const Role = t.keyof({
 export interface User {
   externalId: ExternalId<User>,
   role: Role,
-  fullName?: string
+  fullName: Option<string>
 }
 
-export const User = t.intersection([
-  t.type({
-    externalId: ExternalId<User>(),
-    role: Role
-  }),
-  t.partial({
-    fullName: t.string
-  })
-], 'User')
+export const User = t.type({
+  externalId: ExternalId<User>(),
+  role: Role,
+  fullName: createOptionFromNullable(t.string)
+}, 'User')
 "
 `;
 
@@ -2150,7 +2101,7 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
             ) as any
     },
 
-    userController_read: function ({ id }: { id: m.Id<m.User> }): TaskEither<AxiosError, m.Entity<m.User>> {
+    userController_read: function ({ id }: { id: m.Id<m.User> }): TaskEither<AxiosError, Option<m.Entity<m.User>>> {
       return tryCatch(() => axios({
         method: 'get',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/read\`,
@@ -2167,7 +2118,7 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
         },
         timeout: _metarpheusRouteConfig.timeout
       }), identity).map(res =>
-              m.Entity(m.User).decode(res.data).getOrElseL(errors => {
+              createOptionFromNullable(m.Entity(m.User)).decode(res.data).getOrElseL(errors => {
                 throw new Error(failure(errors).join('\\\\n'));
               })
             ) as any
