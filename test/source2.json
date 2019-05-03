@@ -296,7 +296,12 @@
             "name": "List",
             "args": [
               {
-                "name": "FareRule"
+                "name": "Option",
+                "args": [
+                  {
+                    "name": "FareRule"
+                  }
+                ]
               }
             ]
           }

@@ -43,7 +43,7 @@ function genericCombinator(tpe: Tpe): Reader<Ctx, gen.CustomCombinator> {
           gen.customCombinator(
             `${gen.printStatic(type)}<${staticArgs}>`,
             newtype ? `${gen.printRuntime(type)}<${staticArgs}>()` : `${gen.printRuntime(type)}(${runtimeArgs})`,
-            []
+            gen.getNodeDependencies(type)
           )
         )
       )
@@ -74,7 +74,7 @@ export function getType(tpe: Tpe): Reader<Ctx, gen.TypeReference> {
           gen.customCombinator(
             `Option<${gen.printStatic(t)}>`,
             `createOptionFromNullable(${gen.printRuntime(t)})`,
-            t.kind === 'Identifier' ? [t.name] : undefined
+            gen.getNodeDependencies(t)
           )
         );
       case 'List':

@@ -829,7 +829,7 @@ export type NewFare = Readonly<{
   cancellationPolicy: CancellationPolicy,
   description: string,
   disabled: boolean,
-  rules: ReadonlyArray<FareRule>
+  rules: ReadonlyArray<Option<FareRule>>
 }>
 
 export const NewFare = t.readonly(t.type({
@@ -843,7 +843,7 @@ export const NewFare = t.readonly(t.type({
   cancellationPolicy: CancellationPolicy,
   description: t.string,
   disabled: t.boolean,
-  rules: t.readonlyArray(FareRule)
+  rules: t.readonlyArray(createOptionFromNullable(FareRule))
 }, 'NewFare'), 'NewFare')
 
 export type SortOrder =
@@ -1508,6 +1508,11 @@ export const ActivationEnergy = t.type({
   value: t.number
 }, 'ActivationEnergy')
 
+export interface Id<A> extends Newtype<{ readonly Id: unique symbol, readonly Id_A: A }, UUID> {}
+
+export function Id<A>() { return fromNewtype<Id<A>>()(UUID) }
+export function idIso<A>() { return iso<Id<A>>() }
+
 export interface Layer {
   discretisationLayers: number,
   externalDiameter: number,
@@ -1725,11 +1730,6 @@ export interface ExternalId<A> extends Newtype<{ readonly ExternalId: unique sym
 
 export function ExternalId<A>() { return fromNewtype<ExternalId<A>>()(t.string) }
 export function externalIdIso<A>() { return iso<ExternalId<A>>() }
-
-export interface Id<A> extends Newtype<{ readonly Id: unique symbol, readonly Id_A: A }, UUID> {}
-
-export function Id<A>() { return fromNewtype<Id<A>>()(UUID) }
-export function idIso<A>() { return iso<Id<A>>() }
 
 export interface VolumetricSpecificHeat {
   temperature: number,
