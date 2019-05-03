@@ -51,6 +51,16 @@ function genericCombinator(tpe: Tpe): Reader<Ctx, gen.CustomCombinator> {
   });
 }
 
+function optionCombinator(tpe: Tpe): Reader<Ctx, gen.CustomCombinator> {
+  return getType(tpe.args![0]).map(t =>
+    gen.customCombinator(
+      `Option<${gen.printStatic(t)}>`,
+      `createOptionFromNullable(${gen.printRuntime(t)})`,
+      gen.getNodeDependencies(t)
+    )
+  );
+}
+
 export function getType(tpe: Tpe): Reader<Ctx, gen.TypeReference> {
   return ask<Ctx>().chain<gen.TypeReference>(({ prefix, isReadonly }) => {
     switch (tpe.name) {
@@ -70,13 +80,7 @@ export function getType(tpe: Tpe): Reader<Ctx, gen.TypeReference> {
       case 'Unit':
         return reader.of(gen.customCombinator('void', `${prefix}VoidFromUnit`));
       case 'Option':
-        return getType(tpe.args![0]).map(t =>
-          gen.customCombinator(
-            `Option<${gen.printStatic(t)}>`,
-            `createOptionFromNullable(${gen.printRuntime(t)})`,
-            gen.getNodeDependencies(t)
-          )
-        );
+        return optionCombinator(tpe);
       case 'List':
       case 'Set':
       case 'TreeSet':
