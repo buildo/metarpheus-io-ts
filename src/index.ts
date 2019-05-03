@@ -393,8 +393,8 @@ function getRoute(_route: Route): Reader<Ctx, string> {
           return [
             `${docs}    ${name}: function (${routeArguments}): TaskEither<AxiosError, ${gen.printStatic(returns)}> {`,
             `      return tryCatch(() => axios(${axiosConfig}), identity).map(res =>
-              ${gen.printRuntime(returns)}.decode(res.data).getOrElseL(err => {
-                throw err;
+              ${gen.printRuntime(returns)}.decode(res.data).getOrElseL(errors => {
+                throw new Error(failure(errors).join('\\n'));
               })
             ) as any`,
             '    }'
@@ -410,6 +410,7 @@ import axios, { AxiosError } from 'axios'
 import { tryCatch, TaskEither } from 'fp-ts/lib/TaskEither'
 import { identity } from 'fp-ts/lib/function'
 import * as t from 'io-ts'
+import { failure } from 'io-ts/lib/PathReporter'
 import * as m from './model-ts'
 
 export interface RouteConfig {
