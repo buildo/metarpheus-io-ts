@@ -230,7 +230,9 @@ export function getModels(models: Array<Model>, options: GetModelsOptions, prelu
   let out = [
     '// DO NOT EDIT MANUALLY - metarpheus-generated',
     "import * as t from 'io-ts'",
+    '// @ts-ignore',
     "import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'",
+    '// @ts-ignore',
     "import { Option } from 'fp-ts/lib/Option'",
     '',
     ''
@@ -423,7 +425,9 @@ import { tryCatch, TaskEither } from 'fp-ts/lib/TaskEither'
 import { identity } from 'fp-ts/lib/function'
 import * as t from 'io-ts'
 import { failure } from 'io-ts/lib/PathReporter'
+// @ts-ignore
 import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+// @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 import * as m from './model-ts'
 
