@@ -3,7 +3,9 @@
 exports[`getModels should allow legacy newtype encoding 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
+// @ts-ignore
 import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+// @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 
 
@@ -39,7 +41,9 @@ export function externalIdIso<A>() { return iso<ExternalId<A>>() }
 exports[`getModels should handle any 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
+// @ts-ignore
 import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+// @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 
 export const VoidFromUnit = new t.Type<void, {}>(
@@ -69,7 +73,9 @@ export const NotificationPayload = t.type({
 exports[`getModels should return the models (source1) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
+// @ts-ignore
 import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+// @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 
 
@@ -658,7 +664,9 @@ export const ICQWorkcell = t.type({
 exports[`getModels should return the models in the right (source2) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
+// @ts-ignore
 import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+// @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 
 export const VoidFromUnit = new t.Type<void, {}>(
@@ -860,7 +868,9 @@ export const SortOrder = t.keyof({
 exports[`getModels should return the models in the right (source3) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
+// @ts-ignore
 import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+// @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 
 export const VoidFromUnit = new t.Type<void, {}>(
@@ -1488,7 +1498,9 @@ export const SelectedSpecialEquipment = t.type({
 exports[`getModels should return the models in the right (source4) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
+// @ts-ignore
 import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+// @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 
 
@@ -1811,7 +1823,9 @@ import { tryCatch, TaskEither } from 'fp-ts/lib/TaskEither'
 import { identity } from 'fp-ts/lib/function'
 import * as t from 'io-ts'
 import { failure } from 'io-ts/lib/PathReporter'
+// @ts-ignore
 import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+// @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 import * as m from './model-ts'
 
@@ -2020,7 +2034,9 @@ import { tryCatch, TaskEither } from 'fp-ts/lib/TaskEither'
 import { identity } from 'fp-ts/lib/function'
 import * as t from 'io-ts'
 import { failure } from 'io-ts/lib/PathReporter'
+// @ts-ignore
 import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+// @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 import * as m from './model-ts'
 
