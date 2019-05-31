@@ -83,7 +83,7 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
           : getType(tpe.args![0], tpe).map(gen.arrayCombinator);
       case 'Map':
         return getType(tpe.args![0], tpe).chain(keyType =>
-          getType(tpe.args![1], tpe).map(valueType => gen.recordCombinator(keyType, valueType))
+          getType(tpe.args![1], tpe).chain(valueType => partialRecordCombinator(keyType, valueType))
         );
       default:
         if (tpe.args && tpe.args.length > 0) {
@@ -91,6 +91,19 @@ export function getType(tpe: Tpe, owner: Tpe | null): Reader<Ctx, gen.TypeRefere
         }
         return reader.of(gen.identifier(`${prefix}${tpe.name}`));
     }
+  });
+}
+
+function partialRecordCombinator(
+  keyType: gen.TypeReference,
+  valueType: gen.TypeReference
+): Reader<Ctx, gen.Combinator> {
+  return ask<Ctx>().map(({ models }) => {
+    const model = models.find(m => keyType.kind === 'Identifier' && m.name === keyType.name);
+    if (model && 'values' in model && model.values) {
+      return gen.partialCombinator(model.values.map(k => gen.property(k.name, valueType)));
+    }
+    return gen.recordCombinator(keyType, valueType);
   });
 }
 
