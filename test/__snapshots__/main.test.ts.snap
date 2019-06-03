@@ -1358,7 +1358,15 @@ export interface Location {
   telex: string,
   webUrl: string,
   email: string,
-  openingHours: Record<DayOfWeek, Array<OpeningHours>>,
+  openingHours: {
+    Monday?: Array<OpeningHours>,
+    Tuesday?: Array<OpeningHours>,
+    Wednesday?: Array<OpeningHours>,
+    Thursday?: Array<OpeningHours>,
+    Friday?: Array<OpeningHours>,
+    Saturday?: Array<OpeningHours>,
+    Sunday?: Array<OpeningHours>
+  },
   latitude: string,
   longitude: string,
   description: string,
@@ -1431,7 +1439,15 @@ export const Location = t.type({
   telex: t.string,
   webUrl: t.string,
   email: t.string,
-  openingHours: t.record(DayOfWeek, t.array(OpeningHours)),
+  openingHours: t.partial({
+    Monday: t.array(OpeningHours),
+    Tuesday: t.array(OpeningHours),
+    Wednesday: t.array(OpeningHours),
+    Thursday: t.array(OpeningHours),
+    Friday: t.array(OpeningHours),
+    Saturday: t.array(OpeningHours),
+    Sunday: t.array(OpeningHours)
+  }),
   latitude: t.string,
   longitude: t.string,
   description: t.string,
