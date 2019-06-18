@@ -1,0 +1,17 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: node
+    tag: lts-slim
+
+inputs:
+  - name: metarpheus-io-ts
+
+caches:
+  - path: metarpheus-io-ts/node_modules
+
+run:
+  path: ci/test.sh
+  dir: metarpheus-io-ts
