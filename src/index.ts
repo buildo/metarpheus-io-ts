@@ -139,9 +139,7 @@ function getNewtype(model: CaseClass): Reader<Ctx, gen.CustomTypeDeclaration> {
           } }, ${staticType}> {}`;
       const runtimeRepr = hasTypeParams
         ? [
-            `export function ${model.name}${typeParams}() { return fromNewtype<${
-              model.name
-            }${typeParams}>()(${runtimeType}) }`,
+            `export function ${model.name}${typeParams}() { return fromNewtype<${model.name}${typeParams}>()(${runtimeType}) }`,
             `export function ${lowerFirst(model.name)}Iso${typeParams}() { return iso<${model.name}${typeParams}>() }`
           ].join('\n')
         : [
