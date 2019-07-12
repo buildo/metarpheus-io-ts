@@ -70,6 +70,78 @@ export const NotificationPayload = t.type({
 "
 `;
 
+exports[`getModels should handle tagged union types 1`] = `
+"// DO NOT EDIT MANUALLY - metarpheus-generated
+import * as t from 'io-ts'
+// @ts-ignore
+import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+// @ts-ignore
+import { Option } from 'fp-ts/lib/Option'
+
+export const VoidFromUnit = new t.Type<void, {}>(
+  'VoidFromUnit',
+  (_m): _m is void => true,
+  () => t.success(undefined),
+  () => ({})
+)
+export interface SuggestedNames {
+  names: Array<string>
+}
+
+export const SuggestedNames = t.type({
+  names: t.array(t.string)
+}, 'SuggestedNames')
+
+export type CreateCampingError =
+  | {
+  /** suggestions for names that are not in use */
+  names: SuggestedNames,
+  _type: 'DuplicateName'
+}
+  | {
+  min: number,
+  max: number,
+  _type: 'SizeOutOfBounds'
+}
+  | {
+  _type: 'OtherError'
+}
+
+export const CreateCampingError = t.union([
+  t.type({
+    /** suggestions for names that are not in use */
+    names: SuggestedNames,
+    _type: t.literal('DuplicateName')
+  }, 'DuplicateName'),
+  t.type({
+    min: t.Integer,
+    max: t.Integer,
+    _type: t.literal('SizeOutOfBounds')
+  }, 'SizeOutOfBounds'),
+  t.type({
+    _type: t.literal('OtherError')
+  }, 'OtherError')
+], 'CreateCampingError')
+
+export type Surface =
+  | {
+  _type: 'Sand'
+}
+  | {
+  _type: 'Earth'
+}
+
+export const Surface = t.union([
+  t.type({
+    _type: t.literal('Sand')
+  }, 'Sand'),
+  t.type({
+    _type: t.literal('Earth')
+  }, 'Earth')
+], 'Surface')
+"
+`;
+
 exports[`getModels should return the models (source1) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
