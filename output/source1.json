@@ -1598,6 +1598,94 @@
           "name": "Prepaid"
         }
       ]
+    },
+    {
+      "name": "CreateCampingError",
+      "values": [
+        {
+          "name": "DuplicateName",
+          "params": [
+            {
+              "name": "names",
+              "tpe": {
+                "name": "SuggestedNames",
+                "_type": "Name"
+              },
+              "desc": "suggestions for names that are not in use"
+            }
+          ],
+          "desc": "The name is already in use",
+          "isValueClass": false
+        },
+        {
+          "name": "SizeOutOfBounds",
+          "params": [
+            {
+              "name": "min",
+              "tpe": {
+                "name": "Int",
+                "_type": "Name"
+              }
+            },
+            {
+              "name": "max",
+              "tpe": {
+                "name": "Int",
+                "_type": "Name"
+              }
+            }
+          ],
+          "desc": "The chosen size is not allowed",
+          "isValueClass": false
+        },
+        {
+          "name": "OtherError",
+          "params": [],
+          "isValueClass": false
+        }
+      ],
+      "desc": "Errors that can happen when creating a camping",
+      "_type": "TaggedUnion"
+    },
+    {
+      "name": "SuggestedNames",
+      "members": [
+        {
+          "name": "names",
+          "tpe": {
+            "name": "List",
+            "args": [
+              {
+                "name": "String",
+                "_type": "Name"
+              }
+            ],
+            "_type": "Apply"
+          }
+        }
+      ],
+      "isValueClass": false,
+      "typeParams": [],
+      "_type": "CaseClass"
+    },
+    {
+      "name": "Surface",
+      "values": [
+        {
+          "name": "Sand",
+          "params": [],
+          "desc": "Sandy",
+          "isValueClass": false
+        },
+        {
+          "name": "Earth",
+          "params": [],
+          "desc": "Dirt",
+          "isValueClass": false
+        }
+      ],
+      "desc": "Surface of the camping site",
+      "_type": "TaggedUnion"
     }
   ],
   "routes": [

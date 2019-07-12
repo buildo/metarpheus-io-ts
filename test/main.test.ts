@@ -46,6 +46,12 @@ describe('getModels', () => {
     const out = getModels(models, { isReadonly: false, runtime: true, useLegacyNewtype: true });
     expect(trimRight(out)).toMatchSnapshot();
   });
+
+  it('should handle tagged union types', () => {
+    const models: Array<Model> = require('./source-tagged-unions').models;
+    const out = getModels(models, { isReadonly: false, runtime: true, useLegacyNewtype: true });
+    expect(trimRight(out)).toMatchSnapshot();
+  });
 });
 
 describe('getRoutes', () => {
