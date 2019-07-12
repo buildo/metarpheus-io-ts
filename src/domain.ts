@@ -10,6 +10,7 @@ export interface CaseClassMember {
 }
 
 export interface CaseClass {
+  _type: 'CaseClass';
   name: string;
   members: Array<CaseClassMember>;
   desc?: string;
@@ -17,16 +18,30 @@ export interface CaseClass {
   isValueClass: boolean;
 }
 
-export interface EnumClassValue {
+export interface EnumValue {
   name: string;
 }
 
-export interface EnumClass {
+export interface Enum {
+  _type: 'CaseEnum';
   name: string;
-  values: Array<EnumClassValue>;
+  values: Array<EnumValue>;
 }
 
-export type Model = CaseClass | EnumClass;
+export interface TaggedUnionValue {
+  name: string;
+  params: Array<CaseClassMember>;
+  desc?: string;
+  isValueClass: boolean;
+}
+
+export interface TaggedUnion {
+  _type: 'TaggedUnion';
+  name: string;
+  values: Array<TaggedUnionValue>;
+}
+
+export type Model = CaseClass | Enum | TaggedUnion;
 
 export interface RouteParam {
   name?: string;
