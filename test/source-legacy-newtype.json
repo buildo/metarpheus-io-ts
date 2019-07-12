@@ -1,6 +1,7 @@
 {
   "models" : [
     {
+      "_type": "CaseClass",
       "name" : "ExternalId",
       "members" : [
         {
