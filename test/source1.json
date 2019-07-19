@@ -1,6 +1,7 @@
 {
   "models": [
     {
+      "_type": "CaseClass",
       "name": "HealthId",
       "members": [
         {
@@ -13,6 +14,7 @@
       "isValueClass": true
     },
     {
+      "_type": "CaseClass",
       "name": "Health",
       "members": [
         {
@@ -40,6 +42,7 @@
       "desc": "Health"
     },
     {
+      "_type": "CaseClass",
       "name": "ICQAlert",
       "members": [
         {
@@ -104,6 +107,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQAlertCategory",
       "values": [
         {
@@ -118,6 +122,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "ICQAssayReference",
       "members": [
         {
@@ -135,6 +140,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "ICQCalibration",
       "members": [
         {
@@ -239,6 +245,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQCalibrationMethod",
       "values": [
         {
@@ -307,6 +314,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQCalibrationType",
       "values": [
         {
@@ -318,6 +326,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQCalibrationStatus",
       "values": [
         {
@@ -347,6 +356,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "ICQOnBoardSolution",
       "members": [
         {
@@ -457,6 +467,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "ICQProcessingModule",
       "members": [
         {
@@ -534,6 +545,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQModuleType",
       "values": [
         {
@@ -545,6 +557,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQModuleStatus",
       "values": [
         {
@@ -577,6 +590,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQOverallStatus",
       "values": [
         {
@@ -591,6 +605,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "ICQQCAnalysis",
       "members": [
         {
@@ -656,6 +671,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQQCAnalysisStatus",
       "values": [
         {
@@ -673,6 +689,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "ICQQCMaterial",
       "members": [
         {
@@ -817,6 +834,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQQCMaterialStatus",
       "values": [
         {
@@ -837,6 +855,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQReagentStatus",
       "values": [
         {
@@ -887,6 +906,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQReagentCartridgeStatus",
       "values": [
         {
@@ -919,6 +939,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "ICQRSM",
       "members": [
         {
@@ -948,6 +969,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQRSMStatus",
       "values": [
         {
@@ -974,6 +996,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "ICQWorkcell",
       "members": [
         {
@@ -1056,6 +1079,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQConnectionStatus",
       "values": [
         {
@@ -1070,6 +1094,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "ICQPrinterStatus",
       "values": [
         {
@@ -1087,6 +1112,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "Camping",
       "members": [
         {
@@ -1114,6 +1140,7 @@
       "desc": "Represents a camping site"
     },
     {
+      "_type": "CaseEnum",
       "name": "CampingLocation",
       "values": [
         {
