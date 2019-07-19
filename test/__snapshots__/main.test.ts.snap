@@ -747,25 +747,25 @@ export const VoidFromUnit = new t.Type<void, {}>(
   () => t.success(undefined),
   () => ({})
 )
-export type Tag = Readonly<{
+export interface Tag {
   id: UUID,
   label: string
-}>
+}
 
-export const Tag = t.readonly(t.type({
+export const Tag = t.type({
   id: UUID,
   label: t.string
-}, 'Tag'), 'Tag')
+}, 'Tag')
 
-export type AgencySearchResult = Readonly<{
-  agencies: ReadonlyArray<Tag>,
-  networks: ReadonlyArray<Tag>
-}>
+export interface AgencySearchResult {
+  agencies: Array<Tag>,
+  networks: Array<Tag>
+}
 
-export const AgencySearchResult = t.readonly(t.type({
-  agencies: t.readonlyArray(Tag),
-  networks: t.readonlyArray(Tag)
-}, 'AgencySearchResult'), 'AgencySearchResult')
+export const AgencySearchResult = t.type({
+  agencies: t.array(Tag),
+  networks: t.array(Tag)
+}, 'AgencySearchResult')
 
 export type CancellationPolicy =
   | 'Free'
@@ -796,25 +796,25 @@ export const PaymentMode = t.keyof({
   Prepaid: null
 }, 'PaymentMode')
 
-export type FareRule = Readonly<{
+export interface FareRule {
   pickUpValidFrom: Option<LocalDate>,
   pickUpValidUntil: Option<LocalDate>,
   reservationValidFrom: Option<LocalDate>,
   reservationValidUntil: Option<LocalDate>,
-  nations: ReadonlyArray<Tag>,
-  agencies: ReadonlyArray<Tag>
-}>
+  nations: Array<Tag>,
+  agencies: Array<Tag>
+}
 
-export const FareRule = t.readonly(t.type({
+export const FareRule = t.type({
   pickUpValidFrom: createOptionFromNullable(LocalDate),
   pickUpValidUntil: createOptionFromNullable(LocalDate),
   reservationValidFrom: createOptionFromNullable(LocalDate),
   reservationValidUntil: createOptionFromNullable(LocalDate),
-  nations: t.readonlyArray(Tag),
-  agencies: t.readonlyArray(Tag)
-}, 'FareRule'), 'FareRule')
+  nations: t.array(Tag),
+  agencies: t.array(Tag)
+}, 'FareRule')
 
-export type Fare = Readonly<{
+export interface Fare {
   id: UUID,
   name: string,
   vendor: Vendor,
@@ -826,10 +826,10 @@ export type Fare = Readonly<{
   cancellationPolicy: CancellationPolicy,
   description: string,
   disabled: boolean,
-  rules: ReadonlyArray<FareRule>
-}>
+  rules: Array<FareRule>
+}
 
-export const Fare = t.readonly(t.type({
+export const Fare = t.type({
   id: UUID,
   name: t.string,
   vendor: Vendor,
@@ -841,8 +841,8 @@ export const Fare = t.readonly(t.type({
   cancellationPolicy: CancellationPolicy,
   description: t.string,
   disabled: t.boolean,
-  rules: t.readonlyArray(FareRule)
-}, 'Fare'), 'Fare')
+  rules: t.array(FareRule)
+}, 'Fare')
 
 export type ReservationProfile =
   | 'Leisure'
@@ -855,23 +855,23 @@ export const ReservationProfile = t.keyof({
   TourOperator: null
 }, 'ReservationProfile')
 
-export type FareSummary = Readonly<{
+export interface FareSummary {
   id: UUID,
   reservationProfile: ReservationProfile,
   name: string,
   vendor: Vendor,
   paymentMode: PaymentMode,
   disabled: boolean
-}>
+}
 
-export const FareSummary = t.readonly(t.type({
+export const FareSummary = t.type({
   id: UUID,
   reservationProfile: ReservationProfile,
   name: t.string,
   vendor: Vendor,
   paymentMode: PaymentMode,
   disabled: t.boolean
-}, 'FareSummary'), 'FareSummary')
+}, 'FareSummary')
 
 export type FareSummarySorting =
   | 'Name'
@@ -886,19 +886,19 @@ export const FareSummarySorting = t.keyof({
   Disabled: null
 }, 'FareSummarySorting')
 
-export type NationSearchResult = Readonly<{
-  regions: ReadonlyArray<Tag>,
-  countries: ReadonlyArray<Tag>,
-  states: ReadonlyArray<Tag>
-}>
+export interface NationSearchResult {
+  regions: Array<Tag>,
+  countries: Array<Tag>,
+  states: Array<Tag>
+}
 
-export const NationSearchResult = t.readonly(t.type({
-  regions: t.readonlyArray(Tag),
-  countries: t.readonlyArray(Tag),
-  states: t.readonlyArray(Tag)
-}, 'NationSearchResult'), 'NationSearchResult')
+export const NationSearchResult = t.type({
+  regions: t.array(Tag),
+  countries: t.array(Tag),
+  states: t.array(Tag)
+}, 'NationSearchResult')
 
-export type NewFare = Readonly<{
+export interface NewFare {
   name: string,
   vendor: Vendor,
   paymentMode: PaymentMode,
@@ -909,10 +909,10 @@ export type NewFare = Readonly<{
   cancellationPolicy: CancellationPolicy,
   description: string,
   disabled: boolean,
-  rules: ReadonlyArray<Option<FareRule>>
-}>
+  rules: Array<Option<FareRule>>
+}
 
-export const NewFare = t.readonly(t.type({
+export const NewFare = t.type({
   name: t.string,
   vendor: Vendor,
   paymentMode: PaymentMode,
@@ -923,8 +923,8 @@ export const NewFare = t.readonly(t.type({
   cancellationPolicy: CancellationPolicy,
   description: t.string,
   disabled: t.boolean,
-  rules: t.readonlyArray(createOptionFromNullable(FareRule))
-}, 'NewFare'), 'NewFare')
+  rules: t.array(createOptionFromNullable(FareRule))
+}, 'NewFare')
 
 export type SortOrder =
   | 'Ascending'
