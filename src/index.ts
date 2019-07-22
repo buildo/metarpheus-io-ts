@@ -105,7 +105,7 @@ function partialRecordCombinator(
 ): Reader<Ctx, gen.Combinator> {
   return ask<Ctx>().map(({ models }) => {
     const model = models.find(m => keyType.kind === 'Identifier' && m.name === keyType.name);
-    if (model && 'values' in model && model.values) {
+    if (model && model._type === 'CaseEnum') {
       return gen.partialCombinator(model.values.map(k => gen.property(k.name, valueType)));
     }
     return gen.recordCombinator(keyType, valueType);
