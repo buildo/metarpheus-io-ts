@@ -2,6 +2,24 @@
 
 
 
+## [v0.8.4](https://github.com/buildo/metarpheus-io-ts/tree/v0.8.4) (2019-07-22)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.3...v0.8.4)
+
+#### New features:
+
+- Remove `isReadonly` [#103](https://github.com/buildo/metarpheus-io-ts/issues/103)
+- Generated type should be partial in case of a Record with an enum as key type [#94](https://github.com/buildo/metarpheus-io-ts/issues/94)
+- Add support for union types [#79](https://github.com/buildo/metarpheus-io-ts/issues/79)
+
+#### Fixes (bugs & defects):
+
+- missing Option and createOptionFromNullable imports in generated API file [#98](https://github.com/buildo/metarpheus-io-ts/issues/98)
+
+#### Breaking:
+
+- generate TaskEither APIs (instead of Promise) [#91](https://github.com/buildo/metarpheus-io-ts/issues/91)
+- treat optional values as `Option`s [#87](https://github.com/buildo/metarpheus-io-ts/issues/87)
+
 ## [v0.8.3](https://github.com/buildo/metarpheus-io-ts/tree/v0.8.3) (2019-03-06)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.2...v0.8.3)
 
