@@ -1,6 +1,7 @@
 {
   "models": [
     {
+      "_type": "CaseEnum",
       "name": "ReservationProfile",
       "values": [
         {
@@ -15,6 +16,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "SortOrder",
       "values": [
         {
@@ -26,6 +28,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "Vendor",
       "values": [
         {
@@ -43,6 +46,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "AgencySearchResult",
       "members": [
         {
@@ -70,6 +74,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "NationSearchResult",
       "members": [
         {
@@ -108,6 +113,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "CancellationPolicy",
       "values": [
         {
@@ -116,6 +122,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "Fare",
       "members": [
         {
@@ -213,6 +220,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "NewFare",
       "members": [
         {
@@ -296,7 +304,12 @@
             "name": "List",
             "args": [
               {
-                "name": "FareRule"
+                "name": "Option",
+                "args": [
+                  {
+                    "name": "FareRule"
+                  }
+                ]
               }
             ]
           }
@@ -304,6 +317,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "FareRule",
       "members": [
         {
@@ -375,6 +389,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "FareSummary",
       "members": [
         {
@@ -416,6 +431,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "FareSummarySorting",
       "values": [
         {
@@ -433,6 +449,7 @@
       ]
     },
     {
+      "_type": "CaseEnum",
       "name": "PaymentMode",
       "values": [
         {
@@ -444,6 +461,7 @@
       ]
     },
     {
+      "_type": "CaseClass",
       "name": "Tag",
       "members": [
         {
