@@ -1890,8 +1890,8 @@ export const User = t.type({
 
 exports[`getRoutes should return the routes in the right (source3) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
-import axios, { AxiosError } from 'axios'
-import { tryCatch, TaskEither } from 'fp-ts/lib/TaskEither'
+import axios from 'axios'
+import { tryCatch, TaskEither, fromEither } from 'fp-ts/lib/TaskEither'
 import { identity } from 'fp-ts/lib/function'
 import * as t from 'io-ts'
 import { failure } from 'io-ts/lib/PathReporter'
@@ -1909,7 +1909,7 @@ export interface RouteConfig {
 export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
   return {
     /** Create a new search query for available vehicles */
-    availableVehicleController_createQuery: function ({ query }: { query: m.AvailableVehicleSearchQuery }): TaskEither<AxiosError, m.UUID> {
+    availableVehicleController_createQuery: function ({ query }: { query: m.AvailableVehicleSearchQuery }): TaskEither<unknown, m.UUID> {
       return tryCatch(() => axios({
         method: 'post',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/createQuery\`,
@@ -1923,15 +1923,13 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              m.UUID.decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(m.UUID.decode(res.data))
+            )
     },
 
     /** Returns an existing query for available vehicles */
-    availableVehicleController_readQuery: function ({ id }: { id: m.UUID }): TaskEither<AxiosError, m.AvailableVehicleSearchQuery> {
+    availableVehicleController_readQuery: function ({ id }: { id: m.UUID }): TaskEither<unknown, m.AvailableVehicleSearchQuery> {
       return tryCatch(() => axios({
         method: 'get',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/readQuery\`,
@@ -1947,15 +1945,13 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              m.AvailableVehicleSearchQuery.decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(m.AvailableVehicleSearchQuery.decode(res.data))
+            )
     },
 
     /** Returns the resulting available vehicles for the created query */
-    availableVehicleController_readResult: function ({ id }: { id: m.UUID }): TaskEither<AxiosError, m.AvailableVehicleSearchResult> {
+    availableVehicleController_readResult: function ({ id }: { id: m.UUID }): TaskEither<unknown, m.AvailableVehicleSearchResult> {
       return tryCatch(() => axios({
         method: 'get',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/readResult\`,
@@ -1971,15 +1967,13 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              m.AvailableVehicleSearchResult.decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(m.AvailableVehicleSearchResult.decode(res.data))
+            )
     },
 
     /** Updates the selected SpecialEquipments for the specified AvailableVehicle */
-    availableVehicleController_updateSpecialEquipments: function ({ token, availableVehicleId, specialEquipments }: { token: string, availableVehicleId: m.UUID, specialEquipments: Array<m.SelectedSpecialEquipment> }): TaskEither<AxiosError, m.UUID> {
+    availableVehicleController_updateSpecialEquipments: function ({ token, availableVehicleId, specialEquipments }: { token: string, availableVehicleId: m.UUID, specialEquipments: Array<m.SelectedSpecialEquipment> }): TaskEither<unknown, m.UUID> {
       return tryCatch(() => axios({
         method: 'post',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/updateSpecialEquipments\`,
@@ -1995,15 +1989,13 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Authorization': \`Token token=\\"\${token}\\"\`
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              m.UUID.decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(m.UUID.decode(res.data))
+            )
     },
 
     /** Returns the specified available vehicle */
-    availableVehicleController_read: function ({ id }: { id: m.UUID }): TaskEither<AxiosError, m.AvailableVehicle> {
+    availableVehicleController_read: function ({ id }: { id: m.UUID }): TaskEither<unknown, m.AvailableVehicle> {
       return tryCatch(() => axios({
         method: 'get',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/read\`,
@@ -2019,15 +2011,13 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              m.AvailableVehicle.decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(m.AvailableVehicle.decode(res.data))
+            )
     },
 
     /** Search locations */
-    locationsController_search: function ({ query }: { query: string }): TaskEither<AxiosError, m.LocationSearchResult> {
+    locationsController_search: function ({ query }: { query: string }): TaskEither<unknown, m.LocationSearchResult> {
       return tryCatch(() => axios({
         method: 'get',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/locations/search\`,
@@ -2043,15 +2033,13 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              m.LocationSearchResult.decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(m.LocationSearchResult.decode(res.data))
+            )
     },
 
     /** Get available SpecialEquipment for a given pickUp Location and rental duration */
-    locationsController_searchSpecialEquipments: function ({ location, duration, param1, param2 }: { location: string, duration: number, param1: number, param2: string }): TaskEither<AxiosError, Array<m.AvailableSpecialEquipment>> {
+    locationsController_searchSpecialEquipments: function ({ location, duration, param1, param2 }: { location: string, duration: number, param1: number, param2: string }): TaskEither<unknown, Array<m.AvailableSpecialEquipment>> {
       return tryCatch(() => axios({
         method: 'get',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/locations/searchSpecialEquipments/\${param1}/foo/\${param2}\`,
@@ -2068,15 +2056,13 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              t.array(m.AvailableSpecialEquipment).decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(t.array(m.AvailableSpecialEquipment).decode(res.data))
+            )
     },
 
     /** log a user in */
-    userController_login: function ({ data }: { data: m.API_UserLoginCredentials }): TaskEither<AxiosError, m.API_UserAuthCredentials> {
+    userController_login: function ({ data }: { data: m.API_UserLoginCredentials }): TaskEither<unknown, m.API_UserAuthCredentials> {
       return tryCatch(() => axios({
         method: 'post',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/users/login\`,
@@ -2088,11 +2074,9 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              m.API_UserAuthCredentials.decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(m.API_UserAuthCredentials.decode(res.data))
+            )
     }
   }
 }
@@ -2101,8 +2085,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
 
 exports[`getRoutes should return the routes in the right (source4) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
-import axios, { AxiosError } from 'axios'
-import { tryCatch, TaskEither } from 'fp-ts/lib/TaskEither'
+import axios from 'axios'
+import { tryCatch, TaskEither, fromEither } from 'fp-ts/lib/TaskEither'
 import { identity } from 'fp-ts/lib/function'
 import * as t from 'io-ts'
 import { failure } from 'io-ts/lib/PathReporter'
@@ -2119,7 +2103,7 @@ export interface RouteConfig {
 
 export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
   return {
-    materialController_readAll: function ({  }: {  }): TaskEither<AxiosError, Array<m.Entity<m.Material>>> {
+    materialController_readAll: function ({  }: {  }): TaskEither<unknown, Array<m.Entity<m.Material>>> {
       return tryCatch(() => axios({
         method: 'get',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/material/readAll\`,
@@ -2135,14 +2119,12 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              t.array(m.Entity(m.Material)).decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(t.array(m.Entity(m.Material)).decode(res.data))
+            )
     },
 
-    calculationController_run: function ({ calculation }: { calculation: m.CalculationInput }): TaskEither<AxiosError, m.CalculationOutput> {
+    calculationController_run: function ({ calculation }: { calculation: m.CalculationInput }): TaskEither<unknown, m.CalculationOutput> {
       return tryCatch(() => axios({
         method: 'post',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/calculation/run\`,
@@ -2156,14 +2138,12 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              m.CalculationOutput.decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(m.CalculationOutput.decode(res.data))
+            )
     },
 
-    meController_read: function ({  }: {  }): TaskEither<AxiosError, m.Entity<m.User>> {
+    meController_read: function ({  }: {  }): TaskEither<unknown, m.Entity<m.User>> {
       return tryCatch(() => axios({
         method: 'get',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/me/read\`,
@@ -2179,14 +2159,12 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              m.Entity(m.User).decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(m.Entity(m.User).decode(res.data))
+            )
     },
 
-    userController_readAll: function ({  }: {  }): TaskEither<AxiosError, Array<m.Entity<m.User>>> {
+    userController_readAll: function ({  }: {  }): TaskEither<unknown, Array<m.Entity<m.User>>> {
       return tryCatch(() => axios({
         method: 'get',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/readAll\`,
@@ -2202,14 +2180,12 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              t.array(m.Entity(m.User)).decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(t.array(m.Entity(m.User)).decode(res.data))
+            )
     },
 
-    userController_read: function ({ id }: { id: m.Id<m.User> }): TaskEither<AxiosError, Option<m.Entity<m.User>>> {
+    userController_read: function ({ id }: { id: m.Id<m.User> }): TaskEither<unknown, Option<m.Entity<m.User>>> {
       return tryCatch(() => axios({
         method: 'get',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/read\`,
@@ -2225,16 +2201,14 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Cache-Control': 'no-cache, no-store'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              createOptionFromNullable(m.Entity(m.User)).decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(createOptionFromNullable(m.Entity(m.User)).decode(res.data))
+            )
     },
 
     userController_create: function ({ user }: { user:
   | m.User
-  | undefined }): TaskEither<AxiosError, m.Id<m.User>> {
+  | undefined }): TaskEither<unknown, m.Id<m.User>> {
       return tryCatch(() => axios({
         method: 'post',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/create\`,
@@ -2251,14 +2225,12 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              m.Id<m.User>().decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(m.Id<m.User>().decode(res.data))
+            )
     },
 
-    userController_update: function ({ user }: { user: m.Entity<m.User> }): TaskEither<AxiosError, void> {
+    userController_update: function ({ user }: { user: m.Entity<m.User> }): TaskEither<unknown, void> {
       return tryCatch(() => axios({
         method: 'post',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/update\`,
@@ -2272,14 +2244,12 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              m.VoidFromUnit.decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(m.VoidFromUnit.decode(res.data))
+            )
     },
 
-    userController_delete: function ({ id }: { id: m.Id<m.User> }): TaskEither<AxiosError, void> {
+    userController_delete: function ({ id }: { id: m.Id<m.User> }): TaskEither<unknown, void> {
       return tryCatch(() => axios({
         method: 'post',
         url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/delete\`,
@@ -2293,11 +2263,9 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           'Content-Type': 'application/json'
         },
         timeout: _metarpheusRouteConfig.timeout
-      }), identity).map(res =>
-              m.VoidFromUnit.decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\\\n'));
-              })
-            ) as any
+      }), identity).chain(res =>
+              fromEither(m.VoidFromUnit.decode(res.data))
+            )
     }
   }
 }

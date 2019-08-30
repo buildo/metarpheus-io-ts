@@ -429,12 +429,10 @@ function getRoute(_route: Route): Reader<Ctx, string> {
         getRouteArguments(route).map(routeArguments => {
           const docs = route.desc ? `    /** ${route.desc} */\n` : '';
           return [
-            `${docs}    ${name}: function (${routeArguments}): TaskEither<AxiosError, ${gen.printStatic(returns)}> {`,
-            `      return tryCatch(() => axios(${axiosConfig}), identity).map(res =>
-              ${gen.printRuntime(returns)}.decode(res.data).getOrElseL(errors => {
-                throw new Error(failure(errors).join('\\n'));
-              })
-            ) as any`,
+            `${docs}    ${name}: function (${routeArguments}): TaskEither<unknown, ${gen.printStatic(returns)}> {`,
+            `      return tryCatch(() => axios(${axiosConfig}), identity).chain(res =>
+              fromEither(${gen.printRuntime(returns)}.decode(res.data))
+            )`,
             '    }'
           ].join('\n');
         })
@@ -444,8 +442,8 @@ function getRoute(_route: Route): Reader<Ctx, string> {
 }
 
 const getRoutesPrelude = `// DO NOT EDIT MANUALLY - metarpheus-generated
-import axios, { AxiosError } from 'axios'
-import { tryCatch, TaskEither } from 'fp-ts/lib/TaskEither'
+import axios from 'axios'
+import { tryCatch, TaskEither, fromEither } from 'fp-ts/lib/TaskEither'
 import { identity } from 'fp-ts/lib/function'
 import * as t from 'io-ts'
 import { failure } from 'io-ts/lib/PathReporter'
