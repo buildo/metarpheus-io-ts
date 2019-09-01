@@ -446,7 +446,6 @@ import axios from 'axios'
 import { tryCatch, TaskEither, fromEither } from 'fp-ts/lib/TaskEither'
 import { identity } from 'fp-ts/lib/function'
 import * as t from 'io-ts'
-import { failure } from 'io-ts/lib/PathReporter'
 // @ts-ignore
 import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
 // @ts-ignore
