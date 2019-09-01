@@ -34,7 +34,7 @@
   "homepage": "https://github.com/gcanti/metarpheus-io-ts",
   "dependencies": {
     "commander": "^2.9.0",
-    "fp-ts": "^1.17.2",
+    "fp-ts": "^1.19.5",
     "io-ts-codegen": "0.3.3",
     "lodash": "^4.17.4"
   },
