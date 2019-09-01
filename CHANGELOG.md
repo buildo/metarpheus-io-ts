@@ -2,15 +2,22 @@
 
 
 
+## [v1.0.1](https://github.com/buildo/metarpheus-io-ts/tree/v1.0.1) (2019-09-01)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v10.0.0-3...v1.0.1)
+
+#### Fixes (bugs & defects):
+
+- invalid API responses cause an uncaught Promise rejection instead of a proper TaskEither failure [#107](https://github.com/buildo/metarpheus-io-ts/issues/107)
+
+## [v10.0.0-3](https://github.com/buildo/metarpheus-io-ts/tree/v10.0.0-3) (2019-04-12)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.0...v10.0.0-3)
+
 ## [v1.0.0](https://github.com/buildo/metarpheus-io-ts/tree/v1.0.0) (2019-08-10)
-[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v10.0.0-3...v1.0.0)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.4...v1.0.0)
 
 #### Breaking:
 
 - release v1 [#97](https://github.com/buildo/metarpheus-io-ts/issues/97)
-
-## [v10.0.0-3](https://github.com/buildo/metarpheus-io-ts/tree/v10.0.0-3) (2019-04-12)
-[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.4...v10.0.0-3)
 
 ## [v0.8.4](https://github.com/buildo/metarpheus-io-ts/tree/v0.8.4) (2019-07-22)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.3...v0.8.4)
