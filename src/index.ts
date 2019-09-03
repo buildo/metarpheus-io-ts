@@ -33,7 +33,7 @@ function genericCombinator(tpe: Tpe): Reader<Ctx, gen.CustomCombinator> {
   return ask<Ctx>().chain(({ prefix }) => {
     const type = gen.identifier(`${prefix}${tpe.name}`);
     const staticArgsR = traverseReader(tpe.args!, t => getType(t)).map(typeReferences =>
-      typeReferences.map(gen.printStatic).join(', ')
+      typeReferences.map(gen.printStatic)
     );
     const runtimeArgsR = traverseReader(tpe.args!, t => getType(t)).map(typeReferences =>
       typeReferences.map(gen.printRuntime).join(', ')
@@ -42,8 +42,10 @@ function genericCombinator(tpe: Tpe): Reader<Ctx, gen.CustomCombinator> {
       runtimeArgsR.chain(runtimeArgs =>
         isNewtype(tpe).map(newtype =>
           gen.customCombinator(
-            `${gen.printStatic(type)}<${staticArgs}>`,
-            newtype ? `${gen.printRuntime(type)}<${staticArgs}>()` : `${gen.printRuntime(type)}(${runtimeArgs})`,
+            `${gen.printStatic(type)}<${staticArgs.join(', ')}>`,
+            newtype
+              ? `${gen.printRuntime(type)}<${staticArgs.map(C => `t.TypeOf<typeof ${C}>`).join(', ')}>()`
+              : `${gen.printRuntime(type)}(${runtimeArgs})`,
             gen.getNodeDependencies(type)
           )
         )
@@ -162,7 +164,7 @@ function getCaseClassDeclaration(caseClass: CaseClass): Reader<Ctx, gen.TypeDecl
   return traverseReader(caseClass.members, getProperty).map(properties => {
     const interfaceDecl = gen.typeCombinator(properties, caseClass.name);
     if (caseClass.typeParams && caseClass.typeParams.length > 0) {
-      const staticParams = caseClass.typeParams.map(p => `${p.name} extends t.Any`).join(', ');
+      const staticParams = caseClass.typeParams.map(p => `${p.name} extends t.Mixed`).join(', ');
       const runtimeParams = caseClass.typeParams.map(p => `${p.name}: ${p.name}`).join(', ');
       const dependencies = interfaceDecl.properties
         .map(p => gen.printStatic(p.type))
