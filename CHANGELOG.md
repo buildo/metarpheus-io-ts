@@ -2,15 +2,28 @@
 
 
 
+## [v1.0.2](https://github.com/buildo/metarpheus-io-ts/tree/v1.0.2) (2019-09-03)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v10.0.0-3...v1.0.2)
+
+#### Fixes (bugs & defects):
+
+- `genericCombinator` is mixing runtime and static type parameters when newtypes are involved [#109](https://github.com/buildo/metarpheus-io-ts/issues/109)
+
+## [v10.0.0-3](https://github.com/buildo/metarpheus-io-ts/tree/v10.0.0-3) (2019-04-12)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.1...v10.0.0-3)
+
 ## [v1.0.1](https://github.com/buildo/metarpheus-io-ts/tree/v1.0.1) (2019-09-01)
-[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v10.0.0-3...v1.0.1)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.1-2...v1.0.1)
 
 #### Fixes (bugs & defects):
 
 - invalid API responses cause an uncaught Promise rejection instead of a proper TaskEither failure [#107](https://github.com/buildo/metarpheus-io-ts/issues/107)
 
-## [v10.0.0-3](https://github.com/buildo/metarpheus-io-ts/tree/v10.0.0-3) (2019-04-12)
-[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.0...v10.0.0-3)
+## [v1.0.1-2](https://github.com/buildo/metarpheus-io-ts/tree/v1.0.1-2) (2019-09-01)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.1-1...v1.0.1-2)
+
+## [v1.0.1-1](https://github.com/buildo/metarpheus-io-ts/tree/v1.0.1-1) (2019-08-30)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.0...v1.0.1-1)
 
 ## [v1.0.0](https://github.com/buildo/metarpheus-io-ts/tree/v1.0.0) (2019-08-10)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.4...v1.0.0)
