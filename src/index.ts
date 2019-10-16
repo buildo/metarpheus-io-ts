@@ -130,7 +130,7 @@ function getNewtype(model: CaseClass): Reader<Ctx, gen.CustomTypeDeclaration> {
       const runtimeType = gen.printRuntime(tsType);
       const hasTypeParams = model.typeParams && model.typeParams.length > 0;
       const typeParams = hasTypeParams ? `<${model.typeParams.map(t => `${t.name}`).join(', ')}>` : '';
-      const dependencies = [staticType];
+      const dependencies = gen.getNodeDependencies(tsType);
       const newtypeSymbol = `readonly ${model.name}: unique symbol`;
       const legacyNewtypeSymbol = `readonly ${model.name}: '${model.name}'`;
       const readonlyTypeParams = () =>
