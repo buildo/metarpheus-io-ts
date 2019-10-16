@@ -2,15 +2,15 @@
 
 
 
+## [v10.0.0-3](https://github.com/buildo/metarpheus-io-ts/tree/v10.0.0-3) (2019-04-12)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.3...v10.0.0-3)
+
 ## [v1.0.3](https://github.com/buildo/metarpheus-io-ts/tree/v1.0.3) (2019-09-30)
-[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v10.0.0-3...v1.0.3)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.2...v1.0.3)
 
 #### New features:
 
 - Fix axios security advisory [#112](https://github.com/buildo/metarpheus-io-ts/issues/112)
-
-## [v10.0.0-3](https://github.com/buildo/metarpheus-io-ts/tree/v10.0.0-3) (2019-04-12)
-[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.2...v10.0.0-3)
 
 ## [v1.0.2](https://github.com/buildo/metarpheus-io-ts/tree/v1.0.2) (2019-09-03)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.1...v1.0.2)
@@ -33,11 +33,14 @@
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.0...v1.0.1-1)
 
 ## [v1.0.0](https://github.com/buildo/metarpheus-io-ts/tree/v1.0.0) (2019-08-10)
-[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.4...v1.0.0)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.5...v1.0.0)
 
 #### Breaking:
 
 - release v1 [#97](https://github.com/buildo/metarpheus-io-ts/issues/97)
+
+## [v0.8.5](https://github.com/buildo/metarpheus-io-ts/tree/v0.8.5) (2019-09-30)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.4...v0.8.5)
 
 ## [v0.8.4](https://github.com/buildo/metarpheus-io-ts/tree/v0.8.4) (2019-07-22)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v0.8.3...v0.8.4)
