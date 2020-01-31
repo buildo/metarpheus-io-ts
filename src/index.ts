@@ -188,7 +188,10 @@ function getEnumDeclaration(enumModel: Enum): Reader<Ctx, gen.TypeDeclaration | 
   return reader.of(
     gen.typeDeclaration(
       enumModel.name,
-      gen.keyofCombinator(enumModel.values.map(v => v.name), enumModel.name),
+      gen.keyofCombinator(
+        enumModel.values.map(v => v.name),
+        enumModel.name
+      ),
       true,
       false
     )
