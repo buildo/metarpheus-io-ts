@@ -1,7 +1,7 @@
 import * as gen from 'io-ts-codegen';
 import lowerFirst = require('lodash/lowerFirst');
 import { Reader, reader, ask } from 'fp-ts/lib/Reader';
-import { array, sort } from 'fp-ts/lib/Array';
+import { array, compact, sort } from 'fp-ts/lib/Array';
 import {
   Tpe,
   Model,
@@ -16,6 +16,7 @@ import {
   TaggedUnionValue
 } from './domain';
 import { contramap, ordString } from 'fp-ts/lib/Ord';
+import { Option, none, some } from 'fp-ts/lib/Option';
 
 interface Ctx {
   models: Array<Model>;
@@ -194,29 +195,33 @@ function getEnumDeclaration(enumModel: Enum): Reader<Ctx, gen.TypeDeclaration | 
   );
 }
 
-function getTaggedUnionDeclaration(
-  taggedUnion: TaggedUnion
-): Reader<Ctx, gen.TypeDeclaration | gen.CustomTypeDeclaration> {
+function getTaggedUnionDeclaration(taggedUnion: TaggedUnion): Reader<Ctx, Option<gen.TypeDeclaration>> {
   const getTaggedUnionValue = (v: TaggedUnionValue): Reader<Ctx, gen.TypeReference> =>
     traverseReader(v.params, getProperty).map(properties =>
       gen.typeCombinator(properties.concat(gen.property('_type', gen.literalCombinator(v.name))), v.name)
     );
-  return traverseReader(taggedUnion.values, getTaggedUnionValue).map(values =>
-    gen.typeDeclaration(taggedUnion.name, gen.unionCombinator(values, taggedUnion.name), true, false)
-  );
+  const toTypeDeclaration = (values: gen.TypeReference[]): Option<gen.TypeDeclaration> =>
+    values.length === 0
+      ? none
+      : some(
+          values.length === 1
+            ? gen.typeDeclaration(taggedUnion.name, values[0], true, false)
+            : gen.typeDeclaration(taggedUnion.name, gen.unionCombinator(values, taggedUnion.name), true, false)
+        );
+  return traverseReader(taggedUnion.values, getTaggedUnionValue).map(toTypeDeclaration);
 }
 
 function getDeclarations(models: Array<Model>): Reader<Ctx, Array<gen.TypeDeclaration | gen.CustomTypeDeclaration>> {
   return traverseReader(models, model => {
     switch (model._type) {
       case 'CaseClass':
-        return getCaseClassDeclaration(model);
+        return getCaseClassDeclaration(model).map(some);
       case 'CaseEnum':
-        return getEnumDeclaration(model);
+        return getEnumDeclaration(model).map(some);
       case 'TaggedUnion':
         return getTaggedUnionDeclaration(model);
     }
-  });
+  }).map(compact);
 }
 
 const newtypePrelude = `
