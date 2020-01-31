@@ -87,6 +87,40 @@
       ],
       "desc": "Surface of the camping site",
       "_type": "TaggedUnion"
+    },
+    {
+      "name": "SingleCaseTaggedUnion",
+      "values": [
+        {
+          "name": "SingleCase",
+          "params": [
+            {
+              "name": "x",
+              "tpe": {
+                "name": "Int",
+                "_type": "Name"
+              }
+            },
+            {
+              "name": "y",
+              "tpe": {
+                "name": "String",
+                "_type": "Name"
+              }
+            }
+          ],
+          "desc": "Its only case",
+          "isValueClass": false
+        }
+      ],
+      "desc": "Not really much of a union",
+      "_type": "TaggedUnion"
+    },
+    {
+      "name": "ZeroCaseTaggedUnion",
+      "values": [],
+      "desc": "Nothing at all in here",
+      "_type": "TaggedUnion"
     }
   ]
 }

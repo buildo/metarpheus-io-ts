@@ -123,6 +123,18 @@ export const CreateCampingError = t.union([
   }, 'OtherError')
 ], 'CreateCampingError')
 
+export interface SingleCaseTaggedUnion {
+  x: number,
+  y: string,
+  _type: 'SingleCase'
+}
+
+export const SingleCaseTaggedUnion = t.type({
+  x: t.Integer,
+  y: t.string,
+  _type: t.literal('SingleCase')
+}, 'SingleCase')
+
 export type Surface =
   | {
   _type: 'Sand'
