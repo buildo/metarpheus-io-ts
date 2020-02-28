@@ -2,6 +2,13 @@
 
 
 
+## [v1.0.5](https://github.com/buildo/metarpheus-io-ts/tree/v1.0.5) (2020-02-28)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v10.0.0-3...v1.0.5)
+
+#### Fixes (bugs & defects):
+
+- Handle tagged unions with fewer than two cases [#115](https://github.com/buildo/metarpheus-io-ts/issues/115)
+
 ## [v10.0.0-3](https://github.com/buildo/metarpheus-io-ts/tree/v10.0.0-3) (2019-04-12)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.3...v10.0.0-3)
 
@@ -310,3 +317,6 @@
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/rm...v0.1.0)
 
 ## [rm](https://github.com/buildo/metarpheus-io-ts/tree/rm) (2018-07-20)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/1.0.4...rm)
+
+## [1.0.4](https://github.com/buildo/metarpheus-io-ts/tree/1.0.4) (2019-10-16)
