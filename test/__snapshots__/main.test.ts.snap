@@ -4,7 +4,7 @@ exports[`getModels should allow legacy newtype encoding 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 // @ts-ignore
-import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 
@@ -42,7 +42,7 @@ exports[`getModels should handle any 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 // @ts-ignore
-import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 
@@ -61,7 +61,7 @@ export interface NotificationPayload {
 }
 
 export const NotificationPayload = t.type({
-  userLanguage: createOptionFromNullable(t.string),
+  userLanguage: optionFromNullable(t.string),
   notificationKind: NotificationKind,
   params: t.record(t.string, t.unknown),
   workcellSerialNumber: t.string,
@@ -74,7 +74,7 @@ exports[`getModels should handle tagged union types 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 // @ts-ignore
-import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 
@@ -158,7 +158,7 @@ exports[`getModels should return the models (source1) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 // @ts-ignore
-import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 
@@ -264,7 +264,7 @@ export const ICQAlert = t.type({
   _workcellSerialNumber: t.string,
   workcellName: t.string,
   AIMCode: t.Integer,
-  AIMSubCode: createOptionFromNullable(t.Integer),
+  AIMSubCode: optionFromNullable(t.Integer),
   alertDateTime: Date,
   category: ICQAlertCategory,
   description: t.string
@@ -385,10 +385,10 @@ export const ICQCalibration = t.type({
   calibratorLotNumber: t.string,
   method: ICQCalibrationMethod,
   type: ICQCalibrationType,
-  calibrationDateTime: createOptionFromNullable(Date),
-  expirationDateTime: createOptionFromNullable(Date),
+  calibrationDateTime: optionFromNullable(Date),
+  expirationDateTime: optionFromNullable(Date),
   status: ICQCalibrationStatus,
-  user: createOptionFromNullable(t.string)
+  user: optionFromNullable(t.string)
 }, 'ICQCalibration')
 
 export type ICQConnectionStatus =
@@ -520,10 +520,10 @@ export const ICQOnBoardSolution = t.type({
   configurationId: t.string,
   configurationVersion: t.Integer,
   expirationDate: Date,
-  carouselPosition: createOptionFromNullable(t.Integer),
-  RSMPosition: createOptionFromNullable(t.Integer),
+  carouselPosition: optionFromNullable(t.Integer),
+  RSMPosition: optionFromNullable(t.Integer),
   percentOfRemainingVolume: t.Integer,
-  remainingHoursOfOnBoardStability: createOptionFromNullable(t.Integer),
+  remainingHoursOfOnBoardStability: optionFromNullable(t.Integer),
   status: ICQReagentStatus,
   cartridgeStatus: ICQReagentCartridgeStatus
 }, 'ICQOnBoardSolution')
@@ -669,14 +669,14 @@ export const ICQQCMaterial = t.type({
   _levelName: t.string,
   _lotNumber: t.string,
   _serialNumber: t.string,
-  carouselPosition: createOptionFromNullable(t.Integer),
-  RSMPosition: createOptionFromNullable(t.Integer),
+  carouselPosition: optionFromNullable(t.Integer),
+  RSMPosition: optionFromNullable(t.Integer),
   rackId: t.string,
   rackPosition: t.Integer,
   percentVolumeRemaining: t.Integer,
   materialExpirationDate: Date,
   remainingHoursOfOnBoardStability: t.Integer,
-  remainingMinutesOfInUseStability: createOptionFromNullable(t.Integer),
+  remainingMinutesOfInUseStability: optionFromNullable(t.Integer),
   status: ICQQCMaterialStatus
 }, 'ICQQCMaterial')
 
@@ -749,7 +749,7 @@ exports[`getModels should return the models in the right (source2) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 // @ts-ignore
-import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 
@@ -818,10 +818,10 @@ export interface FareRule {
 }
 
 export const FareRule = t.type({
-  pickUpValidFrom: createOptionFromNullable(LocalDate),
-  pickUpValidUntil: createOptionFromNullable(LocalDate),
-  reservationValidFrom: createOptionFromNullable(LocalDate),
-  reservationValidUntil: createOptionFromNullable(LocalDate),
+  pickUpValidFrom: optionFromNullable(LocalDate),
+  pickUpValidUntil: optionFromNullable(LocalDate),
+  reservationValidFrom: optionFromNullable(LocalDate),
+  reservationValidUntil: optionFromNullable(LocalDate),
   nations: t.array(Tag),
   agencies: t.array(Tag)
 }, 'FareRule')
@@ -847,9 +847,9 @@ export const Fare = t.type({
   vendor: Vendor,
   paymentMode: PaymentMode,
   rateCode: t.string,
-  cdp: createOptionFromNullable(t.string),
-  tourOperatorCode: createOptionFromNullable(t.string),
-  additionalInclusions: createOptionFromNullable(t.string),
+  cdp: optionFromNullable(t.string),
+  tourOperatorCode: optionFromNullable(t.string),
+  additionalInclusions: optionFromNullable(t.string),
   cancellationPolicy: CancellationPolicy,
   description: t.string,
   disabled: t.boolean,
@@ -929,13 +929,13 @@ export const NewFare = t.type({
   vendor: Vendor,
   paymentMode: PaymentMode,
   rateCode: t.string,
-  cdp: createOptionFromNullable(t.string),
-  additionalInclusions: createOptionFromNullable(t.string),
-  tourOperatorCode: createOptionFromNullable(t.string),
+  cdp: optionFromNullable(t.string),
+  additionalInclusions: optionFromNullable(t.string),
+  tourOperatorCode: optionFromNullable(t.string),
   cancellationPolicy: CancellationPolicy,
   description: t.string,
   disabled: t.boolean,
-  rules: t.array(createOptionFromNullable(FareRule))
+  rules: t.array(optionFromNullable(FareRule))
 }, 'NewFare')
 
 export type SortOrder =
@@ -953,7 +953,7 @@ exports[`getModels should return the models in the right (source3) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 // @ts-ignore
-import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 
@@ -1008,10 +1008,10 @@ export const AvailableFare = t.type({
   name: t.string,
   vendor: Vendor,
   paymentMode: PaymentMode,
-  additionalInclusions: createOptionFromNullable(t.string),
-  explicitExclusions: createOptionFromNullable(t.string),
+  additionalInclusions: optionFromNullable(t.string),
+  explicitExclusions: optionFromNullable(t.string),
   cancellationPolicy: CancellationPolicy,
-  description: createOptionFromNullable(t.string)
+  description: optionFromNullable(t.string)
 }, 'AvailableFare')
 
 export interface RentalRateTotal {
@@ -1045,8 +1045,8 @@ export interface RentalRateDistance {
 export const RentalRateDistance = t.type({
   unlimited: t.boolean,
   unit: RentalRateDistanceUnit,
-  amount: createOptionFromNullable(t.Integer),
-  additional: createOptionFromNullable(Money)
+  amount: optionFromNullable(t.Integer),
+  additional: optionFromNullable(Money)
 }, 'RentalRateDistance')
 
 export type SpecialEquipment =
@@ -1094,7 +1094,7 @@ export const RentalRate = t.type({
   total: RentalRateTotal,
   distance: RentalRateDistance,
   superCoverIncluded: t.boolean,
-  dropOff: createOptionFromNullable(Money),
+  dropOff: optionFromNullable(Money),
   specialEquipments: t.array(PricedSpecialEquipment)
 }, 'RentalRate')
 
@@ -1274,21 +1274,21 @@ export interface Vehicle {
 }
 
 export const Vehicle = t.type({
-  code: createOptionFromNullable(t.string),
-  codeContext: createOptionFromNullable(t.string),
+  code: optionFromNullable(t.string),
+  codeContext: optionFromNullable(t.string),
   airConditioning: t.boolean,
-  seats: createOptionFromNullable(t.Integer),
-  baggage: createOptionFromNullable(t.Integer),
-  transmission: createOptionFromNullable(VehicleTransmission),
-  fuel: createOptionFromNullable(VehicleFuel),
-  drive: createOptionFromNullable(VehicleDrive),
-  doors: createOptionFromNullable(t.Integer),
+  seats: optionFromNullable(t.Integer),
+  baggage: optionFromNullable(t.Integer),
+  transmission: optionFromNullable(VehicleTransmission),
+  fuel: optionFromNullable(VehicleFuel),
+  drive: optionFromNullable(VehicleDrive),
+  doors: optionFromNullable(t.Integer),
   category: VehicleCategory,
   size: VehicleSize,
   model: t.string,
   modelCode: t.string,
   pictureId: t.string,
-  segment: createOptionFromNullable(t.string)
+  segment: optionFromNullable(t.string)
 }, 'Vehicle')
 
 export interface AvailableVehicle {
@@ -1357,7 +1357,7 @@ export interface AvailableVehicleSearchResult {
 }
 
 export const AvailableVehicleSearchResult = t.type({
-  taxPercent: createOptionFromNullable(t.number),
+  taxPercent: optionFromNullable(t.number),
   fares: t.array(AvailableFare),
   availability: t.array(VehicleAvailability)
 }, 'AvailableVehicleSearchResult')
@@ -1561,10 +1561,10 @@ export interface LocationSearchResult {
 }
 
 export const LocationSearchResult = t.type({
-  airports: createOptionFromNullable(t.array(Location)),
-  stations: createOptionFromNullable(t.array(Location)),
-  cities: createOptionFromNullable(t.array(Location)),
-  hotels: createOptionFromNullable(t.array(Location))
+  airports: optionFromNullable(t.array(Location)),
+  stations: optionFromNullable(t.array(Location)),
+  cities: optionFromNullable(t.array(Location)),
+  hotels: optionFromNullable(t.array(Location))
 }, 'LocationSearchResult')
 
 export interface SelectedSpecialEquipment {
@@ -1583,7 +1583,7 @@ exports[`getModels should return the models in the right (source4) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import * as t from 'io-ts'
 // @ts-ignore
-import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 
@@ -1739,7 +1739,7 @@ export const CalculationInput = t.type({
   longitudinalCalculationSavingSteps: t.Integer,
   longitudinalTouchPoint: t.number,
   longitudinalWaterLevel: t.number,
-  cableRadialPositions: t.array(createOptionFromNullable(t.number)),
+  cableRadialPositions: t.array(optionFromNullable(t.number)),
   conductorTransversalSection: t.number,
   conductorLayer: ConductorLayer,
   internalSemiconductiveLayer: InternalSemiconductiveLayer,
@@ -1895,7 +1895,7 @@ export interface User {
 export const User = t.type({
   externalId: ExternalId<t.TypeOf<typeof User>>(),
   role: Role,
-  fullName: createOptionFromNullable(t.string)
+  fullName: optionFromNullable(t.string)
 }, 'User')
 "
 `;
@@ -1903,14 +1903,16 @@ export const User = t.type({
 exports[`getRoutes should return the routes in the right (source3) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import axios from 'axios'
-import { tryCatch, TaskEither, fromEither } from 'fp-ts/lib/TaskEither'
-import { identity } from 'fp-ts/lib/function'
+import * as E from 'fp-ts/lib/Either'
+import * as TE from 'fp-ts/lib/TaskEither'
 import * as t from 'io-ts'
 // @ts-ignore
-import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 import * as m from './model-ts'
+import { pipe } from 'fp-ts/lib/pipeable'
+import { flow } from 'fp-ts/lib/function'
 
 export interface RouteConfig {
   apiEndpoint: string,
@@ -1920,174 +1922,190 @@ export interface RouteConfig {
 export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
   return {
     /** Create a new search query for available vehicles */
-    availableVehicleController_createQuery: function ({ query }: { query: m.AvailableVehicleSearchQuery }): TaskEither<unknown, m.UUID> {
-      return tryCatch(() => axios({
-        method: 'post',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/createQuery\`,
-        params: {
+    availableVehicleController_createQuery: function ({ query }: { query: m.AvailableVehicleSearchQuery }): TE.TaskEither<unknown, m.UUID> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'post',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/createQuery\`,
+          params: {
 
-        },
-        data: {
+          },
+          data: {
           query: m.AvailableVehicleSearchQuery.encode(query)
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(m.UUID.decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(m.UUID.decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
     /** Returns an existing query for available vehicles */
-    availableVehicleController_readQuery: function ({ id }: { id: m.UUID }): TaskEither<unknown, m.AvailableVehicleSearchQuery> {
-      return tryCatch(() => axios({
-        method: 'get',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/readQuery\`,
-        params: {
-          id: m.UUID.encode(id)
-        },
-        data: {
+    availableVehicleController_readQuery: function ({ id }: { id: m.UUID }): TE.TaskEither<unknown, m.AvailableVehicleSearchQuery> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'get',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/readQuery\`,
+          params: {
+            id: m.UUID.encode(id)
+          },
+          data: {
 
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json',
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(m.AvailableVehicleSearchQuery.decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(m.AvailableVehicleSearchQuery.decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
     /** Returns the resulting available vehicles for the created query */
-    availableVehicleController_readResult: function ({ id }: { id: m.UUID }): TaskEither<unknown, m.AvailableVehicleSearchResult> {
-      return tryCatch(() => axios({
-        method: 'get',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/readResult\`,
-        params: {
-          id: m.UUID.encode(id)
-        },
-        data: {
+    availableVehicleController_readResult: function ({ id }: { id: m.UUID }): TE.TaskEither<unknown, m.AvailableVehicleSearchResult> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'get',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/readResult\`,
+          params: {
+            id: m.UUID.encode(id)
+          },
+          data: {
 
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json',
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(m.AvailableVehicleSearchResult.decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(m.AvailableVehicleSearchResult.decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
     /** Updates the selected SpecialEquipments for the specified AvailableVehicle */
-    availableVehicleController_updateSpecialEquipments: function ({ token, availableVehicleId, specialEquipments }: { token: string, availableVehicleId: m.UUID, specialEquipments: Array<m.SelectedSpecialEquipment> }): TaskEither<unknown, m.UUID> {
-      return tryCatch(() => axios({
-        method: 'post',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/updateSpecialEquipments\`,
-        params: {
+    availableVehicleController_updateSpecialEquipments: function ({ token, availableVehicleId, specialEquipments }: { token: string, availableVehicleId: m.UUID, specialEquipments: Array<m.SelectedSpecialEquipment> }): TE.TaskEither<unknown, m.UUID> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'post',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/updateSpecialEquipments\`,
+          params: {
 
-        },
-        data: {
+          },
+          data: {
           availableVehicleId: m.UUID.encode(availableVehicleId),
           specialEquipments: t.array(m.SelectedSpecialEquipment).encode(specialEquipments)
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json',
           'Authorization': \`Token token=\\"\${token}\\"\`
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(m.UUID.decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(m.UUID.decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
     /** Returns the specified available vehicle */
-    availableVehicleController_read: function ({ id }: { id: m.UUID }): TaskEither<unknown, m.AvailableVehicle> {
-      return tryCatch(() => axios({
-        method: 'get',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/read\`,
-        params: {
-          id: m.UUID.encode(id)
-        },
-        data: {
+    availableVehicleController_read: function ({ id }: { id: m.UUID }): TE.TaskEither<unknown, m.AvailableVehicle> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'get',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/read\`,
+          params: {
+            id: m.UUID.encode(id)
+          },
+          data: {
 
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json',
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(m.AvailableVehicle.decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(m.AvailableVehicle.decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
     /** Search locations */
-    locationsController_search: function ({ query }: { query: string }): TaskEither<unknown, m.LocationSearchResult> {
-      return tryCatch(() => axios({
-        method: 'get',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/locations/search\`,
-        params: {
-          query: t.string.encode(query)
-        },
-        data: {
+    locationsController_search: function ({ query }: { query: string }): TE.TaskEither<unknown, m.LocationSearchResult> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'get',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/locations/search\`,
+          params: {
+            query: t.string.encode(query)
+          },
+          data: {
 
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json',
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(m.LocationSearchResult.decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(m.LocationSearchResult.decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
     /** Get available SpecialEquipment for a given pickUp Location and rental duration */
-    locationsController_searchSpecialEquipments: function ({ location, duration, param1, param2 }: { location: string, duration: number, param1: number, param2: string }): TaskEither<unknown, Array<m.AvailableSpecialEquipment>> {
-      return tryCatch(() => axios({
-        method: 'get',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/locations/searchSpecialEquipments/\${param1}/foo/\${param2}\`,
-        params: {
-          location: t.string.encode(location),
-          duration: t.Integer.encode(duration)
-        },
-        data: {
+    locationsController_searchSpecialEquipments: function ({ location, duration, param1, param2 }: { location: string, duration: number, param1: number, param2: string }): TE.TaskEither<unknown, Array<m.AvailableSpecialEquipment>> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'get',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/locations/searchSpecialEquipments/\${param1}/foo/\${param2}\`,
+          params: {
+            location: t.string.encode(location),
+            duration: t.Integer.encode(duration)
+          },
+          data: {
 
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json',
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(t.array(m.AvailableSpecialEquipment).decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(t.array(m.AvailableSpecialEquipment).decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
     /** log a user in */
-    userController_login: function ({ data }: { data: m.API_UserLoginCredentials }): TaskEither<unknown, m.API_UserAuthCredentials> {
-      return tryCatch(() => axios({
-        method: 'post',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/users/login\`,
-        params: {
+    userController_login: function ({ data }: { data: m.API_UserLoginCredentials }): TE.TaskEither<unknown, m.API_UserAuthCredentials> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'post',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/users/login\`,
+          params: {
 
-        },
-        data: m.API_UserLoginCredentials.encode(data),
-        headers: {
+          },
+          data: m.API_UserLoginCredentials.encode(data),
+          headers: {
           'Content-Type': 'application/json'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(m.API_UserAuthCredentials.decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(m.API_UserAuthCredentials.decode, E.mapLeft((e): unknown => e)))
+      )
     }
   }
 }
@@ -2097,14 +2115,16 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
 exports[`getRoutes should return the routes in the right (source4) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import axios from 'axios'
-import { tryCatch, TaskEither, fromEither } from 'fp-ts/lib/TaskEither'
-import { identity } from 'fp-ts/lib/function'
+import * as E from 'fp-ts/lib/Either'
+import * as TE from 'fp-ts/lib/TaskEither'
 import * as t from 'io-ts'
 // @ts-ignore
-import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 import * as m from './model-ts'
+import { pipe } from 'fp-ts/lib/pipeable'
+import { flow } from 'fp-ts/lib/function'
 
 export interface RouteConfig {
   apiEndpoint: string,
@@ -2113,169 +2133,185 @@ export interface RouteConfig {
 
 export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
   return {
-    materialController_readAll: function ({  }: {  }): TaskEither<unknown, Array<m.Entity<m.Material>>> {
-      return tryCatch(() => axios({
-        method: 'get',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/material/readAll\`,
-        params: {
+    materialController_readAll: function ({  }: {  }): TE.TaskEither<unknown, Array<m.Entity<m.Material>>> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'get',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/material/readAll\`,
+          params: {
 
-        },
-        data: {
+          },
+          data: {
 
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json',
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(t.array(m.Entity(m.Material)).decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(t.array(m.Entity(m.Material)).decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
-    calculationController_run: function ({ calculation }: { calculation: m.CalculationInput }): TaskEither<unknown, m.CalculationOutput> {
-      return tryCatch(() => axios({
-        method: 'post',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/calculation/run\`,
-        params: {
+    calculationController_run: function ({ calculation }: { calculation: m.CalculationInput }): TE.TaskEither<unknown, m.CalculationOutput> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'post',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/calculation/run\`,
+          params: {
 
-        },
-        data: {
+          },
+          data: {
           calculation: m.CalculationInput.encode(calculation)
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(m.CalculationOutput.decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(m.CalculationOutput.decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
-    meController_read: function ({  }: {  }): TaskEither<unknown, m.Entity<m.User>> {
-      return tryCatch(() => axios({
-        method: 'get',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/me/read\`,
-        params: {
+    meController_read: function ({  }: {  }): TE.TaskEither<unknown, m.Entity<m.User>> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'get',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/me/read\`,
+          params: {
 
-        },
-        data: {
+          },
+          data: {
 
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json',
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(m.Entity(m.User).decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(m.Entity(m.User).decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
-    userController_readAll: function ({  }: {  }): TaskEither<unknown, Array<m.Entity<m.User>>> {
-      return tryCatch(() => axios({
-        method: 'get',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/readAll\`,
-        params: {
+    userController_readAll: function ({  }: {  }): TE.TaskEither<unknown, Array<m.Entity<m.User>>> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'get',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/readAll\`,
+          params: {
 
-        },
-        data: {
+          },
+          data: {
 
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json',
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(t.array(m.Entity(m.User)).decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(t.array(m.Entity(m.User)).decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
-    userController_read: function ({ id }: { id: m.Id<m.User> }): TaskEither<unknown, Option<m.Entity<m.User>>> {
-      return tryCatch(() => axios({
-        method: 'get',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/read\`,
-        params: {
-          id: m.Id<t.TypeOf<typeof m.User>>().encode(id)
-        },
-        data: {
+    userController_read: function ({ id }: { id: m.Id<m.User> }): TE.TaskEither<unknown, Option<m.Entity<m.User>>> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'get',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/read\`,
+          params: {
+            id: m.Id<t.TypeOf<typeof m.User>>().encode(id)
+          },
+          data: {
 
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json',
           'Pragma': 'no-cache',
           'Cache-Control': 'no-cache, no-store'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(createOptionFromNullable(m.Entity(m.User)).decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(optionFromNullable(m.Entity(m.User)).decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
     userController_create: function ({ user }: { user:
   | m.User
-  | undefined }): TaskEither<unknown, m.Id<m.User>> {
-      return tryCatch(() => axios({
-        method: 'post',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/create\`,
-        params: {
+  | undefined }): TE.TaskEither<unknown, m.Id<m.User>> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'post',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/create\`,
+          params: {
 
-        },
-        data: {
+          },
+          data: {
           user: t.union([
   m.User,
   t.undefined
 ]).encode(user)
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(m.Id<t.TypeOf<typeof m.User>>().decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(m.Id<t.TypeOf<typeof m.User>>().decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
-    userController_update: function ({ user }: { user: m.Entity<m.User> }): TaskEither<unknown, void> {
-      return tryCatch(() => axios({
-        method: 'post',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/update\`,
-        params: {
+    userController_update: function ({ user }: { user: m.Entity<m.User> }): TE.TaskEither<unknown, void> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'post',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/update\`,
+          params: {
 
-        },
-        data: {
+          },
+          data: {
           user: m.Entity(m.User).encode(user)
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(m.VoidFromUnit.decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(m.VoidFromUnit.decode, E.mapLeft((e): unknown => e)))
+      )
     },
 
-    userController_delete: function ({ id }: { id: m.Id<m.User> }): TaskEither<unknown, void> {
-      return tryCatch(() => axios({
-        method: 'post',
-        url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/delete\`,
-        params: {
+    userController_delete: function ({ id }: { id: m.Id<m.User> }): TE.TaskEither<unknown, void> {
+      return pipe(
+        TE.tryCatch(() => axios({
+          method: 'post',
+          url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/delete\`,
+          params: {
 
-        },
-        data: {
+          },
+          data: {
           id: m.Id<t.TypeOf<typeof m.User>>().encode(id)
-        },
-        headers: {
+          },
+          headers: {
           'Content-Type': 'application/json'
-        },
-        timeout: _metarpheusRouteConfig.timeout
-      }), identity).chain(res =>
-              fromEither(m.VoidFromUnit.decode(res.data))
-            )
+          },
+          timeout: _metarpheusRouteConfig.timeout
+        }), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(m.VoidFromUnit.decode, E.mapLeft((e): unknown => e)))
+      )
     }
   }
 }

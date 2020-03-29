@@ -73,7 +73,7 @@ function optionCombinator(tpe: Tpe): R.Reader<Ctx, gen.CustomCombinator> {
     R.map(t =>
       gen.customCombinator(
         `Option<${gen.printStatic(t)}>`,
-        `createOptionFromNullable(${gen.printRuntime(t)})`,
+        `optionFromNullable(${gen.printRuntime(t)})`,
         gen.getNodeDependencies(t)
       )
     )
@@ -311,7 +311,7 @@ export function getModels(models: Array<Model>, options: GetModelsOptions, prelu
     '// DO NOT EDIT MANUALLY - metarpheus-generated',
     "import * as t from 'io-ts'",
     '// @ts-ignore',
-    "import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'",
+    "import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'",
     '// @ts-ignore',
     "import { Option } from 'fp-ts/lib/Option'",
     '',
@@ -362,12 +362,12 @@ function getRouteParams(route: Route): R.Reader<Ctx, string> {
         getType(param.tpe),
         R.map(type => {
           const paramTpe = param.required ? type : gen.unionCombinator([type, gen.undefinedType]);
-          return `          ${param.name}: ${gen.printRuntime(paramTpe)}.encode(${param.name})`;
+          return `            ${param.name}: ${gen.printRuntime(paramTpe)}.encode(${param.name})`;
         })
       )
     ),
     R.map(params => {
-      return `{\n${params.join(',\n')}\n        }`;
+      return `{\n${params.join(',\n')}\n          }`;
     })
   );
 }
@@ -393,7 +393,7 @@ function getRouteData(route: Route): R.Reader<Ctx, string> {
       )
     ),
     R.map(params => {
-      return `{\n${params.join(',\n')}\n        }`;
+      return `{\n${params.join(',\n')}\n          }`;
     })
   );
 }
@@ -413,7 +413,7 @@ function getRouteHeaders(route: Route): string {
       return `          ${header.name}: ${header.value}`;
     })
     .join(',\n');
-  s += '\n        }';
+  s += '\n          }';
   return s;
 }
 
@@ -425,13 +425,13 @@ function getAxiosConfig(route: Route): R.Reader<Ctx, string> {
     }),
     R.map(({ routeParams, routeData }) => {
       let s = '{';
-      s += `\n        method: '${route.method}',`;
-      s += `\n        url: ${getRoutePath(route)},`;
-      s += `\n        params: ${routeParams},`;
-      s += `\n        data: ${routeData},`;
-      s += `\n        headers: ${getRouteHeaders(route)},`;
-      s += '\n        timeout: _metarpheusRouteConfig.timeout';
-      s += '\n      }';
+      s += `\n          method: '${route.method}',`;
+      s += `\n          url: ${getRoutePath(route)},`;
+      s += `\n          params: ${routeParams},`;
+      s += `\n          data: ${routeData},`;
+      s += `\n          headers: ${getRouteHeaders(route)},`;
+      s += '\n          timeout: _metarpheusRouteConfig.timeout';
+      s += '\n        }';
       return s;
     })
   );
@@ -515,10 +515,12 @@ function getRoute(_route: Route): R.Reader<Ctx, string> {
     R.map(({ returns, axiosConfig, routeArguments }) => {
       const docs = route.desc ? `    /** ${route.desc} */\n` : '';
       return [
-        `${docs}    ${name}: function (${routeArguments}): TaskEither<unknown, ${gen.printStatic(returns)}> {`,
-        `      return tryCatch(() => axios(${axiosConfig}), identity).chain(res =>
-              fromEither(${gen.printRuntime(returns)}.decode(res.data))
-            )`,
+        `${docs}    ${name}: function (${routeArguments}): TE.TaskEither<unknown, ${gen.printStatic(returns)}> {`,
+        `      return pipe(
+        TE.tryCatch(() => axios(${axiosConfig}), (v): unknown => v),
+        TE.map(res => res.data),
+        TE.chainEitherK(flow(${gen.printRuntime(returns)}.decode, E.mapLeft((e): unknown => e)))
+      )`,
         '    }'
       ].join('\n');
     })
@@ -527,14 +529,16 @@ function getRoute(_route: Route): R.Reader<Ctx, string> {
 
 const getRoutesPrelude = `// DO NOT EDIT MANUALLY - metarpheus-generated
 import axios from 'axios'
-import { tryCatch, TaskEither, fromEither } from 'fp-ts/lib/TaskEither'
-import { identity } from 'fp-ts/lib/function'
+import * as E from 'fp-ts/lib/Either'
+import * as TE from 'fp-ts/lib/TaskEither'
 import * as t from 'io-ts'
 // @ts-ignore
-import { createOptionFromNullable } from 'io-ts-types/lib/fp-ts/createOptionFromNullable'
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
 import { Option } from 'fp-ts/lib/Option'
 import * as m from './model-ts'
+import { pipe } from 'fp-ts/lib/pipeable'
+import { flow } from 'fp-ts/lib/function'
 
 export interface RouteConfig {
   apiEndpoint: string,
