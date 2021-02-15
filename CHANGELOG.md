@@ -2,15 +2,22 @@
 
 
 
+## [v2.0.0-1](https://github.com/buildo/metarpheus-io-ts/tree/v2.0.0-1) (2021-02-15)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v10.0.0-3...v2.0.0-1)
+
+#### Breaking:
+
+- update to fp-ts v2 [#117](https://github.com/buildo/metarpheus-io-ts/issues/117)
+
+## [v10.0.0-3](https://github.com/buildo/metarpheus-io-ts/tree/v10.0.0-3) (2019-04-12)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.5...v10.0.0-3)
+
 ## [v1.0.5](https://github.com/buildo/metarpheus-io-ts/tree/v1.0.5) (2020-02-28)
-[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v10.0.0-3...v1.0.5)
+[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.3...v1.0.5)
 
 #### Fixes (bugs & defects):
 
 - Handle tagged unions with fewer than two cases [#115](https://github.com/buildo/metarpheus-io-ts/issues/115)
-
-## [v10.0.0-3](https://github.com/buildo/metarpheus-io-ts/tree/v10.0.0-3) (2019-04-12)
-[Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.3...v10.0.0-3)
 
 ## [v1.0.3](https://github.com/buildo/metarpheus-io-ts/tree/v1.0.3) (2019-09-30)
 [Full Changelog](https://github.com/buildo/metarpheus-io-ts/compare/v1.0.2...v1.0.3)
