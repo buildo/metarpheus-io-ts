@@ -114,8 +114,8 @@ export const CreateCampingError = t.union([
     _type: t.literal('DuplicateName')
   }, 'DuplicateName'),
   t.type({
-    min: t.Integer,
-    max: t.Integer,
+    min: t.number,
+    max: t.number,
     _type: t.literal('SizeOutOfBounds')
   }, 'SizeOutOfBounds'),
   t.type({
@@ -130,7 +130,7 @@ export interface SingleCaseTaggedUnion {
 }
 
 export const SingleCaseTaggedUnion = t.type({
-  x: t.Integer,
+  x: t.number,
   y: t.string,
   _type: t.literal('SingleCase')
 }, 'SingleCase')
@@ -207,7 +207,7 @@ export const Camping = t.type({
   /** camping name */
   name: t.string,
   /** number of tents */
-  size: t.Integer,
+  size: t.number,
   /** camping location */
   location: CampingLocation
 }, 'Camping')
@@ -259,12 +259,12 @@ export interface ICQAlert {
 }
 
 export const ICQAlert = t.type({
-  _moduleId: t.Integer,
+  _moduleId: t.number,
   moduleName: t.string,
   _workcellSerialNumber: t.string,
   workcellName: t.string,
-  AIMCode: t.Integer,
-  AIMSubCode: optionFromNullable(t.Integer),
+  AIMCode: t.number,
+  AIMSubCode: optionFromNullable(t.number),
   alertDateTime: Date,
   category: ICQAlertCategory,
   description: t.string
@@ -276,8 +276,8 @@ export interface ICQAssayReference {
 }
 
 export const ICQAssayReference = t.type({
-  _number: t.Integer,
-  _version: t.Integer
+  _number: t.number,
+  _version: t.number
 }, 'ICQAssayReference')
 
 export type ICQCalibrationMethod =
@@ -375,7 +375,7 @@ export interface ICQCalibration {
 }
 
 export const ICQCalibration = t.type({
-  _moduleId: t.Integer,
+  _moduleId: t.number,
   moduleName: t.string,
   _workcellSerialNumber: t.string,
   workcellName: t.string,
@@ -511,19 +511,19 @@ export interface ICQOnBoardSolution {
 }
 
 export const ICQOnBoardSolution = t.type({
-  _moduleId: t.Integer,
+  _moduleId: t.number,
   moduleName: t.string,
   _workcellSerialNumber: t.string,
   workcellName: t.string,
   _lotNumber: t.string,
   _serialNumber: t.string,
   configurationId: t.string,
-  configurationVersion: t.Integer,
+  configurationVersion: t.number,
   expirationDate: Date,
-  carouselPosition: optionFromNullable(t.Integer),
-  RSMPosition: optionFromNullable(t.Integer),
-  percentOfRemainingVolume: t.Integer,
-  remainingHoursOfOnBoardStability: optionFromNullable(t.Integer),
+  carouselPosition: optionFromNullable(t.number),
+  RSMPosition: optionFromNullable(t.number),
+  percentOfRemainingVolume: t.number,
+  remainingHoursOfOnBoardStability: optionFromNullable(t.number),
   status: ICQReagentStatus,
   cartridgeStatus: ICQReagentCartridgeStatus
 }, 'ICQOnBoardSolution')
@@ -568,13 +568,13 @@ export interface ICQProcessingModule {
 }
 
 export const ICQProcessingModule = t.type({
-  _id: t.Integer,
+  _id: t.number,
   serialNumber: t.string,
   type: ICQModuleType,
   name: t.string,
   overallStatus: ICQOverallStatus,
   status: ICQModuleStatus,
-  numberOfTestsInProgress: t.Integer,
+  numberOfTestsInProgress: t.number,
   reagentOverallStatus: ICQOverallStatus,
   supplyOverallStatus: ICQOverallStatus,
   calibrationOverallStatus: ICQOverallStatus,
@@ -609,7 +609,7 @@ export interface ICQQCAnalysis {
 }
 
 export const ICQQCAnalysis = t.type({
-  _moduleId: t.Integer,
+  _moduleId: t.number,
   moduleName: t.string,
   _workcellSerialNumber: t.string,
   workcellName: t.string,
@@ -659,7 +659,7 @@ export interface ICQQCMaterial {
 }
 
 export const ICQQCMaterial = t.type({
-  _moduleId: t.Integer,
+  _moduleId: t.number,
   moduleName: t.string,
   _workcellSerialNumber: t.string,
   workcellName: t.string,
@@ -669,14 +669,14 @@ export const ICQQCMaterial = t.type({
   _levelName: t.string,
   _lotNumber: t.string,
   _serialNumber: t.string,
-  carouselPosition: optionFromNullable(t.Integer),
-  RSMPosition: optionFromNullable(t.Integer),
+  carouselPosition: optionFromNullable(t.number),
+  RSMPosition: optionFromNullable(t.number),
   rackId: t.string,
-  rackPosition: t.Integer,
-  percentVolumeRemaining: t.Integer,
+  rackPosition: t.number,
+  percentVolumeRemaining: t.number,
   materialExpirationDate: Date,
-  remainingHoursOfOnBoardStability: t.Integer,
-  remainingMinutesOfInUseStability: optionFromNullable(t.Integer),
+  remainingHoursOfOnBoardStability: t.number,
+  remainingMinutesOfInUseStability: optionFromNullable(t.number),
   status: ICQQCMaterialStatus
 }, 'ICQQCMaterial')
 
@@ -731,9 +731,9 @@ export interface ICQWorkcell {
 export const ICQWorkcell = t.type({
   _serialNumber: t.string,
   name: t.string,
-  numberOfSamples: t.Integer,
-  numberOfResultsPending: t.Integer,
-  numberOfExceptions: t.Integer,
+  numberOfSamples: t.number,
+  numberOfResultsPending: t.number,
+  numberOfExceptions: t.number,
   LISConnectionStatus: ICQConnectionStatus,
   LASConnectionStatus: ICQConnectionStatus,
   AbbottLinkConnectionStatus: ICQConnectionStatus,
@@ -1045,7 +1045,7 @@ export interface RentalRateDistance {
 export const RentalRateDistance = t.type({
   unlimited: t.boolean,
   unit: RentalRateDistanceUnit,
-  amount: optionFromNullable(t.Integer),
+  amount: optionFromNullable(t.number),
   additional: optionFromNullable(Money)
 }, 'RentalRateDistance')
 
@@ -1074,7 +1074,7 @@ export interface PricedSpecialEquipment {
 
 export const PricedSpecialEquipment = t.type({
   id: SpecialEquipment,
-  units: t.Integer,
+  units: t.number,
   cost: Money,
   taxInclusive: t.boolean,
   includedInRate: t.boolean
@@ -1117,7 +1117,7 @@ export interface AvailableSpecialEquipment {
 export const AvailableSpecialEquipment = t.type({
   id: SpecialEquipment,
   estimatedUnitCost: Money,
-  atMost: t.Integer
+  atMost: t.number
 }, 'AvailableSpecialEquipment')
 
 export type VehicleTransmission =
@@ -1277,12 +1277,12 @@ export const Vehicle = t.type({
   code: optionFromNullable(t.string),
   codeContext: optionFromNullable(t.string),
   airConditioning: t.boolean,
-  seats: optionFromNullable(t.Integer),
-  baggage: optionFromNullable(t.Integer),
+  seats: optionFromNullable(t.number),
+  baggage: optionFromNullable(t.number),
   transmission: optionFromNullable(VehicleTransmission),
   fuel: optionFromNullable(VehicleFuel),
   drive: optionFromNullable(VehicleDrive),
-  doors: optionFromNullable(t.Integer),
+  doors: optionFromNullable(t.number),
   category: VehicleCategory,
   size: VehicleSize,
   model: t.string,
@@ -1574,7 +1574,7 @@ export interface SelectedSpecialEquipment {
 
 export const SelectedSpecialEquipment = t.type({
   id: SpecialEquipment,
-  units: t.Integer
+  units: t.number
 }, 'SelectedSpecialEquipment')
 "
 `;
@@ -1633,7 +1633,7 @@ export interface Layer {
 }
 
 export const Layer = t.type({
-  discretisationLayers: t.Integer,
+  discretisationLayers: t.number,
   externalDiameter: t.number,
   initialTemperature: t.number,
   materialId: Id<t.TypeOf<typeof Material>>()
@@ -1736,7 +1736,7 @@ export const CalculationInput = t.type({
   lineSpeedRangeEnd: t.number,
   lineSpeedRangeStep: t.number,
   longitudinalCalculationStep: t.number,
-  longitudinalCalculationSavingSteps: t.Integer,
+  longitudinalCalculationSavingSteps: t.number,
   longitudinalTouchPoint: t.number,
   longitudinalWaterLevel: t.number,
   cableRadialPositions: t.array(optionFromNullable(t.number)),
@@ -1755,8 +1755,8 @@ export interface TemperaturePoint {
 }
 
 export const TemperaturePoint = t.type({
-  linearPositionIndex: t.Integer,
-  radialPositionIndex: t.Integer,
+  linearPositionIndex: t.number,
+  radialPositionIndex: t.number,
   temperature: t.number
 }, 'TemperaturePoint')
 
@@ -1767,8 +1767,8 @@ export interface CrossLinkingPoint {
 }
 
 export const CrossLinkingPoint = t.type({
-  linearPositionIndex: t.Integer,
-  radialPositionIndex: t.Integer,
+  linearPositionIndex: t.number,
+  radialPositionIndex: t.number,
   crossLinkingDegree: t.number
 }, 'CrossLinkingPoint')
 
@@ -2071,7 +2071,7 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/locations/searchSpecialEquipments/\${param1}/foo/\${param2}\`,
           params: {
             location: t.string.encode(location),
-            duration: t.Integer.encode(duration)
+            duration: t.number.encode(duration)
           },
           data: {
 
