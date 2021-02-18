@@ -89,7 +89,7 @@ export function getType(tpe: Tpe): R.Reader<Ctx, gen.TypeReference> {
           return R.reader.of(gen.stringType);
         case 'Int':
         case 'Long':
-          return R.reader.of(gen.integerType);
+          return R.reader.of(gen.numberType);
         case 'Float':
         case 'Double':
         case 'BigDecimal':
