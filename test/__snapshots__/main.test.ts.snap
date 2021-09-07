@@ -6,7 +6,7 @@ import * as t from 'io-ts'
 // @ts-ignore
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
-import { Option } from 'fp-ts/lib/Option'
+import { Option } from 'fp-ts/Option'
 
 
 interface Newtype<URI, A> {
@@ -44,7 +44,7 @@ import * as t from 'io-ts'
 // @ts-ignore
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
-import { Option } from 'fp-ts/lib/Option'
+import { Option } from 'fp-ts/Option'
 
 export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
@@ -76,7 +76,7 @@ import * as t from 'io-ts'
 // @ts-ignore
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
-import { Option } from 'fp-ts/lib/Option'
+import { Option } from 'fp-ts/Option'
 
 export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
@@ -160,7 +160,7 @@ import * as t from 'io-ts'
 // @ts-ignore
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
-import { Option } from 'fp-ts/lib/Option'
+import { Option } from 'fp-ts/Option'
 
 
 interface Newtype<URI, A> {
@@ -751,7 +751,7 @@ import * as t from 'io-ts'
 // @ts-ignore
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
-import { Option } from 'fp-ts/lib/Option'
+import { Option } from 'fp-ts/Option'
 
 export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
@@ -955,7 +955,7 @@ import * as t from 'io-ts'
 // @ts-ignore
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
-import { Option } from 'fp-ts/lib/Option'
+import { Option } from 'fp-ts/Option'
 
 export const VoidFromUnit = new t.Type<void, {}>(
   'VoidFromUnit',
@@ -1585,7 +1585,7 @@ import * as t from 'io-ts'
 // @ts-ignore
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
-import { Option } from 'fp-ts/lib/Option'
+import { Option } from 'fp-ts/Option'
 
 
 interface Newtype<URI, A> {
@@ -1903,16 +1903,15 @@ export const User = t.type({
 exports[`getRoutes should return the routes in the right (source3) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import axios from 'axios'
-import * as E from 'fp-ts/lib/Either'
-import * as TE from 'fp-ts/lib/TaskEither'
+import { either, taskEither } from 'fp-ts'
+import { TaskEither } from 'fp-ts/TaskEither'
 import * as t from 'io-ts'
 // @ts-ignore
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
-import { Option } from 'fp-ts/lib/Option'
+import { Option } from 'fp-ts/Option'
 import * as m from './model-ts'
-import { pipe } from 'fp-ts/lib/pipeable'
-import { flow } from 'fp-ts/lib/function'
+import { pipe, flow } from 'fp-ts/function'
 
 export interface RouteConfig {
   apiEndpoint: string,
@@ -1922,9 +1921,9 @@ export interface RouteConfig {
 export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
   return {
     /** Create a new search query for available vehicles */
-    availableVehicleController_createQuery: function ({ query }: { query: m.AvailableVehicleSearchQuery }): TE.TaskEither<unknown, m.UUID> {
+    availableVehicleController_createQuery: function ({ query }: { query: m.AvailableVehicleSearchQuery }): TaskEither<unknown, m.UUID> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'post',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/createQuery\`,
           params: {
@@ -1938,15 +1937,15 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(m.UUID.decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(m.UUID.decode, either.mapLeft((e): unknown => e)))
       )
     },
 
     /** Returns an existing query for available vehicles */
-    availableVehicleController_readQuery: function ({ id }: { id: m.UUID }): TE.TaskEither<unknown, m.AvailableVehicleSearchQuery> {
+    availableVehicleController_readQuery: function ({ id }: { id: m.UUID }): TaskEither<unknown, m.AvailableVehicleSearchQuery> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'get',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/readQuery\`,
           params: {
@@ -1962,15 +1961,15 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(m.AvailableVehicleSearchQuery.decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(m.AvailableVehicleSearchQuery.decode, either.mapLeft((e): unknown => e)))
       )
     },
 
     /** Returns the resulting available vehicles for the created query */
-    availableVehicleController_readResult: function ({ id }: { id: m.UUID }): TE.TaskEither<unknown, m.AvailableVehicleSearchResult> {
+    availableVehicleController_readResult: function ({ id }: { id: m.UUID }): TaskEither<unknown, m.AvailableVehicleSearchResult> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'get',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/readResult\`,
           params: {
@@ -1986,15 +1985,15 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(m.AvailableVehicleSearchResult.decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(m.AvailableVehicleSearchResult.decode, either.mapLeft((e): unknown => e)))
       )
     },
 
     /** Updates the selected SpecialEquipments for the specified AvailableVehicle */
-    availableVehicleController_updateSpecialEquipments: function ({ token, availableVehicleId, specialEquipments }: { token: string, availableVehicleId: m.UUID, specialEquipments: Array<m.SelectedSpecialEquipment> }): TE.TaskEither<unknown, m.UUID> {
+    availableVehicleController_updateSpecialEquipments: function ({ token, availableVehicleId, specialEquipments }: { token: string, availableVehicleId: m.UUID, specialEquipments: Array<m.SelectedSpecialEquipment> }): TaskEither<unknown, m.UUID> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'post',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/updateSpecialEquipments\`,
           params: {
@@ -2010,15 +2009,15 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(m.UUID.decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(m.UUID.decode, either.mapLeft((e): unknown => e)))
       )
     },
 
     /** Returns the specified available vehicle */
-    availableVehicleController_read: function ({ id }: { id: m.UUID }): TE.TaskEither<unknown, m.AvailableVehicle> {
+    availableVehicleController_read: function ({ id }: { id: m.UUID }): TaskEither<unknown, m.AvailableVehicle> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'get',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/availableVehicles/read\`,
           params: {
@@ -2034,15 +2033,15 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(m.AvailableVehicle.decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(m.AvailableVehicle.decode, either.mapLeft((e): unknown => e)))
       )
     },
 
     /** Search locations */
-    locationsController_search: function ({ query }: { query: string }): TE.TaskEither<unknown, m.LocationSearchResult> {
+    locationsController_search: function ({ query }: { query: string }): TaskEither<unknown, m.LocationSearchResult> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'get',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/locations/search\`,
           params: {
@@ -2058,15 +2057,15 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(m.LocationSearchResult.decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(m.LocationSearchResult.decode, either.mapLeft((e): unknown => e)))
       )
     },
 
     /** Get available SpecialEquipment for a given pickUp Location and rental duration */
-    locationsController_searchSpecialEquipments: function ({ location, duration, param1, param2 }: { location: string, duration: number, param1: number, param2: string }): TE.TaskEither<unknown, Array<m.AvailableSpecialEquipment>> {
+    locationsController_searchSpecialEquipments: function ({ location, duration, param1, param2 }: { location: string, duration: number, param1: number, param2: string }): TaskEither<unknown, Array<m.AvailableSpecialEquipment>> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'get',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/locations/searchSpecialEquipments/\${param1}/foo/\${param2}\`,
           params: {
@@ -2083,15 +2082,15 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(t.array(m.AvailableSpecialEquipment).decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(t.array(m.AvailableSpecialEquipment).decode, either.mapLeft((e): unknown => e)))
       )
     },
 
     /** log a user in */
-    userController_login: function ({ data }: { data: m.API_UserLoginCredentials }): TE.TaskEither<unknown, m.API_UserAuthCredentials> {
+    userController_login: function ({ data }: { data: m.API_UserLoginCredentials }): TaskEither<unknown, m.API_UserAuthCredentials> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'post',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/users/login\`,
           params: {
@@ -2103,8 +2102,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(m.API_UserAuthCredentials.decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(m.API_UserAuthCredentials.decode, either.mapLeft((e): unknown => e)))
       )
     }
   }
@@ -2115,16 +2114,15 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
 exports[`getRoutes should return the routes in the right (source4) 1`] = `
 "// DO NOT EDIT MANUALLY - metarpheus-generated
 import axios from 'axios'
-import * as E from 'fp-ts/lib/Either'
-import * as TE from 'fp-ts/lib/TaskEither'
+import { either, taskEither } from 'fp-ts'
+import { TaskEither } from 'fp-ts/TaskEither'
 import * as t from 'io-ts'
 // @ts-ignore
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
-import { Option } from 'fp-ts/lib/Option'
+import { Option } from 'fp-ts/Option'
 import * as m from './model-ts'
-import { pipe } from 'fp-ts/lib/pipeable'
-import { flow } from 'fp-ts/lib/function'
+import { pipe, flow } from 'fp-ts/function'
 
 export interface RouteConfig {
   apiEndpoint: string,
@@ -2133,9 +2131,9 @@ export interface RouteConfig {
 
 export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
   return {
-    materialController_readAll: function ({  }: {  }): TE.TaskEither<unknown, Array<m.Entity<m.Material>>> {
+    materialController_readAll: function ({  }: {  }): TaskEither<unknown, Array<m.Entity<m.Material>>> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'get',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/material/readAll\`,
           params: {
@@ -2151,14 +2149,14 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(t.array(m.Entity(m.Material)).decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(t.array(m.Entity(m.Material)).decode, either.mapLeft((e): unknown => e)))
       )
     },
 
-    calculationController_run: function ({ calculation }: { calculation: m.CalculationInput }): TE.TaskEither<unknown, m.CalculationOutput> {
+    calculationController_run: function ({ calculation }: { calculation: m.CalculationInput }): TaskEither<unknown, m.CalculationOutput> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'post',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/calculation/run\`,
           params: {
@@ -2172,14 +2170,14 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(m.CalculationOutput.decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(m.CalculationOutput.decode, either.mapLeft((e): unknown => e)))
       )
     },
 
-    meController_read: function ({  }: {  }): TE.TaskEither<unknown, m.Entity<m.User>> {
+    meController_read: function ({  }: {  }): TaskEither<unknown, m.Entity<m.User>> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'get',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/me/read\`,
           params: {
@@ -2195,14 +2193,14 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(m.Entity(m.User).decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(m.Entity(m.User).decode, either.mapLeft((e): unknown => e)))
       )
     },
 
-    userController_readAll: function ({  }: {  }): TE.TaskEither<unknown, Array<m.Entity<m.User>>> {
+    userController_readAll: function ({  }: {  }): TaskEither<unknown, Array<m.Entity<m.User>>> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'get',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/readAll\`,
           params: {
@@ -2218,14 +2216,14 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(t.array(m.Entity(m.User)).decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(t.array(m.Entity(m.User)).decode, either.mapLeft((e): unknown => e)))
       )
     },
 
-    userController_read: function ({ id }: { id: m.Id<m.User> }): TE.TaskEither<unknown, Option<m.Entity<m.User>>> {
+    userController_read: function ({ id }: { id: m.Id<m.User> }): TaskEither<unknown, Option<m.Entity<m.User>>> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'get',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/read\`,
           params: {
@@ -2241,16 +2239,16 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(optionFromNullable(m.Entity(m.User)).decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(optionFromNullable(m.Entity(m.User)).decode, either.mapLeft((e): unknown => e)))
       )
     },
 
     userController_create: function ({ user }: { user:
   | m.User
-  | undefined }): TE.TaskEither<unknown, m.Id<m.User>> {
+  | undefined }): TaskEither<unknown, m.Id<m.User>> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'post',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/create\`,
           params: {
@@ -2267,14 +2265,14 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(m.Id<t.TypeOf<typeof m.User>>().decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(m.Id<t.TypeOf<typeof m.User>>().decode, either.mapLeft((e): unknown => e)))
       )
     },
 
-    userController_update: function ({ user }: { user: m.Entity<m.User> }): TE.TaskEither<unknown, void> {
+    userController_update: function ({ user }: { user: m.Entity<m.User> }): TaskEither<unknown, void> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'post',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/update\`,
           params: {
@@ -2288,14 +2286,14 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(m.VoidFromUnit.decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(m.VoidFromUnit.decode, either.mapLeft((e): unknown => e)))
       )
     },
 
-    userController_delete: function ({ id }: { id: m.Id<m.User> }): TE.TaskEither<unknown, void> {
+    userController_delete: function ({ id }: { id: m.Id<m.User> }): TaskEither<unknown, void> {
       return pipe(
-        TE.tryCatch(() => axios({
+        taskEither.tryCatch(() => axios({
           method: 'post',
           url: \`\${_metarpheusRouteConfig.apiEndpoint}/user/delete\`,
           params: {
@@ -2309,8 +2307,8 @@ export default function getRoutes(_metarpheusRouteConfig: RouteConfig) {
           },
           timeout: _metarpheusRouteConfig.timeout
         }), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(m.VoidFromUnit.decode, E.mapLeft((e): unknown => e)))
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(m.VoidFromUnit.decode, either.mapLeft((e): unknown => e)))
       )
     }
   }
