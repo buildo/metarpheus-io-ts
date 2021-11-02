@@ -1,7 +1,8 @@
 import * as gen from 'io-ts-codegen';
 import lowerFirst = require('lodash/lowerFirst');
-import * as R from 'fp-ts/lib/Reader';
-import * as A from 'fp-ts/lib/Array';
+import { reader, array, option, ord, string } from 'fp-ts';
+import { Reader } from 'fp-ts/Reader';
+import { Option } from 'fp-ts/Option';
 import {
   Tpe,
   Model,
@@ -15,10 +16,8 @@ import {
   TaggedUnion,
   TaggedUnionValue
 } from './domain';
-import * as Ord from 'fp-ts/lib/Ord';
-import * as O from 'fp-ts/lib/Option';
-import { pipe } from 'fp-ts/lib/pipeable';
-import { sequenceS } from 'fp-ts/lib/Apply';
+import { pipe } from 'fp-ts/function';
+import { sequenceS } from 'fp-ts/Apply';
 
 interface Ctx {
   models: Array<Model>;
@@ -26,34 +25,36 @@ interface Ctx {
   useLegacyNewtype: boolean;
 }
 
-function isNewtype(tpe: Tpe): R.Reader<Ctx, boolean> {
+function isNewtype(tpe: Tpe): Reader<Ctx, boolean> {
   return pipe(
-    R.ask<Ctx>(),
-    R.map(({ models }) => models.some(m => m.name === tpe.name && 'isValueClass' in m && m.isValueClass))
+    reader.ask<Ctx>(),
+    reader.map(({ models }) => models.some(m => m.name === tpe.name && 'isValueClass' in m && m.isValueClass))
   );
 }
 
-const traverseReader = A.array.traverse(R.reader);
-const sequenceSReader = sequenceS(R.reader);
+const traverseReader = array.traverse(reader.reader);
+const sequenceSReader = sequenceS(reader.reader);
 
-function genericCombinator(tpe: Tpe): R.Reader<Ctx, gen.CustomCombinator> {
+function genericCombinator(tpe: Tpe): Reader<Ctx, gen.CustomCombinator> {
   return pipe(
-    R.ask<Ctx>(),
-    R.chain(({ prefix }) => {
+    reader.ask<Ctx>(),
+    reader.chain(({ prefix }) => {
       const type = gen.identifier(`${prefix}${tpe.name}`);
       return pipe(
         sequenceSReader({
           staticArgs: pipe(
-            traverseReader(tpe.args!, t => getType(t)),
-            R.map(typeReferences => typeReferences.map(r => gen.printStatic(r)))
+            tpe.args!,
+            traverseReader(t => getType(t)),
+            reader.map(typeReferences => typeReferences.map(r => gen.printStatic(r)))
           ),
           runtimeArgs: pipe(
-            traverseReader(tpe.args!, t => getType(t)),
-            R.map(typeReferences => typeReferences.map(gen.printRuntime).join(', '))
+            tpe.args!,
+            traverseReader(t => getType(t)),
+            reader.map(typeReferences => typeReferences.map(gen.printRuntime).join(', '))
           ),
           newtype: isNewtype(tpe)
         }),
-        R.map(({ staticArgs, runtimeArgs, newtype }) =>
+        reader.map(({ staticArgs, runtimeArgs, newtype }) =>
           gen.customCombinator(
             `${gen.printStatic(type)}<${staticArgs.join(', ')}>`,
             newtype
@@ -67,10 +68,10 @@ function genericCombinator(tpe: Tpe): R.Reader<Ctx, gen.CustomCombinator> {
   );
 }
 
-function optionCombinator(tpe: Tpe): R.Reader<Ctx, gen.CustomCombinator> {
+function optionCombinator(tpe: Tpe): Reader<Ctx, gen.CustomCombinator> {
   return pipe(
     getType(tpe.args![0]),
-    R.map(t =>
+    reader.map(t =>
       gen.customCombinator(
         `Option<${gen.printStatic(t)}>`,
         `optionFromNullable(${gen.printRuntime(t)})`,
@@ -80,42 +81,42 @@ function optionCombinator(tpe: Tpe): R.Reader<Ctx, gen.CustomCombinator> {
   );
 }
 
-export function getType(tpe: Tpe): R.Reader<Ctx, gen.TypeReference> {
+export function getType(tpe: Tpe): Reader<Ctx, gen.TypeReference> {
   return pipe(
-    R.ask<Ctx>(),
-    R.chain<Ctx, Ctx, gen.TypeReference>(({ prefix }) => {
+    reader.ask<Ctx>(),
+    reader.chain<Ctx, Ctx, gen.TypeReference>(({ prefix }) => {
       switch (tpe.name) {
         case 'String':
-          return R.reader.of(gen.stringType);
+          return reader.of(gen.stringType);
         case 'Int':
         case 'Long':
-          return R.reader.of(gen.integerType);
+          return reader.of(gen.integerType);
         case 'Float':
         case 'Double':
         case 'BigDecimal':
-          return R.reader.of(gen.numberType);
+          return reader.of(gen.numberType);
         case 'Boolean':
-          return R.reader.of(gen.booleanType);
+          return reader.of(gen.booleanType);
         case 'Any':
-          return R.reader.of(gen.unknownType);
+          return reader.of(gen.unknownType);
         case 'Unit':
-          return R.reader.of(gen.customCombinator('void', `${prefix}VoidFromUnit`));
+          return reader.of(gen.customCombinator('void', `${prefix}VoidFromUnit`));
         case 'Option':
           return optionCombinator(tpe);
         case 'List':
         case 'Set':
         case 'TreeSet':
-          return pipe(getType(tpe.args![0]), R.map(gen.arrayCombinator));
+          return pipe(getType(tpe.args![0]), reader.map(gen.arrayCombinator));
         case 'Map':
           return pipe(
             sequenceSReader({ keyType: getType(tpe.args![0]), valueType: getType(tpe.args![1]) }),
-            R.chain(({ keyType, valueType }) => partialRecordCombinator(keyType, valueType))
+            reader.chain(({ keyType, valueType }) => partialRecordCombinator(keyType, valueType))
           );
         default:
           if (tpe.args && tpe.args.length > 0) {
             return genericCombinator(tpe);
           }
-          return R.reader.of(gen.identifier(`${prefix}${tpe.name}`));
+          return reader.of(gen.identifier(`${prefix}${tpe.name}`));
       }
     })
   );
@@ -124,10 +125,10 @@ export function getType(tpe: Tpe): R.Reader<Ctx, gen.TypeReference> {
 function partialRecordCombinator(
   keyType: gen.TypeReference,
   valueType: gen.TypeReference
-): R.Reader<Ctx, gen.Combinator> {
+): Reader<Ctx, gen.Combinator> {
   return pipe(
-    R.ask<Ctx>(),
-    R.map(({ models }) => {
+    reader.ask<Ctx>(),
+    reader.map(({ models }) => {
       const model = models.find(m => keyType.kind === 'Identifier' && m.name === keyType.name);
       if (model && model._type === 'CaseEnum') {
         return gen.partialCombinator(model.values.map(k => gen.property(k.name, valueType)));
@@ -142,20 +143,20 @@ export interface GetModelsOptions {
   useLegacyNewtype?: boolean;
 }
 
-function getProperty(member: CaseClassMember): R.Reader<Ctx, gen.Property> {
+function getProperty(member: CaseClassMember): Reader<Ctx, gen.Property> {
   return pipe(
     getType(member.tpe),
-    R.map(type => gen.property(member.name, type, false, member.desc))
+    reader.map(type => gen.property(member.name, type, false, member.desc))
   );
 }
 
-function getNewtype(model: CaseClass): R.Reader<Ctx, gen.CustomTypeDeclaration> {
+function getNewtype(model: CaseClass): Reader<Ctx, gen.CustomTypeDeclaration> {
   return pipe(
-    R.ask<Ctx>(),
-    R.chain(({ useLegacyNewtype }) =>
+    reader.ask<Ctx>(),
+    reader.chain(({ useLegacyNewtype }) =>
       pipe(
         getType(model.members[0].tpe),
-        R.map(tsType => {
+        reader.map(tsType => {
           const staticType = gen.printStatic(tsType);
           const runtimeType = gen.printRuntime(tsType);
           const hasTypeParams = model.typeParams && model.typeParams.length > 0;
@@ -191,13 +192,14 @@ function getNewtype(model: CaseClass): R.Reader<Ctx, gen.CustomTypeDeclaration> 
   );
 }
 
-function getCaseClassDeclaration(caseClass: CaseClass): R.Reader<Ctx, gen.TypeDeclaration | gen.CustomTypeDeclaration> {
+function getCaseClassDeclaration(caseClass: CaseClass): Reader<Ctx, gen.TypeDeclaration | gen.CustomTypeDeclaration> {
   if (caseClass.isValueClass) {
     return getNewtype(caseClass);
   }
   return pipe(
-    traverseReader(caseClass.members, getProperty),
-    R.map(properties => {
+    caseClass.members,
+    traverseReader(getProperty),
+    reader.map(properties => {
       const interfaceDecl = gen.typeCombinator(properties, caseClass.name);
       if (caseClass.typeParams && caseClass.typeParams.length > 0) {
         const staticParams = caseClass.typeParams.map(p => `${p.name} extends t.Mixed`).join(', ');
@@ -220,8 +222,8 @@ function getCaseClassDeclaration(caseClass: CaseClass): R.Reader<Ctx, gen.TypeDe
   );
 }
 
-function getEnumDeclaration(enumModel: Enum): R.Reader<Ctx, gen.TypeDeclaration | gen.CustomTypeDeclaration> {
-  return R.reader.of(
+function getEnumDeclaration(enumModel: Enum): Reader<Ctx, gen.TypeDeclaration | gen.CustomTypeDeclaration> {
+  return reader.of(
     gen.typeDeclaration(
       enumModel.name,
       gen.keyofCombinator(
@@ -234,38 +236,40 @@ function getEnumDeclaration(enumModel: Enum): R.Reader<Ctx, gen.TypeDeclaration 
   );
 }
 
-function getTaggedUnionDeclaration(taggedUnion: TaggedUnion): R.Reader<Ctx, O.Option<gen.TypeDeclaration>> {
-  const getTaggedUnionValue = (v: TaggedUnionValue): R.Reader<Ctx, gen.TypeReference> =>
+function getTaggedUnionDeclaration(taggedUnion: TaggedUnion): Reader<Ctx, Option<gen.TypeDeclaration>> {
+  const getTaggedUnionValue = (v: TaggedUnionValue): Reader<Ctx, gen.TypeReference> =>
     pipe(
-      traverseReader(v.params, getProperty),
-      R.map(properties =>
+      v.params,
+      traverseReader(getProperty),
+      reader.map(properties =>
         gen.typeCombinator(properties.concat(gen.property('_type', gen.literalCombinator(v.name))), v.name)
       )
     );
-  const toTypeDeclaration = (values: gen.TypeReference[]): O.Option<gen.TypeDeclaration> =>
+  const toTypeDeclaration = (values: gen.TypeReference[]): Option<gen.TypeDeclaration> =>
     values.length === 0
-      ? O.none
-      : O.some(
+      ? option.none
+      : option.some(
           values.length === 1
             ? gen.typeDeclaration(taggedUnion.name, values[0], true, false)
             : gen.typeDeclaration(taggedUnion.name, gen.unionCombinator(values, taggedUnion.name), true, false)
         );
-  return pipe(traverseReader(taggedUnion.values, getTaggedUnionValue), R.map(toTypeDeclaration));
+  return pipe(taggedUnion.values, traverseReader(getTaggedUnionValue), reader.map(toTypeDeclaration));
 }
 
-function getDeclarations(models: Array<Model>): R.Reader<Ctx, Array<gen.TypeDeclaration | gen.CustomTypeDeclaration>> {
+function getDeclarations(models: Array<Model>): Reader<Ctx, Array<gen.TypeDeclaration | gen.CustomTypeDeclaration>> {
   return pipe(
-    traverseReader(models, model => {
+    models,
+    traverseReader(model => {
       switch (model._type) {
         case 'CaseClass':
-          return pipe(getCaseClassDeclaration(model), R.map(O.some));
+          return pipe(getCaseClassDeclaration(model), reader.map(option.some));
         case 'CaseEnum':
-          return pipe(getEnumDeclaration(model), R.map(O.some));
+          return pipe(getEnumDeclaration(model), reader.map(option.some));
         case 'TaggedUnion':
           return getTaggedUnionDeclaration(model);
       }
     }),
-    R.map(A.compact)
+    reader.map(array.compact)
   );
 }
 
@@ -296,8 +300,8 @@ const unitPrelude = `export const VoidFromUnit = new t.Type<void, {}>(
 )
 `;
 
-const ordDeclarations = Ord.contramap((d: gen.TypeDeclaration | gen.CustomTypeDeclaration) => d.name)(Ord.ordString);
-const sortDeclarations = A.sort(ordDeclarations);
+const ordDeclarations = ord.contramap((d: gen.TypeDeclaration | gen.CustomTypeDeclaration) => d.name)(string.Ord);
+const sortDeclarations = array.sort(ordDeclarations);
 
 export function getModels(models: Array<Model>, options: GetModelsOptions, prelude: string = ''): string {
   const declarations = getDeclarations(models)({
@@ -313,7 +317,7 @@ export function getModels(models: Array<Model>, options: GetModelsOptions, prelu
     '// @ts-ignore',
     "import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'",
     '// @ts-ignore',
-    "import { Option } from 'fp-ts/lib/Option'",
+    "import { Option } from 'fp-ts/Option'",
     '',
     ''
   ].join('\n');
@@ -354,45 +358,47 @@ function getRoutePath(route: Route): string {
   return '`${_metarpheusRouteConfig.apiEndpoint}/' + path + '`';
 }
 
-function getRouteParams(route: Route): R.Reader<Ctx, string> {
+function getRouteParams(route: Route): Reader<Ctx, string> {
   const routeParams = route.params.filter(param => !param.inBody);
   return pipe(
-    traverseReader(routeParams, param =>
+    routeParams,
+    traverseReader(param =>
       pipe(
         getType(param.tpe),
-        R.map(type => {
+        reader.map(type => {
           const paramTpe = param.required ? type : gen.unionCombinator([type, gen.undefinedType]);
           return `            ${param.name}: ${gen.printRuntime(paramTpe)}.encode(${param.name})`;
         })
       )
     ),
-    R.map(params => {
+    reader.map(params => {
       return `{\n${params.join(',\n')}\n          }`;
     })
   );
 }
 
-function getRouteData(route: Route): R.Reader<Ctx, string> {
+function getRouteData(route: Route): Reader<Ctx, string> {
   if (route.method === 'post' && route.body) {
     // the name `data` is hardcoded for this param in `getRouteArguments`
     return pipe(
       getType(route.body.tpe),
-      R.map(type => `${gen.printRuntime(type)}.encode(data)`)
+      reader.map(type => `${gen.printRuntime(type)}.encode(data)`)
     );
   }
 
   const routeParams = route.params.filter(param => param.inBody);
   return pipe(
-    traverseReader(routeParams, param =>
+    routeParams,
+    traverseReader(param =>
       pipe(
         getType(param.tpe),
-        R.map(type => {
+        reader.map(type => {
           const paramTpe = param.required ? type : gen.unionCombinator([type, gen.undefinedType]);
           return `          ${param.name}: ${gen.printRuntime(paramTpe)}.encode(${param.name})`;
         })
       )
     ),
-    R.map(params => {
+    reader.map(params => {
       return `{\n${params.join(',\n')}\n          }`;
     })
   );
@@ -417,13 +423,13 @@ function getRouteHeaders(route: Route): string {
   return s;
 }
 
-function getAxiosConfig(route: Route): R.Reader<Ctx, string> {
+function getAxiosConfig(route: Route): Reader<Ctx, string> {
   return pipe(
     sequenceSReader({
       routeParams: getRouteParams(route),
       routeData: getRouteData(route)
     }),
-    R.map(({ routeParams, routeData }) => {
+    reader.map(({ routeParams, routeData }) => {
       let s = '{';
       s += `\n          method: '${route.method}',`;
       s += `\n          url: ${getRoutePath(route)},`;
@@ -437,7 +443,7 @@ function getAxiosConfig(route: Route): R.Reader<Ctx, string> {
   );
 }
 
-function getRouteArguments(route: Route): R.Reader<Ctx, string> {
+function getRouteArguments(route: Route): Reader<Ctx, string> {
   const paramsR = [
     ...route.params,
     ...route.route
@@ -445,10 +451,11 @@ function getRouteArguments(route: Route): R.Reader<Ctx, string> {
       .map(({ routeParam }, index) => ({ ...routeParam, name: routeParam.name || `param${index + 1}` }))
   ];
   return pipe(
-    traverseReader(paramsR, param =>
+    paramsR,
+    traverseReader(param =>
       pipe(
         getType(param.tpe),
-        R.map(type => {
+        reader.map(type => {
           const tpe = param.required ? type : gen.unionCombinator([type, gen.undefinedType]);
           return {
             name: param.name,
@@ -457,10 +464,10 @@ function getRouteArguments(route: Route): R.Reader<Ctx, string> {
         })
       )
     ),
-    R.chain(params =>
+    reader.chain(params =>
       pipe(
         getParamsToPrint(route, params),
-        R.map(paramsToPrint => {
+        reader.map(paramsToPrint => {
           return `{ ${paramsToPrint.map(param => param.name).join(', ')} }: { ${paramsToPrint
             .map(param => `${param.name}: ${param.type}`)
             .join(', ')} }`;
@@ -475,20 +482,20 @@ interface Param {
   type: string;
 }
 
-function getParamsToPrint(route: Route, params: Array<Param>): R.Reader<Ctx, Array<Param>> {
+function getParamsToPrint(route: Route, params: Array<Param>): Reader<Ctx, Array<Param>> {
   const p1 = route.authenticated ? [{ name: 'token', type: 'string' }, ...params] : params;
   return route.method === 'post' && route.body
     ? pipe(
         getType(route.body.tpe),
-        R.map(bodyType =>
+        reader.map(bodyType =>
           // the name `data` for this param is hardcoded in `getRouteData`
           [...p1, { name: 'data', type: gen.printStatic(bodyType) }]
         )
       )
-    : R.reader.of(p1);
+    : reader.of(p1);
 }
 
-function getRoute(_route: Route): R.Reader<Ctx, string> {
+function getRoute(_route: Route): Reader<Ctx, string> {
   const segments = _route.route.reduce(
     (acc, s: RouteSegment) => {
       return isRouteSegmentParam(s)
@@ -512,14 +519,14 @@ function getRoute(_route: Route): R.Reader<Ctx, string> {
       axiosConfig: getAxiosConfig(route),
       routeArguments: getRouteArguments(route)
     }),
-    R.map(({ returns, axiosConfig, routeArguments }) => {
+    reader.map(({ returns, axiosConfig, routeArguments }) => {
       const docs = route.desc ? `    /** ${route.desc} */\n` : '';
       return [
-        `${docs}    ${name}: function (${routeArguments}): TE.TaskEither<unknown, ${gen.printStatic(returns)}> {`,
+        `${docs}    ${name}: function (${routeArguments}): TaskEither<unknown, ${gen.printStatic(returns)}> {`,
         `      return pipe(
-        TE.tryCatch(() => axios(${axiosConfig}), (v): unknown => v),
-        TE.map(res => res.data),
-        TE.chainEitherK(flow(${gen.printRuntime(returns)}.decode, E.mapLeft((e): unknown => e)))
+        taskEither.tryCatch(() => axios(${axiosConfig}), (v): unknown => v),
+        taskEither.map(res => res.data),
+        taskEither.chainEitherK(flow(${gen.printRuntime(returns)}.decode, either.mapLeft((e): unknown => e)))
       )`,
         '    }'
       ].join('\n');
@@ -529,16 +536,15 @@ function getRoute(_route: Route): R.Reader<Ctx, string> {
 
 const getRoutesPrelude = `// DO NOT EDIT MANUALLY - metarpheus-generated
 import axios from 'axios'
-import * as E from 'fp-ts/lib/Either'
-import * as TE from 'fp-ts/lib/TaskEither'
+import { either, taskEither } from 'fp-ts'
+import { TaskEither } from 'fp-ts/TaskEither'
 import * as t from 'io-ts'
 // @ts-ignore
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 // @ts-ignore
-import { Option } from 'fp-ts/lib/Option'
+import { Option } from 'fp-ts/Option'
 import * as m from './model-ts'
-import { pipe } from 'fp-ts/lib/pipeable'
-import { flow } from 'fp-ts/lib/function'
+import { pipe, flow } from 'fp-ts/function'
 
 export interface RouteConfig {
   apiEndpoint: string,
